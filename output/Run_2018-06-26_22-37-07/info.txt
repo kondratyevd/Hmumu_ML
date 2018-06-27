@@ -1,0 +1,29 @@
+test
+
+Files:
+
+                    /Users/dmitry/root_files/for_tmva/UF_framework_10k/zjets_amc.root		weight=29.853717
+                       /Users/dmitry/root_files/for_tmva/UF_framework_10k/gluglu.root		weight=0.006343
+                          /Users/dmitry/root_files/for_tmva/UF_framework_10k/vbf.root		weight=0.000495
+
+Tree path: tree
+
+
+Variables:
+
+muPairs.pt	x1
+muPairs.dEta	x1
+muPairs.dPhi	x1
+muons.pt	x2
+muons.eta	x2
+muons.phi	x2
+
+
+------------------------------------------------------------
+Using package: TMVA
+
+Methods:
+MLP_2x20_NGP		(H:!V:NeuronType=tanh:NCycles=600:VarTransform=N,G,P:HiddenLayers=20,20:TestRate=5:LearningRate=0.05:DecayRate=0.00001!UseRegulator)
+
+TMVA_Keras_test_model		(H:!V:VarTransform=N,G,P:FilenameModel=output/Run_2018-06-26_22-37-07/TMVA/models/TMVA_Keras_test_model_init.h5:NumEpochs=20:BatchSize=2048:Tensorboard=output/Run_2018-06-26_22-37-07/keras_logs/TMVA_Keras_test_model)
+
