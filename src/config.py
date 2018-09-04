@@ -1,5 +1,7 @@
-import importlib
+#import importlib
 import os, sys
+from packages.TMVA.train import train as trainTMVA
+from packages.Keras.train import train as trainKeras
 # sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
 
 ################################ Variables ################################
@@ -60,7 +62,11 @@ class Package(object):
 			self.framework.create_dir(dir)
 
 	def train_package(self):
-		importlib.import_module('packages.%s.train'%self.name).train(self.framework, self)
+		if self.name is "TMVA":
+			trainTMVA(self.framework, self)
+		elif self.name is "Keras":
+			trainKeras(self.framework, self)
+		# importlib.import_module('packages.%s.train'%self.name).train(self.framework, self)
 		# print "!"*80
 # pkg_list.append(Package("TMVA"))
 
