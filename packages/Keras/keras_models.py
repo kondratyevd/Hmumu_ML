@@ -4,8 +4,7 @@ from keras.regularizers import l2
 from keras.optimizers import SGD
 import os, sys
 sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
-from locations import *
-
+# from locations import *
 
 
 
@@ -19,11 +18,11 @@ class model_init(object):
 		self.optimizer = optimizer
 		
 
-	def CompileModel(self):
+	def CompileModel(self, modelDir):
 		self.model = Model(inputs=self.inputs, outputs=self.outputs)
 		self.model.compile(loss=self.loss,									# This may be transferred into input parameters in the future
 		              optimizer=self.optimizer, metrics=['accuracy', ])					# if we need to optimize any of these parameters
-		self.model.save(modelsDir+self.name+'_init.h5')
+		self.model.save(modelDir+self.name+'_init.h5')
 		self.model.summary()	
 
 
