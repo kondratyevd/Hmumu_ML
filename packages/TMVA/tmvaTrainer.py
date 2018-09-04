@@ -1,8 +1,6 @@
 import os, sys, errno
 sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
-from ROOT import TMVA
-from rootpy.io import root_open
-from rootpy.tree import Tree, Cut
+import ROOT
 
 import mva_methods
 from mva_methods import compile_method_list
@@ -13,16 +11,16 @@ class TMVATrainer(object):
 		self.package = package
 		self.file_list_s = []
 		self.file_list_b = []
-		TMVA.Tools.Instance()
-		TMVA.PyMethodBase.PyInitialize()
+		ROOT.TMVA.Tools.Instance()
+		ROOT.TMVA.PyMethodBase.PyInitialize()
 
 
 	def __enter__(self):
-		self.outputFile = root_open( self.package.mainDir+"TMVA.root", 'recreate' )
+		self.outputFile = ROOT.TFile.Open( self.package.mainDir+"TMVA.root", 'RECREATE' )
 		print "Opening output file: "+self.package.mainDir+"TMVA.root"
 		transformations = ';'.join(self.framework.transf_list)
-		self.factory = TMVA.Factory( "TMVAClassification", self.outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=%s:AnalysisType=Classification"%transformations)
-		self.dataloader = TMVA.DataLoader(self.package.mainDir+"dataset")
+		self.factory = ROOT.TMVA.Factory( "TMVAClassification", self.outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=%s:AnalysisType=Classification"%transformations)
+		self.dataloader = ROOT.TMVA.DataLoader(self.package.mainDir+"dataset")
 		self.load_files()
 		self.load_variables()
 		self.load_methods()
@@ -34,13 +32,14 @@ class TMVATrainer(object):
 
 	def load_files(self):							#done
 		for file in self.framework.file_list_s + self.framework.file_list_b:
-			with root_open(file.path) as f: 
-				tree = f.Get(self.framework.treePath)
-				tree.SetDirectory(0)
-				if file in self.framework.file_list_s:
-					self.dataloader.AddSignalTree(tree,file.weight)
-				else:
-					self.dataloader.AddBackgroundTree(tree,file.weight)
+			f = ROOT.TFile.Open(file.path)
+			tree = f.Get(self.framework.treePath)
+			tree.SetDirectory(0)
+			if file in self.framework.file_list_s:
+				self.dataloader.AddSignalTree(tree,file.weight)
+			else:
+				self.dataloader.AddBackgroundTree(tree,file.weight)
+			f.Close()
 
 	def load_variables(self):						#done
 		for var in self.framework.variable_list:
@@ -51,11 +50,11 @@ class TMVATrainer(object):
 				self.dataloader.AddVariable(var.name, var.title, var.units, var.type)
 
 	def load_methods(self):
-		self.dataloader.PrepareTrainingAndTestTree(Cut(''), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
+		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(''), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
 		for method in compile_method_list(self.framework, self.package):
 			self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
 
 	def train_methods(self):
 		self.factory.TrainAllMethods()
-		self.factory.TestAllMethods()
-		self.factory.EvaluateAllMethods()
+		# self.factory.TestAllMethods()
+		# self.factory.EvaluateAllMethods()
