@@ -1,5 +1,7 @@
-import importlib
+#import importlib
 import os, sys
+from packages.TMVA.train import train as trainTMVA
+from packages.Keras.train import train as trainKeras
 # sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
 
 ################################ Variables ################################
@@ -15,11 +17,11 @@ class Variable(object):
 		self.itemsAdded = 0
 		self.itemsExpected = _itemsExpected 						#for example, there may be 3 muons but we don't want more than 2. 
 																	
-variables.append(Variable("muPairs.pt"		,"Dimuon p_{T}", 		"GeV", 		'F', True, 		1))
-variables.append(Variable("muPairs.eta"		,"Dimuon #eta", 		"", 		'F', True, 		1))
-variables.append(Variable("muPairs.dEta"	,"Dimuon |#delta#eta|", "", 		'F', True, 		1))
-variables.append(Variable("muPairs.dPhi"	,"Dimuon |#delta#phi|", "", 		'F', True, 		1))
-variables.append(Variable("muPairs.mass"	,"Dimuon mass", 		"GeV", 		'F', True, 		1))
+variables.append(Variable("muPairs.pt"		,"Dimuon p_{T}", 		"GeV", 		'F', False, 	1))
+variables.append(Variable("muPairs.eta"		,"Dimuon #eta", 		"", 		'F', False, 	1))
+variables.append(Variable("muPairs.dEta"	,"Dimuon |#delta#eta|", "", 		'F', False, 	1))
+variables.append(Variable("muPairs.dPhi"	,"Dimuon |#delta#phi|", "", 		'F', False, 	1))
+variables.append(Variable("muPairs.mass"	,"Dimuon mass", 		"GeV", 		'F', False, 	1))
 
 variables.append(Variable("muons.pt"		,"Muon p_{T}", 			"GeV",		'F', True, 		2))
 variables.append(Variable("muons.eta"		,"Muon #eta",  			"",   		'F', True, 		2))
@@ -60,7 +62,11 @@ class Package(object):
 			self.framework.create_dir(dir)
 
 	def train_package(self):
-		importlib.import_module('packages.%s.train'%self.name).train(self.framework, self)
+		if self.name is "TMVA":
+			trainTMVA(self.framework, self)
+		elif self.name is "Keras":
+			trainKeras(self.framework, self)
+		# importlib.import_module('packages.%s.train'%self.name).train(self.framework, self)
 		# print "!"*80
 # pkg_list.append(Package("TMVA"))
 
