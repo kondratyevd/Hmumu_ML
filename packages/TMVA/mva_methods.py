@@ -33,10 +33,16 @@ def compile_method_list(framework, package):
 	# 	options = "H:!V:NeuronType=tanh:NCycles=600:VarTransform=N,G,P:HiddenLayers=20,20:TestRate=5:LearningRate=0.05:DecayRate=0.00001!UseRegulator"
 	# 	))	
 
+	# methods.append(mva_method(
+	# 	type = TMVA.Types.kMLP,
+	# 	name = 'test_method',
+	# 	options = "H:!V:NeuronType=tanh:NCycles=10:VarTransform=N,G,P:HiddenLayers=20,20:TestRate=5:LearningRate=0.05:DecayRate=0.00001!UseRegulator"
+	# 	))
+			  
 	methods.append(mva_method(
-		type = TMVA.Types.kMLP,
-		name = 'test_method',
-		options = "H:!V:NeuronType=tanh:NCycles=10:VarTransform=N,G,P:HiddenLayers=20,20:TestRate=5:LearningRate=0.05:DecayRate=0.00001!UseRegulator"
+		type = TMVA.Types.kBDT,
+		name = 'BDTG_UF_v1',
+		options = "!H:!V:NTrees=500::BoostType=Grad:Shrinkage=0.1:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=5"
 		))	
 
 # Keras models should be defined and selected in keras_models.py
