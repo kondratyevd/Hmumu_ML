@@ -3,7 +3,7 @@ from ROOT import TMVA
 import os, sys, errno
 # from locations import modelsDir, logsDir
 # import keras_models
-from keras_models import GetListOfModels
+#from keras_models import GetListOfModels
 # from setup import numOfVar
 ################################ Methods ################################
 
@@ -41,14 +41,14 @@ def compile_method_list(framework, package):
 
 # Keras models should be defined and selected in keras_models.py
 
-	list_of_models = GetListOfModels(framework.nVar) #the argument is for the input dimensions
-	for obj in list_of_models:
-		obj.CompileModel(package.dirs['modelDir'])
-		methods.append(mva_method(
-		type = TMVA.Types.kPyKeras,
-		name = obj.name,												
-		options = 'H:!V:VarTransform=N,G,P:FilenameModel=%s_init.h5:NumEpochs=%i:BatchSize=%i:Tensorboard=%s'%(package.dirs['modelDir']+obj.name, obj.epochs, obj.batchSize, package.dirs['logDir']+obj.name)
-			))
+	# list_of_models = GetListOfModels(framework.nVar) #the argument is for the input dimensions
+	# for obj in list_of_models:
+	# 	obj.CompileModel(package.dirs['modelDir'])
+	# 	methods.append(mva_method(
+	# 	type = TMVA.Types.kPyKeras,
+	# 	name = obj.name,												
+	# 	options = 'H:!V:VarTransform=N,G,P:FilenameModel=%s_init.h5:NumEpochs=%i:BatchSize=%i:Tensorboard=%s'%(package.dirs['modelDir']+obj.name, obj.epochs, obj.batchSize, package.dirs['logDir']+obj.name)
+	# 		))
 	
 	return methods
 
