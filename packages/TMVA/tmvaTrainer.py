@@ -20,7 +20,7 @@ class TMVATrainer(object):
 		print "Opening output file: "+self.package.mainDir+"TMVA.root"
 		transformations = ';'.join(self.framework.transf_list)
 		self.factory = ROOT.TMVA.Factory( "TMVAClassification", self.outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=%s:AnalysisType=Classification"%transformations)
-		self.dataloader = ROOT.TMVA.DataLoader(self.package.mainDir+"dataset")
+		self.dataloader = ROOT.TMVA.DataLoader("dataset")
 		self.load_files()
 		self.load_variables()
 		self.load_methods()
@@ -30,18 +30,23 @@ class TMVATrainer(object):
 		print "Closing output file: "+self.package.mainDir+"TMVA.root"
 		self.outputFile.Close()
 
-	def load_files(self):							#done
+	def load_files(self):
+		self.new_file = ROOT.TFile("new_file.root","RECREATE")
 		for file in self.framework.file_list_s + self.framework.file_list_b:
 			f = ROOT.TFile.Open(file.path)
 			tree = f.Get(self.framework.treePath)
-			tree.SetDirectory(0)
+			self.new_file.cd()
+			new_tree = tree.CloneTree()
+			new_tree.SetName(file.name+"_tree")
+			f.cd()
+			# tree.SetDirectory(0)					# this only works on flat ntuples
 			if file in self.framework.file_list_s:
-				self.dataloader.AddSignalTree(tree,file.weight)
+				self.dataloader.AddSignalTree(new_tree,file.weight)
 			else:
-				self.dataloader.AddBackgroundTree(tree,file.weight)
+				self.dataloader.AddBackgroundTree(new_tree,file.weight)
 			f.Close()
 
-	def load_variables(self):						#done
+	def load_variables(self):
 		for var in self.framework.variable_list:
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):
@@ -55,6 +60,7 @@ class TMVATrainer(object):
 			self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
 
 	def train_methods(self):
+		# pass
 		self.factory.TrainAllMethods()
-		# self.factory.TestAllMethods()
-		# self.factory.EvaluateAllMethods()
+		self.factory.TestAllMethods()
+		self.factory.EvaluateAllMethods()
