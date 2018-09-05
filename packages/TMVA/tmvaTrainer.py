@@ -12,7 +12,7 @@ class TMVATrainer(object):
 		self.file_list_s = []
 		self.file_list_b = []
 		ROOT.TMVA.Tools.Instance()
-		ROOT.TMVA.PyMethodBase.PyInitialize()
+		# ROOT.TMVA.PyMethodBase.PyInitialize()
 
 
 	def __enter__(self):
@@ -35,6 +35,7 @@ class TMVATrainer(object):
 		for file in self.framework.file_list_s + self.framework.file_list_b:
 			f = ROOT.TFile.Open(file.path)
 			tree = f.Get(self.framework.treePath)
+			
 			self.new_file.cd()
 			new_tree = tree.CloneTree()
 			new_tree.SetName(file.name+"_tree")
