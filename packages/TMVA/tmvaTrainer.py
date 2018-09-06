@@ -31,23 +31,15 @@ class TMVATrainer(object):
 		self.outputFile.Close()
 
 	def load_files(self):
-		# self.new_file = ROOT.TFile("new_file.root","RECREATE")
 		for file in self.framework.file_list_s + self.framework.file_list_b:
-			# f = ROOT.TFile.Open(file.path)
-			# tree = f.Get(self.framework.treePath)
 			tree = ROOT.TChain(self.framework.treePath)
 			tree.Add(file.path)
-
-			# self.new_file.cd()
 			new_tree = tree.CloneTree()
 			new_tree.SetName(file.name+"_tree")
-			# f.cd()
-			# tree.SetDirectory(0)					# this only works on flat ntuples
 			if file in self.framework.file_list_s:
 				self.dataloader.AddSignalTree(new_tree,file.weight)
 			else:
 				self.dataloader.AddBackgroundTree(new_tree,file.weight)
-			# self.new_file.Close()
 
 	def load_variables(self):
 		for var in self.framework.variable_list:
@@ -63,7 +55,6 @@ class TMVATrainer(object):
 			self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
 
 	def train_methods(self):
-		# pass
 		self.factory.TrainAllMethods()
 		self.factory.TestAllMethods()
 		self.factory.EvaluateAllMethods()
