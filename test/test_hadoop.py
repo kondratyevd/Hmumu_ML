@@ -4,7 +4,6 @@ from src.classifier import Framework
 
 c = Framework()
 
-# inFileDir = "/data/dmitry/Hmumu/ntuples/"
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -50,10 +49,6 @@ for s in signal:
 
 for b in background:
 	c.add_background(b[0], bkg_path+b[0], b[1])
-# c.add_signal('H2Mu_gg', 	inFileDir+"H2Mu_gg.root", 	0.006343) # label, path, weight
-# c.add_signal('H2Mu_VBF', 	inFileDir+"H2Mu_VBF.root", 	0.000495)
-
-# c.add_background('dy', inFileDir+"ZJets_AMC.root", 29.853717)
 
 c.set_tree_path(treePath)
 
@@ -65,6 +60,10 @@ c.add_variable("met.pt", 1)
 c.add_variable("nJetsCent", 1)
 c.add_variable("nJetsFwd",1)
 c.add_variable("nBMed",1)
+c.add_variable("jets.eta",2)
+c.add_variable("jetPairs.dEta",2)
+c.add_variable("jetPairs.mass",2)
+
 # c.add_variable("muons.pt", 		2) #two muons
 # c.add_variable("muons.eta", 	2)
 # c.add_variable("muons.phi", 	2)
