@@ -37,7 +37,7 @@ class TMVATrainer(object):
 			# tree = f.Get(self.framework.treePath)
 			tree = ROOT.TChain(self.framework.treePath)
 			tree.Add(file.path)
-			
+
 			self.new_file.cd()
 			new_tree = tree.CloneTree()
 			new_tree.SetName(file.name+"_tree")
@@ -47,7 +47,7 @@ class TMVATrainer(object):
 				self.dataloader.AddSignalTree(new_tree,file.weight)
 			else:
 				self.dataloader.AddBackgroundTree(new_tree,file.weight)
-			# f.Close()
+			self.new_file.Close()
 
 	def load_variables(self):
 		for var in self.framework.variable_list:
