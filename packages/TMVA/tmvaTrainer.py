@@ -1,5 +1,6 @@
 import os, sys, errno
 sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
+from array import array
 import ROOT
 
 import mva_methods
@@ -46,7 +47,7 @@ class TMVATrainer(object):
 			tree.Add(file.path)
 			print tree.GetEntries()
 			for i in range(tree.GetEntries()):
-				event = []
+				event = array('f', [0])
 				tree.GetEntry(i)
 				print "i=%i"%i
 				for var in self.framework.variable_list:
