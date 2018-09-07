@@ -44,27 +44,25 @@ class TMVATrainer(object):
 		for file in self.framework.file_list_s + self.framework.file_list_b:
 			tree = ROOT.TChain(self.framework.treePath)
 			tree.Add(file.path)
-			# print file.name
-			for i in range(1):#(tree.GetEntries()):
+			print tree.GetEntries()
+			for i in range(tree.GetEntries()):
 				event = []
 				tree.GetEntry(i)
+				print "i=%i"%i
 				for var in self.framework.variable_list:
 					if var.isMultiDim:
 						for j in range(var.itemsAdded):
-							print "adding "+"%s[%i]"%(var.name,j)
-							event.append(tree.GetLeaf("%s[%i]"%(var.name,j)).GetValue(i))
+							event.append(tree.GetLeaf("%s"%var.name).GetValue(j))
 					else:
-						print "adding "+var.name
-						event.append(tree.GetLeaf(var.name).GetValue(i))					
-				print event
+						event.append(tree.GetLeaf(var.name).GetValue())					
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
 
-				# if file in self.framework.file_list_s:
-				# 	self.dataloader.AddSignalTrainingEvent(event, weight)
-				# else:
-				# 	self.dataloader.AddBackgroundTrainingEvent(event, weight)
+				if file in self.framework.file_list_s:
+					self.dataloader.AddSignalTrainingEvent(event, weight)
+				else:
+					self.dataloader.AddBackgroundTrainingEvent(event, weight)
 
 	def load_variables(self):
 		for var in self.framework.variable_list:
@@ -80,6 +78,7 @@ class TMVATrainer(object):
 			self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
 
 	def train_methods(self):
-		self.factory.TrainAllMethods()
-		self.factory.TestAllMethods()
-		self.factory.EvaluateAllMethods()
+		pass
+		# self.factory.TrainAllMethods()
+		# self.factory.TestAllMethods()
+		# self.factory.EvaluateAllMethods()
