@@ -49,11 +49,11 @@ class TMVATrainer(object):
 				event = []
 				tree.GetEntry(i)
 				for var in self.framework.variable_list:
-					if not var.isMultiDim:
-						event.append(tree.GetLeaf(var.name).GetValue(i))
-					else:
-						for j in range(var.itemsAdded)
+					if var.isMultiDim:
+						for j in range(var.itemsAdded):
 							event.append(tree.GetLeaf("%s[%i]"%(var.name,j)).GetValue(i))
+					else:
+						event.append(tree.GetLeaf(var.name).GetValue(i))					
 				print event
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
