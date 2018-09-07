@@ -48,7 +48,7 @@ for s in signal:
 	c.add_signal(s[0], mc_path+s[1], s[2], s[3])
 
 for b in background:
-	c.add_background(s[0], bkg_path+b[1], b[2], b[3])
+	c.add_background(b[0], bkg_path+b[1], b[2], b[3])
 
 c.set_tree_path(treePath)
 
