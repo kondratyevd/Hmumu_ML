@@ -32,11 +32,11 @@ variables.append(Variable("nJetsCent"		,"nJetsCent",  		"", 			 'I', False, 	0))
 variables.append(Variable("nJetsFwd"		,"nJetsFwd",  		"", 			 'I', False, 	0))
 variables.append(Variable("nBMed"			,"nBMed",  			"", 	  		'I', False, 	0))  
 
-variables.append(Variable("jets.pt"			,"Jet p_{T}",  		"GeV",   		'F', False, 	-5))
-variables.append(Variable("jets.eta"		,"Jet #eta",  		"",   			'F', False, 	-5))
-variables.append(Variable("jets.phi"		,"Jet #phi",  		"",   			'F', False, 	-5)) 
-variables.append(Variable("jetPairs.dEta"	,"jj |#delta#eta|",  	"",   	'F', False, 		-1)) 
-variables.append(Variable("jetPairs.mass"	,"jj mass",  		"GeV",   	'F', False, 		0))
+variables.append(Variable("jets.pt"			,"Jet p_{T}",  		"GeV",   		'F', 	True, 	-5))
+variables.append(Variable("jets.eta"		,"Jet #eta",  		"",   			'F', 	True, 	-5))
+variables.append(Variable("jets.phi"		,"Jet #phi",  		"",   			'F', 	True, 	-5)) 
+variables.append(Variable("jetPairs.dEta"	,"jj |#delta#eta|",  	"",   	'F', 		True, 		-1)) 
+variables.append(Variable("jetPairs.mass"	,"jj mass",  		"GeV",   	'F', 		True, 		0))
 
 ################################ Packages ################################
 
