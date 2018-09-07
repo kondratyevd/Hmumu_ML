@@ -53,11 +53,11 @@ class Framework(object):
 			metadata.Add(self.path)
 			print self.source.metadataPath
 			print metadata.GetEntries()
-			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
-			metadata.Draw("sumEventWeights>>eweights_"+self.name)
-			nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
+			metadata.Draw("originalNumEvents>>nEvt_")
+			metadata.Draw("sumEventWeights>>eweights_")
+			nEvtHist = ROOT.gDirectory.Get("nEvt_") 
 			self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
-  			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_"+self.name) 
+  			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_") 
 			self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
 
 	def prepare_dirs(self):
