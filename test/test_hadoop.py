@@ -56,7 +56,7 @@ c.add_variable("muPairs.pt", 				1) #second argument is the number of objects co
 c.add_variable("muPairs.eta", 				1)
 c.add_variable("muPairs.dEta", 				1) 
 c.add_variable("muPairs.dPhi", 				1)
-# c.add_variable("met.pt", 					1)
+c.add_variable("met.pt", 					1)
 c.add_variable("nJetsCent", 				1)
 c.add_variable("nJetsFwd",					1)
 c.add_variable("nBMed",						1)
