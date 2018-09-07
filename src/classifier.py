@@ -51,6 +51,8 @@ class Framework(object):
 			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
 			metadata = ROOT.TChain(self.source.metadataPath)
 			metadata.Add(self.path)
+			print self.source.metadataPath
+			print metadata.GetEntries()
 			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
 			metadata.Draw("sumEventWeights>>eweights_"+self.name)
 			nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
