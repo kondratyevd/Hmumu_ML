@@ -23,7 +23,7 @@ class TMVATrainer(object):
 		self.factory = ROOT.TMVA.Factory( "TMVAClassification", self.outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=%s:AnalysisType=Classification"%transformations)
 		self.dataloader = ROOT.TMVA.DataLoader("dataset")
 		# self.load_files()
-		# self.load_variables()
+		self.load_variables()
 		self.load_by_event()
 		self.load_methods()
 		return self
@@ -47,31 +47,19 @@ class TMVATrainer(object):
 			tree.Add(file.path)
 			print tree.GetEntries()
 			for i in range(tree.GetEntries()):
-				event = ROOT.std.vector(ROOT.Double)()
+				event = ROOT.std.vector(ROOT.double)()
 				event.clear()
 				tree.GetEntry(i)
 	
 				for var in self.framework.variable_list:
 					if var.isMultiDim:
 						for j in range(var.itemsAdded):
-							try:
-								event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
-							except:
-								event.push_back(var.replacement)
-								print "Replacement inserted"
+							event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
 					else:
-						try:
-							event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))				
-						except:
-							event.push_back(var.replacement)
-							print "Replacement inserted"
-
-				# print event
+						event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))				
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
-
-				print tree.nJets
 
 				if file in self.framework.file_list_s:
 					self.dataloader.AddSignalTrainingEvent(event, weight)
