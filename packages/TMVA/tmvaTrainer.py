@@ -39,13 +39,27 @@ class TMVATrainer(object):
 			else:
 				self.dataloader.AddBackgroundTree(tree,file.weight)
 
+	def load_files_by_event(self):
+		for file in self.framework.file_list_s + self.framework.file_list_b:
+			tree = ROOT.TChain(self.framework.treePath)
+			tree.Add(file.path)
+			for i in range(tree.GetEntries()):
+				tree.GetEntry(i)
+				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
+				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
+
+				if file in self.framework.file_list_s:
+					self.dataloader.AddSignalTrainingEvent(event, weight)
+				else:
+					self.dataloader.AddBackgroundTrainingEvent(event, weight)
+
 	def load_variables(self):
 		for var in self.framework.variable_list:
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):
-					self.dataloader.AddVariable(var.name+"[%i]"%i, var.title+"[%i]"%i, var.units, var.type)
+					self.dataloader.AddVariable("Alt$(%s[%i],%f)"%(var.name,i,var.replacement), var.title+"[%i]"%i, var.units, var.type)
 			else:
-				self.dataloader.AddVariable(var.name, var.title, var.units, var.type)
+				self.dataloader.AddVariable("Alt$(%s,%f)"%(var.name,var.replacement), var.title, var.units, var.type)
 
 	def load_methods(self):
 		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(''), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')

@@ -28,6 +28,7 @@ class Framework(object):
 		self.nVar = 0
 		self.package_list = []
 		self.treePath = 'dimuons/tree'
+		self.metadataPath = 'dimuons/metadata'
 		self.outPath = ''
 		self.transf_list = ['I']
 		self.RunID = "Run_X/"
@@ -35,11 +36,28 @@ class Framework(object):
 
 
 	class File(object):
-		def __init__(self, name, path, weight):
+		def __init__(self, source, name, path, xSec, weight):
+			self.source = source
 			self.name = name
 			self.path = path
-			self.weight = weight						
+			self.xSec = xSec
+			self.weight = weight
+			self.nEvt = 1
+			self.nOriginalWeighted = 1
+			self.get_original_nEvts()						
 		
+		def get_original_nEvts(self):
+			ROOT.gROOT.SetBatch(1)
+			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
+			metadata = ROOT.TChain(self.source.metadataPath)
+			metadata.Add(self.path)
+			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
+			metadata.Draw("sumEventWeights>>eweights_"+self.name)
+			nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
+			self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
+  			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_"+self.name) 
+			self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
+
 	def prepare_dirs(self):
 		# now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 		# self.RunID = "Run_"+now+"/"
@@ -62,13 +80,13 @@ class Framework(object):
 			if e.errno != errno.EEXIST:
 				raise
 
-	def add_signal(self, name, path, weight):
+	def add_signal(self, name, path, xSec, weight):
 		print "Adding %s as signal.."%name
-		self.file_list_s.append(self.File(name, path, weight))
+		self.file_list_s.append(self.File(self, name, path, xSec, weight))
 
-	def add_background(self, name, path, weight):
+	def add_background(self, name, path, xSec, weight):
 		print "Adding %s as background.."%name
-		self.file_list_b.append(self.File(name, path, weight))
+		self.file_list_b.append(self.File(self, name, path, xSec, weight))
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
@@ -79,13 +97,10 @@ class Framework(object):
 		else:
 			for var in variables:
 				if var.name == name:									
-					if nObj > var.itemsExpected:
-						sys.exit("Too many items required for %s"%name)
-					else:
-						print "Adding input variable %s  [%i] .."%(name, nObj)
-						var.itemsAdded = nObj
-						self.nVar = self.nVar + nObj
-						self.variable_list.append(var)		
+					print "Adding input variable %s  [%i] .."%(name, nObj)
+					var.itemsAdded = nObj
+					self.nVar = self.nVar + nObj
+					self.variable_list.append(var)		
 			
 
 	def add_package(self, name):
