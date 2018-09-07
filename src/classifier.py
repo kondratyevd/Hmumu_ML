@@ -81,11 +81,11 @@ class Framework(object):
 				raise
 
 	def add_signal(self, name, path, xSec, weight):
-		print "Adding %s as signal with xSec %f.."%(name, xSec)
+		print "Adding %s as signal with xSec=%f.."%(name, xSec)
 		self.file_list_s.append(self.File(self, name, path, xSec, weight))
 
 	def add_background(self, name, path, xSec, weight):
-		print "Adding %s as background with xSec %f.."%(name, xSec)
+		print "Adding %s as background with xSec=%f.."%(name, xSec)
 		self.file_list_b.append(self.File(self, name, path, xSec, weight))
 
 	def set_tree_path(self, treePath):
