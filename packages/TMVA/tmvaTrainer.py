@@ -47,7 +47,7 @@ class TMVATrainer(object):
 			tree.Add(file.path)
 			print tree.GetEntries()
 			for i in range(tree.GetEntries()):
-				event = ROOT.vector('float')()
+				event = ROOT.std.vector(ROOT.Double)()
 				event.clear()
 				tree.GetEntry(i)
 	
@@ -62,10 +62,10 @@ class TMVATrainer(object):
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
 
-				# if file in self.framework.file_list_s:
-				# 	self.dataloader.AddSignalTrainingEvent(event, weight)
-				# else:
-				# 	self.dataloader.AddBackgroundTrainingEvent(event, weight)
+				if file in self.framework.file_list_s:
+					self.dataloader.AddSignalTrainingEvent(event, weight)
+				else:
+					self.dataloader.AddBackgroundTrainingEvent(event, weight)
 
 	def load_variables(self):
 		for var in self.framework.variable_list:
