@@ -51,8 +51,10 @@ class TMVATrainer(object):
 				for var in self.framework.variable_list:
 					if var.isMultiDim:
 						for j in range(var.itemsAdded):
+							print "adding "+"%s[%i]"%(var.name,j)
 							event.append(tree.GetLeaf("%s[%i]"%(var.name,j)).GetValue(i))
 					else:
+						print "adding "+var.name
 						event.append(tree.GetLeaf(var.name).GetValue(i))					
 				print event
 
