@@ -48,7 +48,8 @@ class TMVATrainer(object):
 				# event = []
 				tree.GetEntry(i)
 				for var in self.framework.variable_list:
-					print var.name+"%f"%tree.GetLeaf(var.name).GetValue(0)
+					if not var.isMultiDim:
+						print var.name+"%f"%tree.GetLeaf(var.name).GetValue(0)
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
