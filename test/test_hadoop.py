@@ -39,7 +39,7 @@ background = [
 	['ttZ',				"/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ttZ/180827_203612/0000/*.root",					0.2529	,		246.881972		],
 	['tt_ll_AMC',		"/TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/tt_ll_AMC/180827_203154/0000/*.root",			85.656	, 		97340.321489	],
 	['tt_ll_MG_1',		"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_1/180827_203121/0000/*.root",			85.656	, 		98109.617801	],
-	['tt_ll_MG_2'		"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_2/180827_203138/0000/*.root",			85.656	, 		97747.879187	]
+	['tt_ll_MG_2',		"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_2/180827_203138/0000/*.root",			85.656	, 		97747.879187	]
 
 ]
 
