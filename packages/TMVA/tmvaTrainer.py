@@ -47,7 +47,7 @@ class TMVATrainer(object):
 			tree.Add(file.path)
 			print tree.GetEntries()
 			for i in range(tree.GetEntries()):
-				event = array('f', [0])
+				event = ROOT.vector('double')()
 				tree.GetEntry(i)
 				print "i=%i"%i
 				for var in self.framework.variable_list:
