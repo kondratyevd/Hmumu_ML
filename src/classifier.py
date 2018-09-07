@@ -58,7 +58,7 @@ class Framework(object):
   			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_") 
   			print sumEventWeightsHist.GetEntries()
   			print sumEventWeightsHist.GetMean()
-  			print sumEventWeights.Integral()
+  			print sumEventWeightsHist.Integral()
 			self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
 
 	def prepare_dirs(self):
