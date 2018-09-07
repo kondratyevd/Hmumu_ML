@@ -45,10 +45,10 @@ background = [
 
 
 for s in signal:
-	c.add_signal(s[0], mc_path+s[0], s[1])
+	c.add_signal(s[0], mc_path+s[0], s[1], s[2])
 
 for b in background:
-	c.add_background(b[0], bkg_path+b[0], b[1])
+	c.add_background(b[0], bkg_path+b[0], b[1], b[2])
 
 c.set_tree_path(treePath)
 
