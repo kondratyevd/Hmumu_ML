@@ -4,7 +4,7 @@ import os, sys, errno
 from config import variables, pkg_names, Package
 
 sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
-
+import ROOT
 from ROOT import gInterpreter, gSystem
 gInterpreter.ProcessLine('#include "interface/JetInfo.h"')
 gInterpreter.ProcessLine('#include "interface/EventInfo.h"')
