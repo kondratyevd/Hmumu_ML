@@ -54,9 +54,18 @@ class TMVATrainer(object):
 				for var in self.framework.variable_list:
 					if var.isMultiDim:
 						for j in range(var.itemsAdded):
-							event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
+							try:
+								event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
+							except:
+								event.push_back(var.replacement)
+								print "Replacement inserted"
 					else:
-						event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))				
+						try:
+							event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))				
+						except:
+							event.push_back(var.replacement)
+							print "Replacement inserted"
+
 				# print event
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
