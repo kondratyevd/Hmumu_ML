@@ -44,13 +44,13 @@ class TMVATrainer(object):
 		for file in self.framework.file_list_s + self.framework.file_list_b:
 			tree = ROOT.TChain(self.framework.treePath)
 			tree.Add(file.path)
-			print file.name
-			for i in range(2):#(tree.GetEntries()):
+			# print file.name
+			for i in range(1):#(tree.GetEntries()):
 				# event = []
 				tree.GetEntry(i)
 				for var in self.framework.variable_list:
 					if not var.isMultiDim:
-						print var.name
+						# print var.name
 						print tree.GetLeaf(var.name).GetValue(0)
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))

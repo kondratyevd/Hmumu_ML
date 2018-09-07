@@ -56,6 +56,9 @@ class Framework(object):
 			nEvtHist = ROOT.gDirectory.Get("nEvt_") 
 			self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
   			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_") 
+  			print self.name
+  			print sumEventWeightsHist.GetEntries()
+  			print sumEventWeightsHist.GetMean()
 			self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
 
 	def prepare_dirs(self):
