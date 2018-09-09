@@ -46,7 +46,7 @@ class TMVATrainer(object):
 			tree = ROOT.TChain(self.framework.treePath)
 			tree.Add(file.path)
 			print tree.GetEntries()
-			for i in (tree.GetEntries()):
+			for i in range(tree.GetEntries()):
 				event = ROOT.std.vector(ROOT.double)()
 				event.clear()
 				tree.GetEntry(i)
