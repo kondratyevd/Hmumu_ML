@@ -52,19 +52,44 @@ class TMVATrainer(object):
 				tree.GetEntry(i)
 	
 				for var in self.framework.variable_list:
-					if var.isMultiDim:
-						for j in range(var.itemsAdded):
-							if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > j:
-								event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
+					if var.abs:
+						if var.isMultiDim:
+							for j in range(var.itemsAdded):
+								if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > j:
+									try:
+										event.push_back( fabs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j))))
+									except:
+										event.push_back( var.replacement )
+								else:
+									event.push_back( var.replacement )	
+						else:
+							if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > 0:
+								try:
+									event.push_back( fabs(ROOT.Double(tree.GetLeaf(var.name).GetValue())))			
+								except:
+									event.push_back( var.replacement )
 							else:
 								event.push_back( var.replacement )	
 					else:
-						if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > 0:
-							event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))			
+						if var.isMultiDim:
+							for j in range(var.itemsAdded):
+								if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > j:
+									try:
+										event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
+									except:
+										event.push_back( var.replacement )
+								else:
+									event.push_back( var.replacement )	
 						else:
-							event.push_back( var.replacement )			
+							if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > 0:
+								try:
+									event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))
+								except:
+									event.push_back( var.replacement )
+							else:
+								event.push_back( var.replacement )		
 
-				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
+				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4)) #for 2016
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
 
 				if i % 2 == 0: # even-numbered events

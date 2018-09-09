@@ -6,7 +6,7 @@ import os, sys
 
 variables = []
 class Variable(object):
-	def __init__(self, _name, _title, _units, _type, _isMultiDim, _replacement, _validation):
+	def __init__(self, _name, _title, _units, _type, _isMultiDim, _replacement, _validation, _abs):
 		self.name = _name
 		self.title = _title
 		self.units = _units
@@ -15,25 +15,26 @@ class Variable(object):
 		self.itemsAdded = 0					
 		self.replacement = _replacement
 		self.validation = _validation
+		self.abs = _abs
 																	
-variables.append(Variable("muPairs.pt"		,"Dimuon p_{T}", 		"GeV", 		'F', False, 	0	,		"nMuPairs"		))
-variables.append(Variable("muPairs.eta"		,"Dimuon #eta", 		"", 		'F', False, 	-5	,		"nMuPairs"		))
-variables.append(Variable("muPairs.dEta"	,"Dimuon |#delta#eta|", "", 		'F', False, 	-1	,		"nMuPairs"		))
-variables.append(Variable("muPairs.dPhi"	,"Dimuon |#delta#phi|", "", 		'F', False, 	-1	,		"nMuPairs"		))
-variables.append(Variable("muPairs.mass"	,"Dimuon mass", 		"GeV", 		'F', False, 	0	,		"nMuPairs"		))
-variables.append(Variable("muons.pt"		,"Muon p_{T}", 			"GeV",		'F', True, 		0	,		"nMuons"		))
-variables.append(Variable("muons.eta"		,"Muon #eta",  			"",   		'F', True, 		-5	,		"nMuons"		))
-variables.append(Variable("muons.phi"		,"Muon #phi",  			"",   		'F', True, 		-5	,		"nMuons"		))
-variables.append(Variable("met.pt"		,"MET",  			"GeV",   		'F', False, 		0	,		"nMuons"		))
-variables.append(Variable("nJets"			,"nJets",  			"", 	  		'I', False, 	0	,		"nMuons"		))
-variables.append(Variable("nJetsCent"		,"nJetsCent",  		"", 			 'I', False, 	0	,		"nMuons"		))
-variables.append(Variable("nJetsFwd"		,"nJetsFwd",  		"", 			 'I', False, 	0	,		"nMuons"		))
-variables.append(Variable("nBMed"			,"nBMed",  			"", 	  		'I', False, 	0	,		"nMuons"		))
-variables.append(Variable("jets.pt"			,"Jet p_{T}",  		"GeV",   		'F', 	True, 	-5	,		"nJets"		))
-variables.append(Variable("jets.eta"		,"Jet #eta",  		"",   			'F', 	True, 	-5	,		"nJets"		))
-variables.append(Variable("jets.phi"		,"Jet #phi",  		"",   			'F', 	True, 	-5	,		"nJets"		)) 
-variables.append(Variable("jetPairs.dEta"	,"jj |#delta#eta|",  	"",   	'F', 		True, 	-1	,		"nJetPairs"		)) 
-variables.append(Variable("jetPairs.mass"	,"jj mass",  		"GeV",   	'F', 		True, 	0	,		"nJetPairs"		))
+variables.append(Variable("muPairs.pt"		,"Dimuon p_{T}", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
+variables.append(Variable("muPairs.eta"		,"Dimuon #eta", 		"", 		'F', False, 	"nMuPairs"	,	-5	, False	))
+variables.append(Variable("muPairs.dEta"	,"Dimuon |#delta#eta|", "", 		'F', False, 	"nMuPairs"	,	-1	, False	))
+variables.append(Variable("muPairs.dPhi"	,"Dimuon |#delta#phi|", "", 		'F', False, 	"nMuPairs"	,	-1	, False	))
+variables.append(Variable("muPairs.mass"	,"Dimuon mass", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
+variables.append(Variable("muons.pt"		,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
+variables.append(Variable("muons.eta"		,"Muon #eta",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
+variables.append(Variable("muons.phi"		,"Muon #phi",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
+variables.append(Variable("met.pt"			,"MET",  				"GeV",   	'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nJets"			,"nJets",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nJetsCent"		,"nJetsCent",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nJetsFwd"		,"nJetsFwd",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nBMed"			,"nBMed",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("jets.pt"			,"Jet p_{T}",  			"GeV",   	'F', True, 		"nJets"		,	-5	, False	))
+variables.append(Variable("jets.eta"		,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	-5	, False	))
+variables.append(Variable("jets.phi"		,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	-5	, False	)) 
+variables.append(Variable("jetPairs.dEta"	,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-1	, True	)) 
+variables.append(Variable("jetPairs.mass"	,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	0	, False	))
 
 ################################ Packages ################################
 
