@@ -83,7 +83,7 @@ class TMVATrainer(object):
 		for var in self.framework.variable_list:
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):
-					self.dataloader.AddVariable(var.name, var.title+"[%i]"%i, var.units, var.type)
+					self.dataloader.AddVariable("%s_%i"%(var.name,i), var.title+"[%i]"%i, var.units, var.type)
 			else:
 				self.dataloader.AddVariable(var.name, var.title, var.units, var.type)
 
