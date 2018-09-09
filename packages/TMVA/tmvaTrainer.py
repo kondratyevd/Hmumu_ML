@@ -92,9 +92,9 @@ class TMVATrainer(object):
 		for var in self.framework.variable_list:
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):
-					self.dataloader.AddVariable("Alt$(%s[%i],%f)"%(var.name,i,var.replacement), var.title+"[%i]"%i, var.units, var.type)
+					self.dataloader.AddVariable(var.name+"[%i]"%i, var.title+"[%i]"%i, var.units, var.type)
 			else:
-				self.dataloader.AddVariable("Alt$(%s,%f)"%(var.name,var.replacement), var.title, var.units, var.type)
+				self.dataloader.AddVariable(var.name, var.title, var.units, var.type)
 
 	def load_methods(self):
 		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(''), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
