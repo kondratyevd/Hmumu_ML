@@ -46,23 +46,32 @@ class TMVATrainer(object):
 			tree = ROOT.TChain(self.framework.treePath)
 			tree.Add(file.path)
 			print tree.GetEntries()
-			for i in range(100):# tree.GetEntries()):
+			for i in range(100):  #(tree.GetEntries()):
 				event = ROOT.std.vector(ROOT.double)()
 				event.clear()
 				tree.GetEntry(i)
 	
 				for var in self.framework.variable_list:
+					print "Variable: "+var.name
 					if var.isMultiDim:
 						for j in range(var.itemsAdded):
-							event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
-							print "%s:	%f"%(var.name, ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)))
+							if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > j:
+								print "%s > %i"%(var.validation, j)
+								event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
+								print "Success: %s:	%d"%(var.name, ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)))
+							else:
+								print "%s <= %i"%(var.validation, j)
+								event.push_back( var.replacement )	
+								print "Fail: %s %d"%(var.name, replacement)	
 					else:
-						if (tree.GetLeaf(var.condition_var).GetValue() > var.condition_cut):
-							event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))
-							print "Success: %s %f"%(var.condition_var, ROOT.Double(tree.GetLeaf(var.condition_var).GetValue()))	
+						if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > 0:
+							print "%s > %i"%(var.validation, 0)
+							event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))	
+							print "Success: %s %d"%(var.name,ROOT.Double(tree.GetLeaf(var.name).GetValue()))		
 						else:
-							event.push_back( var.replacement )
-							print "Fail: %s %f"%(var.condition_var, ROOT.Double(tree.GetLeaf(var.condition_var).GetValue()))			
+							print "%s = %i"%(var.validation, 0)
+							event.push_back( var.replacement )	
+							print "Fail: %s %d"%(var.name, replacement)		
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
@@ -70,17 +79,13 @@ class TMVATrainer(object):
 				if i % 2 == 0: # even-numbered events
 					if file in self.framework.file_list_s:
 						self.dataloader.AddSignalTrainingEvent(event, weight)
-						print "loaded signal training event"
 					else:
 						self.dataloader.AddBackgroundTrainingEvent(event, weight)
-						print "loaded bkg training event"
 				else:
 					if file in self.framework.file_list_s:
 						self.dataloader.AddSignalTestEvent(event, weight)
-						print "loaded signal test event"
 					else:
 						self.dataloader.AddBackgroundTestEvent(event, weight)
-						print "loaded bkg test event"
 
 
 	def load_variables(self):
