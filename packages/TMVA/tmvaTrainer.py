@@ -55,8 +55,10 @@ class TMVATrainer(object):
 					if var.isMultiDim:
 						for j in range(var.itemsAdded):
 							event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
+							print "%s:	%d"%(var.name, ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)))
 					else:
-						event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))				
+						event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))	
+						print "%s %d"%(var.name, ROOT.Double(tree.GetLeaf(var.name).GetValue()))			
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
@@ -64,13 +66,17 @@ class TMVATrainer(object):
 				if i % 2 == 0: # even-numbered events
 					if file in self.framework.file_list_s:
 						self.dataloader.AddSignalTrainingEvent(event, weight)
+						print "loaded signal training event"
 					else:
 						self.dataloader.AddBackgroundTrainingEvent(event, weight)
+						print "loaded bkg training event"
 				else:
 					if file in self.framework.file_list_s:
 						self.dataloader.AddSignalTestEvent(event, weight)
+						print "loaded signal test event"
 					else:
 						self.dataloader.AddBackgroundTestEvent(event, weight)
+						print "loaded bkg test event"
 
 
 	def load_variables(self):
