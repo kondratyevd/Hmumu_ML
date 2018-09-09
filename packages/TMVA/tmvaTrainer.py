@@ -62,7 +62,7 @@ class TMVATrainer(object):
 							else:
 								print "%s <= %i"%(var.validation, j)
 								event.push_back( var.replacement )	
-								print "Fail: %s %d"%(var.name, replacement)	
+								print "Fail: %s %d"%(var.name, var.replacement)	
 					else:
 						if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > 0:
 							print "%s > %i"%(var.validation, 0)
@@ -71,7 +71,7 @@ class TMVATrainer(object):
 						else:
 							print "%s = %i"%(var.validation, 0)
 							event.push_back( var.replacement )	
-							print "Fail: %s %d"%(var.name, replacement)		
+							print "Fail: %s %d"%(var.name, var.replacement)		
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
