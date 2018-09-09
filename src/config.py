@@ -6,7 +6,7 @@ import os, sys
 
 variables = []
 class Variable(object):
-	def __init__(self, _name, _title, _units, _type, _isMultiDim, _replacement, _validation, _abs):
+	def __init__(self, _name, _title, _units, _type, _isMultiDim, _validation, _replacement, _abs):
 		self.name = _name
 		self.title = _title
 		self.units = _units

@@ -55,7 +55,7 @@ class TMVATrainer(object):
 					if var.abs:
 						if var.isMultiDim:
 							for j in range(var.itemsAdded):
-								if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > j:
+								if tree.GetLeaf(var.validation).GetValue() > j:
 									try:
 										event.push_back( fabs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j))))
 									except:
@@ -63,7 +63,7 @@ class TMVATrainer(object):
 								else:
 									event.push_back( var.replacement )	
 						else:
-							if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > 0:
+							if tree.GetLeaf(var.validation).GetValue() > 0:
 								try:
 									event.push_back( fabs(ROOT.Double(tree.GetLeaf(var.name).GetValue())))			
 								except:
@@ -73,7 +73,7 @@ class TMVATrainer(object):
 					else:
 						if var.isMultiDim:
 							for j in range(var.itemsAdded):
-								if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > j:
+								if tree.GetLeaf(var.validation).GetValue() > j:
 									try:
 										event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
 									except:
@@ -81,7 +81,7 @@ class TMVATrainer(object):
 								else:
 									event.push_back( var.replacement )	
 						else:
-							if ROOT.Double(tree.GetLeaf(var.validation).GetValue()) > 0:
+							if tree.GetLeaf(var.validation).GetValue() > 0:
 								try:
 									event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))
 								except:
