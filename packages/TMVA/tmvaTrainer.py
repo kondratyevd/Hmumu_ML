@@ -57,7 +57,7 @@ class TMVATrainer(object):
 							for j in range(var.itemsAdded):
 								if tree.GetLeaf(var.validation).GetValue() > j:
 									try:
-										event.push_back( fabs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j))))
+										# event.push_back( fabs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j))))
 										print "Case 1:	%f"%fabs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)))
 										print "abs():	%f"%abs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)))
 									except:
