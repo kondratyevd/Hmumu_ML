@@ -57,27 +57,19 @@ class TMVATrainer(object):
 							for j in range(var.itemsAdded):
 								if tree.GetLeaf(var.validation).GetValue() > j:
 									try:
-										# event.push_back( fabs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j))))
-										# print "Case 1:	%f"%fabs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)))
-										print "abs():	%f"%abs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)))
+										event.push_back( abs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j))))
 									except:
 										event.push_back( var.replacement )
-										print "Case 2: %f"%var.replacement
 								else:
 									event.push_back( var.replacement )	
-									"Case 3: %f"%var.replacement
 						else:
 							if tree.GetLeaf(var.validation).GetValue() > 0:
 								try:
-									event.push_back( fabs(ROOT.Double(tree.GetLeaf(var.name).GetValue())))	
-									"Case 4: %f"%fabs(ROOT.Double(tree.GetLeaf(var.name).GetValue()))
-									"abs(): %f"%abs(ROOT.Double(tree.GetLeaf(var.name).GetValue()))
+									event.push_back( abs(ROOT.Double(tree.GetLeaf(var.name).GetValue())))	
 								except:
 									event.push_back( var.replacement )
-									"Case 5: %f"%var.replacement
 							else:
 								event.push_back( var.replacement )	
-								"Case 6: %f"%var.replacement
 					else:
 						if var.isMultiDim:
 							for j in range(var.itemsAdded):
