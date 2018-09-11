@@ -8,8 +8,8 @@ treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
 signal = [
-		['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/tuple*.root",							0.0008208	,		18.835700	],
-		# ['H2Mu_gg',		"/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/tuple*.root",							0.009618	,		232.557886	],
+		# ['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/tuple*.root",							0.0008208	,		18.835700	],
+		['H2Mu_gg',		"/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/tuple*.root",							0.009618	,		232.557886	],
 		# ['H2Mu_WH_neg',	"/WMinusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_neg/180827_202757/0000/tuple*.root",					0.0001164	,		0.304798	],
 		# ['H2Mu_WH_pos',	"/WPlusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_pos/180827_202738/0000/tuple*.root",						0.0001858	,		0.437732	],
 		# ['H2Mu_ZH',		"/ZH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_ZH/180827_202818/0000/tuple*.root",								0.0002136	,		0.837788	]
@@ -18,13 +18,13 @@ signal = [
 bkg_path = "/mnt/hadoop/store/user/dkondrat/"#"/tmp/Hmumu_ntuples"
 background = [
 
-	['WW',				"/WWTo2L2Nu_13TeV-powheg/WW/180827_203218/0000/tuple*.root",													12.46	,		10524.477792	],
+	# ['WW',				"/WWTo2L2Nu_13TeV-powheg/WW/180827_203218/0000/tuple*.root",													12.46	,		10524.477792	],
 	# ['WWW',				"/WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WWW/180827_203402/0000/tuple*.root",							0.2086	,		79.037588		],
 	# ['WWZ',				"/WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WWZ/180827_203422/0000/tuple*.root", 								0.1651	,		63.230267		],
 	# ['WZZ',				"/WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WZZ/180827_203439/0000/tuple*.root", 								0.05565	,		17.997588		],
 	# ['WZ_2l',			"/WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/WZ_2l/180827_203235/0000/tuple*.root", 						4.409	, 		909.986306		],
 	# ['WZ_3l',			"/WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/WZ_3l_AMC/180827_203253/0000/tuple*.root", 				2.113	,		1853.675094		],
-	# ['ZJets_AMC',		"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/180827_202835/0000/tuple*.root", 		5765.4	, 		1137600.914372	],
+	['ZJets_AMC',		"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/180827_202835/0000/tuple*.root", 		5765.4	, 		1137600.914372	],
 	# ['ZZZ',				"/ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ZZZ/180827_203458/0000/tuple*.root" ,								0.01398	, 		3.428108		],
 	# ['ZZ_2l_2q',		"/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/ZZ_2l_2q/180827_203327/0000/tuple*.root",						3.22	, 		722.244018		],
 	# ['ZZ_2l_2v',		"/ZZTo2L2Nu_13TeV_powheg_pythia8/ZZ_2l_2v/180827_203311/0000/tuple*.root",									0.564	, 		212.112867		],
