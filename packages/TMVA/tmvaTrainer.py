@@ -46,6 +46,12 @@ class TMVATrainer(object):
 			tree = ROOT.TChain(self.framework.treePath)
 			tree.Add(file.path)
 			print tree.GetEntries()
+
+			tripGausExpr = "(0.73*TMath::Gaus(x, 124.8, 1.52, 1) + 0.23*TMath::Gaus(x, 122.8, 4.24, 1) + 0.04*TMath::Gaus(x, 126, 2.1, 1))"
+			tripGaus   = ROOT.TF1("tripGaus", tripGausExpr, 113.8, 147.8)
+			tripGausSq = ROOT.TF1("tripGaus", tripGausExpr+" * "+tripGausExpr, 113.8, 147.8)
+			tripGausNorm = tripGausSq.Integral(-1000, 1000)
+
 			for i in range(tree.GetEntries()):
 				event = ROOT.std.vector(ROOT.double)()
 				event.clear()
@@ -92,14 +98,17 @@ class TMVATrainer(object):
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4)) #for 2016
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
 				# weight = 1
+
+				res_wgt = tripGaus.Eval(ROOT.Double(tree.GetLeaf("muPairs.mass_Roch").GetValue())) / tripGausNorm
+
 				if i % 2 == 0: # even-numbered events
 					if file in self.framework.file_list_s:
-						self.dataloader.AddSignalTrainingEvent(event, weight)
+						self.dataloader.AddSignalTrainingEvent(event, weight*res_wgt)
 					else:
 						self.dataloader.AddBackgroundTrainingEvent(event, weight)
 				else:
 					if file in self.framework.file_list_s:
-						self.dataloader.AddSignalTestEvent(event, weight)
+						self.dataloader.AddSignalTestEvent(event, weight*res_wgt)
 					else:
 						self.dataloader.AddBackgroundTestEvent(event, weight)
 
