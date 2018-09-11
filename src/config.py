@@ -6,8 +6,9 @@ import os, sys
 
 variables = []
 class Variable(object):
-	def __init__(self, _name, _title, _units, _type, _isMultiDim, _validation, _replacement, _abs):
+	def __init__(self, _name, _leaf, _title, _units, _type, _isMultiDim, _validation, _replacement, _abs):
 		self.name = _name
+		self.leaf = _leaf
 		self.title = _title
 		self.units = _units
 		self.type = _type
@@ -17,24 +18,24 @@ class Variable(object):
 		self.validation = _validation
 		self.abs = _abs
 																	
-variables.append(Variable("muPairs.pt"		,"Dimuon p_{T}", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
-variables.append(Variable("muPairs.eta"		,"Dimuon #eta", 		"", 		'F', False, 	"nMuPairs"	,	-5	, False	))
-variables.append(Variable("muPairs.dEta"	,"Dimuon |#delta#eta|", "", 		'F', False, 	"nMuPairs"	,	-1	, False	))
-variables.append(Variable("muPairs.dPhi"	,"Dimuon |#delta#phi|", "", 		'F', False, 	"nMuPairs"	,	-1	, False	))
-variables.append(Variable("muPairs.mass"	,"Dimuon mass", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
-variables.append(Variable("muons.pt"		,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
-variables.append(Variable("muons.eta"		,"Muon #eta",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
-variables.append(Variable("muons.phi"		,"Muon #phi",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
-variables.append(Variable("met.pt"			,"MET",  				"GeV",   	'F', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("nJets"			,"nJets",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("nJetsCent"		,"nJetsCent",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("nJetsFwd"		,"nJetsFwd",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("nBMed"			,"nBMed",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("jets.pt"			,"Jet p_{T}",  			"GeV",   	'F', True, 		"nJets"		,	-5	, False	))
-variables.append(Variable("jets.eta"		,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	-5	, False	))
-variables.append(Variable("jets.phi"		,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	-5	, False	)) 
-variables.append(Variable("jetPairs.dEta"	,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-1	, True	)) 
-variables.append(Variable("jetPairs.mass"	,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	0	, False	))
+variables.append(Variable("muPairs.pt"		,	"pt"				,"Dimuon p_{T}", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
+variables.append(Variable("muPairs.eta"		,	"eta"				,"Dimuon #eta", 		"", 		'F', False, 	"nMuPairs"	,	-5	, False	))
+variables.append(Variable("muPairs.dEta"	,	"dEta"				,"Dimuon |#delta#eta|", "", 		'F', False, 	"nMuPairs"	,	-1	, True	))
+variables.append(Variable("muPairs.dPhi"	,	"dPhi"				,"Dimuon |#delta#phi|", "", 		'F', False, 	"nMuPairs"	,	-1	, True	))
+variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
+variables.append(Variable("muons.pt"		,	"pt"				,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
+variables.append(Variable("muons.eta"		,	"eta"				,"Muon #eta",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
+variables.append(Variable("muons.phi"		,	"phi"				,"Muon #phi",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
+variables.append(Variable("met.pt"			,	"pt"				,"MET",  				"GeV",   	'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nJets"			,	"nJets"				,"nJets",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nJetsCent"		,	"nJetsCent"			,"nJetsCent",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nJetsFwd"		,	"nJetsFwd"			,"nJetsFwd",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("nBMed"			,	"nBMed"				,"nBMed",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("jets.pt"			,	"pt"				,"Jet p_{T}",  			"GeV",   	'F', True, 		"nJets"		,	-5	, False	))
+variables.append(Variable("jets.eta"		,	"eta"				,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	-5	, False	))
+variables.append(Variable("jets.phi"		,	"phi"				,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	-5	, False	)) 
+variables.append(Variable("jetPairs.dEta"	,	"dEta"				,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-1	, True	)) 
+variables.append(Variable("jetPairs.mass"	,	"mass"				,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	0	, False	))
 
 ################################ Packages ################################
 

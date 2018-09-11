@@ -63,7 +63,7 @@ class TMVATrainer(object):
 							for j in range(var.itemsAdded):
 								if tree.GetLeaf(var.validation).GetValue() > j:
 									try:
-										event.push_back( abs(ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j))))
+										event.push_back( abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j))))
 									except:
 										event.push_back( var.replacement )
 								else:
@@ -71,7 +71,7 @@ class TMVATrainer(object):
 						else:
 							if tree.GetLeaf(var.validation).GetValue() > 0:
 								try:
-									event.push_back( abs(ROOT.Double(tree.GetLeaf(var.name).GetValue())))	
+									event.push_back( abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue())))	
 								except:
 									event.push_back( var.replacement )
 							else:
@@ -81,7 +81,7 @@ class TMVATrainer(object):
 							for j in range(var.itemsAdded):
 								if tree.GetLeaf(var.validation).GetValue() > j:
 									try:
-										event.push_back( ROOT.Double(tree.GetLeaf("%s"%var.name).GetValue(j)) )
+										event.push_back( ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j)) )
 									except:
 										event.push_back( var.replacement )
 								else:
@@ -89,7 +89,7 @@ class TMVATrainer(object):
 						else:
 							if tree.GetLeaf(var.validation).GetValue() > 0:
 								try:
-									event.push_back( ROOT.Double(tree.GetLeaf(var.name).GetValue()))
+									event.push_back( ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue()))
 								except:
 									event.push_back( var.replacement )
 							else:
