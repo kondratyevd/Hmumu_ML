@@ -57,24 +57,15 @@ class TMVATrainer(object):
 				event.clear()
 				tree.GetEntry(i)
 
+				muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
+				muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
+				muPair_mass = tree.FindBranch("muPairs.mass").FindLeaf("mass").GetValue()
 
-				# for i, muon in enumerate(tree.muons):
-				# 	if i is 0:
-				# 		muon1 = muon
-				# 		print muon.pt
-				# 	elif i is 1:
-				# 		muon2 = muon
-					# else:
-					# 	print i
-
-				# muon2 = tree.muons[1]
-				muPair = tree.muPairs[0]
-				# print muPair.mass
 
 				if (
-							(muPair.mass>100)#&
-							# (muon1.pt>26)&
-							# (muon2.pt>20)&
+							(muPair_mass>100)&
+							(muon1_pt>26)&
+							(muon2_pt>20)#&
 							# (	muon1.isHltMatched[2] or 
 							# 	muon1.isHltMatched[3] or 
 							# 	(muon2.pt>26 & muon2.isHltMatched[2]) or 
