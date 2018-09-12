@@ -56,7 +56,25 @@ class TMVATrainer(object):
 				event = ROOT.std.vector(ROOT.double)()
 				event.clear()
 				tree.GetEntry(i)
-				
+
+				muon1 = tree.muons[0]
+				muon2 = tree.muons[1]
+				muPair = tree.muPairs[0]
+				# print muPair.mass
+
+				if not (
+							(muPair.mass>100)&
+							(muon1.pt>26)&
+							(muon2.pt>20)&
+							(	muon1.isHltMatched[2] or 
+								muon1.isHltMatched[3] or 
+								(muon2.pt>26 & muon2.isHltMatched[2]) or 
+								(muon2.pt>26 & muon2.isHltMatched[3])
+							)
+						):
+					print "break"
+					break
+
 				for var in self.framework.variable_list:
 					if var.abs:
 						if var.isMultiDim:
@@ -120,15 +138,7 @@ class TMVATrainer(object):
 					self.dataloader.AddVariable("%s_%i"%(var.name,i), var.title+"[%i]"%i, var.units, var.type)
 			else:
 				self.dataloader.AddVariable(var.name, var.title, var.units, var.type)
-		self.dataloader.AddSpectator("muPairs.mass")
-		self.dataloader.AddSpectator("muons.pt[0]")
-		self.dataloader.AddSpectator("muons.pt[1]")
-		self.dataloader.AddSpectator("muons.isHltMatched[0][2]")
-		self.dataloader.AddSpectator("muons.isHltMatched[0][3]")
-		self.dataloader.AddSpectator("muons.pt[1]")
-		self.dataloader.AddSpectator("muons.isHltMatched[1][2]")
-		self.dataloader.AddSpectator("muons.pt[1]")
-		self.dataloader.AddSpectator("muons.isHltMatched[1][3]")
+
 
 	def load_methods(self):
 		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(self.framework.cuts), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
