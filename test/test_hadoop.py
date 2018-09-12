@@ -60,7 +60,7 @@ c.add_variable("muPairs.pt", 				1) #second argument is the number of objects co
 c.add_variable("muPairs.eta", 				1)
 c.add_variable("muPairs.dEta", 				1) 
 c.add_variable("muPairs.dPhi", 				1)
-# c.add_variable("met.pt", 					1)
+c.add_variable("met.pt", 					1)
 c.add_variable("nJetsCent", 				1)
 c.add_variable("nJetsFwd",					1)
 c.add_variable("nBMed",						1)
@@ -71,6 +71,8 @@ c.add_variable("jetPairs.mass",				2)
 # c.add_variable("muons.pt", 	2) #two muons
 # c.add_variable("muons.eta", 	2)
 # c.add_variable("muons.phi", 	2)
+
+c.set_cuts("(muPairs.mass>100)&(muons.pt[0]>26)&(muons.pt[1]>20)&(muons.isHltMatched[0][2] || muons.isHltMatched[0][3] || (muons.pt[1]>26 & muons.isHltMatched[1][2]) || (muons.pt[1]>26 & muons.isHltMatched[1][3]))")
 
 c.add_package("TMVA")
 c.add_transf("N,G,P")

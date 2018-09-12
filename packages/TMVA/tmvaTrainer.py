@@ -122,7 +122,7 @@ class TMVATrainer(object):
 				self.dataloader.AddVariable(var.name, var.title, var.units, var.type)
 
 	def load_methods(self):
-		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(''), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
+		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(self.framework.cuts), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
 		for method in compile_method_list(self.framework, self.package):
 			self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
 
