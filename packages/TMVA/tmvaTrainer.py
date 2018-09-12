@@ -57,6 +57,8 @@ class TMVATrainer(object):
 				event.clear()
 				tree.GetEntry(i)
 
+				if tree.nMuons < 2:
+					print tree.nMuons
 				muon1 = tree.muons[0]
 				muon2 = tree.muons[1]
 				muPair = tree.muPairs[0]
