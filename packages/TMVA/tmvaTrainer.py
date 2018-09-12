@@ -58,19 +58,19 @@ class TMVATrainer(object):
 				tree.GetEntry(i)
 
 
-				for i, muon in enumerate(tree.muons)
+				for i, muon in enumerate(tree.muons):
 					if i is 0:
 						muon1 = muon
 					elif i is 1:
 						muon2 = muon
-					else:
-						print i
-						
+					# else:
+					# 	print i
+
 				# muon2 = tree.muons[1]
 				muPair = tree.muPairs[0]
 				# print muPair.mass
 
-				if not (
+				if (
 							(muPair.mass>100)&
 							(muon1.pt>26)&
 							(muon2.pt>20)&
@@ -80,46 +80,47 @@ class TMVATrainer(object):
 								(muon2.pt>26 & muon2.isHltMatched[3])
 							)
 						):
-					print "break"
-					break
 
-				for var in self.framework.variable_list:
-					if var.abs:
-						if var.isMultiDim:
-							for j in range(var.itemsAdded):
-								if tree.GetLeaf(var.validation).GetValue() > j:
+
+					for var in self.framework.variable_list:
+						if var.abs:
+							if var.isMultiDim:
+								for j in range(var.itemsAdded):
+									if tree.GetLeaf(var.validation).GetValue() > j:
+										try:
+											event.push_back( abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j))))
+										except:
+											event.push_back( var.replacement )
+									else:
+										event.push_back( var.replacement )	
+							else:
+								if tree.GetLeaf(var.validation).GetValue() > 0:
 									try:
-										event.push_back( abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j))))
+										event.push_back( abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue())))	
 									except:
 										event.push_back( var.replacement )
 								else:
 									event.push_back( var.replacement )	
 						else:
-							if tree.GetLeaf(var.validation).GetValue() > 0:
-								try:
-									event.push_back( abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue())))	
-								except:
-									event.push_back( var.replacement )
+							if var.isMultiDim:
+								for j in range(var.itemsAdded):
+									if tree.GetLeaf(var.validation).GetValue() > j:
+										try:
+											event.push_back( ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j)) )
+										except:
+											event.push_back( var.replacement )
+									else:
+										event.push_back( var.replacement )	
 							else:
-								event.push_back( var.replacement )	
-					else:
-						if var.isMultiDim:
-							for j in range(var.itemsAdded):
-								if tree.GetLeaf(var.validation).GetValue() > j:
+								if tree.GetLeaf(var.validation).GetValue() > 0:
 									try:
-										event.push_back( ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j)) )
+										event.push_back( ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue()))
 									except:
 										event.push_back( var.replacement )
 								else:
 									event.push_back( var.replacement )	
-						else:
-							if tree.GetLeaf(var.validation).GetValue() > 0:
-								try:
-									event.push_back( ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue()))
-								except:
-									event.push_back( var.replacement )
-							else:
-								event.push_back( var.replacement )		
+				# else:
+					# print "fail"	
 
 				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4)) #for 2016
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
@@ -149,7 +150,7 @@ class TMVATrainer(object):
 
 
 	def load_methods(self):
-		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(self.framework.cuts), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
+		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(''), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
 		for method in compile_method_list(self.framework, self.package):
 			self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
 
