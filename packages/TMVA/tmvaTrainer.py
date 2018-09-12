@@ -58,11 +58,12 @@ class TMVATrainer(object):
 				tree.GetEntry(i)
 
 
-				for i, muon in enumerate(tree.muons):
-					if i is 0:
-						muon1 = muon
-					elif i is 1:
-						muon2 = muon
+				# for i, muon in enumerate(tree.muons):
+				# 	if i is 0:
+				# 		muon1 = muon
+				# 		print muon.pt
+				# 	elif i is 1:
+				# 		muon2 = muon
 					# else:
 					# 	print i
 
@@ -71,14 +72,14 @@ class TMVATrainer(object):
 				# print muPair.mass
 
 				if (
-							(muPair.mass>100)&
-							(muon1.pt>26)&
-							(muon2.pt>20)&
-							(	muon1.isHltMatched[2] or 
-								muon1.isHltMatched[3] or 
-								(muon2.pt>26 & muon2.isHltMatched[2]) or 
-								(muon2.pt>26 & muon2.isHltMatched[3])
-							)
+							(muPair.mass>100)#&
+							# (muon1.pt>26)&
+							# (muon2.pt>20)&
+							# (	muon1.isHltMatched[2] or 
+							# 	muon1.isHltMatched[3] or 
+							# 	(muon2.pt>26 & muon2.isHltMatched[2]) or 
+							# 	(muon2.pt>26 & muon2.isHltMatched[3])
+							# )
 						):
 
 

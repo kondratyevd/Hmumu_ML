@@ -44,20 +44,20 @@ class Framework(object):
 			self.weight = weight
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
-			self.get_original_nEvts()						
+		# 	self.get_original_nEvts()						
 		
-		def get_original_nEvts(self):
-			ROOT.gROOT.SetBatch(1)
-			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
-			metadata = ROOT.TChain(self.source.metadataPath)
-			metadata.Add(self.path)
-			# metadata = f.Get(self.source.metadataPath)
-			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
-			metadata.Draw("sumEventWeights>>eweights_"+self.name)
-			nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
-			self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
-  			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_"+self.name) 
-			self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
+		# def get_original_nEvts(self):
+		# 	ROOT.gROOT.SetBatch(1)
+		# 	dummy = ROOT.TCanvas("dummmy","dummy",100,100)
+		# 	metadata = ROOT.TChain(self.source.metadataPath)
+		# 	metadata.Add(self.path)
+		# 	# metadata = f.Get(self.source.metadataPath)
+		# 	metadata.Draw("originalNumEvents>>nEvt_"+self.name)
+		# 	metadata.Draw("sumEventWeights>>eweights_"+self.name)
+		# 	nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
+		# 	self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
+  # 			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_"+self.name) 
+		# 	self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
 
 	def prepare_dirs(self):
 		# now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
