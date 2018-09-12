@@ -92,6 +92,9 @@ class Framework(object):
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
 
+	def set_cuts(self, cuts):
+		self.cuts = cuts
+
 	def add_variable(self, name, nObj):
 		if name not in [v.name for v in variables]:
 			sys.exit("\n\nERROR: Variable %s not found in the list. Check this file: %s\n\n"%(name,config.__file__))
