@@ -44,6 +44,19 @@ background = [
 	['DY_1J',			"/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/DY_1J/180827_202911/0000/tuple*root",								888.9*0.86*0.985*0.995, 1		],
 	['DY_2J_1',			"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_1/180827_202929/0000/tuple*root",								348.8*0.88*0.975*0.992,	1		],
 	['DY_2J_2',			"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_2/180827_202948/0000/tuple*root",								348.8*0.88*0.975*0.992,	1		],
+	['ZJets_MG',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG/180913_191722/0000/tuple*root",		5765.4			,	1	],
+	['ZJets_MG_HT_70_100',		"/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_70_100/180913_191823/0000/",		0.98*178.952	,	1	],
+	['ZJets_MG_HT_100_200_A',	"/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_100_200_A/180913_191844/0000/tuple*root",		0.96*181.302	,	1	],
+	['ZJets_MG_HT_100_200_B',	"/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_100_200_B/180913_191907/0000/tuple*root",		0.96*181.302	,	1	],
+	['ZJets_MG_HT_200_400_A',	"/DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_200_400_A/180913_191940/0000/tuple*root",		0.96*50.4177	,	1	],
+	['ZJets_MG_HT_200_400_B',	"/DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_200_400_B/180913_192001/0000/tuple*root",		0.96*50.4177	,	1	],
+	['ZJets_MG_HT_400_600_A',	"/DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_400_600_A/180913_192022/0000/tuple*root",		0.96*6.98394	,	1	],
+	# ['ZJets_MG_HT_400_600_B',	"tuple*root",		0.96*6.98394	,	1	],
+	['ZJets_MG_HT_600_800',		"/DYJetsToLL_M-50_HT-600to800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_600_800/180913_192118/0000/tuple*root",		0.96*1.68141	,	1	],
+	['ZJets_MG_HT_800_1200',	"/DYJetsToLL_M-50_HT-800to1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_800_1200/180913_192145/0000/tuple*root",		0.96*0.775392	,	1	],
+	['ZJets_MG_HT_1200_2500',	"/DYJetsToLL_M-50_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_1200_2500/180913_192208/0000/tuple*root",		0.96*0.186222	,	1	],	
+	['ZJets_MG_HT_2500_inf',	"/DYJetsToLL_M-50_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_2500_inf/180913_192230/0000/tuple*root",		0.96*0.004385	,	1	],
+	['ZJets_hiM',				"/DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_hiM/180913_191802/0000/tuple*root",		5765.4*1.235	,	1	]
 
 ]
 

@@ -65,12 +65,7 @@ class TMVATrainer(object):
 				if (
 							(muPair_mass>100)&
 							(muon1_pt>26)&
-							(muon2_pt>20)#&
-							# (	muon1.isHltMatched[2] or 
-							# 	muon1.isHltMatched[3] or 
-							# 	(muon2.pt>26 & muon2.isHltMatched[2]) or 
-							# 	(muon2.pt>26 & muon2.isHltMatched[3])
-							# )
+							(muon2_pt>20)
 						):
 
 
@@ -118,8 +113,8 @@ class TMVATrainer(object):
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
 				# weight = 1
 
-				# res_wgt = tripGaus.Eval(ROOT.Double(tree.GetLeaf("muPairs.mass_Roch").GetValue())) / tripGausNorm
-				res_wgt = 1
+				res_wgt = tripGaus.Eval(ROOT.Double(tree.GetLeaf("muPairs.mass_Roch").GetValue())) / tripGausNorm
+				# res_wgt = 1
 				if i % 2 == 0: # even-numbered events
 					if file in self.framework.file_list_s:
 						self.dataloader.AddSignalTrainingEvent(event, weight*res_wgt)
