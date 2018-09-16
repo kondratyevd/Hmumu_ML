@@ -59,11 +59,12 @@ class TMVATrainer(object):
 
 				muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
 				muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
-				muPair_mass = tree.FindBranch("muPairs.mass").FindLeaf("mass").GetValue()
+				muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass").GetValue()
 
 
 				if (
-							(muPair_mass>100)&
+							(muPair_mass>113.8)&
+							(muPair_mass<147.8)&
 							(muon1_pt>26)&
 							(muon2_pt>20)
 						):

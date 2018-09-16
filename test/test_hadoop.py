@@ -45,7 +45,7 @@ background = [
 	['DY_2J_1',			"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_1/180827_202929/0000/tuple*root",								348.8*0.88*0.975*0.992,	1		],
 	['DY_2J_2',			"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_2/180827_202948/0000/tuple*root",								348.8*0.88*0.975*0.992,	1		],
 	['ZJets_MG',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG/180913_191722/0000/tuple*root",		5765.4			,	1	],
-	['ZJets_MG_HT_70_100',		"/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_70_100/180913_191823/0000/",		0.98*178.952	,	1	],
+	['ZJets_MG_HT_70_100',		"/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_70_100/180913_191823/0000/tuple*root",		0.98*178.952	,	1	],
 	['ZJets_MG_HT_100_200_A',	"/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_100_200_A/180913_191844/0000/tuple*root",		0.96*181.302	,	1	],
 	['ZJets_MG_HT_100_200_B',	"/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_100_200_B/180913_191907/0000/tuple*root",		0.96*181.302	,	1	],
 	['ZJets_MG_HT_200_400_A',	"/DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_200_400_A/180913_191940/0000/tuple*root",		0.96*50.4177	,	1	],
