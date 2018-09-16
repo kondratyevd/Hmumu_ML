@@ -59,7 +59,7 @@ class TMVATrainer(object):
 
 				muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
 				muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
-				muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass").GetValue()
+				muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
 
 
 				if (
