@@ -58,15 +58,29 @@ class TMVATrainer(object):
 				tree.GetEntry(i)
 
 				muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
-				muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
+				muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(1)
+				muon1_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(2)
+				muon1_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(3)
+				muon2_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(8)
+				muon2_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(9)
+				muon1_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(0)
+				muon2_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(1)
 				muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
+
 
 
 				if (
 							(muPair_mass>113.8)&
 							(muPair_mass<147.8)&
-							(muon1_pt>26)&
-							(muon2_pt>20)
+							(muon1_ID)&
+							(muon2_ID)&
+							(muon1_pt>20)&
+							(muon2_pt>20)&
+							(
+								( muon1_pt > 26 & (muon1_hlt2 or muon1_hlt3) ) 
+							or
+								( muon2_pt > 26 & (muon2_hlt2 or muon2_hlt3) )
+							)
 						):
 
 
@@ -118,12 +132,12 @@ class TMVATrainer(object):
 				# res_wgt = 1
 				if i % 2 == 0: # even-numbered events
 					if file in self.framework.file_list_s:
-						self.dataloader.AddSignalTrainingEvent(event, weight*res_wgt)
+						self.dataloader.AddSignalTrainingEvent(event, weight*res_wgt*1000)
 					else:
 						self.dataloader.AddBackgroundTrainingEvent(event, weight)
 				else:
 					if file in self.framework.file_list_s:
-						self.dataloader.AddSignalTestEvent(event, weight*res_wgt)
+						self.dataloader.AddSignalTestEvent(event, weight*res_wgt*1000)
 					else:
 						self.dataloader.AddBackgroundTestEvent(event, weight)
 
