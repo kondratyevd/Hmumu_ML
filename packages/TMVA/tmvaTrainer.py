@@ -77,9 +77,9 @@ class TMVATrainer(object):
 							(muon1_pt>20)&
 							(muon2_pt>20)&
 							(
-								( muon1_pt > 26 & (muon1_hlt2 or muon1_hlt3) ) 
+								( muon1_pt > 26 & (muon1_hlt2>0 or muon1_hlt3>0) ) 
 							or
-								( muon2_pt > 26 & (muon2_hlt2 or muon2_hlt3) )
+								( muon2_pt > 26 & (muon2_hlt2>0 or muon2_hlt3>0) )
 							)
 						):
 
