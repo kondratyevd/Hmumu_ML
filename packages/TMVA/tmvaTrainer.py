@@ -72,8 +72,8 @@ class TMVATrainer(object):
 				if (
 							(muPair_mass>113.8)&
 							(muPair_mass<147.8)&
-							(muon1_ID)&
-							(muon2_ID)&
+							(muon1_ID>0)&
+							(muon2_ID>0)&
 							(muon1_pt>20)&
 							(muon2_pt>20)&
 							(
