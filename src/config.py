@@ -20,6 +20,7 @@ class Variable(object):
 																	
 variables.append(Variable("muPairs.pt"		,	"pt"				,"Dimuon p_{T}", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
 variables.append(Variable("muPairs.eta"		,	"eta"				,"Dimuon #eta", 		"", 		'F', False, 	"nMuPairs"	,	-5	, False	))
+variables.append(Variable("muPairs.phi"		,	"phi"				,"Dimuon #phi", 		"", 		'F', False, 	"nMuPairs"	,	-5	, False	))
 variables.append(Variable("muPairs.dEta"	,	"dEta"				,"Dimuon |#delta#eta|", "", 		'F', False, 	"nMuPairs"	,	-1	, True	))
 variables.append(Variable("muPairs.dPhi"	,	"dPhi"				,"Dimuon |#delta#phi|", "", 		'F', False, 	"nMuPairs"	,	-1	, True	))
 variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
