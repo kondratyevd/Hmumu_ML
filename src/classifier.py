@@ -27,6 +27,8 @@ class Framework(object):
 		self.variable_list = []
 		self.nVar = 0
 		self.package_list = []
+		self.method_list = []
+		self.year = "2016"
 		self.treePath = 'dimuons/tree'
 		self.metadataPath = 'dimuons/metadata'
 		self.outPath = ''
@@ -36,12 +38,11 @@ class Framework(object):
 
 
 	class File(object):
-		def __init__(self, source, name, path, xSec, weight):
+		def __init__(self, source, name, path, xSec):
 			self.source = source
 			self.name = name
 			self.path = path
 			self.xSec = xSec
-			self.weight = weight
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
 		# 	self.get_original_nEvts()						
@@ -81,16 +82,19 @@ class Framework(object):
 			if e.errno != errno.EEXIST:
 				raise
 
-	def add_signal(self, name, path, xSec, weight):
+	def add_signal(self, name, path, xSec):
 		print "Adding %s as signal with xSec=%f.."%(name, xSec)
-		self.file_list_s.append(self.File(self, name, path, xSec, weight))
+		self.file_list_s.append(self.File(self, name, path, xSec))
 
-	def add_background(self, name, path, xSec, weight):
+	def add_background(self, name, path, xSec):
 		print "Adding %s as background with xSec=%f.."%(name, xSec)
-		self.file_list_b.append(self.File(self, name, path, xSec, weight))
+		self.file_list_b.append(self.File(self, name, path, xSec))
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
+
+	def set_year(self, year):
+		self.year = year
 
 	def add_variable(self, name, nObj):
 		if name not in [v.name for v in variables]:
@@ -105,7 +109,6 @@ class Framework(object):
 			
 
 	def add_package(self, name):
-
 		if name not in pkg_names:
 			sys.exit("\n\nERROR: Package %s not found in the list. Check this file: %s\n\n"%(name,config.__file__))
 		else:
@@ -114,6 +117,10 @@ class Framework(object):
 
 	def add_transf(self, transf):
 		self.transf_list.append(transf)
+
+	def add_method(self, name):
+		self.method_list.append(name)
+		print "Added method %s"%name
 
 	def train_methods(self):
 		for pkg in self.package_list:

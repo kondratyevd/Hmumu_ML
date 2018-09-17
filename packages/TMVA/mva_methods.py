@@ -45,6 +45,12 @@ def compile_method_list(framework, package):
 		options = "!H:!V:NTrees=500::BoostType=Grad:Shrinkage=0.1:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=5"
 		))	
 
+	methods.append(mva_method(
+		type = TMVA.Types.kBDT,
+		name = 'BDTG_MIT',
+		options = "!H:!V:NTrees=1200:MinNodeSize=3%:BoostType=Grad:Shrinkage=0.10:nCuts=40:MaxDepth=5:NodePurityLimit=0.99:SeparationType=SDivSqrtSPlusB:Pray"
+		))	
+
 # Keras models should be defined and selected in keras_models.py
 
 	# list_of_models = GetListOfModels(framework.nVar) #the argument is for the input dimensions

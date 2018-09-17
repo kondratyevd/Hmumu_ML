@@ -32,14 +32,14 @@ class TMVATrainer(object):
 		print "Closing output file: "+self.package.mainDir+"TMVA.root"
 		self.outputFile.Close()
 
-	def load_files(self):
-		for file in self.framework.file_list_s + self.framework.file_list_b:
-			tree = ROOT.TChain(self.framework.treePath)
-			tree.Add(file.path)
-			if file in self.framework.file_list_s:
-				self.dataloader.AddSignalTree(tree,file.weight)
-			else:
-				self.dataloader.AddBackgroundTree(tree,file.weight)
+	# def load_files(self):
+	# 	for file in self.framework.file_list_s + self.framework.file_list_b:
+	# 		tree = ROOT.TChain(self.framework.treePath)
+	# 		tree.Add(file.path)
+	# 		if file in self.framework.file_list_s:
+	# 			self.dataloader.AddSignalTree(tree,file.weight)
+	# 		else:
+	# 			self.dataloader.AddBackgroundTree(tree,file.weight)
 
 	def load_by_event(self):
 		for file in self.framework.file_list_s + self.framework.file_list_b:
@@ -57,33 +57,9 @@ class TMVATrainer(object):
 				event.clear()
 				tree.GetEntry(i)
 
-				muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
-				muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(1)
-				muon1_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(2)
-				muon1_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(3)
-				muon2_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(8)
-				muon2_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(9)
-				muon1_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(0)
-				muon2_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(1)
-				muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
+				flag, SF = self.eventInfo(tree, self.framework.year)
 
-
-
-				if (
-							(muPair_mass>113.8)&
-							(muPair_mass<147.8)&
-							(muon1_ID>0)&
-							(muon2_ID>0)&
-							(muon1_pt>20)&
-							(muon2_pt>20)&
-							(
-								( muon1_pt > 26 & (muon1_hlt2>0 or muon1_hlt3>0) ) 
-							or
-								( muon2_pt > 26 & (muon2_hlt2>0 or muon2_hlt3>0) )
-							)
-						):
-
-
+				if (flag):
 					for var in self.framework.variable_list:
 						if var.abs:
 							if var.isMultiDim:
@@ -121,15 +97,11 @@ class TMVATrainer(object):
 										event.push_back( var.replacement )
 								else:
 									event.push_back( var.replacement )	
-				# else:
-					# print "fail"	
 
-				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4)) #for 2016
+				
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
-				# weight = 1
-
 				res_wgt = tripGaus.Eval(ROOT.Double(tree.GetLeaf("muPairs.mass_Roch").GetValue())) / tripGausNorm
-				# res_wgt = 1
+
 				if i % 2 == 0: # even-numbered events
 					if file in self.framework.file_list_s:
 						self.dataloader.AddSignalTrainingEvent(event, weight*res_wgt*1000)
@@ -154,10 +126,70 @@ class TMVATrainer(object):
 	def load_methods(self):
 		self.dataloader.PrepareTrainingAndTestTree(ROOT.TCut(''), 'nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V')
 		for method in compile_method_list(self.framework, self.package):
-			self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
+			if method.name in self.framework.method_list:
+				self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
 
 	def train_methods(self):
 		# pass
 		self.factory.TrainAllMethods()
 		self.factory.TestAllMethods()
 		self.factory.EvaluateAllMethods()
+
+	def eventInfo(self, tree, year):
+
+		if year is "2016":
+			muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
+			muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(1)
+			muon1_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(2)
+			muon1_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(3)
+			muon2_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(8)
+			muon2_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(9)
+			muon1_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(0)
+			muon2_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(1)
+			muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
+
+			flag = 			((muPair_mass>113.8)&
+							(muPair_mass<147.8)&
+							(muon1_ID>0)&
+							(muon2_ID>0)&
+							(muon1_pt>20)&
+							(muon2_pt>20)&
+							(
+								( muon1_pt > 26 & (muon1_hlt2>0 or muon1_hlt3>0) ) 
+							or
+								( muon2_pt > 26 & (muon2_hlt2>0 or muon2_hlt3>0) )
+							))
+			SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
+
+
+		elif year is "2017":
+			muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
+			muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(1)
+			muon1_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(2)
+			muon1_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(3)
+			muon2_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(8)
+			muon2_hlt3 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(9)
+			muon1_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(0)
+			muon2_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(1)
+			muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
+
+			flag = 			((muPair_mass>110)&
+							(muPair_mass<150)&
+							(muon1_ID>0)&
+							(muon2_ID>0)&
+							(muon1_pt>20)&
+							(muon2_pt>20)&
+							(
+								( muon1_pt > 30 & (muon1_hlt2>0 or muon1_hlt3>0) ) 
+							or
+								( muon2_pt > 30 & (muon2_hlt2>0 or muon2_hlt3>0) )
+							))
+			SF = (tree.IsoMu_SF_3 * tree.MuID_SF_3 * tree.MuIso_SF_3 ) 
+
+		return flag, SF
+
+
+
+
+
+
