@@ -26,7 +26,7 @@ background = [
 	["ZZ_4l", 				"/ZZTo4L_13TeV_powheg_pythia8/180802_165816/0000/tuple_*.root"       , 								1.256			],
 	["tZq", 				"/tZq_ll_4f_ckm_NLO_TuneCP5_PSweights_13TeV-amcatnlo-pythia8/180802_170157/0000/tuple_*.root" ,		0.0758			],
 	["ttZ", 				"/ttZJets_TuneCP5_13TeV_madgraphMLM_pythia8/180802_170325/0000/tuple_*.root"         , 				0.2529			],
-	["tt_ll_AMC", 			"/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/180802_165355/0000/tuple_*.root"   , 					85.656*0.9		]
+	["tt_ll_AMC", 			"/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/180802_165355/0000/tuple_*.root"   , 					815.960			]
 
 ]
 
