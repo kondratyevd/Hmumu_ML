@@ -80,16 +80,17 @@ c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 
-# c.add_variable("muons.pt", 	2) #two muons
-# c.add_variable("muons.eta", 	2)
-# c.add_variable("muons.phi", 	2)
+c.add_variable("muons.pt", 	2) #two muons
+c.add_variable("muons.eta", 	2)
+c.add_variable("muons.phi", 	2)
 
 # c.set_cuts("(muPairs.mass>100)&(muons.pt[0]>26)&(muons.pt[1]>20)&(muons.isHltMatched[0][2] || muons.isHltMatched[0][3] || (muons.pt[1]>26 & muons.isHltMatched[1][2]) || (muons.pt[1]>26 & muons.isHltMatched[1][3]))")
 
 c.set_year("2016")
 c.add_package("TMVA")
 c.add_transf("N,G,P")
-c.add_method("BDTG_UF_v1")
+# c.add_method("BDTG_UF_v1")
+c.add_method('MLP_3x20_NGP')
 
 # c.add_package("Keras")
 
