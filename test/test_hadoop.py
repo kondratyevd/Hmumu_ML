@@ -90,7 +90,7 @@ c.set_year("2016")
 c.add_package("TMVA")
 c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
-c.add_method('MLP_3x20_NGP')
+c.add_method('MLP_40,20,10_NGP')
 
 # c.add_package("Keras")
 
