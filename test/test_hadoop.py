@@ -68,14 +68,11 @@ for b in background:
 
 c.set_tree_path(treePath)
 
-# c.add_variable("muPairs.pt", 				1) #second argument is the number of objects considered
-# c.add_variable("muPairs.eta", 				1)
-# c.add_variable("muPairs.phi", 				1)
-# c.add_variable("muPairs.dEta", 				1) 
-# c.add_variable("muPairs.dPhi", 				1)
-
+c.add_variable("muPairs.pt", 				1) #second argument is the number of objects considered
+c.add_variable("muPairs.eta", 				1)
+c.add_variable("muPairs.dEta", 				1) 
+c.add_variable("muPairs.dPhi", 				1)
 c.add_variable("met.pt", 					1)
-# c.add_variable("nJets",		 			1)
 c.add_variable("nJetsCent", 				1)
 c.add_variable("nJetsFwd",					1)
 c.add_variable("nBMed",						1)
@@ -83,22 +80,44 @@ c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 
-c.add_variable("muons.pt[0]/muPairs.pt",	1)
-c.add_variable("muons.pt[1]/muPairs.pt",	1)
-c.add_variable("muons.eta", 				2)
-c.add_variable("muons.phi", 				2)
-
-# c.add_variable("muons.pt", 	2) #two muons
-
-# c.set_cuts("(muPairs.mass>100)&(muons.pt[0]>26)&(muons.pt[1]>20)&(muons.isHltMatched[0][2] || muons.isHltMatched[0][3] || (muons.pt[1]>26 & muons.isHltMatched[1][2]) || (muons.pt[1]>26 & muons.isHltMatched[1][3]))")
-
 c.weigh_by_event(False)
 c.set_year("2016")
 c.add_package("TMVA")
-c.add_transf("N,G,P")
-# c.add_method("BDTG_UF_v1")
-c.add_method('MLP_40,20,10_NGP')
-
-# c.add_package("Keras")
-
+# c.add_transf("N,G,P")
+c.add_method("BDTG_UF_v1")
 c.train_methods()
+
+# # c.add_variable("muPairs.pt", 				1) #second argument is the number of objects considered
+# # c.add_variable("muPairs.eta", 				1)
+# # c.add_variable("muPairs.phi", 				1)
+# # c.add_variable("muPairs.dEta", 				1) 
+# # c.add_variable("muPairs.dPhi", 				1)
+
+# c.add_variable("met.pt", 					1)
+# # c.add_variable("nJets",		 			1)
+# c.add_variable("nJetsCent", 				1)
+# c.add_variable("nJetsFwd",					1)
+# c.add_variable("nBMed",						1)
+# c.add_variable("jets.eta",					2)
+# c.add_variable("jetPairs.dEta",				2)
+# c.add_variable("jetPairs.mass",				2)
+
+# c.add_variable("muons.pt[0]/muPairs.pt",	1)
+# c.add_variable("muons.pt[1]/muPairs.pt",	1)
+# c.add_variable("muons.eta", 				2)
+# c.add_variable("muons.phi", 				2)
+
+# # c.add_variable("muons.pt", 	2) #two muons
+
+# # c.set_cuts("(muPairs.mass>100)&(muons.pt[0]>26)&(muons.pt[1]>20)&(muons.isHltMatched[0][2] || muons.isHltMatched[0][3] || (muons.pt[1]>26 & muons.isHltMatched[1][2]) || (muons.pt[1]>26 & muons.isHltMatched[1][3]))")
+
+# c.weigh_by_event(False)
+# c.set_year("2016")
+# c.add_package("TMVA")
+# c.add_transf("N,G,P")
+# # c.add_method("BDTG_UF_v1")
+# c.add_method('MLP_40,20,10_NGP')
+
+# # c.add_package("Keras")
+
+# c.train_methods()
