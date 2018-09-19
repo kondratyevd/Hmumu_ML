@@ -22,9 +22,11 @@ class TMVATrainer(object):
 		transformations = ';'.join(self.framework.transf_list)
 		self.factory = ROOT.TMVA.Factory( "TMVAClassification", self.outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=%s:AnalysisType=Classification"%transformations)
 		self.dataloader = ROOT.TMVA.DataLoader("dataset")
-		# self.load_files()
 		self.load_variables()
-		self.load_by_event()
+		if self.framework.weighByEvent:
+			self.load_by_event()
+		else:
+			self.load_files()			
 		self.load_methods()
 		return self
 
@@ -32,14 +34,14 @@ class TMVATrainer(object):
 		print "Closing output file: "+self.package.mainDir+"TMVA.root"
 		self.outputFile.Close()
 
-	# def load_files(self):
-	# 	for file in self.framework.file_list_s + self.framework.file_list_b:
-	# 		tree = ROOT.TChain(self.framework.treePath)
-	# 		tree.Add(file.path)
-	# 		if file in self.framework.file_list_s:
-	# 			self.dataloader.AddSignalTree(tree,file.weight)
-	# 		else:
-	# 			self.dataloader.AddBackgroundTree(tree,file.weight)
+	def load_files(self):
+		for file in self.framework.file_list_s + self.framework.file_list_b:
+			tree = ROOT.TChain(self.framework.treePath)
+			tree.Add(file.path)
+			if file in self.framework.file_list_s:
+				self.dataloader.AddSignalTree(tree,file.weight)
+			else:
+				self.dataloader.AddBackgroundTree(tree,file.weight)
 
 	def load_by_event(self):
 		for file in self.framework.file_list_s + self.framework.file_list_b:
@@ -112,7 +114,10 @@ class TMVATrainer(object):
 		for var in self.framework.variable_list:
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):
-					self.dataloader.AddVariable("%s_%i"%(var.name,i), var.title+"[%i]"%i, var.units, var.type)
+					if self.framework.weighByEvent:
+						self.dataloader.AddVariable("%s_%i"%(var.name,i), var.title+"[%i]"%i, var.units, var.type)
+					else:
+						self.dataloader.AddVariable("Alt$(%s[%i],%f)"%(var.name,i,var.replacement), var.title+"[%i]"%i, var.units, var.type)
 			else:
 				self.dataloader.AddVariable(var.name, var.title, var.units, var.type)
 

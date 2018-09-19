@@ -40,14 +40,14 @@ for b in background:
 
 c.set_tree_path(treePath)
 
-c.add_variable("muPairs.pt", 				1) #second argument is the number of objects considered
-c.add_variable("muPairs.eta", 				1)
+# c.add_variable("muPairs.pt", 				1) #second argument is the number of objects considered
+# c.add_variable("muPairs.eta", 				1)
 # c.add_variable("muPairs.phi", 				1)
-c.add_variable("muPairs.dEta", 				1) 
-c.add_variable("muPairs.dPhi", 				1)
-# c.add_variable("muons.eta", 				2)
+# c.add_variable("muPairs.dEta", 				1) 
+# c.add_variable("muPairs.dPhi", 				1)
+
 c.add_variable("met.pt", 					1)
-# c.add_variable("nJets",		 				1)
+# c.add_variable("nJets",		 			1)
 c.add_variable("nJetsCent", 				1)
 c.add_variable("nJetsFwd",					1)
 c.add_variable("nBMed",						1)
@@ -55,8 +55,13 @@ c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 
+c.add_variable("muons.pt[0]/muPairs.pt",	1)
+c.add_variable("muons.pt[1]/muPairs.pt",	1)
+c.add_variable("muons.eta", 				2)
+c.add_variable("muons.phi", 				2)
+
 # c.add_variable("muons.pt", 	2) #two muons
-# c.add_variable("muons.phi", 	2)
+
 
 c.set_year("2017")
 c.add_package("TMVA")

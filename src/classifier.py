@@ -34,6 +34,7 @@ class Framework(object):
 		self.outPath = ''
 		self.transf_list = ['I']
 		self.RunID = "Run_X/"
+		self.weighByEvent = False
 		self.prepare_dirs()
 
 
@@ -45,20 +46,21 @@ class Framework(object):
 			self.xSec = xSec
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
-		# 	self.get_original_nEvts()						
+			self.weight = 1
+			self.get_original_nEvts()						
 		
-		# def get_original_nEvts(self):
-		# 	ROOT.gROOT.SetBatch(1)
-		# 	dummy = ROOT.TCanvas("dummmy","dummy",100,100)
-		# 	metadata = ROOT.TChain(self.source.metadataPath)
-		# 	metadata.Add(self.path)
-		# 	# metadata = f.Get(self.source.metadataPath)
-		# 	metadata.Draw("originalNumEvents>>nEvt_"+self.name)
-		# 	metadata.Draw("sumEventWeights>>eweights_"+self.name)
-		# 	nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
-		# 	self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
-  # 			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_"+self.name) 
-		# 	self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
+		def get_original_nEvts(self):
+			ROOT.gROOT.SetBatch(1)
+			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
+			metadata = ROOT.TChain(self.source.metadataPath)
+			metadata.Add(self.path)
+			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
+			metadata.Draw("sumEventWeights>>eweights_"+self.name)
+			nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
+			self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
+  			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_"+self.name) 
+			self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
+			self.weight = self.xSec*40000 / self.nOriginalWeighted
 
 	def prepare_dirs(self):
 		# now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
@@ -81,6 +83,13 @@ class Framework(object):
 		except OSError as e:
 			if e.errno != errno.EEXIST:
 				raise
+
+	def weigh_by_event(self, w):
+		self.weighByEvent = w
+		if w:
+			print "Will weigh data event by event"
+		else:
+			print "All samples are added with weight = 1" 
 
 	def add_signal(self, name, path, xSec):
 		print "Adding %s as signal with xSec=%f.."%(name, xSec)

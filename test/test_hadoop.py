@@ -80,7 +80,7 @@ c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 
-c.add_variable("muons.pt", 	2) #two muons
+c.add_variable("muons.pt", 		2) #two muons
 c.add_variable("muons.eta", 	2)
 c.add_variable("muons.phi", 	2)
 
