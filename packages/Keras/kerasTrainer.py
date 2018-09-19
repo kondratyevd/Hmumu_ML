@@ -55,11 +55,11 @@ class KerasTrainer(object):
 		self.df.dropna(axis=0, how='any', inplace=True)
 		self.lables = list(self.df.drop(['sample_weight', 'category'], axis=1))
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7, shuffle = True)
-		self.save_to_hdf(self.df_train, self.df_test, 'input')
+		# self.save_to_hdf(self.df_train, self.df_test, 'input')
 
 	def train_models(self):
 		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.lables)
-		self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled')
+		# self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled')
 		
 		self.list_of_models = GetListOfModels(self.df.shape[1]-2) #the argument is for the input dimensions
 		for obj in self.list_of_models:
@@ -91,7 +91,7 @@ class KerasTrainer(object):
 	
 			self.df_train_scaled["prediction_"+obj.name] = obj.model.predict(self.df_train_scaled[self.lables].values)
 			self.df_test_scaled["prediction_"+obj.name] = obj.model.predict(self.df_test_scaled[self.lables].values)
-			self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled_w_predictions')
+			# self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled_w_predictions')
 			# print self.df_train_scaled
 			self.df_history = pandas.DataFrame(history.history)
 			self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
