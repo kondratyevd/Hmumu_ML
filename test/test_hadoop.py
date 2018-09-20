@@ -8,7 +8,7 @@ treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
 signal = [
-		['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/tuple_*.root",							0.0008208	],
+		['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/tuple_*.root",								0.0008208	],
 		['H2Mu_gg',		"/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/tuple_*.root",							0.009618	],
 		# ['H2Mu_WH_neg',	"/WMinusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_neg/180827_202757/0000/tuple_*.root",					0.0001164	],
 		# ['H2Mu_WH_pos',	"/WPlusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_pos/180827_202738/0000/tuple_*.root",						0.0001858	],
@@ -38,12 +38,12 @@ background = [
 	# ['ttW_2',					"/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/ttW_2/180827_203553/0000/tuple_*.root",			0.2043		],
 	# ['ttZ',						"/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ttZ/180827_203612/0000/tuple_*.root",						0.2529		],
 	['tt_ll_AMC',				"/TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/tt_ll_AMC/180827_203154/0000/tuple_*.root",			85.656*0.9	],
-	# ['tt_ll_MG_1',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_1/180827_203121/0000/tuple_*.root",				85.656		],
-	# ['tt_ll_MG_2',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_2/180827_203138/0000/tuple_*.root",				85.656		],
-	# ['DY_0J',					"/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/DY_0J/180827_202852/0000/tuple_*root",									4754*0.96	],
-	# ['DY_1J',					"/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/DY_1J/180827_202911/0000/tuple_*root",									888.9*0.86*0.985*0.995	],
-	# ['DY_2J_1',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_1/180827_202929/0000/tuple_*root",									348.8*0.88*0.975*0.992	],
-	# ['DY_2J_2',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_2/180827_202948/0000/tuple_*root",									348.8*0.88*0.975*0.992	],
+	['tt_ll_MG_1',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_1/180827_203121/0000/tuple_*.root",				85.656		],
+	['tt_ll_MG_2',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_2/180827_203138/0000/tuple_*.root",				85.656		],
+	['DY_0J',					"/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/DY_0J/180827_202852/0000/tuple_*root",									4754*0.96	],
+	['DY_1J',					"/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/DY_1J/180827_202911/0000/tuple_*root",									888.9*0.86*0.985*0.995	],
+	['DY_2J_1',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_1/180827_202929/0000/tuple_*root",									348.8*0.88*0.975*0.992	],
+	['DY_2J_2',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_2/180827_202948/0000/tuple_*root",									348.8*0.88*0.975*0.992	],
 	# ['ZJets_MG',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG/180913_191722/0000/tuple_*root",		5765.4		],
 	# ['ZJets_MG_HT_70_100',		"/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_70_100/180913_191823/0000/tuple_*root",			0.98*178.952		],
 	# ['ZJets_MG_HT_100_200_A',	"/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_100_200_A/180913_191844/0000/tuple_*root",		0.96*181.302		],
@@ -80,44 +80,10 @@ c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 
-c.weigh_by_event(False)
+c.weigh_by_event(True)
 c.set_year("2016")
 c.add_package("TMVA")
 # c.add_transf("N,G,P")
 c.add_method("BDTG_UF_v1")
 c.train_methods()
 
-# # c.add_variable("muPairs.pt", 				1) #second argument is the number of objects considered
-# # c.add_variable("muPairs.eta", 				1)
-# # c.add_variable("muPairs.phi", 				1)
-# # c.add_variable("muPairs.dEta", 				1) 
-# # c.add_variable("muPairs.dPhi", 				1)
-
-# c.add_variable("met.pt", 					1)
-# # c.add_variable("nJets",		 			1)
-# c.add_variable("nJetsCent", 				1)
-# c.add_variable("nJetsFwd",					1)
-# c.add_variable("nBMed",						1)
-# c.add_variable("jets.eta",					2)
-# c.add_variable("jetPairs.dEta",				2)
-# c.add_variable("jetPairs.mass",				2)
-
-# c.add_variable("muons.pt[0]/muPairs.pt",	1)
-# c.add_variable("muons.pt[1]/muPairs.pt",	1)
-# c.add_variable("muons.eta", 				2)
-# c.add_variable("muons.phi", 				2)
-
-# # c.add_variable("muons.pt", 	2) #two muons
-
-# # c.set_cuts("(muPairs.mass>100)&(muons.pt[0]>26)&(muons.pt[1]>20)&(muons.isHltMatched[0][2] || muons.isHltMatched[0][3] || (muons.pt[1]>26 & muons.isHltMatched[1][2]) || (muons.pt[1]>26 & muons.isHltMatched[1][3]))")
-
-# c.weigh_by_event(False)
-# c.set_year("2016")
-# c.add_package("TMVA")
-# c.add_transf("N,G,P")
-# # c.add_method("BDTG_UF_v1")
-# c.add_method('MLP_40,20,10_NGP')
-
-# # c.add_package("Keras")
-
-# c.train_methods()
