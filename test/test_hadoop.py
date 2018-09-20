@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-
+c.add_comment("UF 2016 BDT without event-by-event weighting") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -80,7 +80,7 @@ c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 
-c.weigh_by_event(True)
+c.weigh_by_event(False)
 c.set_year("2016")
 c.add_package("TMVA")
 # c.add_transf("N,G,P")
