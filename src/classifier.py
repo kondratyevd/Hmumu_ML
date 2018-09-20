@@ -35,7 +35,9 @@ class Framework(object):
 		self.transf_list = ['I']
 		self.RunID = "Run_X/"
 		self.weighByEvent = False
+		self.info_file = None
 		self.prepare_dirs()
+
 
 
 	class File(object):
@@ -77,6 +79,8 @@ class Framework(object):
 		info.write(self.RunID)
 		info.close() 
 
+		self.info_file = open(self.outPath+"/info.txt","w")
+
 	def create_dir(self, path):
 		try:
 			os.makedirs(path)
@@ -88,16 +92,23 @@ class Framework(object):
 		self.weighByEvent = w
 		if w:
 			print "Will weigh data event by event"
+			self.info_file.write("Samples are weighted event by event \n")
 		else:
 			print "All samples are added with weight = 1" 
+			self.info_file.write("Samples are weighted proportional to sigma/N \n")
+
+	def add_comment(self, str):
+		self.info_file.write("%s\n"%str)
 
 	def add_signal(self, name, path, xSec):
 		print "Adding %s as signal with xSec=%f.."%(name, xSec)
 		self.file_list_s.append(self.File(self, name, path, xSec))
+		self.info_file.write("Signal:		%s\n"%path)
 
 	def add_background(self, name, path, xSec):
 		print "Adding %s as background with xSec=%f.."%(name, xSec)
 		self.file_list_b.append(self.File(self, name, path, xSec))
+		self.info_file.write("Background:	%s\n"%path)
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
@@ -112,6 +123,7 @@ class Framework(object):
 			for var in variables:
 				if var.name == name:									
 					print "Adding input variable %s  [%i] .."%(name, nObj)
+					self.info_file.write("Variable:		%s x%i\n"%(name, nObj))
 					var.itemsAdded = nObj
 					self.nVar = self.nVar + nObj
 					self.variable_list.append(var)		
@@ -122,7 +134,8 @@ class Framework(object):
 			sys.exit("\n\nERROR: Package %s not found in the list. Check this file: %s\n\n"%(name,config.__file__))
 		else:
 			print "Will use %s package.."%name	
-			self.package_list.append(Package(name, self))		
+			self.package_list.append(Package(name, self))	
+			self.info_file.write("Using package:	%s\n"%name)	
 
 	def add_transf(self, transf):
 		self.transf_list.append(transf)

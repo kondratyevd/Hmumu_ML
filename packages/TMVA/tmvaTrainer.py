@@ -127,6 +127,7 @@ class TMVATrainer(object):
 		for method in compile_method_list(self.framework, self.package):
 			if method.name in self.framework.method_list:
 				self.factory.BookMethod(self.dataloader, method.type, method.name, method.options)
+				self.framework.info_file.write("TMVA method: 	%s %s\n"%(method.name, method.options))
 
 	def train_methods(self):
 		# pass
