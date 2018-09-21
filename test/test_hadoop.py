@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("UF 2016 BDT (after AB comments))") # change this line for each run!
+c.add_comment("UF 2016 BDT ZJets_hiM") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -24,7 +24,7 @@ background = [
 	# ['WZZ',					"/WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WZZ/180827_203439/0000/tuple_*.root", 								0.05565		],
 	['WZ_2l',					"/WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/WZ_2l/180827_203235/0000/tuple_*.root", 							4.409		],
 	['WZ_3l',					"/WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/WZ_3l_AMC/180827_203253/0000/tuple_*.root", 					2.113		],
-	['ZJets_AMC',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/180827_202835/0000/tuple_*.root", 			5765.4		],
+	# ['ZJets_AMC',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/180827_202835/0000/tuple_*.root", 			5765.4		],
 	['ZZZ',						"/ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ZZZ/180827_203458/0000/tuple_*.root" ,									0.01398		],
 	['ZZ_2l_2q',				"/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/ZZ_2l_2q/180827_203327/0000/tuple_*.root",							3.22 		],
 	['ZZ_2l_2v',				"/ZZTo2L2Nu_13TeV_powheg_pythia8/ZZ_2l_2v/180827_203311/0000/tuple_*.root",										0.564 		],
@@ -40,9 +40,9 @@ background = [
 	['tt_ll_AMC',				"/TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/tt_ll_AMC/180827_203154/0000/tuple_*.root",			85.656*0.9	],
 	# ['tt_ll_MG_1',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_1/180827_203121/0000/tuple_*.root",				85.656		],
 	# ['tt_ll_MG_2',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_2/180827_203138/0000/tuple_*.root",				85.656		],
-	['DY_0J',					"/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/DY_0J/180827_202852/0000/tuple_*root",									4754*0.96	],
-	['DY_1J',					"/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/DY_1J/180827_202911/0000/tuple_*root",									888.9*0.86*0.985*0.995	],
-	['DY_2J_1',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_1/180827_202929/0000/tuple_*root",									348.8*0.88*0.975*0.992	],
+	# ['DY_0J',					"/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/DY_0J/180827_202852/0000/tuple_*root",									4754*0.96	],
+	# ['DY_1J',					"/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/DY_1J/180827_202911/0000/tuple_*root",									888.9*0.86*0.985*0.995	],
+	# ['DY_2J_1',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_1/180827_202929/0000/tuple_*root",									348.8*0.88*0.975*0.992	],
 	# ['DY_2J_2',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_2/180827_202948/0000/tuple_*root",									348.8*0.88*0.975*0.992	],
 	# ['ZJets_MG',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG/180913_191722/0000/tuple_*root",		5765.4		],
 	# ['ZJets_MG_HT_70_100',		"/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_70_100/180913_191823/0000/tuple_*root",			0.98*178.952		],
@@ -55,7 +55,7 @@ background = [
 	# ['ZJets_MG_HT_800_1200',	"/DYJetsToLL_M-50_HT-800to1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_800_1200/180913_192145/0000/tuple_*root",		0.96*0.775392		],
 	# ['ZJets_MG_HT_1200_2500',	"/DYJetsToLL_M-50_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_1200_2500/180913_192208/0000/tuple_*root",	0.96*0.186222		],	
 	# ['ZJets_MG_HT_2500_inf',	"/DYJetsToLL_M-50_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_2500_inf/180913_192230/0000/tuple_*root",		0.96*0.004385		],
-	# ['ZJets_hiM',				"/DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_hiM/180913_191802/0000/tuple_*root",						5765.4*1.235		]
+	['ZJets_hiM',				"/DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_hiM/180913_191802/0000/tuple_*root",						5765.4*1.235		]
 
 ]
 
