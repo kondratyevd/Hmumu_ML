@@ -94,7 +94,7 @@ class Framework(object):
 			print "Will weigh data event by event"
 			self.info_file.write("Samples are weighted event by event \n")
 		else:
-			print "All samples are added with weight = 1" 
+			print "Samples are weighted proportional to sigma/N" 
 			self.info_file.write("Samples are weighted proportional to sigma/N \n")
 
 	def add_comment(self, str):

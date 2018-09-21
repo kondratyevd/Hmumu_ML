@@ -148,8 +148,8 @@ class TMVATrainer(object):
 			muon2_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(1)
 			muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
 
-			flag = 			((muPair_mass>110)&
-							(muPair_mass<150)&
+			flag = 			((muPair_mass>113.8)&
+							(muPair_mass<147.8)&
 							(muon1_ID>0)&
 							(muon2_ID>0)&
 							(muon1_pt>20)&
