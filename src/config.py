@@ -18,12 +18,12 @@ class Variable(object):
 		self.validation = _validation
 		self.abs = _abs
 																	
-variables.append(Variable("muPairs.pt"		,	"pt"				,"Dimuon p_{T}", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
-variables.append(Variable("muPairs.eta"		,	"eta"				,"Dimuon #eta", 		"", 		'F', False, 	"nMuPairs"	,	-5	, False	))
-variables.append(Variable("muPairs.phi"		,	"phi"				,"Dimuon #phi", 		"", 		'F', False, 	"nMuPairs"	,	-5	, False	))
-variables.append(Variable("muPairs.dEta"	,	"dEta"				,"Dimuon |#delta#eta|", "", 		'F', False, 	"nMuPairs"	,	-1	, True	))
-variables.append(Variable("muPairs.dPhi"	,	"dPhi"				,"Dimuon |#delta#phi|", "", 		'F', False, 	"nMuPairs"	,	-1	, True	))
-variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		'F', False, 	"nMuPairs"	,	0	, False	))
+variables.append(Variable("muPairs.pt"		,	"pt"				,"Dimuon p_{T}", 		"GeV", 		'F', True, 		"nMuPairs"	,	0	, False	))
+variables.append(Variable("muPairs.eta"		,	"eta"				,"Dimuon #eta", 		"", 		'F', True, 		"nMuPairs"	,	-5	, False	))
+variables.append(Variable("muPairs.phi"		,	"phi"				,"Dimuon #phi", 		"", 		'F', True, 		"nMuPairs"	,	-5	, False	))
+variables.append(Variable("muPairs.dEta"	,	"dEta"				,"Dimuon |#delta#eta|", "", 		'F', True, 		"nMuPairs"	,	-1	, True	))
+variables.append(Variable("muPairs.dPhi"	,	"dPhi"				,"Dimuon |#delta#phi|", "", 		'F', True, 		"nMuPairs"	,	-1	, True	))
+variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		'F', True, 		"nMuPairs"	,	0	, False	))
 variables.append(Variable("muons.pt"		,	"pt"				,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
 variables.append(Variable("muons.eta"		,	"eta"				,"Muon #eta",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
 variables.append(Variable("muons.phi"		,	"phi"				,"Muon #phi",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
