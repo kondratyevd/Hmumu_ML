@@ -80,7 +80,7 @@ c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 
-c.weigh_by_event(False)
+c.weigh_by_event(True)
 c.set_year("2016")
 c.add_package("TMVA")
 # c.add_transf("N,G,P")
