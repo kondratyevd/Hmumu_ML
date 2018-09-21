@@ -7,6 +7,5 @@ from kerasTrainer import KerasTrainer
 def train(framework, package):
 	with KerasTrainer(framework, package) as t:
 		t.convert_to_pandas()
-		# t.load_methods()
 		t.train_models()	
 
