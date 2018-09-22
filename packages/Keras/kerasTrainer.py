@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from keras_models import GetListOfModels
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+import matplotlib.pyplot as plt
 
 class KerasTrainer(object):
 	def __init__(self, framework, package):
@@ -21,44 +22,49 @@ class KerasTrainer(object):
 
 
 	def convert_to_pandas(self):
-		for file in self.framework.file_list_s + self.framework.file_list_b:
-			with uproot.open(file.path) as f: 
-				uproot_tree = f[self.framework.treePath]
+		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 
-				single_file_df = pandas.DataFrame()
-		
-				for var in self.framework.variable_list:
+			for filename in os.listdir(file.path):
+			    if filename.endswith(".root"): 
+			        # print(os.path.join(directory, filename))
 
-					if  "met.pt" in var.name:	# quick fix for met
-						up_var =  uproot_tree["met"]["pt"].array()
+				with uproot.open(file.path+filename) as f: 
+					uproot_tree = f[self.framework.treePath]
+	
+					single_file_df = pandas.DataFrame()
+			
+					for var in self.framework.variable_list:
+	
+						if  "met.pt" in var.name:	# quick fix for met
+							up_var =  uproot_tree["met"]["pt"].array()
+						else:
+							up_var = uproot_tree[var.name].array()
+						if var.isMultiDim:
+							
+							# splitting the multidimensional input variables so each column corresponds to a one-dimensional variable
+							# Only <itemsAdded> objects are kept
+			
+							single_var_df = pandas.DataFrame(data = up_var.tolist())
+							single_var_df.drop(single_var_df.columns[var.itemsAdded:],axis=1,inplace=True)
+							single_var_df.columns = [var.name+"[%i]"%i for i in range(var.itemsAdded)]
+							single_file_df = pandas.concat([single_file_df, single_var_df], axis=1)
+							single_file_df.fillna(var.replacement, axis=0, inplace=True) # if there are not enough jets
+			
+						else:
+							single_file_df[var.name] = up_var
+							# single_file_df[var.name].fillna(var.replacement, axis=0, inplace=True)
+	
+	
+					single_file_df['sample_weight'] = 1#file.weight
+					if file in self.framework.dir_list_s:
+						single_file_df['signal'] = 1
+						single_file_df['background'] = 0
 					else:
-						up_var = uproot_tree[var.name].array()
-					if var.isMultiDim:
-						
-						# splitting the multidimensional input variables so each column corresponds to a one-dimensional variable
-						# Only <itemsAdded> objects are kept
-		
-						single_var_df = pandas.DataFrame(data = up_var.tolist())
-						single_var_df.drop(single_var_df.columns[var.itemsAdded:],axis=1,inplace=True)
-						single_var_df.columns = [var.name+"[%i]"%i for i in range(var.itemsAdded)]
-						single_file_df = pandas.concat([single_file_df, single_var_df], axis=1)
-						single_file_df.fillna(var.replacement, axis=0, inplace=True) # if there are not enough jets
-		
-					else:
-						single_file_df[var.name] = up_var
-						# single_file_df[var.name].fillna(var.replacement, axis=0, inplace=True)
-
-
-				single_file_df['sample_weight'] = 1#file.weight
-				if file in self.framework.file_list_s:
-					single_file_df['signal'] = 1
-					single_file_df['background'] = 0
-				else:
-					single_file_df['signal'] = 0
-					single_file_df['background'] = 1
-					# single_file_df = single_file_df.iloc[0:500]
-
-				self.df = pandas.concat([self.df,single_file_df])
+						single_file_df['signal'] = 0
+						single_file_df['background'] = 1
+						# single_file_df = single_file_df.iloc[0:500]
+	
+					self.df = pandas.concat([self.df,single_file_df])
 			
 		# self.df.dropna(axis=0, how='any', inplace=True)
 		print self.df
@@ -109,12 +115,13 @@ class KerasTrainer(object):
 			self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.lables].values)[:,0]
 			self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.lables].values)[:,1]
 
-			self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled_w_predictions')
+			# self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled_w_predictions')
 			# print self.df_train_scaled
 			self.df_history = pandas.DataFrame(history.history)
-			self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
-
-			self.make_ROC(self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			# self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
+			self.plot_history(history.history)
+			self.make_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.make_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
 
 	def scale(self, train, test, lables):
 		data_train = train.loc[:,lables]
@@ -131,13 +138,12 @@ class KerasTrainer(object):
 		test.to_hdf('%s%s.hdf5'%(self.package.dirs['dataDir'], filename), 'test')
 
 
-	def make_ROC(self, category_df, prediction_df):
+	def make_ROC(self, output_name, category_df, prediction_df):
 		import ROOT
-
-		print "Making ROC"
+		print "Making ROC: "+output_name
 
 		df = pandas.concat([category_df, prediction_df], axis=1)	# [s, b, s_pred, b_pred]
-		print df
+		# print df
 
 		sig = category_df.iloc[:,0]
 		bkg = category_df.iloc[:,1]
@@ -152,11 +158,32 @@ class KerasTrainer(object):
 			sig_eff = float(df.loc[  (df.iloc[:,0]==1) & (df.iloc[:,2] + (1 - df.iloc[:,3]) > cut )  ].shape[0]) / df.loc[df.iloc[:,0]==1].shape[0]
 			bkg_rej = float(df.loc[  (df.iloc[:,1]==1) & (df.iloc[:,2] + (1 - df.iloc[:,3]) < cut )  ].shape[0]) / df.loc[df.iloc[:,1]==1].shape[0]
 			roc.SetPoint(i, sig_eff, bkg_rej)
-			print "%f:	%f 	%f"%(cut, sig_eff, bkg_rej)
+			# print "%f:	%f 	%f"%(cut, sig_eff, bkg_rej)
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 		roc.Draw("apl")
-		canv.SaveAs("roc.root")
+		canv.SaveAs(self.package.mainDir+output_name+"_roc.root")
+
+	def plot_history(self, history):
+		# summarize history for accuracy
+		plt.plot(history['acc'])
+		plt.plot(history['val_acc'])
+		plt.title('model accuracy')
+		plt.ylabel('accuracy')
+		plt.xlabel('epoch')
+		plt.legend(['train', 'test'], loc='upper left')
+		plt.savefig(self.package.mainDir+"acc.png")
+		plt.clf()
+		print "Accuracy plot saved as "+self.package.mainDir+"acc.png"
+		# summarize history for loss
+		plt.plot(history['loss'])
+		plt.plot(history['val_loss'])
+		plt.title('model loss')
+		plt.ylabel('loss')
+		plt.xlabel('epoch')
+		plt.legend(['train', 'test'], loc='upper left')
+		plt.savefig(self.package.mainDir+"loss.png")
+		print "Loss plot saved as "+self.package.mainDir+"loss.png"		
 
 
 
