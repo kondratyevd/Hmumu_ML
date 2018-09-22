@@ -24,6 +24,8 @@ class Framework(object):
 	def __init__(self):
 		self.file_list_s = []
 		self.file_list_b = []
+		self.dir_list_s = []
+		self.dir_list_b = []
 		self.variable_list = []
 		self.nVar = 0
 		self.package_list = []
@@ -41,11 +43,12 @@ class Framework(object):
 
 
 	class File(object):
-		def __init__(self, source, name, path, xSec):
+		def __init__(self, source, name, path, xSec, isDir):
 			self.source = source
 			self.name = name
 			self.path = path
 			self.xSec = xSec
+			self.isDir = isDir
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
 			self.weight = 1
@@ -55,7 +58,10 @@ class Framework(object):
 			ROOT.gROOT.SetBatch(1)
 			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
 			metadata = ROOT.TChain(self.source.metadataPath)
-			metadata.Add(self.path)
+			if self.isDir:
+				metadata.Add(self.path+"/*.root")
+			else:
+				metadata.Add(self.path)
 			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
 			metadata.Draw("sumEventWeights>>eweights_"+self.name)
 			nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
@@ -100,15 +106,25 @@ class Framework(object):
 	def add_comment(self, str):
 		self.info_file.write("%s\n"%str)
 
-	def add_signal(self, name, path, xSec):
-		print "Adding %s as signal with xSec=%f.."%(name, xSec)
-		self.file_list_s.append(self.File(self, name, path, xSec))
+	def add_signal_file(self, name, path, xSec):
+		print "Adding signal file %s with xSec=%f.."%(name, xSec)
+		self.file_list_s.append(self.File(self, name, path, xSec, False))
 		self.info_file.write("Signal:		%s\n"%path)
 
-	def add_background(self, name, path, xSec):
-		print "Adding %s as background with xSec=%f.."%(name, xSec)
-		self.file_list_b.append(self.File(self, name, path, xSec))
+	def add_background_file(self, name, path, xSec):
+		print "Adding background file %s with xSec=%f.."%(name, xSec)
+		self.file_list_b.append(self.File(self, name, path, xSec, False))
 		self.info_file.write("Background:	%s\n"%path)
+
+	def add_signal_dir(self, name, path, xSec):
+		print "Adding signal directory %s with xSec=%f.."%(path, xSec)
+		self.dir_list_s.append(self.File(self, name, path, xSec, True))
+		self.info_file.write("Signal dir:		%s\n"%path)
+
+	def add_background_dir(self, name, path, xSec):
+		print "Adding background directory %s with xSec=%f.."%(path, xSec)
+		self.dir_list_b.append(self.File(self, name, path, xSec, True))
+		self.info_file.write("Bkg dir:		%s\n"%path)
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
@@ -147,3 +163,8 @@ class Framework(object):
 	def train_methods(self):
 		for pkg in self.package_list:
 			pkg.train_package()
+
+
+	def apply_methods(self):
+		for pkg in self.package_list:
+			pkg.apply_package()
