@@ -64,7 +64,7 @@ class TMVATrainer(object):
 				if ('ZJets_MG' in file.name) and ('HT' not in file.name):
 					if GEN_HT>70:
 						HT_flag = False
-						print file.name+": HT= "+GEN_HT
+						print file.name+": HT= %f"%GEN_HT
 
 				if (flag and HT_flag):
 					for var in self.framework.variable_list:
