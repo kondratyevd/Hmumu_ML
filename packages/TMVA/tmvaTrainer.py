@@ -59,8 +59,14 @@ class TMVATrainer(object):
 				tree.GetEntry(i)
 
 				flag, SF = self.eventInfo(tree, self.framework.year)
+				GEN_HT = tree.FindLeaf("LHT_HT").GetValue()
+				HT_flag = True
+				if ('ZJets_MG' in file.name) and ('HT' not in file.name):
+					if GEN_HT>70:
+						HT_flag = False
+						print file.name+": HT= "+GEN_HT
 
-				if (flag):
+				if (flag and HT_flag):
 					for var in self.framework.variable_list:
 						if var.abs:
 							if var.isMultiDim:
