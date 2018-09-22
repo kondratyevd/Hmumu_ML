@@ -107,7 +107,7 @@ class KerasTrainer(object):
        		            				# tensorboard
        		            				# ], 
        		            			validation_split=0.25,
-       		            			steps_per_epoch = None,
+       		            			#steps_per_epoch = None,
        		            			shuffle=True)
 	
 
