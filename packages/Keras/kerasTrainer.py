@@ -3,6 +3,7 @@ import pandas
 import uproot
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.utils import shuffle
 from keras_models import GetListOfModels
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import matplotlib.pyplot as plt
@@ -69,7 +70,8 @@ class KerasTrainer(object):
 		# self.df.dropna(axis=0, how='any', inplace=True)
 		print self.df
 		self.lables = list(self.df.drop(['sample_weight', 'signal', 'background'], axis=1))
-		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7, shuffle = True)
+		self.df = shufle(self.df)
+		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
 		# print self.df_train
 		# self.save_to_hdf(self.df_train, self.df_test, 'input')
