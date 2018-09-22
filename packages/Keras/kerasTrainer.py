@@ -70,7 +70,7 @@ class KerasTrainer(object):
 		# self.df.dropna(axis=0, how='any', inplace=True)
 		print self.df
 		self.lables = list(self.df.drop(['sample_weight', 'signal', 'background'], axis=1))
-		self.df = shufle(self.df)
+		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
 		# print self.df_train
