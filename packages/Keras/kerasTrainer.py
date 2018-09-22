@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')
+
 import os, sys, errno
 import pandas
 import uproot
