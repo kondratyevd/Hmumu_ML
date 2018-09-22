@@ -10,8 +10,6 @@ class TMVATrainer(object):
 	def __init__(self, framework, package):
 		self.framework = framework
 		self.package = package
-		self.file_list_s = []
-		self.file_list_b = []
 		ROOT.TMVA.Tools.Instance()
 		# ROOT.TMVA.PyMethodBase.PyInitialize()
 
@@ -35,18 +33,24 @@ class TMVATrainer(object):
 		self.outputFile.Close()
 
 	def load_files(self):
-		for file in self.framework.file_list_s + self.framework.file_list_b:
+		for file in self.framework.file_list_s + self.framework.file_list_b + self.framework.dir_list_s + self.framework.dir_list_b:
 			tree = ROOT.TChain(self.framework.treePath)
-			tree.Add(file.path)
-			if file in self.framework.file_list_s:
+			if file.isDir:
+				tree.Add(file.path+"/*.root")
+			else:
+				tree.Add(file.path)
+			if (file in self.framework.file_list_s) or (file in self.framework.dir_list_s):
 				self.dataloader.AddSignalTree(tree,file.weight)
 			else:
 				self.dataloader.AddBackgroundTree(tree,file.weight)
 
 	def load_by_event(self):
-		for file in self.framework.file_list_s + self.framework.file_list_b:
+		for file in self.framework.file_list_s + self.framework.file_list_b + self.framework.dir_list_s + self.framework.dir_list_b:
 			tree = ROOT.TChain(self.framework.treePath)
-			tree.Add(file.path)
+			if file.isDir:
+				tree.Add(file.path+"/*.root")
+			else:
+				tree.Add(file.path)
 			print tree.GetEntries()
 
 			for i in range(tree.GetEntries()):
@@ -99,12 +103,12 @@ class TMVATrainer(object):
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
 
 				if i % 2 == 0: # even-numbered events
-					if file in self.framework.file_list_s:
+					if (file in self.framework.file_list_s) or (file in self.framework.dir_list_s):
 						self.dataloader.AddSignalTrainingEvent(event, weight)
 					else:
 						self.dataloader.AddBackgroundTrainingEvent(event, weight)
 				else:
-					if file in self.framework.file_list_s:
+					if (file in self.framework.file_list_s) or (file in self.framework.dir_list_s):
 						self.dataloader.AddSignalTestEvent(event, weight)
 					else:
 						self.dataloader.AddBackgroundTestEvent(event, weight)
