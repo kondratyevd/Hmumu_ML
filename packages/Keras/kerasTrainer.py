@@ -27,17 +27,7 @@ class KerasTrainer(object):
 		del self.df	
 
 
-	def calc_sum_wgts(self):
-		self.sum_weight_s = 0
-		self.sum_weight_b = 0
 
-		for file in self.framework.dir_list_s:
-			self.sum_weight_s += file.weight
-		for file in self.framework.dir_list_b:
-			self.sum_weight_b += file.weight
-
-		print "Sum of signal weights: %s"%self.sum_weight_s
-		print "Sum of background weights: %s"%self.sum_weight_b
 
 
 	def convert_to_pandas(self):
@@ -73,28 +63,35 @@ class KerasTrainer(object):
 							single_file_df[var.name] = up_var
 							# single_file_df[var.name].fillna(var.replacement, axis=0, inplace=True)
 	
-	
-					
+					masses = pandas.DataFrame(data=uproot_tree['muPairs.mass'].array().tolist())
+					masses = masses.iloc[:,0]
+					mass_df = pandas.DataFrame()
+					mass_df['mass'] = masses
+					single_file_df = pandas.concat([single_file_df, mass_df], axis=1)
+				
+
 					if file in self.framework.dir_list_s:
 						single_file_df['signal'] = 1
 						single_file_df['background'] = 0
 						single_file_df['sample_weight'] = file.weight / self.sum_weight_s
-						# print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_s)
 					else:
 						single_file_df['signal'] = 0
 						single_file_df['background'] = 1
 						single_file_df['sample_weight'] = file.weight / self.sum_weight_b
-						# print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_b)
 	
 					self.df = pandas.concat([self.df,single_file_df])
 			
 		# self.df.dropna(axis=0, how='any', inplace=True)
+		
+		self.df = self.apply_cuts(self.df)
+
 		print self.df
-		self.lables = list(self.df.drop(['sample_weight', 'signal', 'background'], axis=1))
+
+		self.lables = list(self.df.drop(['sample_weight', 'signal', 'background', 'mass'], axis=1))
+		self.df.drop(['mass'], axis=1, inplace=True)
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
-		# print self.df_train
 		# self.save_to_hdf(self.df_train, self.df_test, 'input')
 
 	def train_models(self):
@@ -248,4 +245,20 @@ class KerasTrainer(object):
 		canv.SaveAs(self.package.mainDir+output_name+"_score.root")
 		canv.Close()
 
+
+	def calc_sum_wgts(self):
+		self.sum_weight_s = 0
+		self.sum_weight_b = 0
+
+		for file in self.framework.dir_list_s:
+			self.sum_weight_s += file.weight
+		for file in self.framework.dir_list_b:
+			self.sum_weight_b += file.weight
+
+		print "Sum of signal weights: %s"%self.sum_weight_s
+		print "Sum of background weights: %s"%self.sum_weight_b
+
+
+	def apply_cuts(self, df):
+		return df.loc[((df['mass']>113.8)&(df['mass']<147.8))]
 
