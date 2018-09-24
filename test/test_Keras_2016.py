@@ -86,7 +86,7 @@ c.set_year("2016")
 # c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras")
-c.add_method("model_3x100")
+c.add_method("model_3x20")
 
 c.train_methods()
 

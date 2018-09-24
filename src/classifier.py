@@ -71,15 +71,13 @@ class Framework(object):
 			self.weight = self.xSec*40000 / self.nOriginalWeighted
 
 	def prepare_dirs(self):
-		# now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-		# self.RunID = "Run_"+now+"/"
-
 		with open("output/CURRENT_RUN_ID", "r") as IDfile:
 			self.RunID=IDfile.read()
 
 		self.outPath = 'output/'+self.RunID
-
 		self.create_dir(self.outPath)
+
+		print "Run ID:	%s"%self.RunID
 
 		info = open("output/CURRENT_RUN_ID","w") 
 		info.write(self.RunID)

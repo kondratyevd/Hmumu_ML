@@ -1,6 +1,6 @@
 import matplotlib
 matplotlib.use('Agg')
-
+import ROOT
 import os, sys, errno
 import pandas
 import uproot
@@ -125,8 +125,11 @@ class KerasTrainer(object):
 			self.df_history = pandas.DataFrame(history.history)
 			# self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
 			self.plot_history(history.history)
-			self.make_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			self.make_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.plot_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.plot_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.plot_score("train", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.plot_score("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+
 
 	def scale(self, train, test, lables):
 		data_train = train.loc[:,lables]
@@ -143,8 +146,7 @@ class KerasTrainer(object):
 		test.to_hdf('%s%s.hdf5'%(self.package.dirs['dataDir'], filename), 'test')
 
 
-	def make_ROC(self, output_name, category_df, prediction_df):
-		import ROOT
+	def plot_ROC(self, output_name, category_df, prediction_df):
 		print "Making ROC: "+output_name
 
 		df = pandas.concat([category_df, prediction_df], axis=1)	# [s, b, s_pred, b_pred]
@@ -160,14 +162,16 @@ class KerasTrainer(object):
 		roc.GetYaxis().SetTitle("Background rej.")
 		for i in range(200):
 			cut = i / 100.0
-			sig_eff = float(df.loc[  (df.iloc[:,0]==1) & (df.iloc[:,2] + (1 - df.iloc[:,3]) > cut )  ].shape[0]) / df.loc[df.iloc[:,0]==1].shape[0]
-			bkg_rej = float(df.loc[  (df.iloc[:,1]==1) & (df.iloc[:,2] + (1 - df.iloc[:,3]) < cut )  ].shape[0]) / df.loc[df.iloc[:,1]==1].shape[0]
+			score = df.iloc[:,2] + (1 - df.iloc[:,3]) # s_pred + (1 - b_pred)
+			sig_eff = float(df.loc[  (df.iloc[:,0]==1) & (score > cut )  ].shape[0]) / df.loc[df.iloc[:,0]==1].shape[0]
+			bkg_rej = float(df.loc[  (df.iloc[:,1]==1) & (score < cut )  ].shape[0]) / df.loc[df.iloc[:,1]==1].shape[0]
 			roc.SetPoint(i, sig_eff, bkg_rej)
-			# print "%f:	%f 	%f"%(cut, sig_eff, bkg_rej)
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 		roc.Draw("apl")
+		canv.Print(self.package.mainDir+output_name+"_roc.png")
 		canv.SaveAs(self.package.mainDir+output_name+"_roc.root")
+		canv.Close()
 
 	def plot_history(self, history):
 		# summarize history for accuracy
@@ -190,5 +194,35 @@ class KerasTrainer(object):
 		plt.savefig(self.package.mainDir+"loss.png")
 		print "Loss plot saved as "+self.package.mainDir+"loss.png"		
 
+	def plot_score(self, output_name, category_df, prediction_df):
+		df = pandas.concat([category_df, prediction_df], axis=1)	# [s, b, s_pred, b_pred]
+		print df
+
+		sig = category_df.iloc[:,0]
+		bkg = category_df.iloc[:,1]
+		sig_predict = prediction_df.iloc[:,0]
+		bkg_predict = prediction_df.iloc[:,1]
+
+		hist_s = ROOT.TH1D()
+		hist_s.SetLineColor(ROOT.kRed)
+		hist_b = ROOT.TH1D()
+		hist_b.SetLineColor(ROOT.kBlue)
+
+
+		for index, row in df.iterrows():
+			if row[0]==1:
+				hist_s.Fill(row[2])
+			elif row[1]==1:
+				hist_b.Fill(row[3])
+
+		hist_s.Scale(1/hist_s.Integral())
+		hist_b.Scale(1/hist_b.Integral())
+
+		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
+		canv.cd()
+		hist_s.Draw("hist")
+		hist_b.Draw("histsame")
+		canv.Print(self.package.mainDir+output_name+"_score.png")
+		canv.Close()
 
 
