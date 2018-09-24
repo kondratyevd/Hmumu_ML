@@ -16,10 +16,11 @@ class KerasTrainer(object):
 		self.framework = framework
 		self.package = package
 
+
 	def __enter__(self):
 		self.df = pandas.DataFrame()
-
 		return self
+
 
 	def __exit__(self, *args):
 		del self.df	
@@ -124,10 +125,10 @@ class KerasTrainer(object):
 			# print self.df_train_scaled
 			self.df_history = pandas.DataFrame(history.history)
 			# self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
-			# self.plot_history(history.history)
-			# self.plot_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			# self.plot_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			# self.plot_score("train", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.plot_history(history.history)
+			self.plot_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.plot_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			self.plot_score("train", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
 			self.plot_score("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
 
 
@@ -160,7 +161,7 @@ class KerasTrainer(object):
 		roc = ROOT.TGraph()
 		roc.GetXaxis().SetTitle("Signal eff.")
 		roc.GetYaxis().SetTitle("Background rej.")
-		for i in range(200):
+		for i in range(100):
 			cut = i / 100.0
 			score = df.iloc[:,2] + (1 - df.iloc[:,3]) # s_pred + (1 - b_pred)
 			sig_eff = float(df.loc[  (df.iloc[:,0]==1) & (score > cut )  ].shape[0]) / df.loc[df.iloc[:,0]==1].shape[0]
@@ -202,11 +203,11 @@ class KerasTrainer(object):
 		sig_predict = prediction_df.iloc[:,0]
 		bkg_predict = prediction_df.iloc[:,1]
 
-		hist_s = ROOT.TH1D("s", "s", 100, 0, 2)
+		hist_s = ROOT.TH1D("s", "s", 100, -0.5, 1.5)
 		hist_s.SetLineColor(ROOT.kRed)
 		hist_s.SetFillColor(ROOT.kRed)
 		hist_s.SetFillStyle(3003)
-		hist_b = ROOT.TH1D("b", "b", 100, 0, 2)
+		hist_b = ROOT.TH1D("b", "b", 100, -0.5, 1.5)
 		hist_b.SetLineColor(ROOT.kBlue)
 		hist_b.SetFillColor(ROOT.kBlue)
 		hist_b.SetFillStyle(3003)
