@@ -61,10 +61,10 @@ class TMVATrainer(object):
 				flag, SF = self.eventInfo(tree, self.framework.year)
 				GEN_HT = tree.FindLeaf("LHT_HT").GetValue()
 				HT_flag = True
-				if ('ZJets_MG' in file.name) and ('HT' not in file.name):
-					if GEN_HT>70:
-						HT_flag = False
-						print file.name+": HT= %f"%GEN_HT
+				# if ('ZJets_MG' in file.name) and ('HT' not in file.name):
+				# 	if GEN_HT>70:
+				# 		HT_flag = False
+
 
 				if (flag and HT_flag):
 					for var in self.framework.variable_list:
