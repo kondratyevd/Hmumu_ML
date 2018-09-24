@@ -117,7 +117,7 @@ class KerasTrainer(object):
        		            			epochs=obj.epochs, 
        		            			batch_size=obj.batchSize, 
        		            			# sample_weight = weights_train.flatten(),			
-       		            			sample_weight = self.df_train['sample_weight'].values,
+       		            			class_weight = self.df_train['sample_weight'].values,
        		            			verbose=1,
        		            			# callbacks=[
        		            				# early_stopping, 
