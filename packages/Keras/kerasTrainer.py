@@ -79,12 +79,12 @@ class KerasTrainer(object):
 						single_file_df['signal'] = 1
 						single_file_df['background'] = 0
 						single_file_df['sample_weight'] = file.weight / self.sum_weight_s
-						print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_s)
+						# print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_s)
 					else:
 						single_file_df['signal'] = 0
 						single_file_df['background'] = 1
-						single_file_df['sample_weight'] = file.weight / self.sum_weight_s
-						print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_b)
+						single_file_df['sample_weight'] = file.weight / self.sum_weight_b
+						# print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_b)
 	
 					self.df = pandas.concat([self.df,single_file_df])
 			
