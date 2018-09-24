@@ -73,11 +73,11 @@ class KerasTrainer(object):
 					if file in self.framework.dir_list_s:
 						single_file_df['signal'] = 1
 						single_file_df['background'] = 0
-						single_file_df['sample_weight'] = file.weight / self.sum_weight_s
+						single_file_df['weight'] = file.weight / self.sum_weight_s
 					else:
 						single_file_df['signal'] = 0
 						single_file_df['background'] = 1
-						single_file_df['sample_weight'] = file.weight / self.sum_weight_b
+						single_file_df['weight'] = file.weight / self.sum_weight_b
 	
 					self.df = pandas.concat([self.df,single_file_df])
 			
@@ -87,7 +87,7 @@ class KerasTrainer(object):
 
 		print self.df
 
-		self.lables = list(self.df.drop(['sample_weight', 'signal', 'background', 'mass'], axis=1))
+		self.lables = list(self.df.drop(['weight', 'signal', 'background', 'mass'], axis=1))
 		self.df.drop(['mass'], axis=1, inplace=True)
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
@@ -140,10 +140,12 @@ class KerasTrainer(object):
 			self.df_history = pandas.DataFrame(history.history)
 			# self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
 			self.plot_history(history.history)
-			self.plot_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			self.plot_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			self.plot_score("train", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			self.plot_score("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+
+			self.plot_ROC("train", self.df_train_scaled, obj.name)
+			self.plot_ROC("test", self.df_train_scaled, obj.name)
+			self.plot_score("train", self.df_train_scaled, obj.name)
+			self.plot_score("test", self.df_train_scaled, obj.name)
+
 
 
 	def scale(self, train, test, lables):
@@ -161,25 +163,17 @@ class KerasTrainer(object):
 		test.to_hdf('%s%s.hdf5'%(self.package.dirs['dataDir'], filename), 'test')
 
 
-	def plot_ROC(self, output_name, category_df, prediction_df):
-		print "Making ROC: "+output_name
-
-		df = pandas.concat([category_df, prediction_df], axis=1)	# [s, b, s_pred, b_pred]
-		# print df
-
-		sig = category_df.iloc[:,0]
-		bkg = category_df.iloc[:,1]
-		sig_predict = prediction_df.iloc[:,0]
-		bkg_predict = prediction_df.iloc[:,1]
-
+	def plot_ROC(self, output_name, df, method_name):
 		roc = ROOT.TGraph()
 		roc.GetXaxis().SetTitle("Signal eff.")
 		roc.GetYaxis().SetTitle("Background rej.")
+		score = df['predict_s_'+method_name] + (1 - df['predict_b_'+method_name]) # s_pred + (1 - b_pred)
+		# print df.loc[  (df['signal']==1) & (score > 0.5 ) , ['weight'] ].sum(axis=0)
 		for i in range(200):
 			cut = i / 100.0
-			score = df.iloc[:,2] + (1 - df.iloc[:,3]) # s_pred + (1 - b_pred)
-			sig_eff = float(df.loc[  (df.iloc[:,0]==1) & (score > cut )  ].shape[0]) / df.loc[df.iloc[:,0]==1].shape[0]
-			bkg_rej = float(df.loc[  (df.iloc[:,1]==1) & (score < cut )  ].shape[0]) / df.loc[df.iloc[:,1]==1].shape[0]
+			score = df['predict_s_'+method_name] + (1 - df['predict_b_'+method_name]) # s_pred + (1 - b_pred)
+			sig_eff = float(df.loc[  (df['signal']==1) & (score > cut ) , ['weight'] ].sum(axis=0)) / df.loc[df['signal']==1, ['weight']].sum(axis=0)
+			bkg_rej = float(df.loc[  (df['background']==1) & (score < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['background']==1, ['weight']].sum(axis=0)
 			roc.SetPoint(i, sig_eff, bkg_rej)
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
@@ -187,6 +181,8 @@ class KerasTrainer(object):
 		canv.Print(self.package.mainDir+output_name+"_roc.png")
 		canv.SaveAs(self.package.mainDir+output_name+"_roc.root")
 		canv.Close()
+
+
 
 	def plot_history(self, history):
 		plt.plot(history['acc'])
@@ -208,14 +204,7 @@ class KerasTrainer(object):
 		plt.savefig(self.package.mainDir+"loss.png")
 		print "Loss plot saved as "+self.package.mainDir+"loss.png"		
 
-	def plot_score(self, output_name, category_df, prediction_df):
-		df = pandas.concat([category_df, prediction_df], axis=1)	# [s, b, s_pred, b_pred]
-		# print df
-
-		sig = category_df.iloc[:,0]
-		bkg = category_df.iloc[:,1]
-		sig_predict = prediction_df.iloc[:,0]
-		bkg_predict = prediction_df.iloc[:,1]
+	def plot_score(self, output_name, df, method_name):
 
 		hist_s = ROOT.TH1D("s", "s", 100, 0, 2)
 		hist_s.SetLineColor(ROOT.kRed)
@@ -227,13 +216,12 @@ class KerasTrainer(object):
 		hist_b.SetFillStyle(3003)
 
 		for index, row in df.iterrows():
-			if row[0]==1:
-				hist_s.Fill(row[2]+(1-row[3]))
-			elif row[1]==1:
-				hist_b.Fill(row[2]+(1-row[3]))
 
-		# print hist_s.GetMean()
-		# print hist_b.GetMean()
+			if row['signal']==1:
+				hist_s.Fill( (row['predict_s_'+method_name]+(1-row['predict_b_'+method_name])), row['weight'] )
+			elif row['background']==1:
+				hist_b.Fill( (row['predict_s_'+method_name]+(1-row['predict_b_'+method_name])), row['weight'] )
+
 		hist_s.Scale(1/hist_s.Integral())
 		hist_b.Scale(1/hist_b.Integral())
 
