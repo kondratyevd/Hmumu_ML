@@ -214,9 +214,9 @@ class KerasTrainer(object):
 
 		for index, row in df.iterrows():
 			if row[0]==1:
-				hist_s.Fill(row[2])
+				hist_s.Fill(row[2]+(1-row[3]))
 			elif row[1]==1:
-				hist_b.Fill(row[3])
+				hist_b.Fill(row[2]+(1-row[3]))
 
 		# print hist_s.GetMean()
 		# print hist_b.GetMean()
