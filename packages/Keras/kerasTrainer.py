@@ -124,10 +124,10 @@ class KerasTrainer(object):
 			# print self.df_train_scaled
 			self.df_history = pandas.DataFrame(history.history)
 			# self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
-			self.plot_history(history.history)
-			self.plot_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			self.plot_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
-			self.plot_score("train", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			# self.plot_history(history.history)
+			# self.plot_ROC("train", self.df_train_scaled.loc[:,['signal', 'background']], self.df_train_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			# self.plot_ROC("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
+			# self.plot_score("train", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
 			self.plot_score("test", self.df_test_scaled.loc[:,['signal', 'background']], self.df_test_scaled.loc[:,["predict_s_"+obj.name, "predict_b_"+obj.name]])
 
 
@@ -174,7 +174,6 @@ class KerasTrainer(object):
 		canv.Close()
 
 	def plot_history(self, history):
-		# summarize history for accuracy
 		plt.plot(history['acc'])
 		plt.plot(history['val_acc'])
 		plt.title('model accuracy')
@@ -196,18 +195,21 @@ class KerasTrainer(object):
 
 	def plot_score(self, output_name, category_df, prediction_df):
 		df = pandas.concat([category_df, prediction_df], axis=1)	# [s, b, s_pred, b_pred]
-		print df
+		# print df
 
 		sig = category_df.iloc[:,0]
 		bkg = category_df.iloc[:,1]
 		sig_predict = prediction_df.iloc[:,0]
 		bkg_predict = prediction_df.iloc[:,1]
 
-		hist_s = ROOT.TH1D()
+		hist_s = ROOT.TH1D("s", "s", 100, 0, 2)
 		hist_s.SetLineColor(ROOT.kRed)
-		hist_b = ROOT.TH1D()
+		hist_s.SetFillColor(ROOT.kRed)
+		hist_s.SetFillStyle(3003)
+		hist_b = ROOT.TH1D("b", "b", 100, 0, 2)
 		hist_b.SetLineColor(ROOT.kBlue)
-
+		hist_b.SetFillColor(ROOT.kBlue)
+		hist_b.SetFillStyle(3003)
 
 		for index, row in df.iterrows():
 			if row[0]==1:
@@ -215,6 +217,8 @@ class KerasTrainer(object):
 			elif row[1]==1:
 				hist_b.Fill(row[3])
 
+		# print hist_s.GetMean()
+		# print hist_b.GetMean()
 		hist_s.Scale(1/hist_s.Integral())
 		hist_b.Scale(1/hist_b.Integral())
 
