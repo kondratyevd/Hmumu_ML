@@ -153,7 +153,7 @@ class KerasTrainer(object):
 		sig = category_df.iloc[:,0]
 		bkg = category_df.iloc[:,1]
 		sig_predict = prediction_df.iloc[:,0]
-		bkg_predict = prediction_df.iloc[:,0]
+		bkg_predict = prediction_df.iloc[:,1]
 
 		roc = ROOT.TGraph()
 		roc.GetXaxis().SetTitle("Signal eff.")
