@@ -3,40 +3,40 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("UF 2016 BDT ZJets MG + HT bins") # change this line for each run!
+c.add_comment("UF 2016 BDT lite") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
 signal = [
 		['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/",								0.0008208	],
 		['H2Mu_gg',		"/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/",							0.009618	],
-		['H2Mu_WH_neg',	"/WMinusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_neg/180827_202757/0000/",					0.0001164	],
-		['H2Mu_WH_pos',	"/WPlusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_pos/180827_202738/0000/",						0.0001858	],
-		['H2Mu_ZH',		"/ZH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_ZH/180827_202818/0000/",								0.0002136	]
+		# ['H2Mu_WH_neg',	"/WMinusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_neg/180827_202757/0000/",					0.0001164	],
+		# ['H2Mu_WH_pos',	"/WPlusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_pos/180827_202738/0000/",						0.0001858	],
+		# ['H2Mu_ZH',		"/ZH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_ZH/180827_202818/0000/",								0.0002136	]
 ]
 
 bkg_path = "/mnt/hadoop/store/user/dkondrat/"#"/tmp/Hmumu_ntuples"
 background = [
 
-	['WW',						"/WWTo2L2Nu_13TeV-powheg/WW/180827_203218/0000/",													12.46		],
+	# ['WW',						"/WWTo2L2Nu_13TeV-powheg/WW/180827_203218/0000/",													12.46		],
 	# ['WWW',					"/WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WWW/180827_203402/0000/",							0.2086		],
 	# ['WWZ',					"/WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WWZ/180827_203422/0000/", 								0.1651		],
 	# ['WZZ',					"/WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WZZ/180827_203439/0000/", 								0.05565		],
-	['WZ_2l',					"/WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/WZ_2l/180827_203235/0000/", 							4.409		],
-	['WZ_3l',					"/WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/WZ_3l_AMC/180827_203253/0000/", 					2.113		],
+	# ['WZ_2l',					"/WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/WZ_2l/180827_203235/0000/", 							4.409		],
+	# ['WZ_3l',					"/WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/WZ_3l_AMC/180827_203253/0000/", 					2.113		],
 	# ['ZJets_AMC',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/180827_202835/0000/", 			5765.4		],
-	['ZZZ',						"/ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ZZZ/180827_203458/0000/" ,									0.01398		],
-	['ZZ_2l_2q',				"/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/ZZ_2l_2q/180827_203327/0000/",							3.22 		],
-	['ZZ_2l_2v',				"/ZZTo2L2Nu_13TeV_powheg_pythia8/ZZ_2l_2v/180827_203311/0000/",										0.564 		],
-	['ZZ_4l',					"/ZZTo4L_13TeV-amcatnloFXFX-pythia8/ZZ_4l_AMC/180827_203344/0000/",									1.212 		],
-	['tW_neg_1',				"/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/tW_neg_1/180827_203047/0000/",	35.85		],
+	# ['ZZZ',						"/ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ZZZ/180827_203458/0000/" ,									0.01398		],
+	# ['ZZ_2l_2q',				"/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/ZZ_2l_2q/180827_203327/0000/",							3.22 		],
+	# ['ZZ_2l_2v',				"/ZZTo2L2Nu_13TeV_powheg_pythia8/ZZ_2l_2v/180827_203311/0000/",										0.564 		],
+	# ['ZZ_4l',					"/ZZTo4L_13TeV-amcatnloFXFX-pythia8/ZZ_4l_AMC/180827_203344/0000/",									1.212 		],
+	# ['tW_neg_1',				"/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/tW_neg_1/180827_203047/0000/",	35.85		],
 	# ['tW_neg_2',				"/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/tW_neg_2/180827_203103/0000/",	35.85		],
-	['tW_pos_1',				"/ST_tW_top_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/tW_pos_1/180827_203006/0000/",		35.85		],
+	# ['tW_pos_1',				"/ST_tW_top_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/tW_pos_1/180827_203006/0000/",		35.85		],
 	# ['tW_pos_2',				"/ST_tW_top_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1/tW_pos_2/180827_203024/0000/",		35.85		],
-	['tZq',						"/tZq_ll_4f_13TeV-amcatnlo-pythia8/tZq/180827_203516/0000/",											0.0758		],
-	['ttW_1',					"/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/ttW_1/180827_203536/0000/",			0.2043		],
+	# ['tZq',						"/tZq_ll_4f_13TeV-amcatnlo-pythia8/tZq/180827_203516/0000/",											0.0758		],
+	# ['ttW_1',					"/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/ttW_1/180827_203536/0000/",			0.2043		],
 	# ['ttW_2',					"/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/ttW_2/180827_203553/0000/",			0.2043		],
-	['ttZ',						"/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ttZ/180827_203612/0000/",						0.2529		],
+	# ['ttZ',						"/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ttZ/180827_203612/0000/",						0.2529		],
 	['tt_ll_AMC',				"/TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/tt_ll_AMC/180827_203154/0000/",			85.656*0.9	],
 	# ['tt_ll_MG_1',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_1/180827_203121/0000/",				85.656		],
 	# ['tt_ll_MG_2',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_2/180827_203138/0000/",				85.656		],
@@ -73,7 +73,7 @@ c.add_variable("muPairs.pt", 				1) #second argument is the number of objects co
 c.add_variable("muPairs.eta", 				1)
 c.add_variable("muPairs.dEta", 				1) 
 c.add_variable("muPairs.dPhi", 				1)
-# c.add_variable("met.pt", 					1)
+c.add_variable("met.pt", 					1)
 c.add_variable("nJetsCent", 				1)
 c.add_variable("nJetsFwd",					1)
 c.add_variable("nBMed",						1)
