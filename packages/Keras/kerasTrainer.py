@@ -15,7 +15,8 @@ class KerasTrainer(object):
 	def __init__(self, framework, package):
 		self.framework = framework
 		self.package = package
-
+		self.sum_weight_s = 1
+		self.sum_weight_b = 1
 
 	def __enter__(self):
 		self.df = pandas.DataFrame()
@@ -26,9 +27,22 @@ class KerasTrainer(object):
 		del self.df	
 
 
-	def convert_to_pandas(self):
-		for file in self.framework.dir_list_s + self.framework.dir_list_b:
+	def calc_sum_wgts(self):
+		self.sum_weight_s = 0
+		self.sum_weight_b = 0
 
+		for file in self.framework.dir_list_s:
+			self.sum_weight_s += file.weight
+		for file in self.framework.dir_list_b:
+			self.sum_weight_b += file.weight
+
+		print "Sum of signal weights: %s"%self.sum_weight_s
+		print "Sum of background weights: %s"%self.sum_weight_b
+
+
+	def convert_to_pandas(self):
+		self.calc_sum_wgts()
+		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
 			        # print(os.path.join(directory, filename))
@@ -60,14 +74,17 @@ class KerasTrainer(object):
 							# single_file_df[var.name].fillna(var.replacement, axis=0, inplace=True)
 	
 	
-					single_file_df['sample_weight'] = 1#file.weight
+					
 					if file in self.framework.dir_list_s:
 						single_file_df['signal'] = 1
 						single_file_df['background'] = 0
+						single_file_df['sample_weight'] = file.weight / self.sum_weight_s
+						print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_s)
 					else:
 						single_file_df['signal'] = 0
 						single_file_df['background'] = 1
-						# single_file_df = single_file_df.iloc[0:500]
+						single_file_df['sample_weight'] = file.weight / self.sum_weight_s
+						print "%s:	weight = %f"%(file.name, file.weight / self.sum_weight_b)
 	
 					self.df = pandas.concat([self.df,single_file_df])
 			
@@ -103,7 +120,7 @@ class KerasTrainer(object):
        		            			epochs=obj.epochs, 
        		            			batch_size=obj.batchSize, 
        		            			# sample_weight = weights_train.flatten(),			
-       		            			# sample_weight = self.df_train['sample_weight'].values,
+       		            			sample_weight = self.df_train['sample_weight'].values,
        		            			verbose=1,
        		            			# callbacks=[
        		            				# early_stopping, 
@@ -228,6 +245,7 @@ class KerasTrainer(object):
 		hist_b.Draw("hist")
 		hist_s.Draw("histsame")
 		canv.Print(self.package.mainDir+output_name+"_score.png")
+		canv.SaveAs(self.package.mainDir+output_name+"_score.root")
 		canv.Close()
 
 
