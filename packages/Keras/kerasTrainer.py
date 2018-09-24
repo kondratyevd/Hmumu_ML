@@ -161,7 +161,7 @@ class KerasTrainer(object):
 		roc = ROOT.TGraph()
 		roc.GetXaxis().SetTitle("Signal eff.")
 		roc.GetYaxis().SetTitle("Background rej.")
-		for i in range(100):
+		for i in range(200):
 			cut = i / 100.0
 			score = df.iloc[:,2] + (1 - df.iloc[:,3]) # s_pred + (1 - b_pred)
 			sig_eff = float(df.loc[  (df.iloc[:,0]==1) & (score > cut )  ].shape[0]) / df.loc[df.iloc[:,0]==1].shape[0]
@@ -203,11 +203,11 @@ class KerasTrainer(object):
 		sig_predict = prediction_df.iloc[:,0]
 		bkg_predict = prediction_df.iloc[:,1]
 
-		hist_s = ROOT.TH1D("s", "s", 100, -0.5, 1.5)
+		hist_s = ROOT.TH1D("s", "s", 100, 0, 2)
 		hist_s.SetLineColor(ROOT.kRed)
 		hist_s.SetFillColor(ROOT.kRed)
 		hist_s.SetFillStyle(3003)
-		hist_b = ROOT.TH1D("b", "b", 100, -0.5, 1.5)
+		hist_b = ROOT.TH1D("b", "b", 100, 0, 2)
 		hist_b.SetLineColor(ROOT.kBlue)
 		hist_b.SetFillColor(ROOT.kBlue)
 		hist_b.SetFillStyle(3003)
@@ -225,8 +225,8 @@ class KerasTrainer(object):
 
 		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
 		canv.cd()
-		hist_s.Draw("hist")
-		hist_b.Draw("histsame")
+		hist_b.Draw("hist")
+		hist_s.Draw("histsame")
 		canv.Print(self.package.mainDir+output_name+"_score.png")
 		canv.Close()
 
