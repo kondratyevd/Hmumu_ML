@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("UF 2016 BDT lite") # change this line for each run!
+c.add_comment("NN 3x20") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -85,7 +85,8 @@ c.weigh_by_event(True)
 c.set_year("2016")
 c.add_package("TMVA")
 # c.add_transf("N,G,P")
-c.add_method("BDTG_UF_v1")
+# c.add_method("BDTG_UF_v1")
+c.add_method("MLP_20,20,20_N")
 
 c.train_methods()
 

@@ -22,8 +22,8 @@ def compile_method_list(framework, package):
 	
 	methods.append(mva_method(
 		type = TMVA.Types.kMLP,
-		name = 'MLP_40,20,10_NGP',
-		options = "H:!V:NeuronType=tanh:NCycles=600:VarTransform=N,G,P:HiddenLayers=40,20,10:TestRate=5:LearningRate=0.05:DecayRate=0.00001!UseRegulator"
+		name = 'MLP_20,20,20_N',
+		options = "H:!V:NeuronType=tanh:NCycles=200:VarTransform=N:HiddenLayers=20,20,20:TestRate=5:LearningRate=0.05:DecayRate=0.00001!UseRegulator"
 		))	
 
 	# methods.append(mva_method(
