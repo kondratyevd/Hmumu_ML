@@ -184,11 +184,16 @@ class KerasTrainer(object):
 			sig_eff = float(df.loc[  (df['signal']==1) & (score > cut ) , ['weight'] ].sum(axis=0)) / df.loc[df['signal']==1, ['weight']].sum(axis=0)
 			bkg_rej = float(df.loc[  (df['background']==1) & (score < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['background']==1, ['weight']].sum(axis=0)
 			roc.SetPoint(i, sig_eff, bkg_rej)
+
+		f = ROOT.TFile.Open(self.package.mainDir+output_name+"_roc.root", "recreate")
+		roc.Write()
+		f.Close()
+
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 		roc.Draw("apl")
 		canv.Print(self.package.mainDir+output_name+"_roc.png")
-		canv.SaveAs(self.package.mainDir+output_name+"_roc.root")
+		# canv.SaveAs(self.package.mainDir+output_name+"_roc.root")
 		canv.Close()
 
 
@@ -234,12 +239,17 @@ class KerasTrainer(object):
 		hist_s.Scale(1/hist_s.Integral())
 		hist_b.Scale(1/hist_b.Integral())
 
+		f = ROOT.TFile.Open(self.package.mainDir+output_name+"_score.root", "recreate")
+		hist_b.Write()
+		hist_s.Write()
+		f.Close()
+
 		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
 		canv.cd()
 		hist_b.Draw("hist")
 		hist_s.Draw("histsame")
 		canv.Print(self.package.mainDir+output_name+"_score.png")
-		canv.SaveAs(self.package.mainDir+output_name+"_score.root")
+		# canv.SaveAs(self.package.mainDir+output_name+"_score.root")
 		canv.Close()
 
 

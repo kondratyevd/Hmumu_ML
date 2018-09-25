@@ -54,11 +54,15 @@ class Plotter_TMVA(object):
 		canvas = ROOT.TCanvas("canvas_%s"%label, "canvas_%s"%label, 800, 800)
 		canvas.cd()
 		legend = ROOT.TLegend(0.11,0.11,0.25,0.25)	
+		f = ROOT.TFile.Open("%s%s.root"%(self.plot_path,label), "recreate")
 		for hist in hist_list:
 			hist.Draw('histsame')		
 			legend.AddEntry(hist, hist.GetTitle(), "l")
+			hist.Write()
+		f.Close()
 		legend.Draw()
 		canvas.Print("%s%s.png"%(self.plot_path,label))
+		# canvas.SaveAs("%s%s.root"%(self.plot_path,label))
 		canvas.Close()
 		pass
 
