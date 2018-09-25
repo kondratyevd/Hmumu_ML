@@ -27,6 +27,7 @@ variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		
 variables.append(Variable("muons.pt"		,	"pt"				,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
 variables.append(Variable("muons.eta"		,	"eta"				,"Muon #eta",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
 variables.append(Variable("muons.phi"		,	"phi"				,"Muon #phi",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
+variables.append(Variable("muons.isMediumID",	"isMediumID"		,"Muon ID", 			"",			'I', True, 		"nMuons"	,	0	, False	))
 variables.append(Variable("met.pt"			,	"pt"				,"MET",  				"GeV",   	'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("nJets"			,	"nJets"				,"nJets",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("nJetsCent"		,	"nJetsCent"			,"nJetsCent",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
@@ -40,6 +41,13 @@ variables.append(Variable("jetPairs.mass"	,	"mass"				,"jj mass",  			"GeV",   	
 
 variables.append(Variable("muons.pt[0]/muPairs.pt",	"pt"			,"Muon1 p_{T}/Mass", 	"GeV",		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("muons.pt[1]/muPairs.pt",	"pt"			,"Muon2 p_{T}/Mass", 	"GeV",		'F', False, 	"nMuons"	,	0	, False	))
+
+variables.append(Variable("PU_wgt"			,	"PU_wgt"				,"PU_wgt",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("GEN_wgt"			,	"GEN_wgt"				,"GEN_wgt",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("IsoMu_SF_3"		,	"IsoMu_SF_3"			,"IsoMu_SF_3",  	"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("MuID_SF_3"		,	"MuID_SF_3"				,"MuID_SF_3",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("MuIso_SF_3"		,	"MuIso_SF_3"			,"MuIso_SF_3",  	"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("muons.isHltMatched",	"isHltMatched"	,		"muons.isHltMatched", "",   	'I', True, 		"nMuons"	,	0	, False	))
 ################################ Packages ################################
 
 
@@ -70,5 +78,8 @@ class Package(object):
 
 	def train_package(self):
 		importlib.import_module('packages.%s.train'%self.name).train(self.framework, self)
+
+	def apply_package(self):
+		importlib.import_module('packages.%s.apply'%self.name).apply(self.framework, self)
 
 

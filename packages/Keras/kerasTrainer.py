@@ -45,9 +45,9 @@ class KerasTrainer(object):
 					uproot_tree = f[self.framework.treePath]
 	
 					single_file_df = pandas.DataFrame()
-			
-					for var in self.framework.variable_list:
-	
+					spect_labels = []
+					for var in self.framework.variable_list + self.framework.spectator_list:
+						
 						if  "met.pt" in var.name:	# quick fix for met
 							up_var =  uproot_tree["met"]["pt"].array()
 						else:
@@ -60,15 +60,16 @@ class KerasTrainer(object):
 							single_var_df = pandas.DataFrame(data = up_var.tolist())
 							single_var_df.drop(single_var_df.columns[var.itemsAdded:],axis=1,inplace=True)
 							single_var_df.columns = [var.name+"[%i]"%i for i in range(var.itemsAdded)]
+							if var in self.framework.spectator_list:
+								spect_labels.extend(single_var_df.columns)
 							single_file_df = pandas.concat([single_file_df, single_var_df], axis=1)
 							single_file_df.fillna(var.replacement, axis=0, inplace=True) # if there are not enough jets
 			
 						else:
 							single_file_df[var.name] = up_var
-							# single_file_df[var.name].fillna(var.replacement, axis=0, inplace=True)
-					
-					for av in self.additional_vars:
-						single_file_df = self.append_new_var(uproot_tree, single_file_df, av)
+							if var in self.framework.spectator_list:
+								spect_labels.append(var.name)
+
 					
 					if self.framework.year is "2016":
 						SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
@@ -89,22 +90,18 @@ class KerasTrainer(object):
 						single_file_df['weight'] = file.weight / self.sum_weight_b * weight
 	
 					self.df = pandas.concat([self.df,single_file_df])
-			
-		# self.df.dropna(axis=0, how='any', inplace=True)
 		
-		self.df = self.apply_cuts(self.df)
+		self.df = self.apply_cuts(self.df, self.framework.year)
 
-		print self.df
-
-		self.lables = list(self.df.drop(['weight', 'signal', 'background']+self.additional_vars, axis=1))
-		self.df.drop(self.additional_vars, axis=1, inplace=True)
+		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
+		self.df.drop(spect_labels, axis=1, inplace=True)
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
 		# self.save_to_hdf(self.df_train, self.df_test, 'input')
 
 	def train_models(self):
-		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.lables)
+		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)
 		# self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled')
 		
 		self.list_of_models = GetListOfModels(self.df.shape[1]-3) #the argument is for the input dimensions
@@ -120,7 +117,7 @@ class KerasTrainer(object):
    #     		                           period=1)
 
 			history = obj.model.fit(			
-									self.df_train_scaled[self.lables].values,
+									self.df_train_scaled[self.labels].values,
        		            			# self.df_train_scaled['category'].values,
        		            			self.df_train_scaled.loc[:,['signal', 'background']].values,
        		            			epochs=obj.epochs, 
@@ -138,11 +135,11 @@ class KerasTrainer(object):
        		            			shuffle=True)
 	
 
-			self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.lables].values)[:,0]
-			self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.lables].values)[:,1]
+			self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,0]
+			self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,1]
 
-			self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.lables].values)[:,0]
-			self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.lables].values)[:,1]
+			self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,0]
+			self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,1]
 
 			# self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled_w_predictions')
 			# print self.df_train_scaled
@@ -157,14 +154,14 @@ class KerasTrainer(object):
 
 
 
-	def scale(self, train, test, lables):
-		data_train = train.loc[:,lables]
-		data_test = test.loc[:,lables]
+	def scale(self, train, test, labels):
+		data_train = train.loc[:,labels]
+		data_test = test.loc[:,labels]
 		scaler = StandardScaler().fit(data_train.values)
 		data_train = scaler.transform(data_train.values)
 		data_test = scaler.transform(data_test.values)	
-		train[lables] = data_train
-		test[lables] = data_test
+		train[labels] = data_train
+		test[labels] = data_test
 		return train, test
 
 	def save_to_hdf(self, train, test, filename):
@@ -277,6 +274,28 @@ class KerasTrainer(object):
 
 
 
-	def apply_cuts(self, df):
-		return df.loc[((df['muPairs.mass']>113.8)&(df['muPairs.mass']<147.8))]
+	def apply_cuts(self, df, year):
+		muon1_pt 	= df['muons.pt[0]']
+		muon2_pt 	= df['muons.pt[1]']
+		muon1_ID 	= df['muons.isMediumID[0]']
+		muon2_ID 	= df['muons.isMediumID[1]']
+		muPair_mass = df['muPairs.mass[0]']
+
+		if year is "2016":
+			flag = 	((muPair_mass>113.8)&
+				(muPair_mass<147.8)&
+				(muon1_ID>0)&
+				(muon2_ID>0)&
+				(muon1_pt>26)&
+				(muon2_pt>20))
+
+		elif year is "2017":
+			flag = 	((muPair_mass>110)&
+				(muPair_mass<150)&
+				(muon1_ID>0)&
+				(muon2_ID>0)&
+				(muon1_pt>30)&
+				(muon2_pt>20))
+
+		return df.loc[flag]
 

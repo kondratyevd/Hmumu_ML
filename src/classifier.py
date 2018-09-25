@@ -27,6 +27,7 @@ class Framework(object):
 		self.dir_list_s = []
 		self.dir_list_b = []
 		self.variable_list = []
+		self.spectator_list = []
 		self.nVar = 0
 		self.package_list = []
 		self.method_list = []
@@ -142,6 +143,17 @@ class Framework(object):
 					self.nVar = self.nVar + nObj
 					self.variable_list.append(var)		
 			
+	def add_spectator(self, name, nObj):
+		if name not in [v.name for v in variables]:
+			sys.exit("\n\nERROR: Variable %s not found in the list. Check this file: %s\n\n"%(name,config.__file__))
+		else:
+			for var in variables:
+				if var.name == name:									
+					print "Adding spectator %s  [%i] .."%(name, nObj)
+					self.info_file.write("Spectator:		%s x%i\n"%(name, nObj))
+					var.itemsAdded = nObj
+					self.nVar = self.nVar + nObj
+					self.spectator_list.append(var)
 
 	def add_package(self, name):
 		if name not in pkg_names:
