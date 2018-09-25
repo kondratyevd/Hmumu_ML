@@ -17,6 +17,10 @@ class KerasTrainer(object):
 		self.package = package
 		self.sum_weight_s = 1
 		self.sum_weight_b = 1
+		if self.framework.year is "2016":
+			self.additional_vars=['muPairs.mass','PU_wgt','GEN_wgt', 'IsoMu_SF_3', 'IsoMu_SF_4', 'MuID_SF_3', 'MuID_SF_4', 'MuIso_SF_3', 'MuIso_SF_4']
+		elif self.framework.year is "2017":
+			self.additional_vars=['muPairs.mass','PU_wgt','GEN_wgt', 'IsoMu_SF_3', 'MuID_SF_3', 'MuIso_SF_3']
 
 	def __enter__(self):
 		self.df = pandas.DataFrame()
@@ -62,22 +66,27 @@ class KerasTrainer(object):
 						else:
 							single_file_df[var.name] = up_var
 							# single_file_df[var.name].fillna(var.replacement, axis=0, inplace=True)
-	
-					masses = pandas.DataFrame(data=uproot_tree['muPairs.mass'].array().tolist())
-					masses = masses.iloc[:,0]
-					mass_df = pandas.DataFrame()
-					mass_df['mass'] = masses
-					single_file_df = pandas.concat([single_file_df, mass_df], axis=1)
-				
+					
+					for av in self.additional_vars:
+						single_file_df = self.append_new_var(uproot_tree, single_file_df, av)
+					
+					if self.framework.year is "2016":
+						SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
+					elif self.framework.year is "2017":
+						SF = single_file_df['IsoMu_SF_3'] * single_file_df['MuID_SF_3'] * single_file_df['MuIso_SF_3']
+					else:
+						SF = 1
+
+					weight = SF * single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
 
 					if file in self.framework.dir_list_s:
 						single_file_df['signal'] = 1
 						single_file_df['background'] = 0
-						single_file_df['weight'] = file.weight / self.sum_weight_s
+						single_file_df['weight'] = file.weight / self.sum_weight_s * weight
 					else:
 						single_file_df['signal'] = 0
 						single_file_df['background'] = 1
-						single_file_df['weight'] = file.weight / self.sum_weight_b
+						single_file_df['weight'] = file.weight / self.sum_weight_b * weight
 	
 					self.df = pandas.concat([self.df,single_file_df])
 			
@@ -87,8 +96,8 @@ class KerasTrainer(object):
 
 		print self.df
 
-		self.lables = list(self.df.drop(['weight', 'signal', 'background', 'mass'], axis=1))
-		self.df.drop(['mass'], axis=1, inplace=True)
+		self.lables = list(self.df.drop(['weight', 'signal', 'background']+self.additional_vars, axis=1))
+		self.df.drop(self.additional_vars, axis=1, inplace=True)
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
@@ -247,6 +256,16 @@ class KerasTrainer(object):
 		print "Sum of background weights: %s"%self.sum_weight_b
 
 
+	def append_new_var(self, tree, df, var_name):
+		column = pandas.DataFrame(data=tree[var_name].array().tolist())
+		column = column.iloc[:,0]
+		new_df = pandas.DataFrame()
+		new_df[var_name] = column
+		df = pandas.concat([df, new_df], axis=1)
+		return df
+
+
+
 	def apply_cuts(self, df):
-		return df.loc[((df['mass']>113.8)&(df['mass']<147.8))]
+		return df.loc[((df['muPairs.mass']>113.8)&(df['muPairs.mass']<147.8))]
 
