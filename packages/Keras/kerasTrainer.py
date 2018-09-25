@@ -174,6 +174,7 @@ class KerasTrainer(object):
 
 	def plot_ROC(self, output_name, df, method_name):
 		roc = ROOT.TGraph()
+		roc.SetName('roc')
 		roc.GetXaxis().SetTitle("Signal eff.")
 		roc.GetYaxis().SetTitle("Background rej.")
 		score = df['predict_s_'+method_name] + (1 - df['predict_b_'+method_name]) # s_pred + (1 - b_pred)
