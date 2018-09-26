@@ -47,6 +47,9 @@ variables.append(Variable("GEN_wgt"			,	"GEN_wgt"				,"GEN_wgt",  		"",   		'F',
 variables.append(Variable("IsoMu_SF_3"		,	"IsoMu_SF_3"			,"IsoMu_SF_3",  	"",   		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("MuID_SF_3"		,	"MuID_SF_3"				,"MuID_SF_3",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("MuIso_SF_3"		,	"MuIso_SF_3"			,"MuIso_SF_3",  	"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("IsoMu_SF_4"		,	"IsoMu_SF_4"			,"IsoMu_SF_4",  	"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("MuID_SF_4"		,	"MuID_SF_4"				,"MuID_SF_4",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("MuIso_SF_4"		,	"MuIso_SF_4"			,"MuIso_SF_4",  	"",   		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("muons.isHltMatched",	"isHltMatched"	,		"muons.isHltMatched", "",   	'I', True, 		"nMuons"	,	0	, False	))
 ################################ Packages ################################
 
