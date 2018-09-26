@@ -79,8 +79,8 @@ c.add_variable("nBMed",						1)
 c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
-c.add_variable('muons.eta',					2)
-c.add_variable('muons.phi',					2)
+# c.add_variable('muons.eta',					2)
+# c.add_variable('muons.phi',					2)
 
 
 c.add_spectator('muPairs.mass',				1)

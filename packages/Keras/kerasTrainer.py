@@ -260,10 +260,11 @@ class KerasTrainer(object):
 
 
 	def add_more_variables(self, df):
-		if ('muons.pt[0]' in df.columns ) and ('muons.pt[1]' in df.columns) and ('muPairs.mass[0]' in df.columns):
-			df['mu1_pt/mass'] = df['muons.pt[0]']/df['muPairs.mass[0]']
-			df['mu2_pt/mass'] = df['muons.pt[1]']/df['muPairs.mass[0]']
-			print "Additional variables mu1_pt/mass and mu2_pt/mass were added"
+		pass
+		# if ('muons.pt[0]' in df.columns ) and ('muons.pt[1]' in df.columns) and ('muPairs.mass[0]' in df.columns):
+		# 	df['mu1_pt/mass'] = df['muons.pt[0]']/df['muPairs.mass[0]']
+		# 	df['mu2_pt/mass'] = df['muons.pt[1]']/df['muPairs.mass[0]']
+		# 	print "Additional variables mu1_pt/mass and mu2_pt/mass were added"
 		
 	
 	def apply_cuts(self, df, year):
