@@ -2,7 +2,7 @@
 
 python src/prepare.py
 RunID=$(cat "output/CURRENT_RUN_ID")
-python test/test_Keras_2016.py 
+python test/test_Keras_2016_singleMu.py 
 #&
 #tensorboard --logdir=output/$RunID/keras_logs/ --port=6007
 #wait
