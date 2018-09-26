@@ -49,9 +49,14 @@ def GetListOfModels(nVar):
 	x = Dense(20, name = model_3x20.name+'_layer_3', kernel_initializer='normal', activation='sigmoid')(x)
 	model_3x20.outputs = Dense(2, name = model_3x20.name+'_output', activation='softmax')(x)
 
+	UCSD_model = model_init('UCSD_model', nVar, 2048, 200, 'categorical_crossentropy', 'adam')
+	x = Dense(50, name = UCSD_model.name+'_layer_1', activation='relu')(UCSD_model.inputs)
+	UCSD_model.outputs = Dense(2, name = UCSD_model.name+'_output',  activation='softmax')(x)
+
 	list_of_models.append(model_3x20)
 	list_of_models.append(model_2x20)
 	list_of_models.append(test_model)
+	list_of_models.append(UCSD_model)
 	
 	return list_of_models
 

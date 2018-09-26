@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("Keras test: add single muons") # change this line for each run!
+c.add_comment("Keras test: UCSD model") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -101,7 +101,7 @@ c.set_year("2016")
 # c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras")
-c.add_method("model_3x20")
+c.add_method("UCSD_model")
 
 c.train_methods()
 
