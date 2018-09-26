@@ -89,7 +89,7 @@ class KerasTrainer(object):
 	
 					self.df = pandas.concat([self.df,single_file_df])
 		
-		self.df.reset_index(inplace=True)
+		self.df.reset_index(inplace=True, drop=True)
 		# self.add_more_variables(self.df)
 		self.df = self.apply_cuts(self.df, self.framework.year)
 		print self.df	
