@@ -3,7 +3,9 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("Keras test: UCSD model + min_dR(mu, jet) + min_dR(mumu, jet)") # change this line for each run!
+comment = "Keras test: UCSD model"
+c.add_comment(comment)# + min_dR(mu, jet) + min_dR(mumu, jet)") # change this line for each run!
+print comment
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"

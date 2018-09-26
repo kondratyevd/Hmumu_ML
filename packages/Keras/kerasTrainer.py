@@ -90,7 +90,7 @@ class KerasTrainer(object):
 					self.df = pandas.concat([self.df,single_file_df])
 		
 		self.df.reset_index(inplace=True)
-		self.add_more_variables(self.df)
+		# self.add_more_variables(self.df)
 		self.df = self.apply_cuts(self.df, self.framework.year)
 		print self.df	
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
@@ -140,10 +140,8 @@ class KerasTrainer(object):
 			self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,0]
 			self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,1]
 
-			# self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled_w_predictions')
-			# print self.df_train_scaled
+
 			self.df_history = pandas.DataFrame(history.history)
-			# self.df_history.to_hdf('%shistory.hdf5'%self.package.mainDir, obj.name)
 			self.plot_history(history.history)
 
 			self.plot_ROC("train", self.df_train_scaled, obj.name)
@@ -264,7 +262,7 @@ class KerasTrainer(object):
 		# if ('muons.pt[0]' in df.columns ) and ('muons.pt[1]' in df.columns) and ('muPairs.mass[0]' in df.columns):
 		# 	df['mu1_pt/mass'] = df['muons.pt[0]']/df['muPairs.mass[0]']
 		# 	df['mu2_pt/mass'] = df['muons.pt[1]']/df['muPairs.mass[0]']
-		# 	print "Additional variables mu1_pt/mass and mu2_pt/mass were added"
+		# 	print "Additional variables mu1_pt/mass and mu2_pt/mass added"
 
 		if set(['muPairs.eta[0]', 'muPairs.phi[0]', 'muons.eta[0]', 'muons.eta[1]', 'muons.phi[0]', 'muons.phi[1]','jets.eta[0]', 'jets.eta[1]', 'jets.phi[0]', 'jets.phi[1]']).issubset(set(df.columns)):
 			mu_list = [['muons.eta[0]', 'muons.phi[0]'],['muons.eta[1]', 'muons.phi[1]']]
@@ -273,6 +271,7 @@ class KerasTrainer(object):
 
 			self.add_min_dR(df, 'min_dR_mu_jet', mu_list, jet_list)
 			self.add_min_dR(df, 'min_dR_mumu_jet', muPair_list, jet_list)
+			print "Additional variables min_dR_mu_jet, min_dR_mumu_jet added"
 	
 
 	def add_min_dR(self, df, col_name, mu_list, jet_list):
@@ -291,7 +290,6 @@ class KerasTrainer(object):
 				df.ix[index,col_name] = min_dR
 
 
-
 	def deltaR(self, eta1,phi1,eta2,phi2):
 		dEta = eta1 - eta2
 		dPhi = phi1 - phi2
@@ -300,6 +298,7 @@ class KerasTrainer(object):
 		while dPhi<-math.pi:
 			dPhi = dPhi + 2*math.pi
 		return math.sqrt(dEta*dEta+dPhi*dPhi)
+
 
 	def apply_cuts(self, df, year):
 		muon1_pt 	= df['muons.pt[0]']
