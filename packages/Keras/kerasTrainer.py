@@ -2,7 +2,9 @@ import matplotlib
 matplotlib.use('Agg')
 import ROOT
 import os, sys, errno
+import math
 import pandas
+import numpy
 import uproot
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -86,11 +88,11 @@ class KerasTrainer(object):
 						single_file_df['weight'] = file.weight / self.sum_weight_b * weight
 	
 					self.df = pandas.concat([self.df,single_file_df])
-
-
+		
+		self.df.reset_index(inplace=True)
 		self.add_more_variables(self.df)
 		self.df = self.apply_cuts(self.df, self.framework.year)
-
+		print self.df	
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
 		self.df.drop(spect_labels, axis=1, inplace=True)
 		print self.labels
@@ -100,9 +102,7 @@ class KerasTrainer(object):
 	
 
 	def train_models(self):
-		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)
-		# self.save_to_hdf(self.df_train_scaled, self.df_test_scaled, 'scaled')
-		
+		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)		
 		self.list_of_models = GetListOfModels(self.df.shape[1]-3) #the argument is for the input dimensions
 		for obj in self.list_of_models:
 			if obj.name not in self.framework.method_list:
@@ -265,8 +265,42 @@ class KerasTrainer(object):
 		# 	df['mu1_pt/mass'] = df['muons.pt[0]']/df['muPairs.mass[0]']
 		# 	df['mu2_pt/mass'] = df['muons.pt[1]']/df['muPairs.mass[0]']
 		# 	print "Additional variables mu1_pt/mass and mu2_pt/mass were added"
-		
+
+		# if set(['muPairs.eta[0]', 'muPairs.phi[0]', 'muons.eta[0]', 'muons.eta[1]', 'muons.phi[0]', 'muons.phi[1]','jets.eta[0]', 'jets.eta[1]', 'jets.phi[0]', 'jets.phi[1]']).issubset(set(df.columns)):
+		# 	mu_list = [['muons.eta[0]', 'muons.phi[0]'],['muons.eta[1]', 'muons.phi[1]']]
+		# 	muPair_list = [['muPairs.eta[0]', 'muPairs.phi[0]']]
+		# 	jet_list = [['jets.eta[0]', 'jets.phi[0]'],['jets.eta[1]', 'jets.phi[1]']]
+
+		# 	self.add_min_dR(df, 'min_dR_mu_jet', mu_list, jet_list)
+		# 	self.add_min_dR(df, 'min_dR_mumu_jet', muPair_list, jet_list)
 	
+
+	def add_min_dR(self, df, col_name, mu_list, jet_list):
+		df[col_name] = numpy.nan
+		for index, row in df.iterrows():
+			min_dR = 100
+			for muon in mu_list:
+				for jet in jet_list:
+					if (row[jet[0]] != -5) & (row[jet[1]] != -5):
+						dR = self.deltaR(row[muon[0]], row[muon[1]], row[jet[0]], row[jet[1]])
+						if dR < min_dR:
+							min_dR = dR
+			if min_dR == 100:
+				df.ix[index,col_name] = -5	
+			else:
+				df.ix[index,col_name] = min_dR
+
+
+
+	def deltaR(self, eta1,phi1,eta2,phi2):
+		dEta = eta1 - eta2
+		dPhi = phi1 - phi2
+		while dPhi>math.pi:
+			dPhi = dPhi - 2*math.pi
+		while dPhi<-math.pi:
+			dPhi = dPhi + 2*math.pi
+		return math.sqrt(dEta*dEta+dPhi*dPhi)
+
 	def apply_cuts(self, df, year):
 		muon1_pt 	= df['muons.pt[0]']
 		muon2_pt 	= df['muons.pt[1]']

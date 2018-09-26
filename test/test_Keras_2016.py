@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("Keras test: UCSD model") # change this line for each run!
+c.add_comment("Keras test: UCSD model")# + min_dR(mu, jet) + min_dR(mumu, jet)") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -68,7 +68,7 @@ for b in background:
 
 c.set_tree_path(treePath)
 
-c.add_variable("muPairs.pt", 				1) #second argument is the number of objects considered
+c.add_variable("muPairs.pt", 				1) 
 c.add_variable("muPairs.eta", 				1)
 c.add_variable("muPairs.dEta", 				1) 
 c.add_variable("muPairs.dPhi", 				1)
@@ -79,21 +79,22 @@ c.add_variable("nBMed",						1)
 c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
-# c.add_variable('muons.eta',					2)
-# c.add_variable('muons.phi',					2)
 
 
 c.add_spectator('muPairs.mass',				1)
+c.add_spectator('muPairs.phi',				1)
 c.add_spectator('muons.pt',					2)
+c.add_spectator('muons.eta',				2)
+c.add_spectator('muons.phi',				2)
 c.add_spectator('muons.isMediumID',			2)
+c.add_spectator('jets.phi',					2)
+
+c.add_spectator('nJets',					1)
 c.add_spectator('PU_wgt',					1)
 c.add_spectator('GEN_wgt', 					1)
 c.add_spectator('IsoMu_SF_3',				1)
 c.add_spectator('MuID_SF_3', 				1)
 c.add_spectator('MuIso_SF_3',				1)
-c.add_spectator('IsoMu_SF_4',				1)
-c.add_spectator('MuID_SF_4', 				1)
-c.add_spectator('MuIso_SF_4',				1)
 
 c.weigh_by_event(True)
 c.set_year("2016")
