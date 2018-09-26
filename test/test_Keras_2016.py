@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("Keras test: UCSD model + min_dR(mu, jet) + min_dR(mumu, jet)") # change this line for each run!
+c.add_comment("Keras test: UCSD model")# + min_dR(mu, jet) + min_dR(mumu, jet)") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -95,6 +95,9 @@ c.add_spectator('GEN_wgt', 					1)
 c.add_spectator('IsoMu_SF_3',				1)
 c.add_spectator('MuID_SF_3', 				1)
 c.add_spectator('MuIso_SF_3',				1)
+c.add_spectator('IsoMu_SF_4',				1)
+c.add_spectator('MuID_SF_4', 				1)
+c.add_spectator('MuIso_SF_4',				1)
 
 c.weigh_by_event(True)
 c.set_year("2016")
