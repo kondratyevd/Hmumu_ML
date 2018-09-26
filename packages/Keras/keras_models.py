@@ -1,5 +1,5 @@
 from keras.models import Sequential, Model
-from keras.layers import Dense, Activation, Input
+from keras.layers import Dense, Activation, Input, Dropout
 from keras.regularizers import l2
 from keras.optimizers import SGD
 import os, sys
