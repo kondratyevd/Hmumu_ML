@@ -90,7 +90,7 @@ class KerasTrainer(object):
 					self.df = pandas.concat([self.df,single_file_df])
 		
 		self.df.reset_index(inplace=True, drop=True)
-		# self.add_more_variables(self.df)
+		self.add_more_variables(self.df)
 		self.df = self.apply_cuts(self.df, self.framework.year)
 		print self.df	
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))

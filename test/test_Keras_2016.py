@@ -3,8 +3,8 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Keras test: UCSD model"
-c.add_comment(comment)# + min_dR(mu, jet) + min_dR(mumu, jet)") # change this line for each run!
+comment = "Keras test: UCSD model + min_dR(mu, jet) + min_dR(mumu, jet)" # change this line for each run!
+c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
 
