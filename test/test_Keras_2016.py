@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("Keras test with selected backgrounds") # change this line for each run!
+c.add_comment("Keras test: add single muons") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -79,6 +79,9 @@ c.add_variable("nBMed",						1)
 c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
+c.add_variable('muons.eta',					2)
+c.add_variable('muons.phi',					2)
+
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muons.pt',					2)

@@ -17,10 +17,7 @@ class KerasTrainer(object):
 		self.package = package
 		self.sum_weight_s = 1
 		self.sum_weight_b = 1
-		if self.framework.year is "2016":
-			self.additional_vars=['muPairs.mass','PU_wgt','GEN_wgt', 'IsoMu_SF_3', 'IsoMu_SF_4', 'MuID_SF_3', 'MuID_SF_4', 'MuIso_SF_3', 'MuIso_SF_4']
-		elif self.framework.year is "2017":
-			self.additional_vars=['muPairs.mass','PU_wgt','GEN_wgt', 'IsoMu_SF_3', 'MuID_SF_3', 'MuIso_SF_3']
+
 
 	def __enter__(self):
 		self.df = pandas.DataFrame()
@@ -39,7 +36,6 @@ class KerasTrainer(object):
 		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
-			        # print(os.path.join(directory, filename))
 
 				with uproot.open(file.path+filename) as f: 
 					uproot_tree = f[self.framework.treePath]
@@ -90,15 +86,18 @@ class KerasTrainer(object):
 						single_file_df['weight'] = file.weight / self.sum_weight_b * weight
 	
 					self.df = pandas.concat([self.df,single_file_df])
-		
+
+
+		self.add_more_variables(self.df)
 		self.df = self.apply_cuts(self.df, self.framework.year)
 
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
 		self.df.drop(spect_labels, axis=1, inplace=True)
+		print self.labels
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
-		# self.save_to_hdf(self.df_train, self.df_test, 'input')
+	
 
 	def train_models(self):
 		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)
@@ -175,7 +174,6 @@ class KerasTrainer(object):
 		roc.GetXaxis().SetTitle("Signal eff.")
 		roc.GetYaxis().SetTitle("Background rej.")
 		score = df['predict_s_'+method_name] + (1 - df['predict_b_'+method_name]) # s_pred + (1 - b_pred)
-		# print df.loc[  (df['signal']==1) & (score > 0.5 ) , ['weight'] ].sum(axis=0)
 		for i in range(200):
 			cut = i / 100.0
 			score = df['predict_s_'+method_name] + (1 - df['predict_b_'+method_name]) # s_pred + (1 - b_pred)
@@ -191,7 +189,6 @@ class KerasTrainer(object):
 		canv.cd()
 		roc.Draw("apl")
 		canv.Print(self.package.mainDir+output_name+"_roc.png")
-		# canv.SaveAs(self.package.mainDir+output_name+"_roc.root")
 		canv.Close()
 
 
@@ -206,7 +203,6 @@ class KerasTrainer(object):
 		plt.savefig(self.package.mainDir+"acc.png")
 		plt.clf()
 		print "Accuracy plot saved as "+self.package.mainDir+"acc.png"
-		# summarize history for loss
 		plt.plot(history['loss'])
 		plt.plot(history['val_loss'])
 		plt.title('model loss')
@@ -247,7 +243,6 @@ class KerasTrainer(object):
 		hist_b.Draw("hist")
 		hist_s.Draw("histsame")
 		canv.Print(self.package.mainDir+output_name+"_score.png")
-		# canv.SaveAs(self.package.mainDir+output_name+"_score.root")
 		canv.Close()
 
 
@@ -264,16 +259,13 @@ class KerasTrainer(object):
 		print "Sum of background weights: %s"%self.sum_weight_b
 
 
-	def append_new_var(self, tree, df, var_name):
-		column = pandas.DataFrame(data=tree[var_name].array().tolist())
-		column = column.iloc[:,0]
-		new_df = pandas.DataFrame()
-		new_df[var_name] = column
-		df = pandas.concat([df, new_df], axis=1)
-		return df
-
-
-
+	def add_more_variables(self, df):
+		if ('muons.pt[0]' in df.columns ) and ('muons.pt[1]' in df.columns) and ('muPairs.mass[0]' in df.columns):
+			df['mu1_pt/mass'] = df['muons.pt[0]']/df['muPairs.mass[0]']
+			df['mu2_pt/mass'] = df['muons.pt[1]']/df['muPairs.mass[0]']
+			print "Additional variables mu1_pt/mass and mu2_pt/mass were added"
+		
+	
 	def apply_cuts(self, df, year):
 		muon1_pt 	= df['muons.pt[0]']
 		muon2_pt 	= df['muons.pt[1]']
