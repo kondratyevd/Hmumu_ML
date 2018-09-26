@@ -260,19 +260,19 @@ class KerasTrainer(object):
 
 
 	def add_more_variables(self, df):
-		pass
+		# pass
 		# if ('muons.pt[0]' in df.columns ) and ('muons.pt[1]' in df.columns) and ('muPairs.mass[0]' in df.columns):
 		# 	df['mu1_pt/mass'] = df['muons.pt[0]']/df['muPairs.mass[0]']
 		# 	df['mu2_pt/mass'] = df['muons.pt[1]']/df['muPairs.mass[0]']
 		# 	print "Additional variables mu1_pt/mass and mu2_pt/mass were added"
 
-		# if set(['muPairs.eta[0]', 'muPairs.phi[0]', 'muons.eta[0]', 'muons.eta[1]', 'muons.phi[0]', 'muons.phi[1]','jets.eta[0]', 'jets.eta[1]', 'jets.phi[0]', 'jets.phi[1]']).issubset(set(df.columns)):
-		# 	mu_list = [['muons.eta[0]', 'muons.phi[0]'],['muons.eta[1]', 'muons.phi[1]']]
-		# 	muPair_list = [['muPairs.eta[0]', 'muPairs.phi[0]']]
-		# 	jet_list = [['jets.eta[0]', 'jets.phi[0]'],['jets.eta[1]', 'jets.phi[1]']]
+		if set(['muPairs.eta[0]', 'muPairs.phi[0]', 'muons.eta[0]', 'muons.eta[1]', 'muons.phi[0]', 'muons.phi[1]','jets.eta[0]', 'jets.eta[1]', 'jets.phi[0]', 'jets.phi[1]']).issubset(set(df.columns)):
+			mu_list = [['muons.eta[0]', 'muons.phi[0]'],['muons.eta[1]', 'muons.phi[1]']]
+			muPair_list = [['muPairs.eta[0]', 'muPairs.phi[0]']]
+			jet_list = [['jets.eta[0]', 'jets.phi[0]'],['jets.eta[1]', 'jets.phi[1]']]
 
-		# 	self.add_min_dR(df, 'min_dR_mu_jet', mu_list, jet_list)
-		# 	self.add_min_dR(df, 'min_dR_mumu_jet', muPair_list, jet_list)
+			self.add_min_dR(df, 'min_dR_mu_jet', mu_list, jet_list)
+			self.add_min_dR(df, 'min_dR_mumu_jet', muPair_list, jet_list)
 	
 
 	def add_min_dR(self, df, col_name, mu_list, jet_list):
