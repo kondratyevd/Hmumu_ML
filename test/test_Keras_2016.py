@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Keras test: UCSD model + singleMu" # change this line for each run!
+comment = "Keras test: UCSD model + singleMu not corrected for mass" # change this line for each run!
 c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
@@ -83,10 +83,11 @@ c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
 c.add_variable('muons.eta',					2)
 c.add_variable('muons.phi',					2)
+c.add_variable('muons.pt',					2)
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muPairs.phi',				1)
-c.add_spectator('muons.pt',					2)
+# c.add_spectator('muons.pt',					2)
 # c.add_spectator('muons.eta',				2)
 # c.add_spectator('muons.phi',				2)
 c.add_spectator('muons.isMediumID',			2)
@@ -103,7 +104,7 @@ c.add_spectator('MuID_SF_4', 				1)
 c.add_spectator('MuIso_SF_4',				1)
 
 # c.add_more_var(['min_dR_mu_jet', 'min_dR_mumu_jet'])
-c.add_more_var(['mu_pt/mass'])
+# c.add_more_var(['mu_pt/mass'])
 
 c.weigh_by_event(True)
 c.set_year("2016")
