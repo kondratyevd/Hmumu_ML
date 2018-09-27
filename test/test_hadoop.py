@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-c.add_comment("NN 3x20 NGP") # change this line for each run!
+c.add_comment("BDT + singleMu") # change this line for each run!
 treePath = 'dimuons/tree'
 
 mc_path = "/mnt/hadoop/store/user/dkondrat/"
@@ -80,13 +80,17 @@ c.add_variable("nBMed",						1)
 c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				2)
 c.add_variable("jetPairs.mass",				2)
+c.add_variable('muons.eta',					2)
+c.add_variable('muons.phi',					2)
+c.add_variable('muons.pt[0]/muPairs.pt',	1)
+c.add_variable('muons.pt[1]/muPairs.pt',	1)
 
 c.weigh_by_event(True)
 c.set_year("2016")
 c.add_package("TMVA")
 # c.add_transf("N,G,P")
-# c.add_method("BDTG_UF_v1")
-c.add_method("MLP_20,20,20_NGP")
+c.add_method("BDTG_UF_v1")
+# c.add_method("MLP_20,20,20_NGP")
 
 c.train_methods()
 
