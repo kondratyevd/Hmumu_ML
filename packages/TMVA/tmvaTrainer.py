@@ -68,6 +68,13 @@ class TMVATrainer(object):
 
 				if (flag and HT_flag):
 					for var in self.framework.variable_list:
+						if 'muons.pt[0]/muPairs.pt' in var.name:
+							event.push_back( tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)/tree.FindBranch('muPairs.mass').FindLeaf('mass').GetValue() )
+							continue
+						if 'muons.pt[1]/muPairs.pt' in var.name:
+							event.push_back( tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(1)/tree.FindBranch('muPairs.mass').FindLeaf('mass').GetValue() )
+							continue
+
 						if var.abs:
 							if var.isMultiDim:
 								for j in range(var.itemsAdded):
@@ -122,6 +129,12 @@ class TMVATrainer(object):
 
 	def load_variables(self):
 		for var in self.framework.variable_list:
+			if 'muons.pt[0]/muPairs.pt' in var.name:
+				self.dataloader.AddVariable('jets.phi', 'mu1_pt/mass', '', 'F') # very random!
+				continue
+			if 'muons.pt[1]/muPairs.pt' in var.name:
+				self.dataloader.AddVariable('jets.eta', 'mu2_pt/mass', '', 'F') # vey random!
+				continue
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):
 					if self.framework.weighByEvent:

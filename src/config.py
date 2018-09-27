@@ -39,8 +39,8 @@ variables.append(Variable("jets.phi"		,	"phi"				,"Jet #phi",  			"",   		'F', T
 variables.append(Variable("jetPairs.dEta"	,	"dEta"				,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-1	, True	)) 
 variables.append(Variable("jetPairs.mass"	,	"mass"				,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	0	, False	))
 
-variables.append(Variable("muons.pt[0]/muPairs.pt",	"pt"			,"Muon1 p_{T}/Mass", 	"GeV",		'F', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("muons.pt[1]/muPairs.pt",	"pt"			,"Muon2 p_{T}/Mass", 	"GeV",		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("muons.pt[0]/muPairs.pt",	"pt"			,"Muon1 p_{T}/Mass", 	"",		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("muons.pt[1]/muPairs.pt",	"pt"			,"Muon2 p_{T}/Mass", 	"",		'F', False, 	"nMuons"	,	0	, False	))
 
 variables.append(Variable("PU_wgt"			,	"PU_wgt"				,"PU_wgt",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("GEN_wgt"			,	"GEN_wgt"				,"GEN_wgt",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
