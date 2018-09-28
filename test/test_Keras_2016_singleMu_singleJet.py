@@ -12,7 +12,7 @@ treePath = 'dimuons/tree'
 mc_path = '/tmp/Hmumu_ntuples/updated/'
 signal = [
 		['H2Mu_VBF',	"/H2Mu_VBF/",								0.0008208	],
-		['H2Mu_gg',		"/H2Mu_gg/",							0.009618	],
+		['H2Mu_gg',		"/H2Mu_ggH/",							0.009618	],
 		# ['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/",								0.0008208	],
 		# ['H2Mu_gg',		"/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/",							0.009618	],
 		# ['H2Mu_WH_neg',	"/WMinusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_neg/180827_202757/0000/",					0.0001164	],
