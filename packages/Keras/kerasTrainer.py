@@ -41,11 +41,10 @@ class KerasTrainer(object):
 
 				with uproot.open(file.path+filename) as f: 
 					uproot_tree = f[self.framework.treePath]
-	
 					single_file_df = pandas.DataFrame()
 					spect_labels = []
 					for var in self.framework.variable_list + self.framework.spectator_list:
-						
+						# print "Adding variable:", var.name
 						if  "met.pt" in var.name:	# quick fix for met
 							up_var =  uproot_tree["met"]["pt"].array()
 						else:
@@ -90,7 +89,7 @@ class KerasTrainer(object):
 					self.df = pandas.concat([self.df,single_file_df])
 		
 		self.df.reset_index(inplace=True, drop=True)
-		self.add_more_variables(self.df)
+		# self.add_more_variables(self.df)
 		self.df = self.apply_cuts(self.df, self.framework.year)
 		print self.df	
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
@@ -107,6 +106,13 @@ class KerasTrainer(object):
 		for obj in self.list_of_models:
 			if obj.name not in self.framework.method_list:
 				continue
+
+			try:
+				os.makedirs(self.package.mainDir+'/'+obj.name+'/')
+			except OSError as e:
+				if e.errno != errno.EEXIST:
+					raise
+	
 			obj.CompileModel(self.package.dirs['modelDir'])
 			# early_stopping = EarlyStopping(monitor='val_loss', patience=10)
 			# tensorboard = TensorBoard(log_dir=self.package.dirs['logDir']+obj.name)
@@ -142,7 +148,7 @@ class KerasTrainer(object):
 
 
 			self.df_history = pandas.DataFrame(history.history)
-			self.plot_history(history.history)
+			self.plot_history(history.history, obj.name)
 
 			self.plot_ROC("train", self.df_train_scaled, obj.name)
 			self.plot_ROC("test", self.df_train_scaled, obj.name)
@@ -179,36 +185,36 @@ class KerasTrainer(object):
 			bkg_rej = float(df.loc[  (df['background']==1) & (score < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['background']==1, ['weight']].sum(axis=0)
 			roc.SetPoint(i, sig_eff, bkg_rej)
 
-		f = ROOT.TFile.Open(self.package.mainDir+output_name+"_roc.root", "recreate")
+		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/'+output_name+"_roc.root", "recreate")
 		roc.Write()
 		f.Close()
 
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 		roc.Draw("apl")
-		canv.Print(self.package.mainDir+output_name+"_roc.png")
+		canv.Print(self.package.mainDir+'/'+method_name+'/'+output_name+"_roc.png")
 		canv.Close()
 
 
 
-	def plot_history(self, history):
+	def plot_history(self, history, method_name):
 		plt.plot(history['acc'])
 		plt.plot(history['val_acc'])
 		plt.title('model accuracy')
 		plt.ylabel('accuracy')
 		plt.xlabel('epoch')
 		plt.legend(['train', 'test'], loc='upper left')
-		plt.savefig(self.package.mainDir+"acc.png")
+		plt.savefig(self.package.mainDir+'/'+method_name+'/'+"acc.png")
 		plt.clf()
-		print "Accuracy plot saved as "+self.package.mainDir+"acc.png"
+		print "Accuracy plot saved as "+self.package.mainDir+'/'+method_name+'/'+"acc.png"
 		plt.plot(history['loss'])
 		plt.plot(history['val_loss'])
 		plt.title('model loss')
 		plt.ylabel('loss')
 		plt.xlabel('epoch')
 		plt.legend(['train', 'test'], loc='upper left')
-		plt.savefig(self.package.mainDir+"loss.png")
-		print "Loss plot saved as "+self.package.mainDir+"loss.png"		
+		plt.savefig(self.package.mainDir+'/'+method_name+'/'+"loss.png")
+		print "Loss plot saved as "+self.package.mainDir+'/'+method_name+'/'+"loss.png"		
 
 	def plot_score(self, output_name, df, method_name):
 
@@ -231,7 +237,7 @@ class KerasTrainer(object):
 		hist_s.Scale(1/hist_s.Integral())
 		hist_b.Scale(1/hist_b.Integral())
 
-		f = ROOT.TFile.Open(self.package.mainDir+output_name+"_score.root", "recreate")
+		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/'+output_name+"_score.root", "recreate")
 		hist_b.Write()
 		hist_s.Write()
 		f.Close()
@@ -240,7 +246,7 @@ class KerasTrainer(object):
 		canv.cd()
 		hist_b.Draw("hist")
 		hist_s.Draw("histsame")
-		canv.Print(self.package.mainDir+output_name+"_score.png")
+		canv.Print(self.package.mainDir+'/'+method_name+'/'+output_name+"_score.png")
 		canv.Close()
 
 
@@ -252,52 +258,6 @@ class KerasTrainer(object):
 			self.sum_weight_s += file.weight
 		for file in self.framework.dir_list_b:
 			self.sum_weight_b += file.weight
-
-		print "Sum of signal weights: %s"%self.sum_weight_s
-		print "Sum of background weights: %s"%self.sum_weight_b
-
-
-	def add_more_variables(self, df):
-		if 'mu_pt/mass' in self.framework.more_var_list:
-			if ('muons.pt[0]' in df.columns ) and ('muons.pt[1]' in df.columns) and ('muPairs.mass[0]' in df.columns):
-				df['mu1_pt/mass'] = df['muons.pt[0]']/df['muPairs.mass[0]']
-				df['mu2_pt/mass'] = df['muons.pt[1]']/df['muPairs.mass[0]']
-				print "Additional variables mu1_pt/mass and mu2_pt/mass added"
-		if ('min_dR_mu_jet' in self.framework.more_var_list) and ('min_dR_mumu_jet' in self.framework.more_var_list):
-			if set(['muPairs.eta[0]', 'muPairs.phi[0]', 'muons.eta[0]', 'muons.eta[1]', 'muons.phi[0]', 'muons.phi[1]','jets.eta[0]', 'jets.eta[1]', 'jets.phi[0]', 'jets.phi[1]']).issubset(set(df.columns)):
-				mu_list = [['muons.eta[0]', 'muons.phi[0]'],['muons.eta[1]', 'muons.phi[1]']]
-				muPair_list = [['muPairs.eta[0]', 'muPairs.phi[0]']]
-				jet_list = [['jets.eta[0]', 'jets.phi[0]'],['jets.eta[1]', 'jets.phi[1]']]
-				self.add_min_dR(df, 'min_dR_mu_jet', mu_list, jet_list)
-				self.add_min_dR(df, 'min_dR_mumu_jet', muPair_list, jet_list)
-				print "Additional variables min_dR_mu_jet, min_dR_mumu_jet added"
-	
-
-	def add_min_dR(self, df, col_name, mu_list, jet_list):
-		df[col_name] = numpy.nan
-		for index, row in df.iterrows():
-			min_dR = 100
-			for muon in mu_list:
-				for jet in jet_list:
-					if (row[jet[0]] != -5) & (row[jet[1]] != -5):
-						dR = self.deltaR(row[muon[0]], row[muon[1]], row[jet[0]], row[jet[1]])
-						if dR < min_dR:
-							min_dR = dR
-			if min_dR == 100:
-				df.ix[index,col_name] = -5	
-			else:
-				df.ix[index,col_name] = min_dR
-
-
-	def deltaR(self, eta1,phi1,eta2,phi2):
-		dEta = eta1 - eta2
-		dPhi = phi1 - phi2
-		while dPhi>math.pi:
-			dPhi = dPhi - 2*math.pi
-		while dPhi<-math.pi:
-			dPhi = dPhi + 2*math.pi
-		return math.sqrt(dEta*dEta+dPhi*dPhi)
-
 
 	def apply_cuts(self, df, year):
 		muon1_pt 	= df['muons.pt[0]']

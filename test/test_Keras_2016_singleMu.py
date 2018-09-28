@@ -3,23 +3,28 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Keras test: UCSD model + min_dR(mu, jet) + min_dR(mumu, jet) + singleMu" # change this line for each run!
+comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair + min/max_dR (mu/dimu and jet) + zepenfeld + singleMu (pT/mmm, eta, phi).\n Trying 2 models: (50) and (50,25)" # change this line for each run!
 c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
 
-mc_path = "/mnt/hadoop/store/user/dkondrat/"
+# mc_path = "/mnt/hadoop/store/user/dkondrat/"
+mc_path = '/tmp/Hmumu_ntuples/updated/'
 signal = [
-		['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/",								0.0008208	],
-		['H2Mu_gg',		"/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/",							0.009618	],
+		['H2Mu_VBF',	"/H2Mu_VBF/",								0.0008208	],
+		['H2Mu_gg',		"/H2Mu_gg/",							0.009618	],
+		# ['H2Mu_VBF',	"/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/",								0.0008208	],
+		# ['H2Mu_gg',		"/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/",							0.009618	],
 		# ['H2Mu_WH_neg',	"/WMinusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_neg/180827_202757/0000/",					0.0001164	],
 		# ['H2Mu_WH_pos',	"/WPlusH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_WH_pos/180827_202738/0000/",						0.0001858	],
 		# ['H2Mu_ZH',		"/ZH_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_ZH/180827_202818/0000/",								0.0002136	]
 ]
 
-bkg_path = "/mnt/hadoop/store/user/dkondrat/"#"/tmp/Hmumu_ntuples"
+# bkg_path = "/mnt/hadoop/store/user/dkondrat/"#"/tmp/Hmumu_ntuples"
+bkg_path = '/tmp/Hmumu_ntuples/updated/'
 background = [
-
+	['tt_ll_AMC',				"/tt_ll_AMC/",			85.656*0.9	],
+	['ZJets_MG',				"/ZJets_MG/",				5765.4		],
 	# ['WW',						"/WWTo2L2Nu_13TeV-powheg/WW/180827_203218/0000/",													12.46		],
 	# ['WWW',					"/WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WWW/180827_203402/0000/",							0.2086		],
 	# ['WWZ',					"/WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WWZ/180827_203422/0000/", 								0.1651		],
@@ -39,14 +44,14 @@ background = [
 	# ['ttW_1',					"/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/ttW_1/180827_203536/0000/",			0.2043		],
 	# ['ttW_2',					"/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/ttW_2/180827_203553/0000/",			0.2043		],
 	# ['ttZ',						"/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8/ttZ/180827_203612/0000/",						0.2529		],
-	['tt_ll_AMC',				"/TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/tt_ll_AMC/180827_203154/0000/",			85.656*0.9	],
+	# ['tt_ll_AMC',				"/TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/tt_ll_AMC/180827_203154/0000/",			85.656*0.9	],
 	# ['tt_ll_MG_1',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_1/180827_203121/0000/",				85.656		],
 	# ['tt_ll_MG_2',				"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/tt_ll_MG_2/180827_203138/0000/",				85.656		],
 	# ['DY_0J',					"/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/DY_0J/180827_202852/0000/",									4754*0.96	],
 	# ['DY_1J',					"/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/DY_1J/180827_202911/0000/",									888.9*0.86*0.985*0.995	],
 	# ['DY_2J_1',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_1/180827_202929/0000/",									348.8*0.88*0.975*0.992	],
 	# ['DY_2J_2',					"/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/DY_2J_2/180827_202948/0000/",									348.8*0.88*0.975*0.992	],
-	['ZJets_MG',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG/180913_191722/0000/",		5765.4		],
+	# ['ZJets_MG',				"/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG/180913_191722/0000/",		5765.4		],
 	# ['ZJets_MG_HT_70_100',		"/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_70_100/180913_191823/0000/",			0.98*178.952		],
 	# ['ZJets_MG_HT_100_200_A',	"/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_100_200_A/180913_191844/0000/",		0.96*181.302		],
 	# ['ZJets_MG_HT_100_200_B',	"/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/ZJets_MG_HT_100_200_B/180913_191907/0000/",		0.96*181.302		],
@@ -79,17 +84,26 @@ c.add_variable("nJetsCent", 				1)
 c.add_variable("nJetsFwd",					1)
 c.add_variable("nBMed",						1)
 c.add_variable("jets.eta",					2)
-c.add_variable("jetPairs.dEta",				2)
-c.add_variable("jetPairs.mass",				2)
+c.add_variable("jetPairs.dEta",				1)
+c.add_variable("jetPairs.mass",				1)
+c.add_variable("min_dR_mu_jet"	,			1)
+c.add_variable("max_dR_mu_jet"	,			1)
+c.add_variable("min_dR_mumu_jet",			1)
+c.add_variable("max_dR_mumu_jet",			1)
+c.add_variable("zepenfeld",					1)
+
 c.add_variable('muons.eta',					2)
 c.add_variable('muons.phi',					2)
+c.add_variable("mu1_pt_by_mass",			1)
+c.add_variable("mu2_pt_by_mass",			1)
 
+# c.add_variable('muons.pt',					2)
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muPairs.phi',				1)
 c.add_spectator('muons.pt',					2)
-# c.add_spectator('muons.eta',				2)
-# c.add_spectator('muons.phi',				2)
+c.add_spectator('muons.eta',				2)
+c.add_spectator('muons.phi',				2)
 c.add_spectator('muons.isMediumID',			2)
 c.add_spectator('jets.phi',					2)
 
@@ -103,7 +117,6 @@ c.add_spectator('IsoMu_SF_4',				1)
 c.add_spectator('MuID_SF_4', 				1)
 c.add_spectator('MuIso_SF_4',				1)
 
-c.add_more_var(['min_dR_mu_jet', 'min_dR_mumu_jet', 'mu_pt/mass'])
 
 c.weigh_by_event(True)
 c.set_year("2016")
@@ -112,6 +125,20 @@ c.set_year("2016")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras")
 c.add_method("UCSD_model")
-
+c.add_method("model_50_D_25_D")
 c.train_methods()
 
+
+## HIG-17-019 variables:
+
+# c.add_variable("muPairs.pt", 				1) 
+# c.add_variable("muPairs.eta", 				1)
+# c.add_variable("muPairs.dEta", 				1) 
+# c.add_variable("muPairs.dPhi", 				1)
+# c.add_variable("met.pt", 					1)
+# c.add_variable("nJetsCent", 				1)
+# c.add_variable("nJetsFwd",					1)
+# c.add_variable("nBMed",						1)
+# c.add_variable("jets.eta",					2)
+# c.add_variable("jetPairs.dEta",				2)
+# c.add_variable("jetPairs.mass",				2)

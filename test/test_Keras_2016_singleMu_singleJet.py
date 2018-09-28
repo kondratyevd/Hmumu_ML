@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair + min/max_dR (mu/dimu and jet) + zepenfeld.\n Trying 2 models: (50) and (50,25)" # change this line for each run!
+comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair + min/max_dR (mu/dimu and jet) + zepenfeld + singleMu (pT/mmm, eta, phi) + singleJet (pT, phi).\n Trying 2 models: (50) and (50,25)" # change this line for each run!
 c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
@@ -92,8 +92,13 @@ c.add_variable("min_dR_mumu_jet",			1)
 c.add_variable("max_dR_mumu_jet",			1)
 c.add_variable("zepenfeld",					1)
 
-# c.add_variable('muons.eta',					2)
-# c.add_variable('muons.phi',					2)
+c.add_variable('muons.eta',					2)
+c.add_variable('muons.phi',					2)
+c.add_variable("mu1_pt_by_mass",			1)
+c.add_variable("mu2_pt_by_mass",			1)
+
+c.add_variable("jets.pt",					2)
+c.add_variable("jets.phi",					2)
 # c.add_variable('muons.pt',					2)
 
 c.add_spectator('muPairs.mass',				1)
