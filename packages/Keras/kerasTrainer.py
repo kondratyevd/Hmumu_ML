@@ -85,16 +85,20 @@ class KerasTrainer(object):
 						single_file_df['signal'] = 0
 						single_file_df['background'] = 1
 						single_file_df['weight'] = file.weight / self.sum_weight_b * weight
-	
+
+					if file.name is 'ZJets_MG':
+						single_file_df = single_file_df[:10000]
+					print "Added %s with %i events"%(file.name, single_file_df.shape[0])
 					self.df = pandas.concat([self.df,single_file_df])
 		
 		self.df.reset_index(inplace=True, drop=True)
-		# self.add_more_variables(self.df)
+		evts_before_cuts = self.df.shape[0]
 		self.df = self.apply_cuts(self.df, self.framework.year)
-		print self.df	
+		print "Applying cuts: selected %i events out of %i"%(self.df.shape[0], evts_before_cuts)
+		# print self.df	
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
 		self.df.drop(spect_labels, axis=1, inplace=True)
-		print self.labels
+		# print self.labels
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
@@ -214,7 +218,8 @@ class KerasTrainer(object):
 		plt.xlabel('epoch')
 		plt.legend(['train', 'test'], loc='upper left')
 		plt.savefig(self.package.mainDir+'/'+method_name+'/'+"loss.png")
-		print "Loss plot saved as "+self.package.mainDir+'/'+method_name+'/'+"loss.png"		
+		print "Loss plot saved as "+self.package.mainDir+'/'+method_name+'/'+"loss.png"	
+		plt.clf()	
 
 	def plot_score(self, output_name, df, method_name):
 
