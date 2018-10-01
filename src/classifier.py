@@ -62,7 +62,7 @@ class Framework(object):
 			metadata = ROOT.TChain(self.source.metadataPath)
 			if self.isDir:
 				if self.name is 'ZJets_MG':
-					metadata.Add(self.path+"/*_1.root")
+					metadata.Add(self.path+"/*_9.root")
 				else:
 					metadata.Add(self.path+"/*.root")
 			else:

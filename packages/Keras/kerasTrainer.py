@@ -39,7 +39,7 @@ class KerasTrainer(object):
 		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
-			    	if (file.name is "ZJets_MG") and (not (filename.endswith("_1.root"))):
+			    	if (file.name is "ZJets_MG") and (not (filename.endswith("_9.root"))):
 			    		zjets_flag = False
 			    	else:
 			    		zjets_flag = True
