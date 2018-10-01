@@ -38,7 +38,8 @@ class KerasTrainer(object):
 		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
-			    	if (file.name is "ZJets_MG") and !(filename.endswith("_1.root")):
+			    	if (file.name is "ZJets_MG") and (not (filename.endswith("_1.root"))):
+			    		print file.name, filename
 			    		continue
 					with uproot.open(file.path+filename) as f: 
 						uproot_tree = f[self.framework.treePath]
