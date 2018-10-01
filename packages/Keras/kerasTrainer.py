@@ -35,61 +35,67 @@ class KerasTrainer(object):
 
 	def convert_to_pandas(self):
 		self.calc_sum_wgts()
+		zjets_flag = False
 		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
 
-				with uproot.open(file.path+filename) as f: 
-					uproot_tree = f[self.framework.treePath]
-					single_file_df = pandas.DataFrame()
-					spect_labels = []
-					for var in self.framework.variable_list + self.framework.spectator_list:
-						# print "Adding variable:", var.name
-						if  "met.pt" in var.name:	# quick fix for met
-							up_var =  uproot_tree["met"]["pt"].array()
+					with uproot.open(file.path+filename) as f: 
+						uproot_tree = f[self.framework.treePath]
+						single_file_df = pandas.DataFrame()
+						spect_labels = []
+						for var in self.framework.variable_list + self.framework.spectator_list:
+							# print "Adding variable:", var.name
+							if  "met.pt" in var.name:	# quick fix for met
+								up_var =  uproot_tree["met"]["pt"].array()
+							else:
+								up_var = uproot_tree[var.name].array()
+							if var.isMultiDim:
+								
+								# splitting the multidimensional input variables so each column corresponds to a one-dimensional variable
+								# Only <itemsAdded> objects are kept
+				
+								single_var_df = pandas.DataFrame(data = up_var.tolist())
+								single_var_df.drop(single_var_df.columns[var.itemsAdded:],axis=1,inplace=True)
+								single_var_df.columns = [var.name+"[%i]"%i for i in range(var.itemsAdded)]
+								if var in self.framework.spectator_list:
+									spect_labels.extend(single_var_df.columns)
+								single_file_df = pandas.concat([single_file_df, single_var_df], axis=1)
+								single_file_df.fillna(var.replacement, axis=0, inplace=True) # if there are not enough jets
+				
+							else:
+								single_file_df[var.name] = up_var
+								if var in self.framework.spectator_list:
+									spect_labels.append(var.name)
+	
+						
+						if self.framework.year is "2016":
+							SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
+						elif self.framework.year is "2017":
+							SF = single_file_df['IsoMu_SF_3'] * single_file_df['MuID_SF_3'] * single_file_df['MuIso_SF_3']
 						else:
-							up_var = uproot_tree[var.name].array()
-						if var.isMultiDim:
-							
-							# splitting the multidimensional input variables so each column corresponds to a one-dimensional variable
-							# Only <itemsAdded> objects are kept
-			
-							single_var_df = pandas.DataFrame(data = up_var.tolist())
-							single_var_df.drop(single_var_df.columns[var.itemsAdded:],axis=1,inplace=True)
-							single_var_df.columns = [var.name+"[%i]"%i for i in range(var.itemsAdded)]
-							if var in self.framework.spectator_list:
-								spect_labels.extend(single_var_df.columns)
-							single_file_df = pandas.concat([single_file_df, single_var_df], axis=1)
-							single_file_df.fillna(var.replacement, axis=0, inplace=True) # if there are not enough jets
-			
+							SF = 1
+	
+						weight = SF * single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
+	
+						if file in self.framework.dir_list_s:
+							single_file_df['signal'] = 1
+							single_file_df['background'] = 0
+							single_file_df['weight'] = file.weight / self.sum_weight_s * weight
 						else:
-							single_file_df[var.name] = up_var
-							if var in self.framework.spectator_list:
-								spect_labels.append(var.name)
+							single_file_df['signal'] = 0
+							single_file_df['background'] = 1
+							single_file_df['weight'] = file.weight / self.sum_weight_b * weight
 
-					
-					if self.framework.year is "2016":
-						SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
-					elif self.framework.year is "2017":
-						SF = single_file_df['IsoMu_SF_3'] * single_file_df['MuID_SF_3'] * single_file_df['MuIso_SF_3']
-					else:
-						SF = 1
+						if (file.name is 'ZJets_MG') and zjets_flag:
+							continue
+	
+						if file.name is 'ZJets_MG':
+							single_file_df = single_file_df[:10000]
+							zjets_flag = True
 
-					weight = SF * single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
-
-					if file in self.framework.dir_list_s:
-						single_file_df['signal'] = 1
-						single_file_df['background'] = 0
-						single_file_df['weight'] = file.weight / self.sum_weight_s * weight
-					else:
-						single_file_df['signal'] = 0
-						single_file_df['background'] = 1
-						single_file_df['weight'] = file.weight / self.sum_weight_b * weight
-
-					if file.name is 'ZJets_MG':
-						single_file_df = single_file_df[:10000]
-					print "Added %s with %i events"%(file.name, single_file_df.shape[0])
-					self.df = pandas.concat([self.df,single_file_df])
+						print "Added %s with %i events"%(file.name, single_file_df.shape[0])
+						self.df = pandas.concat([self.df,single_file_df])
 		
 		self.df.reset_index(inplace=True, drop=True)
 		evts_before_cuts = self.df.shape[0]
