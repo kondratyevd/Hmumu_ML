@@ -35,11 +35,11 @@ class KerasTrainer(object):
 
 	def convert_to_pandas(self):
 		self.calc_sum_wgts()
-		ttbar_flag = False
 		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
-
+			    	if (file.name is "ZJets_MG") and not filename.endswith("_1.root"):
+			    		continue
 					with uproot.open(file.path+filename) as f: 
 						uproot_tree = f[self.framework.treePath]
 						single_file_df = pandas.DataFrame()
@@ -86,14 +86,7 @@ class KerasTrainer(object):
 							single_file_df['signal'] = 0
 							single_file_df['background'] = 1
 							single_file_df['weight'] = file.weight / self.sum_weight_b * weight
-
-						if (file.name is 'tt_ll_AMC') and ttbar_flag:
-							continue
 	
-						if file.name is 'tt_ll_AMC':
-							single_file_df = single_file_df[:10000]
-							ttbar_flag = True
-
 						print "Added %s with %i events"%(file.name, single_file_df.shape[0])
 						self.df = pandas.concat([self.df,single_file_df])
 		
