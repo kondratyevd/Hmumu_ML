@@ -35,12 +35,14 @@ class KerasTrainer(object):
 
 	def convert_to_pandas(self):
 		self.calc_sum_wgts()
+		zjets_flag = True
 		for file in self.framework.dir_list_s + self.framework.dir_list_b:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
 			    	if (file.name is "ZJets_MG") and (not (filename.endswith("_1.root"))):
-			    		print file.name, filename
-			    		continue
+			    		zjets_flag = False
+			    	else:
+			    		zjets_flag = True
 					with uproot.open(file.path+filename) as f: 
 						uproot_tree = f[self.framework.treePath]
 						single_file_df = pandas.DataFrame()
@@ -89,7 +91,8 @@ class KerasTrainer(object):
 							single_file_df['weight'] = file.weight / self.sum_weight_b * weight
 	
 						print "Added %s with %i events"%(file.name, single_file_df.shape[0])
-						self.df = pandas.concat([self.df,single_file_df])
+						if zjets_flag:
+							self.df = pandas.concat([self.df,single_file_df])
 		
 		self.df.reset_index(inplace=True, drop=True)
 		evts_before_cuts = self.df.shape[0]
