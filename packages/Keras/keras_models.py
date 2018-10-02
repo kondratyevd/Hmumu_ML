@@ -81,6 +81,39 @@ def GetListOfModels(nVar):
 	x = Dropout(0.3)(x)
 	model_50_D3_25_D3.outputs = Dense(2, name = model_50_D3_25_D3.name+'_output',  activation='softmax')(x)
 
+	model_50_D1_25_D1_25_D1 = model_init('model_50_D1_25_D1_25_D1', nVar, 2048, 200, 'categorical_crossentropy', 'adam')
+	x = Dense(50, name = model_50_D1_25_D1_25_D1.name+'_layer_1', activation='relu')(model_50_D1_25_D1_25_D1.inputs)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	model_50_D1_25_D1_25_D1.outputs = Dense(2, name = model_50_D1_25_D1_25_D1.name+'_output',  activation='softmax')(x)
+
+	model_50_D1_25_D1_25_D1_25_D1 = model_init('model_50_D1_25_D1_25_D1_25_D1', nVar, 2048, 200, 'categorical_crossentropy', 'adam')
+	x = Dense(50, name = model_50_D1_25_D1_25_D1_25_D1.name+'_layer_1', activation='relu')(model_50_D1_25_D1_25_D1_25_D1.inputs)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1_25_D1.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1_25_D1.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1_25_D1.name+'_layer_4', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	model_50_D1_25_D1_25_D1_25_D1.outputs = Dense(2, name = model_50_D1_25_D1_25_D1_25_D1.name+'_output',  activation='softmax')(x)
+
+	model_50_D1_25_D1_25_D1_25_D1_25_D1 = model_init('model_50_D1_25_D1_25_D1_25_D1_25_D1', nVar, 2048, 200, 'categorical_crossentropy', 'adam')
+	x = Dense(50, name = model_50_D1_25_D1_25_D1_25_D1_25_D1.name+'_layer_1', activation='relu')(model_50_D1_25_D1_25_D1_25_D1_25_D1.inputs)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1_25_D1_25_D1.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1_25_D1_25_D1.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1_25_D1_25_D1.name+'_layer_4', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	x = Dense(25, name = model_50_D1_25_D1_25_D1_25_D1_25_D1.name+'_layer_5', activation='relu')(x)
+	x = Dropout(0.1)(x)
+	model_50_D1_25_D1_25_D1_25_D1_25_D1.outputs = Dense(2, name = model_50_D1_25_D1_25_D1_25_D1_25_D1.name+'_output',  activation='softmax')(x)
+
 	list_of_models.append(model_3x20)
 	list_of_models.append(model_2x20)
 	list_of_models.append(test_model)
@@ -89,6 +122,10 @@ def GetListOfModels(nVar):
 	list_of_models.append(model_50_D1_25_D1)
 	list_of_models.append(model_50_D2_25_D2)
 	list_of_models.append(model_50_D3_25_D3)
+	list_of_models.append(model_50_D1_25_D1_25_D1)
+	list_of_models.append(model_50_D1_25_D1_25_D1_25_D1)
+	list_of_models.append(model_50_D1_25_D1_25_D1_25_D1_25_D1)
+
 
 	return list_of_models
 

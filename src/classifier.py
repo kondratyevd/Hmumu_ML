@@ -61,10 +61,11 @@ class Framework(object):
 			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
 			metadata = ROOT.TChain(self.source.metadataPath)
 			if self.isDir:
-				if self.name is 'tt_ll_AMC':
-					metadata.Add(self.path+"/*_9.root")
-				else:
-					metadata.Add(self.path+"/*.root")
+				metadata.Add(self.path+"/*.root")				
+				# if self.name is 'tt_ll_AMC':
+				# 	metadata.Add(self.path+"/*_9.root")
+				# else:
+				# 	metadata.Add(self.path+"/*.root")
 			else:
 				metadata.Add(self.path)
 			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
