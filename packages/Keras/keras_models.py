@@ -157,7 +157,8 @@ def GetListOfModels(nVar):
 	list_of_models.append(model_50_D1_25_D1_25_D1)
 	list_of_models.append(model_50_D1_25_D1_25_D1_25_D1)
 	list_of_models.append(model_50_D1_25_D1_25_D1_25_D1_25_D1)
-
+	list_of_models.append(model_50_D2_25_D2_25_D2_25_D2)
+	list_of_models.append(model_50_D2_25_D2_25_D2_25_D2_25_D2)
 
 	return list_of_models
 
