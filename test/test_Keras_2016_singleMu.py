@@ -124,8 +124,9 @@ c.set_year("2016")
 # c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras")
-# c.add_method("UCSD_model")
+c.add_method("UCSD_model")
 # c.add_method("model_50_25") # no Dropout
+c.add_method("model_50_D1") # Dropout 0.1
 c.add_method("model_50_D1_25_D1") # Dropout 0.1
 c.add_method("model_50_D1_25_D1_25_D1") # Dropout 0.1
 c.add_method("model_50_D1_25_D1_25_D1_25_D1") # Dropout 0.1
