@@ -146,9 +146,9 @@ def GetListOfModels(nVar):
 	model_50_D1_50_D1_50_D1 = model_init('model_50_D1_50_D1_50_D1', nVar, 2048, 200, 'categorical_crossentropy', 'adam')
 	x = Dense(50, name = model_50_D1_50_D1_50_D1.name+'_layer_1', activation='relu')(model_50_D1_50_D1_50_D1.inputs)
 	x = Dropout(0.1)(x)
-	x = Dense(25, name = model_50_D1_50_D1_50_D1.name+'_layer_2', activation='relu')(x)
+	x = Dense(50, name = model_50_D1_50_D1_50_D1.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.1)(x)
-	x = Dense(25, name = model_50_D1_50_D1_50_D1.name+'_layer_3', activation='relu')(x)
+	x = Dense(50, name = model_50_D1_50_D1_50_D1.name+'_layer_3', activation='relu')(x)
 	x = Dropout(0.1)(x)
 	model_50_D1_50_D1_50_D1.outputs = Dense(2, name = model_50_D1_50_D1_50_D1.name+'_output',  activation='softmax')(x)
 
@@ -157,7 +157,7 @@ def GetListOfModels(nVar):
 	x = Dropout(0.1)(x)
 	x = Dense(25, name = model_50_D1_25_D1_10_D1.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.1)(x)
-	x = Dense(25, name = model_50_D1_25_D1_10_D1.name+'_layer_3', activation='relu')(x)
+	x = Dense(10, name = model_50_D1_25_D1_10_D1.name+'_layer_3', activation='relu')(x)
 	x = Dropout(0.1)(x)
 	model_50_D1_25_D1_10_D1.outputs = Dense(2, name = model_50_D1_25_D1_10_D1.name+'_output',  activation='softmax')(x)
 
