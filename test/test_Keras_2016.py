@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair + min/max_dR (mu/dimu and jet) + zepenfeld.\n Trying 2 models: (50) and (50,25)" # change this line for each run!
+comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair\n" # change this line for each run!
 c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
@@ -86,11 +86,11 @@ c.add_variable("nBMed",						1)
 c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				1)
 c.add_variable("jetPairs.mass",				1)
-c.add_variable("min_dR_mu_jet"	,			1)
-c.add_variable("max_dR_mu_jet"	,			1)
-c.add_variable("min_dR_mumu_jet",			1)
-c.add_variable("max_dR_mumu_jet",			1)
-c.add_variable("zepenfeld",					1)
+# c.add_variable("min_dR_mu_jet"	,			1)
+# c.add_variable("max_dR_mu_jet"	,			1)
+# c.add_variable("min_dR_mumu_jet",			1)
+# c.add_variable("max_dR_mumu_jet",			1)
+# c.add_variable("zepenfeld",					1)
 
 # c.add_variable('muons.eta',					2)
 # c.add_variable('muons.phi',					2)
@@ -122,7 +122,7 @@ c.set_year("2016")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras")
 c.add_method("UCSD_model")
-c.add_method("model_50_D_25_D")
+# c.add_method("model_50_D_25_D")
 c.train_methods()
 
 
