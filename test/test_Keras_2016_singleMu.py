@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair + min/max_dR (mu/dimu and jet) + zepenfeld + singleMu (pT/mmm, eta, phi).\n Depth test: 1,2,3,4,5 layers, Dropout(0.2)" # change this line for each run!
+comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair + min/max_dR (mu/dimu and jet) + zepenfeld + singleMu (pT/mmm, eta, phi).\n Dropout(0.2)" # change this line for each run
 c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
@@ -125,17 +125,17 @@ c.set_year("2016")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras")
 # c.add_method("UCSD_model")	# 50_D2
-c.add_method("model_50_25") # no Dropout
-c.add_method("model_50_D1_25_D1") # Dropout 0.1
+# c.add_method("model_50_25") # no Dropout
+# c.add_method("model_50_D1_25_D1") # Dropout 0.1
 c.add_method("model_50_D2_25_D2") # Dropout 0.2
-c.add_method("model_50_D3_25_D3") # Dropout 0.3
+# c.add_method("model_50_D3_25_D3") # Dropout 0.3
 # c.add_method("model_50_D1_25_D1_10_D1") # Dropout 0.1
-c.add_method("model_50_25_25") # no Dropout
-c.add_method("model_50_D1_25_D1_25_D1") # Dropout 0.1
+# c.add_method("model_50_25_25") # no Dropout
+# c.add_method("model_50_D1_25_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D1_50_D1_50_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2_10_D2") # Dropout 0.2
-c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
-c.add_method("model_50_D3_25_D3_25_D3") # Dropout 0.3
+# c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
+# c.add_method("model_50_D3_25_D3_25_D3") # Dropout 0.3
 # c.add_method("model_50_D2_50_D2_50_D2") # Dropout 0.2
 
 # c.add_method("model_50_D1_25_D1_25_D1_25_D1") # Dropout 0.1

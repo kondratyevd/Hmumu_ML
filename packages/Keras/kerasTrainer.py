@@ -100,7 +100,7 @@ class KerasTrainer(object):
 		print "Applying cuts: selected %i events out of %i"%(self.df.shape[0], evts_before_cuts)
 		# print self.df	
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
-		self.df.drop(spect_labels, axis=1, inplace=True)
+		# self.df.drop(spect_labels, axis=1, inplace=True)
 		# print self.labels
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
@@ -108,8 +108,8 @@ class KerasTrainer(object):
 	
 
 	def train_models(self):
-		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)		
-		self.list_of_models = GetListOfModels(self.df.shape[1]-3) #the argument is for the input dimensions
+		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)
+		self.list_of_models = GetListOfModels(self.df[self.labels].shape[1]) #the argument is for the input dimensions
 		for obj in self.list_of_models:
 			if obj.name not in self.framework.method_list:
 				continue
@@ -119,7 +119,20 @@ class KerasTrainer(object):
 			except OSError as e:
 				if e.errno != errno.EEXIST:
 					raise
-	
+
+			try:
+				os.makedirs(self.package.mainDir+'/'+obj.name+'/png/')
+			except OSError as e:
+				if e.errno != errno.EEXIST:
+					raise
+
+			try:
+				os.makedirs(self.package.mainDir+'/'+obj.name+'/root/')
+			except OSError as e:
+				if e.errno != errno.EEXIST:
+					raise
+
+
 			obj.CompileModel(self.package.dirs['modelDir'])
 			# early_stopping = EarlyStopping(monitor='val_loss', patience=10)
 			# tensorboard = TensorBoard(log_dir=self.package.dirs['logDir']+obj.name)
@@ -161,7 +174,10 @@ class KerasTrainer(object):
 			self.plot_ROC("test", self.df_train_scaled, obj.name)
 			self.plot_score("train", self.df_train_scaled, obj.name)
 			self.plot_score("test", self.df_train_scaled, obj.name)
-
+			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 0, 0.5, "0-0p5")
+			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 0.5, 1, "0p5-1")
+			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 1, 1.5, "1-1p5")
+			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 1.5, 2, "1p5-2")
 
 
 	def scale(self, train, test, labels):
@@ -192,14 +208,14 @@ class KerasTrainer(object):
 			bkg_rej = float(df.loc[  (df['background']==1) & (score < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['background']==1, ['weight']].sum(axis=0)
 			roc.SetPoint(i, sig_eff, bkg_rej)
 
-		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/'+output_name+"_roc.root", "recreate")
+		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_roc.root", "recreate")
 		roc.Write()
 		f.Close()
 
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 		roc.Draw("apl")
-		canv.Print(self.package.mainDir+'/'+method_name+'/'+output_name+"_roc.png")
+		canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_roc.png")
 		canv.Close()
 
 
@@ -211,21 +227,20 @@ class KerasTrainer(object):
 		plt.ylabel('accuracy')
 		plt.xlabel('epoch')
 		plt.legend(['train', 'test'], loc='upper left')
-		plt.savefig(self.package.mainDir+'/'+method_name+'/'+"acc.png")
+		plt.savefig(self.package.mainDir+'/'+method_name+'/png/'+"acc.png")
 		plt.clf()
-		print "Accuracy plot saved as "+self.package.mainDir+'/'+method_name+'/'+"acc.png"
+		print "Accuracy plot saved as "+self.package.mainDir+'/'+method_name+'/png/'+"acc.png"
 		plt.plot(history['loss'])
 		plt.plot(history['val_loss'])
 		plt.title('model loss')
 		plt.ylabel('loss')
 		plt.xlabel('epoch')
 		plt.legend(['train', 'test'], loc='upper left')
-		plt.savefig(self.package.mainDir+'/'+method_name+'/'+"loss.png")
-		print "Loss plot saved as "+self.package.mainDir+'/'+method_name+'/'+"loss.png"	
+		plt.savefig(self.package.mainDir+'/'+method_name+'/png/'+"loss.png")
+		print "Loss plot saved as "+self.package.mainDir+'/'+method_name+'/png/'+"loss.png"	
 		plt.clf()	
 
 	def plot_score(self, output_name, df, method_name):
-
 		hist_s = ROOT.TH1D("s", "s", 100, 0, 2)
 		hist_s.SetLineColor(ROOT.kRed)
 		hist_s.SetFillColor(ROOT.kRed)
@@ -236,16 +251,16 @@ class KerasTrainer(object):
 		hist_b.SetFillStyle(3003)
 
 		for index, row in df.iterrows():
-
+			dnn_score = row['predict_s_'+method_name]+(1-row['predict_b_'+method_name])
 			if row['signal']==1:
-				hist_s.Fill( (row['predict_s_'+method_name]+(1-row['predict_b_'+method_name])), row['weight'] )
+				hist_s.Fill(dnn_score, row['weight'] )
 			elif row['background']==1:
-				hist_b.Fill( (row['predict_s_'+method_name]+(1-row['predict_b_'+method_name])), row['weight'] )
+				hist_b.Fill(dnn_score, row['weight'] )
 
 		hist_s.Scale(1/hist_s.Integral())
 		hist_b.Scale(1/hist_b.Integral())
 
-		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/'+output_name+"_score.root", "recreate")
+		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_score.root", "recreate")
 		hist_b.Write()
 		hist_s.Write()
 		f.Close()
@@ -254,9 +269,32 @@ class KerasTrainer(object):
 		canv.cd()
 		hist_b.Draw("hist")
 		hist_s.Draw("histsame")
-		canv.Print(self.package.mainDir+'/'+method_name+'/'+output_name+"_score.png")
+		canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_score.png")
 		canv.Close()
 
+	def plot_bkg_shape_for_score_bin(self, df, method_name, xmin, xmax, out_name):
+		output_name = "bkg_shape_"+out_name
+
+		hist = ROOT.TH1D("b", "b", 40, 110, 150)
+		hist.SetLineColor(ROOT.kBlue)
+		hist.SetFillColor(ROOT.kBlue)
+		hist.SetFillStyle(3003)
+
+		for index, row in df.iterrows():
+			dnn_score = row['predict_s_'+method_name]+(1-row['predict_b_'+method_name])
+			if (row['background']==1)&(dnn_score>xmin)&(dnn_score<xmax):
+				hist.Fill(row['muPairs.mass[0]'], row['weight'] )
+
+
+		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_score.root", "recreate")
+		hist.Write()
+		f.Close()
+
+		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
+		canv.cd()
+		hist.Draw("hist")
+		canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_score.png")
+		canv.Close()
 
 	def calc_sum_wgts(self):
 		self.sum_weight_s = 0
