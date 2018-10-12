@@ -285,14 +285,14 @@ class KerasTrainer(object):
 			"1p5-2": ROOT.kOrange-3
 			}
 		hist_dict = {}
-		legend = ROOT.TLegend(.7,.7,.89,.89)
+		legend = ROOT.TLegend(.6,.7,.89,.89)
 		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
 		canv.cd()
 		for key, value in score_bins.iteritems():
 			hist_dict[key] = self.bkg_shape_for_score_bin(df, method_name, value[0], value[1], colors[key])
 			if hist_dict[key].Integral():
 				hist_dict[key].Scale(1/hist_dict[key].Integral())
-			legend.AddEntry(hist_dict[key], "%.2f < m < %.2f"%(value[0], value[1]), 'f')
+			legend.AddEntry(hist_dict[key], "%.2f%% < DNN score < %.2f%%"%(value[0]*100/2, value[1]*100/2), 'f')
 			hist_dict[key].Draw("histsame")
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+method_name+'/png/bkg_shapes.png')
@@ -303,6 +303,7 @@ class KerasTrainer(object):
 
 		hist = ROOT.TH1D("b%.1f"%xmin, "", 20, 110, 150)
 		hist.SetLineColor(color)
+		hist.SetLineWidth(2)
 		hist.SetFillColor(color)
 		hist.SetFillStyle(3003)
 
