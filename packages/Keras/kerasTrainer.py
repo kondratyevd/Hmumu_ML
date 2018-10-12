@@ -174,10 +174,8 @@ class KerasTrainer(object):
 			self.plot_ROC("test", self.df_train_scaled, obj.name)
 			self.plot_score("train", self.df_train_scaled, obj.name)
 			self.plot_score("test", self.df_train_scaled, obj.name)
-			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 0, 0.5, "0-0p5")
-			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 0.5, 1, "0p5-1")
-			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 1, 1.5, "1-1p5")
-			self.plot_bkg_shape_for_score_bin(self.df_test_scaled, obj.name, 1.5, 2, "1p5-2")
+			self.plot_bkg_shapes(self.df_test_scaled, obj.name)
+
 
 
 	def scale(self, train, test, labels):
@@ -272,12 +270,40 @@ class KerasTrainer(object):
 		canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_score.png")
 		canv.Close()
 
-	def plot_bkg_shape_for_score_bin(self, df, method_name, xmin, xmax, out_name):
-		output_name = "bkg_shape_"+out_name
 
-		hist = ROOT.TH1D("b", "b", 40, 110, 150)
-		hist.SetLineColor(ROOT.kBlue)
-		hist.SetFillColor(ROOT.kBlue)
+	def plot_bkg_shapes(self, df, method_name):
+		ROOT.gStyle.SetOptStat(0)
+		score_bins = {}
+		score_bins["0-0p5"] = [0, 0.5]
+		score_bins["0p5-1"] = [0.5, 1]
+		score_bins["1-1p5"] = [1, 1.5]
+		score_bins["1p5-2"] = [1.5, 2]
+		colors = {	
+			"0-0p5": ROOT.kBlue,
+			"0p5-1": ROOT.kRed,
+			"1-1p5": ROOT.kGreen,
+			"1p5-2": ROOT.kOrange-3
+			}
+		hist_dict = {}
+		legend = ROOT.TLegend(.7,.7,.89,.89)
+		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
+		canv.cd()
+		for key, value in score_bins.iteritems():
+			hist_dict[key] = self.bkg_shape_for_score_bin(df, method_name, value[0], value[1], colors[key])
+			if hist_dict[key].Integral():
+				hist_dict[key].Scale(1/hist_dict[key].Integral())
+			legend.AddEntry(hist_dict[key], "%.2f < m < %.2f"%(value[0], value[1]), 'f')
+			hist_dict[key].Draw("histsame")
+		legend.Draw()
+		canv.Print(self.package.mainDir+'/'+method_name+'/png/bkg_shapes.png')
+		canv.Close()
+
+
+	def bkg_shape_for_score_bin(self, df, method_name, xmin, xmax, color):
+
+		hist = ROOT.TH1D("b%.1f"%xmin, "", 20, 110, 150)
+		hist.SetLineColor(color)
+		hist.SetFillColor(color)
 		hist.SetFillStyle(3003)
 
 		for index, row in df.iterrows():
@@ -285,16 +311,7 @@ class KerasTrainer(object):
 			if (row['background']==1)&(dnn_score>xmin)&(dnn_score<xmax):
 				hist.Fill(row['muPairs.mass[0]'], row['weight'] )
 
-
-		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_score.root", "recreate")
-		hist.Write()
-		f.Close()
-
-		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
-		canv.cd()
-		hist.Draw("hist")
-		canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_score.png")
-		canv.Close()
+		return hist
 
 	def calc_sum_wgts(self):
 		self.sum_weight_s = 0
