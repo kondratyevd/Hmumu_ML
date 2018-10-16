@@ -95,8 +95,8 @@ def GetListOfModels(nVar):
 	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0) # mass PDF for true bkg events identified as bkg
 	
 	    return categorical_crossentropy(y, x) + \
-	        0.1*kullback_leibler_divergence(h_slike_s, h_blike_s) + \
-	        0.1*kullback_leibler_divergence(h_slike_b, h_blike_b)   
+	        0.1*kullback_leibler_divergence(h_blike_s, h_slike_s) + \
+	        0.1*kullback_leibler_divergence(h_blike_b, h_slike_b)   
 
 
 	model_50_D2_25_D2_kldiv1 = model_init('model_50_D2_25_D2_kldiv1', nVar, 2048, 100, [loss_kldiv1], 'adam')
