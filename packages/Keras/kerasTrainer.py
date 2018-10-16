@@ -12,6 +12,7 @@ from sklearn.utils import shuffle
 from keras_models import GetListOfModels
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import matplotlib.pyplot as plt
+ROOT.gStyle.SetOptStat(0)
 
 class KerasTrainer(object):
 	def __init__(self, framework, package):
@@ -98,10 +99,11 @@ class KerasTrainer(object):
 		evts_before_cuts = self.df.shape[0]
 		self.df = self.apply_cuts(self.df, self.framework.year)
 		print "Applying cuts: selected %i events out of %i"%(self.df.shape[0], evts_before_cuts)
-		# print self.df	
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
-		# self.df.drop(spect_labels, axis=1, inplace=True)
-		# print self.labels
+		self.truth_labels = []
+		self.df = self.make_mass_bins(self.df, 10, 110, 150)
+		self.truth_labels.extend(['signal', 'background'])
+		print self.truth_labels
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
@@ -143,8 +145,8 @@ class KerasTrainer(object):
 
 			history = obj.model.fit(			
 									self.df_train_scaled[self.labels].values,
-       		            			# self.df_train_scaled['category'].values,
-       		            			self.df_train_scaled.loc[:,['signal', 'background']].values,
+       		            			# self.df_train_scaled.loc[:,['signal', 'background']].values,
+       		            			self.df_train_scaled[self.truth_labels].values,
        		            			epochs=obj.epochs, 
        		            			batch_size=obj.batchSize, 
        		            			# sample_weight = weights_train.flatten(),			
@@ -159,12 +161,17 @@ class KerasTrainer(object):
        		            			#steps_per_epoch = None,
        		            			shuffle=True)
 	
+			# self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,0]
+			# self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,1]
 
-			self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,0]
-			self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,1]
+			# self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,0]
+			# self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,1]
 
-			self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,0]
-			self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,1]
+			self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,10]
+			self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,11]
+
+			self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,10]
+			self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,11]
 
 
 			self.df_history = pandas.DataFrame(history.history)
@@ -172,8 +179,9 @@ class KerasTrainer(object):
 
 			self.plot_ROC("train", self.df_train_scaled, obj.name)
 			self.plot_ROC("test", self.df_train_scaled, obj.name)
-			self.plot_score("train", self.df_train_scaled, obj.name)
-			self.plot_score("test", self.df_train_scaled, obj.name)
+			# self.plot_score("train", self.df_train_scaled, obj.name)
+			# self.plot_score("test", self.df_train_scaled, obj.name)
+			self.check_overfitting(self.df_train_scaled, self.df_test_scaled, obj.name)
 			self.plot_bkg_shapes(self.df_test_scaled, obj.name)
 
 
@@ -205,7 +213,7 @@ class KerasTrainer(object):
 			sig_eff = float(df.loc[  (df['signal']==1) & (score > cut ) , ['weight'] ].sum(axis=0)) / df.loc[df['signal']==1, ['weight']].sum(axis=0)
 			bkg_rej = float(df.loc[  (df['background']==1) & (score < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['background']==1, ['weight']].sum(axis=0)
 			roc.SetPoint(i, sig_eff, bkg_rej)
-			print (cut, sig_eff)
+			# print (cut, sig_eff)
 
 		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_roc.root", "recreate")
 		roc.Write()
@@ -239,14 +247,39 @@ class KerasTrainer(object):
 		print "Loss plot saved as "+self.package.mainDir+'/'+method_name+'/png/'+"loss.png"	
 		plt.clf()	
 
-	def plot_score(self, output_name, df, method_name):
-		hist_s = ROOT.TH1D("s", "s", 100, 0, 2)
+
+	def check_overfitting(self, train, test, name):
+		hist_s_train, hist_b_train = self.get_score("train", train, name)
+		hist_s_test, hist_b_test = self.get_score("test", test, name)
+
+		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
+		canv.cd()
+		hist_b_train.Draw("hist")
+		hist_s_train.Draw("histsame")
+		hist_b_test.SetMarkerStyle(20)
+		hist_s_test.SetMarkerStyle(20)
+		hist_b_test.SetMarkerSize(0.8)
+		hist_s_test.SetMarkerSize(0.8)
+		hist_b_test.SetLineWidth(1)
+		hist_s_test.SetLineWidth(1)
+		hist_b_test.Draw("pesame")
+		hist_s_test.Draw("pesame")
+		canv.Print(self.package.mainDir+'/'+name+"/png/overfit.png")
+		canv.Close()
+
+
+	def get_score(self, label, df, method_name):
+		hist_s = ROOT.TH1D("s"+label, "", 100, 0, 2)
 		hist_s.SetLineColor(ROOT.kRed)
+		hist_s.SetLineWidth(2)
 		hist_s.SetFillColor(ROOT.kRed)
+		hist_s.SetMarkerColor(ROOT.kRed)
 		hist_s.SetFillStyle(3003)
-		hist_b = ROOT.TH1D("b", "b", 100, 0, 2)
+		hist_b = ROOT.TH1D("b"+label, "", 100, 0, 2)
 		hist_b.SetLineColor(ROOT.kBlue)
+		hist_b.SetLineWidth(2)
 		hist_b.SetFillColor(ROOT.kBlue)
+		hist_b.SetMarkerColor(ROOT.kBlue)
 		hist_b.SetFillStyle(3003)
 
 		for index, row in df.iterrows():
@@ -259,17 +292,19 @@ class KerasTrainer(object):
 		hist_s.Scale(1/hist_s.Integral())
 		hist_b.Scale(1/hist_b.Integral())
 
-		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_score.root", "recreate")
-		hist_b.Write()
-		hist_s.Write()
-		f.Close()
+		return hist_s, hist_b
 
-		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
-		canv.cd()
-		hist_b.Draw("hist")
-		hist_s.Draw("histsame")
-		canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_score.png")
-		canv.Close()
+		# f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_score.root", "recreate")
+		# hist_b.Write()
+		# hist_s.Write()
+		# f.Close()
+
+		# canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
+		# canv.cd()
+		# hist_b.Draw("hist")
+		# hist_s.Draw("histsame")
+		# canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_score.png")
+		# canv.Close()
 
 
 	def plot_bkg_shapes(self, df, method_name):
@@ -348,4 +383,28 @@ class KerasTrainer(object):
 				(muon2_pt>20))
 
 		return df.loc[flag]
+
+	def make_mass_bins(self, df, nbins, min, max):
+
+		if "muPairs.mass[0]" not in df.columns:
+			print "Add muPairs.mass[0] to spectators!"
+			return
+
+		bin_width = float((max-min)/nbins)
+		# print bin_width
+
+		for i in range(nbins):
+			df["mass_bin_%i"%i] = 0
+			df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
+			self.truth_labels.append("mass_bin_%i"%i)
+
+		return df
+
+
+
+
+
+
+
+
 
