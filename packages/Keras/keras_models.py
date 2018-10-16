@@ -97,7 +97,7 @@ def GetListOfModels(nVar):
 	    # h_all_q = h_all_q / K.sum(h_all_q,axis=0)
 	    # h_all_h = h_all_h / K.sum(h_all_h,axis=0)
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
-	    h_blike_slike_h = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	    h_blike_s = h_blike_slike_s[:,1]
 	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0)
 	    h_slike_s = h_blike_slike_s[:,0]
