@@ -91,25 +91,25 @@ def GetListOfModels(nVar):
 	    h = y_in[:,0:NBINS]
 	    y = y_in[:,NBINS:NBINS+2]
 	    x = x_in[:,NBINS:NBINS+2]	    
-	    h_all = K.dot(K.transpose(h), y)
-	    h_all_q = h_all[:,0]
-	    h_all_h = h_all[:,1]
-	    h_all_q = h_all_q / K.sum(h_all_q,axis=0)
-	    h_all_h = h_all_h / K.sum(h_all_h,axis=0)
-	    h_btag_anti_q = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
-	    h_btag_anti_h = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
-	    h_btag_q = h_btag_anti_q[:,1]
-	    h_btag_q = h_btag_q / K.sum(h_btag_q,axis=0)
-	    h_anti_q = h_btag_anti_q[:,0]
-	    h_anti_q = h_anti_q / K.sum(h_anti_q,axis=0)
-	    h_btag_h = h_btag_anti_h[:,1]
-	    h_btag_h = h_btag_h / K.sum(h_btag_h,axis=0)
-	    h_anti_h = h_btag_anti_q[:,0]
-	    h_anti_h = h_anti_h / K.sum(h_anti_h,axis=0)
+	    # h_all = K.dot(K.transpose(h), y)
+	    # h_all_q = h_all[:,0]
+	    # h_all_h = h_all[:,1]
+	    # h_all_q = h_all_q / K.sum(h_all_q,axis=0)
+	    # h_all_h = h_all_h / K.sum(h_all_h,axis=0)
+	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
+	    h_blike_slike_h = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_blike_s = h_blike_slike_s[:,1]
+	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0)
+	    h_slike_s = h_blike_slike_s[:,0]
+	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)
+	    h_blike_b = h_blike_slike_b[:,1]
+	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0)
+	    h_slike_b = h_blike_slike_s[:,0]
+	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0)
 	
 	    return categorical_crossentropy(y, x) + \
-	        LAMBDA*kullback_leibler_divergence(h_btag_q, h_anti_q) + \
-	        LAMBDA*kullback_leibler_divergence(h_btag_h, h_anti_h)  
+	        LAMBDA*kullback_leibler_divergence(h_blike_s, h_slike_s) + \
+	        LAMBDA*kullback_leibler_divergence(h_blike_b, h_slike_b)  
 
 
 
