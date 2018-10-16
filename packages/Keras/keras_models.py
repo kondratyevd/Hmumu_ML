@@ -150,23 +150,23 @@ def GetListOfModels(nVar):
 
 
 	def loss_kldiv2(y_in,x_in):
-	    h = y_in[:,0:NBINS]			# truth mass histogram (batch, NBINS)
-	    y = y_in[:,NBINS:NBINS+2]	# truth labels (batch, 2)
-	    x = x_in[:,NBINS:NBINS+2]	# predicted labels (batch, 2)
-	    h_slike_blike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x)) # predicted mas histograms for true signal training events (NBINS, 2)
-	    h_slike_blike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x)) # predicted mas histograms for true bkg training events (NBINS, 2)
-	    h_slike_s = h_slike_blike_s[:,0]								  
-	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)	# mass PDF for true signal events identified as signal
-	    h_blike_s = h_slike_blike_s[:,1]
-	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0) # mass PDF for true signal events identified as bkg
-	    h_slike_b = h_slike_blike_b[:,0]
-	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0) # mass PDF for true bkg events identified as signal
-	    h_blike_b = h_slike_blike_s[:,1]
-	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0) # mass PDF for true bkg events identified as bkg
+	    h = y_in[:,0:NBINS]
+	    y = y_in[:,NBINS:NBINS+2]
+	    x = x_in[:,NBINS:NBINS+2]	    
+	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
+	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_blike_s = h_blike_slike_s[:,1]
+	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0)
+	    h_slike_s = h_blike_slike_s[:,0]
+	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)
+	    h_blike_b = h_blike_slike_b[:,1]
+	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0)
+	    h_slike_b = h_blike_slike_s[:,0]
+	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0)
 	
 	    return categorical_crossentropy(y, x) + \
-	        0.2*kullback_leibler_divergence(h_slike_s, h_blike_s) + \
-	        0.2*kullback_leibler_divergence(h_slike_b, h_blike_b)   
+	        0.2*kullback_leibler_divergence(h_blike_s, h_slike_s) + \
+	        0.2*kullback_leibler_divergence(h_blike_b, h_slike_b)  
 
 
 	model_50_D2_25_D2_kldiv2 = model_init('model_50_D2_25_D2_kldiv2', nVar, 2048, 100, [loss_kldiv2], 'adam')
@@ -192,23 +192,23 @@ def GetListOfModels(nVar):
 
 
 	def loss_kldiv3(y_in,x_in):
-	    h = y_in[:,0:NBINS]			# truth mass histogram (batch, NBINS)
-	    y = y_in[:,NBINS:NBINS+2]	# truth labels (batch, 2)
-	    x = x_in[:,NBINS:NBINS+2]	# predicted labels (batch, 2)
-	    h_slike_blike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x)) # predicted mas histograms for true signal training events (NBINS, 2)
-	    h_slike_blike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x)) # predicted mas histograms for true bkg training events (NBINS, 2)
-	    h_slike_s = h_slike_blike_s[:,0]								  
-	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)	# mass PDF for true signal events identified as signal
-	    h_blike_s = h_slike_blike_s[:,1]
-	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0) # mass PDF for true signal events identified as bkg
-	    h_slike_b = h_slike_blike_b[:,0]
-	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0) # mass PDF for true bkg events identified as signal
-	    h_blike_b = h_slike_blike_s[:,1]
-	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0) # mass PDF for true bkg events identified as bkg
+	    h = y_in[:,0:NBINS]
+	    y = y_in[:,NBINS:NBINS+2]
+	    x = x_in[:,NBINS:NBINS+2]	    
+	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
+	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_blike_s = h_blike_slike_s[:,1]
+	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0)
+	    h_slike_s = h_blike_slike_s[:,0]
+	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)
+	    h_blike_b = h_blike_slike_b[:,1]
+	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0)
+	    h_slike_b = h_blike_slike_s[:,0]
+	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0)
 	
 	    return categorical_crossentropy(y, x) + \
-	        0.3*kullback_leibler_divergence(h_slike_s, h_blike_s) + \
-	        0.3*kullback_leibler_divergence(h_slike_b, h_blike_b)   
+	        0.3*kullback_leibler_divergence(h_blike_s, h_slike_s) + \
+	        0.3*kullback_leibler_divergence(h_blike_b, h_slike_b)    
 
 
 	model_50_D2_25_D2_kldiv3 = model_init('model_50_D2_25_D2_kldiv3', nVar, 2048, 100, [loss_kldiv3], 'adam')
@@ -231,28 +231,24 @@ def GetListOfModels(nVar):
 
 
 
-
-
-
-
 	def loss_kldiv4(y_in,x_in):
-	    h = y_in[:,0:NBINS]			# truth mass histogram (batch, NBINS)
-	    y = y_in[:,NBINS:NBINS+2]	# truth labels (batch, 2)
-	    x = x_in[:,NBINS:NBINS+2]	# predicted labels (batch, 2)
-	    h_slike_blike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x)) # predicted mas histograms for true signal training events (NBINS, 2)
-	    h_slike_blike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x)) # predicted mas histograms for true bkg training events (NBINS, 2)
-	    h_slike_s = h_slike_blike_s[:,0]								  
-	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)	# mass PDF for true signal events identified as signal
-	    h_blike_s = h_slike_blike_s[:,1]
-	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0) # mass PDF for true signal events identified as bkg
-	    h_slike_b = h_slike_blike_b[:,0]
-	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0) # mass PDF for true bkg events identified as signal
-	    h_blike_b = h_slike_blike_s[:,1]
-	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0) # mass PDF for true bkg events identified as bkg
+	    h = y_in[:,0:NBINS]
+	    y = y_in[:,NBINS:NBINS+2]
+	    x = x_in[:,NBINS:NBINS+2]	    
+	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
+	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_blike_s = h_blike_slike_s[:,1]
+	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0)
+	    h_slike_s = h_blike_slike_s[:,0]
+	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)
+	    h_blike_b = h_blike_slike_b[:,1]
+	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0)
+	    h_slike_b = h_blike_slike_s[:,0]
+	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0)
 	
 	    return categorical_crossentropy(y, x) + \
-	        0.4*kullback_leibler_divergence(h_slike_s, h_blike_s) + \
-	        0.4*kullback_leibler_divergence(h_slike_b, h_blike_b)   
+	        0.4*kullback_leibler_divergence(h_blike_s, h_slike_s) + \
+	        0.4*kullback_leibler_divergence(h_blike_b, h_slike_b)    
 
 
 	model_50_D2_25_D2_kldiv4 = model_init('model_50_D2_25_D2_kldiv4', nVar, 2048, 100, [loss_kldiv4], 'adam')
@@ -275,25 +271,24 @@ def GetListOfModels(nVar):
 
 
 
-
 	def loss_kldiv5(y_in,x_in):
-	    h = y_in[:,0:NBINS]			# truth mass histogram (batch, NBINS)
-	    y = y_in[:,NBINS:NBINS+2]	# truth labels (batch, 2)
-	    x = x_in[:,NBINS:NBINS+2]	# predicted labels (batch, 2)
-	    h_slike_blike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x)) # predicted mas histograms for true signal training events (NBINS, 2)
-	    h_slike_blike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x)) # predicted mas histograms for true bkg training events (NBINS, 2)
-	    h_slike_s = h_slike_blike_s[:,0]								  
-	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)	# mass PDF for true signal events identified as signal
-	    h_blike_s = h_slike_blike_s[:,1]
-	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0) # mass PDF for true signal events identified as bkg
-	    h_slike_b = h_slike_blike_b[:,0]
-	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0) # mass PDF for true bkg events identified as signal
-	    h_blike_b = h_slike_blike_s[:,1]
-	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0) # mass PDF for true bkg events identified as bkg
+	    h = y_in[:,0:NBINS]
+	    y = y_in[:,NBINS:NBINS+2]
+	    x = x_in[:,NBINS:NBINS+2]	    
+	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
+	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_blike_s = h_blike_slike_s[:,1]
+	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0)
+	    h_slike_s = h_blike_slike_s[:,0]
+	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)
+	    h_blike_b = h_blike_slike_b[:,1]
+	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0)
+	    h_slike_b = h_blike_slike_s[:,0]
+	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0)
 	
 	    return categorical_crossentropy(y, x) + \
-	        0.5*kullback_leibler_divergence(h_slike_s, h_blike_s) + \
-	        0.5*kullback_leibler_divergence(h_slike_b, h_blike_b)   
+	        0.5*kullback_leibler_divergence(h_blike_s, h_slike_s) + \
+	        0.5*kullback_leibler_divergence(h_blike_b, h_slike_b)  
 
 
 	model_50_D2_25_D2_kldiv5 = model_init('model_50_D2_25_D2_kldiv5', nVar, 2048, 100, [loss_kldiv5], 'adam')
