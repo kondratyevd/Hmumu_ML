@@ -79,6 +79,40 @@ def GetListOfModels(nVar):
 	MMIN = 150. # min value
 	LAMBDA = 0.1 # lambda for penalty
 
+
+	def loss_kldiv(y_in,x_in):
+	    """
+	    mass sculpting penlaty term usking kullback_leibler_divergence
+	    y_in: truth [h, y]
+	    x: predicted NN output for y
+	    h: the truth mass histogram vector "one-hot encoded" (length NBINS=40)
+	    y: the truth categorical labels  "one-hot encoded" (length NClasses=2)
+	    """
+	    h = y_in[:,0:NBINS]
+	    y = y_in[:,NBINS:NBINS+2]
+	    x = x_in[:,NBINS:NBINS+2]	    
+	    h_all = K.dot(K.transpose(h), y)
+	    h_all_q = h_all[:,0]
+	    h_all_h = h_all[:,1]
+	    h_all_q = h_all_q / K.sum(h_all_q,axis=0)
+	    h_all_h = h_all_h / K.sum(h_all_h,axis=0)
+	    h_btag_anti_q = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
+	    h_btag_anti_h = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_btag_q = h_btag_anti_q[:,1]
+	    h_btag_q = h_btag_q / K.sum(h_btag_q,axis=0)
+	    h_anti_q = h_btag_anti_q[:,0]
+	    h_anti_q = h_anti_q / K.sum(h_anti_q,axis=0)
+	    h_btag_h = h_btag_anti_h[:,1]
+	    h_btag_h = h_btag_h / K.sum(h_btag_h,axis=0)
+	    h_anti_h = h_btag_anti_q[:,0]
+	    h_anti_h = h_anti_h / K.sum(h_anti_h,axis=0)
+	
+	    return categorical_crossentropy(y, x) + \
+	        LAMBDA*kullback_leibler_divergence(h_btag_q, h_anti_q) + \
+	        LAMBDA*kullback_leibler_divergence(h_btag_h, h_anti_h)  
+
+
+
 	def loss_kldiv1(y_in,x_in):
 	    h = y_in[:,0:NBINS]			# truth mass histogram (batch, NBINS)
 	    y = y_in[:,NBINS:NBINS+2]	# truth labels (batch, 2)
@@ -99,7 +133,7 @@ def GetListOfModels(nVar):
 	        0.1*kullback_leibler_divergence(h_blike_b, h_slike_b)   
 
 
-	model_50_D2_25_D2_kldiv1 = model_init('model_50_D2_25_D2_kldiv1', nVar, 2048, 100, [loss_kldiv1], 'adam')
+	model_50_D2_25_D2_kldiv1 = model_init('model_50_D2_25_D2_kldiv1', nVar, 2048, 100, [loss_kldiv], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_kldiv1.name+'_layer_1', activation='relu')(model_50_D2_25_D2_kldiv1.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv1.name+'_layer_2', activation='relu')(x)
