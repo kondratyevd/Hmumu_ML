@@ -358,8 +358,10 @@ class KerasTrainer(object):
 		muPair_mass = df['muPairs.mass[0]']
 
 		if year is "2016":
-			flag = 	((muPair_mass>113.8)&
-				(muPair_mass<147.8)&
+			# flag = 	((muPair_mass>113.8)&
+			# 	(muPair_mass<147.8)&
+			flag = 	((muPair_mass>110)&
+				(muPair_mass<150)&
 				(muon1_ID>0)&
 				(muon2_ID>0)&
 				(muon1_pt>26)&
