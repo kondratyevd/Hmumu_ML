@@ -101,7 +101,8 @@ class KerasTrainer(object):
 		print "Applying cuts: selected %i events out of %i"%(self.df.shape[0], evts_before_cuts)
 		self.labels = list(self.df.drop(['weight', 'signal', 'background']+spect_labels, axis=1))
 		self.truth_labels = []
-		self.df = self.make_mass_bins(self.df, 10, 110, 150)
+		if self.framework.custom_loss:
+			self.df = self.make_mass_bins(self.df, 10, 110, 150)
 		self.truth_labels.extend(['signal', 'background'])
 		print self.truth_labels
 		self.df = shuffle(self.df)
@@ -264,6 +265,7 @@ class KerasTrainer(object):
 		hist_s_test.SetLineWidth(1)
 		hist_b_test.Draw("pesame")
 		hist_s_test.Draw("pesame")
+
 		canv.Print(self.package.mainDir+'/'+name+"/png/overfit.png")
 		canv.Close()
 
@@ -294,17 +296,6 @@ class KerasTrainer(object):
 
 		return hist_s, hist_b
 
-		# f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_score.root", "recreate")
-		# hist_b.Write()
-		# hist_s.Write()
-		# f.Close()
-
-		# canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
-		# canv.cd()
-		# hist_b.Draw("hist")
-		# hist_s.Draw("histsame")
-		# canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_score.png")
-		# canv.Close()
 
 
 	def plot_bkg_shapes(self, df, method_name):

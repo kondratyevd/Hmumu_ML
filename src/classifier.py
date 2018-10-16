@@ -41,6 +41,7 @@ class Framework(object):
 		self.weighByEvent = False
 		self.info_file = None
 		self.prepare_dirs()
+		self.custom_loss = False
 
 
 
