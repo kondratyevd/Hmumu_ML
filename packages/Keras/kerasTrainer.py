@@ -167,13 +167,21 @@ class KerasTrainer(object):
 
 			# self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,0]
 			# self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,1]
+			if self.framework.custom_loss:
+				self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,10]
+				self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,11]
+	
+				self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,10]
+				self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,11]
+			else:
+				self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,0]
+				self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,1]
+	
+				self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,0]
+				self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,1]
 
-			self.df_train_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,10]
-			self.df_train_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_train_scaled[self.labels].values)[:,11]
 
-			self.df_test_scaled["predict_s_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,10]
-			self.df_test_scaled["predict_b_"+obj.name] =  obj.model.predict(self.df_test_scaled[self.labels].values)[:,11]
-
+			self.plot_mass_histograms(self.df_test_scaled, obj.name)
 
 			self.df_history = pandas.DataFrame(history.history)
 			self.plot_history(history.history, obj.name)
@@ -225,7 +233,6 @@ class KerasTrainer(object):
 		roc.Draw("apl")
 		canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_roc.png")
 		canv.Close()
-
 
 
 	def plot_history(self, history, method_name):
@@ -340,6 +347,56 @@ class KerasTrainer(object):
 				hist.Fill(row['muPairs.mass[0]'], row['weight'] )
 
 		return hist
+
+
+	def plot_mass_histograms(self, df, model_name):
+		legend = ROOT.TLegend(.6,.7,.89,.89)
+		hist1 =	self.plot_mass_histogram(self.df_test_scaled, 0, 0, model_name)
+		hist2 =	self.plot_mass_histogram(self.df_test_scaled, 0, 1, model_name)
+		hist3 =	self.plot_mass_histogram(self.df_test_scaled, 1, 0, model_name)
+		hist4 =	self.plot_mass_histogram(self.df_test_scaled, 1, 1, model_name)
+		hist_list = [hist1, hist2, hist3, hist4]
+
+		hist1.SetLineColor(ROOT.kBlue)			
+		hist2.SetLineColor(ROOT.kRed)			
+		hist3.SetLineColor(ROOT.kGreen)			
+		hist4.SetLineColor(ROOT.kOrange-3)		
+
+		hist1.SetFillColor(ROOT.kBlue)
+		hist2.SetFillColor(ROOT.kRed)	
+		hist3.SetFillColor(ROOT.kGreen)	
+		hist4.SetFillColor(ROOT.kOrange-3)
+
+		legend.AddEntry(hist1, "S, predicted S", "f")
+		legend.AddEntry(hist2, "S, predicted B", "f")
+		legend.AddEntry(hist3, "B, predicted S", "f")
+		legend.AddEntry(hist4, "B, predicted B", "f")
+
+		canv = ROOT.TCanvas("canv", "canv", 800, 800)
+		canv.cd()
+		for h in hist_list:
+			h.SetLineWidth(2)
+			h.SetFillStyle(3003)
+			h.Draw("histsame")
+		legend.Draw()
+		canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_histograms.png")
+		canv.Close()
+
+	def plot_mass_histogram(self, df, original_category, predicted_category, model_name):
+		original_categories = ['signal', 'background']
+		predicted_categories = ['predict_s_'+model_name, 'predict_b_'+model_name]
+		mass_bins = ['mass_bin_%i'%i for i in range(10)]
+
+		hist = ROOT.TH1D("hist", "", 10, 110, 150)
+
+		for index, row in df.iterrows():
+			if row[original_categories[original_category]]==1:
+				hist.Fill(row['muPairs.mass[0]'], row[predicted_categories[predicted_category]] )
+
+		hist.Scale(1/hist.Integral())
+		return hist
+
+
 
 	def calc_sum_wgts(self):
 		self.sum_weight_s = 0
