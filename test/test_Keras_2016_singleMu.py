@@ -103,7 +103,7 @@ c.add_variable("mu2_pt_by_mass",			1)
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muPairs.phi',				1)
-# c.add_spectator('muons.pt',					2)
+c.add_spectator('muons.pt',					2)
 # c.add_spectator('muons.eta',				2)
 # c.add_spectator('muons.phi',				2)
 c.add_spectator('muons.isMediumID',			2)
