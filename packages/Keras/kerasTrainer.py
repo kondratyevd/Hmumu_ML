@@ -444,7 +444,8 @@ class KerasTrainer(object):
 		# print bin_width
 
 		for i in range(nbins):
-			df["mass_bin_%i"%i] = 0
+			df["mass_bin_%i"%i] = 1
+			print min+i*bin_width, min+(i+1)*bin_width
 			df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
 			self.truth_labels.append("mass_bin_%i"%i)
 
