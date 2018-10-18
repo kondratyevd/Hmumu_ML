@@ -134,11 +134,11 @@ c.add_package("Keras")
 # c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
-# c.add_method("model_50_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2") # Dropout 0.2
 
-c.custom_loss = True
-c.add_method("model_50_D2_25_D2_kldiv1")
-c.add_method("model_50_D2_25_D2_kldiv2")
+# c.custom_loss = True
+# c.add_method("model_50_D2_25_D2_kldiv1")
+# c.add_method("model_50_D2_25_D2_kldiv2")
 # c.add_method("model_50_D2_25_D2_kldiv3")
 # c.add_method("model_50_D2_25_D2_kldiv4")
 # c.add_method("model_50_D2_25_D2_kldiv5")
