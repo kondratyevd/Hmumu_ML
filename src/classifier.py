@@ -28,6 +28,9 @@ class Framework(object):
 		self.dir_list_b = []
 		self.variable_list = []
 		self.spectator_list = []
+		self.signal_categories = []
+		self.bkg_categories = []
+		self.files = []
 		self.more_var_list = []
 		self.nVar = 0
 		self.package_list = []
@@ -42,6 +45,7 @@ class Framework(object):
 		self.info_file = None
 		self.prepare_dirs()
 		self.custom_loss = False
+		self.multiclass = False
 
 
 
@@ -55,7 +59,8 @@ class Framework(object):
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
 			self.weight = 1
-			self.get_original_nEvts()						
+			self.get_original_nEvts()
+			self.category = ''						
 		
 		def get_original_nEvts(self):
 			ROOT.gROOT.SetBatch(1)
@@ -130,6 +135,19 @@ class Framework(object):
 		print "Adding background directory %s with xSec=%f.."%(path, xSec)
 		self.dir_list_b.append(self.File(self, name, path, xSec, True))
 		self.info_file.write("Bkg dir:		%s\n"%path)
+
+	def add_category(self, name, isSignal):
+		if isSignal:
+			self.signal_categories.append(name)
+		else:
+			self.bkg_categories.append(name)
+
+	def add_dir_to_category(self, name, path, xSec, category):
+		if category in self.signal_categories+self.bkg_categories: 
+			print "Adding directory %s with xSec=%f as %s"%(path, xSec, category)
+			file = self.File(self, name, path, xSec, True)
+			file.category = category
+			self.files.append(file)
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath

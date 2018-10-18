@@ -66,7 +66,7 @@ variables.append(Variable("muons.isHltMatched",	"isHltMatched"	,		"muons.isHltMa
 
 
 
-pkg_names = ["TMVA", "Keras"]
+pkg_names = ["TMVA", "Keras", "Keras_multi"]
 
 class Package(object):
 	def __init__(self, name, framework):
@@ -75,7 +75,7 @@ class Package(object):
 		self.mainDir = self.framework.outPath+self.name+"/"
 		self.framework.create_dir(self.mainDir)
 		self.dirs = {}
-		if self.name is "Keras":
+		if "Keras" in self.name:
 			self.dirs['modelDir'] = self.mainDir+"models/"
 			self.dirs['logDir'] = self.framework.outPath+"keras_logs/"
 			self.dirs['dataDir'] = self.mainDir+"data/"
