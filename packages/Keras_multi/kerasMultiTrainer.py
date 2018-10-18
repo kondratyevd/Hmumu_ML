@@ -168,8 +168,8 @@ class KerasMultiTrainer(object):
 			self.df_history = pandas.DataFrame(history.history)
 			self.plot_history(history.history, obj.name)
 
-			# self.plot_ROC("train", self.df_train_scaled, obj.name)
-			# self.plot_ROC("test", self.df_train_scaled, obj.name)
+			self.plot_ROC("train", self.df_train_scaled, obj.name)
+			self.plot_ROC("test", self.df_train_scaled, obj.name)
 			self.check_overfitting(self.df_train_scaled, self.df_test_scaled, obj.name)
 			self.plot_bkg_shapes(self.df_test_scaled, obj.name)
 
@@ -196,16 +196,21 @@ class KerasMultiTrainer(object):
 		roc.GetXaxis().SetTitle("Signal eff.")
 		roc.GetYaxis().SetTitle("Background rej.")
 		score = pandas.DataFrame()
+		df['isSignal'] = 0
+		df['isBackground'] = 0
+		df['score'] = 0
 		for category in self.framework.signal_categories:
-			score += df["pred_%s_%s"%(category,method_name)]
+			df['score'] += df["pred_%s_%s"%(category,method_name)]
 			df['isSignal'] += df[category]
 		for category in self.framework.bkg_categories:
-			score += 1 - df["pred_%s_%s"%(category,method_name)]
+			df['score'] += 1 - df["pred_%s_%s"%(category,method_name)]
 			df['isBackground'] += df[category]
+
+		min_score = len(self.framework.bkg_categories) - 1
 		for i in range(100*len(self.category_labels)):
-			cut = i / 100.0
-			sig_eff = float(df.loc[  (df['isSignal']==1) & (score > cut ) , ['weight'] ].sum(axis=0)) / df.loc[df['isSignal']==1, ['weight']].sum(axis=0)
-			bkg_rej = float(df.loc[  (df['isBackground']==1) & (score < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['isBackground']==1, ['weight']].sum(axis=0)
+			cut = min_score + i / 50.0
+			sig_eff = float(df.loc[  (df['isSignal']>0) & (df['score'] > cut ) , ['weight'] ].sum(axis=0)) / df.loc[df['isSignal']>0, ['weight']].sum(axis=0)
+			bkg_rej = float(df.loc[  (df['isBackground']>0) & (df['score'] < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['isBackground']>0, ['weight']].sum(axis=0)
 			roc.SetPoint(i, sig_eff, bkg_rej)
 			
 		f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_roc.root", "recreate")
@@ -241,6 +246,7 @@ class KerasMultiTrainer(object):
 
 
 	def check_overfitting(self, train, test, name):
+		legend = ROOT.TLegend(.6,.7,.89,.89)
 		train_dict = self.get_score("train", train, name)
 		test_dict = self.get_score("test", test, name)
 
@@ -251,6 +257,9 @@ class KerasMultiTrainer(object):
 		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
 
 		for category in self.category_labels:
+			legend.AddEntry(train_dict[category], category+" train", "f")
+			legend.AddEntry(test_dict[category], category+" test", "pe")
+
 			train_dict[category].Draw("histsame")
 			test_dict[category].Draw("pesame")
 
@@ -268,15 +277,16 @@ class KerasMultiTrainer(object):
 
 			count +=1
 
-
+		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+name+"/png/overfit.png")
+		canv.SaveAs(self.package.mainDir+'/'+name+"/root/overfit.root")
 		canv.Close()
 
 
 	def get_score(self, label, df, method_name):
 		hist = {}
 		for category in self.category_labels:
-			hist[category] = ROOT.TH1D(category+"_"+label, "", 100, 0, len(self.category_labels))
+			hist[category] = ROOT.TH1D(category+"_"+label, "", 100, len(self.framework.bkg_categories)-1, len(self.framework.bkg_categories)+1)
 			hist[category].SetLineWidth(2)
 			hist[category].SetFillStyle(3003)
 
@@ -302,11 +312,11 @@ class KerasMultiTrainer(object):
 	def plot_bkg_shapes(self, df, method_name):
 		ROOT.gStyle.SetOptStat(0)
 		score_bins = {}
-		max_bin = len(self.category_labels)
-		score_bins["0-25"] = [0, 0.25*max_bin]
-		score_bins["25-50"] = [0.25*max_bin, 0.5*max_bin]
-		score_bins["50-75"] = [0.5*max_bin, 0.75*max_bin]
-		score_bins["75-100"] = [0.75*max_bin, max_bin]
+		min_bin = len(self.framework.bkg_categories) - 1
+		score_bins["0-25"] = [min_bin, min_bin+0.5]
+		score_bins["25-50"] = [min_bin+0.5, min_bin+1]
+		score_bins["50-75"] = [min_bin+1, min_bin+1.5]
+		score_bins["75-100"] = [min_bin+1.5, min_bin+2]
 		colors = {	
 			"0-25": ROOT.kBlue,
 			"25-50": ROOT.kRed,
@@ -321,10 +331,11 @@ class KerasMultiTrainer(object):
 			hist_dict[key] = self.bkg_shape_for_score_bin(df, method_name, value[0], value[1], colors[key])
 			if hist_dict[key].Integral():
 				hist_dict[key].Scale(1/hist_dict[key].Integral())
-			legend.AddEntry(hist_dict[key], "%.2f%% < DNN score < %.2f%%"%(value[0]*100/max_bin, value[1]*100/max_bin), 'f')
+			legend.AddEntry(hist_dict[key], "%.2f%% < DNN score < %.2f%%"%((value[0]-min_bin)*50, (value[1]-min_bin)*50), 'f')
 			hist_dict[key].Draw("histsame")
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+method_name+'/png/bkg_shapes.png')
+		canv.SaveAs(self.package.mainDir+'/'+method_name+'/root/bkg_shapes.root')
 		canv.Close()
 
 
@@ -360,9 +371,7 @@ class KerasMultiTrainer(object):
 				self.color = color
 				# self.get_histos()
 				self.hist_correct, self.hist_incorrect = self.framework.plot_mass_histogram(self.df, self.category, self.model_name, self.color)
-				
-
-				
+							
 		mass_hists = []
 		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
 		count = 0
@@ -381,6 +390,7 @@ class KerasMultiTrainer(object):
 
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_histograms.png")
+		canv.SaveAs(self.package.mainDir+'/'+model_name+"/root/mass_histograms.root")
 		canv.Close()
 
 	def plot_mass_histogram(self, df, category, model_name, color):
@@ -389,9 +399,11 @@ class KerasMultiTrainer(object):
 		hist_incorrect = ROOT.TH1D("hist_i_"+category, "", 10, 110, 150)
 
 		for index, row in df.iterrows():
-			if row[category]==1:
-				hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(category, model_name)] )
-				hist_incorrect.Fill(row['muPairs.mass[0]'], 1 - row["pred_%s_%s"%(category, model_name)] )
+			for cat in self.category_labels:
+				if cat in category:
+					hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
+				else:
+					hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
 		
 		hist_correct.Scale(1/hist_correct.Integral())
 		hist_correct.SetLineColor(color)
