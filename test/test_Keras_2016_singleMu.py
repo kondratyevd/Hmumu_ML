@@ -96,14 +96,19 @@ c.add_variable("zepenfeld",					1)
 
 c.add_variable('muons.eta',					2)
 c.add_variable('muons.phi',					2)
-# c.add_variable("mu1_pt_by_mass",			1)
-# c.add_variable("mu2_pt_by_mass",			1)
 
-c.add_variable('muons.pt',					2)
+decorrelate = True
+
+if(decorrelate):
+	c.add_variable("mu1_pt_by_mass",			1)
+	c.add_variable("mu2_pt_by_mass",			1)
+	c.add_spectator('muons.pt',					2)
+else:
+	c.add_variable('muons.pt',					2)
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muPairs.phi',				1)
-# c.add_spectator('muons.pt',					2)
+
 # c.add_spectator('muons.eta',				2)
 # c.add_spectator('muons.phi',				2)
 c.add_spectator('muons.isMediumID',			2)
