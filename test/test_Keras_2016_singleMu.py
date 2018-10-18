@@ -4,7 +4,7 @@ from src.classifier import Framework
 
 c = Framework()
 comment = "Keras test: UCSD model, variables: HIG-17-019, only 1 jetPair + min/max_dR (mu/dimu and jet) + zepenfeld + singleMu (pT, eta, phi).\n Dropout(0.2)\n\
-	model_50_D2_25_D2 vs. model_50_D2_25_D2_kldiv"	
+	 model_50_D2_25_D2_kldiv"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -25,7 +25,7 @@ signal = [
 # bkg_path = "/mnt/hadoop/store/user/dkondrat/"#"/tmp/Hmumu_ntuples"
 bkg_path = '/tmp/Hmumu_ntuples/updated/'
 background = [
-	['tt_ll_AMC',				"/tt_ll_AMC/",			85.656*0.9	],
+	# ['tt_ll_AMC',				"/tt_ll_AMC/",			85.656*0.9	],
 	['ZJets_MG',				"/ZJets_MG/",				5765.4		],
 	# ['WW',						"/WWTo2L2Nu_13TeV-powheg/WW/180827_203218/0000/",													12.46		],
 	# ['WWW',					"/WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8/WWW/180827_203402/0000/",							0.2086		],
@@ -96,14 +96,14 @@ c.add_variable("zepenfeld",					1)
 
 c.add_variable('muons.eta',					2)
 c.add_variable('muons.phi',					2)
-c.add_variable("mu1_pt_by_mass",			1)
-c.add_variable("mu2_pt_by_mass",			1)
+# c.add_variable("mu1_pt_by_mass",			1)
+# c.add_variable("mu2_pt_by_mass",			1)
 
-# c.add_variable('muons.pt',					2)
+c.add_variable('muons.pt',					2)
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muPairs.phi',				1)
-c.add_spectator('muons.pt',					2)
+# c.add_spectator('muons.pt',					2)
 # c.add_spectator('muons.eta',				2)
 # c.add_spectator('muons.phi',				2)
 c.add_spectator('muons.isMediumID',			2)
@@ -129,11 +129,11 @@ c.add_package("Keras")
 # c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
-c.add_method("model_50_D2_25_D2") # Dropout 0.2
+# c.add_method("model_50_D2_25_D2") # Dropout 0.2
 
-# c.custom_loss = True
-# c.add_method("model_50_D2_25_D2_kldiv1")
-# c.add_method("model_50_D2_25_D2_kldiv2")
+c.custom_loss = True
+c.add_method("model_50_D2_25_D2_kldiv1")
+c.add_method("model_50_D2_25_D2_kldiv2")
 # c.add_method("model_50_D2_25_D2_kldiv3")
 # c.add_method("model_50_D2_25_D2_kldiv4")
 # c.add_method("model_50_D2_25_D2_kldiv5")
