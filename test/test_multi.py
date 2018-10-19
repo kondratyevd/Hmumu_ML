@@ -94,7 +94,7 @@ c.add_package("Keras_multi")
 
 c.custom_loss = True
 c.add_method("model_50_D2_25_D2_kldiv0")
-c.add_method("loss_multiclass_mass_control_0p1")
+c.add_method("model_50_D2_25_D2_mass_control_0p1")
 # c.add_method("model_50_D2_25_D2_kldiv1")
 # c.add_method("model_50_D2_25_D2_kldiv2")
 # c.add_method("model_50_D2_25_D2_kldiv3")
