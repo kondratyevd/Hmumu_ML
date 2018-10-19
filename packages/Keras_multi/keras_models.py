@@ -27,7 +27,7 @@ class model_init(object):
 
 
 
-def GetListOfModels(input_dim, n_categories, n_categories):
+def GetListOfModels(input_dim, output_dim, n_categories):
 
 	list_of_models = []
 
@@ -35,7 +35,7 @@ def GetListOfModels(input_dim, n_categories, n_categories):
 	UCSD_model = model_init('UCSD_model', input_dim, 2048, 200, 'categorical_crossentropy', 'adam')
 	x = Dense(50, name = UCSD_model.name+'_layer_1', activation='relu')(UCSD_model.inputs)
 	x = Dropout(0.2)(x)
-	UCSD_model.outputs = Dense(n_categories, name = UCSD_model.name+'_output',  activation='softmax')(x)
+	UCSD_model.outputs = Dense(output_dim, name = UCSD_model.name+'_output',  activation='softmax')(x)
 
 
 	model_50_D2_25_D2 = model_init('model_50_D2_25_D2', input_dim, 2048, 200, 'categorical_crossentropy', 'adam')
@@ -43,13 +43,13 @@ def GetListOfModels(input_dim, n_categories, n_categories):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	model_50_D2_25_D2.outputs = Dense(n_categories, name = model_50_D2_25_D2.name+'_output',  activation='softmax')(x)
+	model_50_D2_25_D2.outputs = Dense(output_dim, name = model_50_D2_25_D2.name+'_output',  activation='softmax')(x)
 
 
 	model_50_D1 = model_init('model_50_D1', input_dim, 2048, 200, 'categorical_crossentropy', 'adam')
 	x = Dense(50, name = model_50_D1.name+'_layer_1', activation='relu')(model_50_D1.inputs)
 	x = Dropout(0.1)(x)
-	model_50_D1.outputs = Dense(n_categories, name = model_50_D1.name+'_output',  activation='softmax')(x)
+	model_50_D1.outputs = Dense(output_dim, name = model_50_D1.name+'_output',  activation='softmax')(x)
 
 
 	model_50_D2_25_D2_25_D2 = model_init('model_50_D2_25_D2_25_D2', input_dim, 2048, 200, 'categorical_crossentropy', 'adam')
@@ -59,7 +59,7 @@ def GetListOfModels(input_dim, n_categories, n_categories):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2.name+'_layer_3', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	model_50_D2_25_D2_25_D2.outputs = Dense(n_categories, name = model_50_D2_25_D2_25_D2.name+'_output',  activation='softmax')(x)
+	model_50_D2_25_D2_25_D2.outputs = Dense(output_dim, name = model_50_D2_25_D2_25_D2.name+'_output',  activation='softmax')(x)
 
 
 
