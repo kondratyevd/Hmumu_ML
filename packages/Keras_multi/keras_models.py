@@ -108,6 +108,41 @@ def GetListOfModels(input_dim, output_dim):
 
 
 
+	def loss_kldiv0(y_in,x_in):
+	    h = y_in[:,0:NBINS]
+	    y = y_in[:,NBINS:NBINS+2]
+	    x = x_in[:,NBINS:NBINS+2]	    
+	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
+	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
+	    h_blike_s = h_blike_slike_s[:,1]
+	    h_blike_s = h_blike_s / K.sum(h_blike_s,axis=0)
+	    h_slike_s = h_blike_slike_s[:,0]
+	    h_slike_s = h_slike_s / K.sum(h_slike_s,axis=0)
+	    h_blike_b = h_blike_slike_b[:,1]
+	    h_blike_b = h_blike_b / K.sum(h_blike_b,axis=0)
+	    h_slike_b = h_blike_slike_s[:,0]
+	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0)
+	
+	    return categorical_crossentropy(y, x)   
+
+
+	model_50_D2_25_D2_kldiv0 = model_init('model_50_D2_25_D2_kldiv0', nVar, 2048, 100, [loss_kldiv0], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_kldiv0.name+'_layer_1', activation='relu')(model_50_D2_25_D2_kldiv0.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_kldiv0.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(2, name = model_50_D2_25_D2_kldiv0.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_kldiv0.inputs)
+	def slicer(x):
+	    return x[:,0:10]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_kldiv0.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_kldiv0)
+
+
 	def loss_kldiv1(y_in,x_in):
 	    h = y_in[:,0:NBINS]
 	    y = y_in[:,NBINS:NBINS+2]
