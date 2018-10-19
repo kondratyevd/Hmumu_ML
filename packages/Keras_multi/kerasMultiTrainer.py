@@ -401,7 +401,7 @@ class KerasMultiTrainer(object):
 
 		for index, row in df.iterrows():
 			for cat in self.category_labels:
-				if row[cat]==1:
+				if row[category]==1:
 					if cat in category:
 						hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
 					else:
