@@ -45,7 +45,7 @@ c.add_variable("zepenfeld",					1)
 c.add_variable('muons.eta',					2)
 c.add_variable('muons.phi',					2)
 
-decorrelate = True
+decorrelate = False
 
 if(decorrelate):
 	c.add_variable("mu1_pt_by_mass",			1)
