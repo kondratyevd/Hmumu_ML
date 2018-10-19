@@ -18,11 +18,11 @@ class KerasMultiTrainer(object):
 	def __init__(self, framework, package):
 		self.framework = framework
 		self.package = package
-		# self.sum_weight_s = 1
-		# self.sum_weight_b = 1
 		self.sum_weights = {}
 		self.spect_labels = []
+		self.mass_bin_labels = []
 		self.category_labels = self.framework.signal_categories+self.framework.bkg_categories
+		self.mass_histograms = []
 
 	def __enter__(self):
 		self.df = pandas.DataFrame()
@@ -104,7 +104,7 @@ class KerasMultiTrainer(object):
 
 	def train_models(self):
 		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)
-		self.list_of_models = GetListOfModels(len(self.labels), len(self.truth_labels), len(self.category_labels)) #the arguments are for the input and output dimensions, and number of categories
+		self.list_of_models = GetListOfModels(self)
 		for obj in self.list_of_models:
 			if obj.name not in self.framework.method_list:
 				continue
@@ -501,11 +501,22 @@ class KerasMultiTrainer(object):
 		bin_width = float((max-min)/nbins)
 		# print bin_width
 
+
+
 		for i in range(nbins):
 			df["mass_bin_%i"%i] = 0
-			print min+i*bin_width, min+(i+1)*bin_width
+			# print min+i*bin_width, min+(i+1)*bin_width
 			df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
-			self.truth_labels.append("mass_bin_%i"%i)
+			self.mass_bin_labels.append("mass_bin_%i"%i)
+
+		self.truth_labels.extend(self.mass_bin_labels)
+
+		for category in self.category_labels:
+			mass_hist = df.loc[(df[category]>0),self.mass_bin_labels].sum(axis=0)
+			print "mass hist shape for %s: "%category, mass_hist.shape
+			mass_hist = mass_hist / mass_hist.sum()
+			self.mass_histograms.append(mass_hist.values.tolist())	
+		print self.mass_histograms
 
 		return df
 

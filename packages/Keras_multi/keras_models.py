@@ -27,8 +27,10 @@ class model_init(object):
 
 
 
-def GetListOfModels(input_dim, output_dim, n_categories):
-
+def GetListOfModels(framework):
+	input_dim = len(framework.labels)
+	output_dim = len(framework.truth_labels)
+	n_categories = len(framework.category_labels)
 	list_of_models = []
 
 
@@ -77,7 +79,6 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 	NBINS=10 # number of bins for loss function
 	MMAX = 110. # max value
 	MMIN = 150. # min value
-	LAMBDA = 0.1 # lambda for penalty
 
 
 	# def loss_kldiv(y_in,x_in):
@@ -143,9 +144,51 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 	list_of_models.append(model_50_D2_25_D2_kldiv0)
 
 
+
+
+	def loss_multiclass_mass_control_0p1(y_in,x_in):
+		LAMBDA = 0.1
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		mass_shape_correct_id = []					# indices of this list correspond to true categories
+		for icat in range(n_categories):
+			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
+			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
+			# mass_shape_correct_id.append(_mass_shape_correct_id)
+			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
+		return loss
+
+
+
+	model_50_D2_25_D2_mass_control_0p1 = model_init('model_50_D2_25_D2_mass_control_0p1', input_dim, 2048, 100, [loss_multiclass_mass_control_0p1], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_mass_control_0p1.name+'_layer_1', activation='relu')(model_50_D2_25_D2_mass_control_0p1.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_mass_control_0p1.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_mass_control_0p1.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_mass_control_0p1.inputs)
+	def slicer(x):
+	    return x[:,0:10]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_mass_control_0p1.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_mass_control_0p1)
+
+
+
+
+
+
 	def loss_kldiv1(y_in,x_in):
 	    h = y_in[:,0:NBINS]
-	    y = y_in[:,NBINS:NBINS+n_categories]
+	    y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
 	    x = x_in[:,NBINS:NBINS+n_categories]	    
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))

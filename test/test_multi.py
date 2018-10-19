@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 2 classes, V3"	
+comment = "Multiclassification: 4 classes, V3, new loss function"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -11,29 +11,25 @@ treePath = 'dimuons/tree'
 
 mc_path = '/tmp/Hmumu_ntuples/updated/'
 
-# c.add_category('H2Mu_gg', True)
-# c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
+c.add_category('H2Mu_gg', True)
+c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
 
-# c.add_category('H2Mu_VBF', True)
-# c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
+c.add_category('H2Mu_VBF', True)
+c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
 
-# c.add_category('ZJets_MG', False)
-# c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'ZJets_MG')
+c.add_category('ZJets_MG', False)
+c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'ZJets_MG')
 
-# c.add_category('tt_ll_AMC', False)
-# c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'tt_ll_AMC')
-
-c.add_category('signal', True)
-c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'signal')
+c.add_category('tt_ll_AMC', False)
+c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'tt_ll_AMC')
 
 # c.add_category('signal', True)
-c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'signal')
-
-c.add_category('background', False)
-c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'background')
+# c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'signal')
+# c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'signal')
 
 # c.add_category('background', False)
-c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'background')
+# c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'background')
+# c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'background')
 
 c.set_tree_path(treePath)
 
@@ -98,8 +94,9 @@ c.add_package("Keras_multi")
 
 c.custom_loss = True
 c.add_method("model_50_D2_25_D2_kldiv0")
-c.add_method("model_50_D2_25_D2_kldiv1")
-c.add_method("model_50_D2_25_D2_kldiv2")
+c.add_method("loss_multiclass_mass_control_0p1")
+# c.add_method("model_50_D2_25_D2_kldiv1")
+# c.add_method("model_50_D2_25_D2_kldiv2")
 # c.add_method("model_50_D2_25_D2_kldiv3")
 # c.add_method("model_50_D2_25_D2_kldiv4")
 # c.add_method("model_50_D2_25_D2_kldiv5")
