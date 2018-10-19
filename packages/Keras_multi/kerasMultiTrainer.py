@@ -104,7 +104,7 @@ class KerasMultiTrainer(object):
 
 	def train_models(self):
 		self.df_train_scaled, self.df_test_scaled = self.scale(self.df_train, self.df_test, self.labels)
-		self.list_of_models = GetListOfModels(len(self.labels), len(self.truth_labels)) #the arguments are for the input and output dimensions
+		self.list_of_models = GetListOfModels(len(self.labels), len(self.truth_labels), len(self.category_labels)) #the arguments are for the input and output dimensions, and number of categories
 		for obj in self.list_of_models:
 			if obj.name not in self.framework.method_list:
 				continue
