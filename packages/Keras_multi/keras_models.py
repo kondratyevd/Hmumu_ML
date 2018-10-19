@@ -123,10 +123,10 @@ def GetListOfModels(input_dim, output_dim):
 	    h_slike_b = h_blike_slike_s[:,0]
 	    h_slike_b = h_slike_b / K.sum(h_slike_b,axis=0)
 	
-	    return categorical_crossentropy(y, x)   
+	    return categorical_crossentropy(y, x) 
 
 
-	model_50_D2_25_D2_kldiv0 = model_init('model_50_D2_25_D2_kldiv0', nVar, 2048, 100, [loss_kldiv0], 'adam')
+	model_50_D2_25_D2_kldiv0 = model_init('model_50_D2_25_D2_kldiv0', input_dim, 2048, 100, [loss_kldiv0], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_kldiv0.name+'_layer_1', activation='relu')(model_50_D2_25_D2_kldiv0.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv0.name+'_layer_2', activation='relu')(x)
