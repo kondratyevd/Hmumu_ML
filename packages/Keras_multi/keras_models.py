@@ -89,8 +89,8 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 	#     y: the truth categorical labels  "one-hot encoded" (length NClasses=2)
 	#     """
 	#     h = y_in[:,0:NBINS]
-	#     y = y_in[:,NBINS:NBINS+2]
-	#     x = x_in[:,NBINS:NBINS+2]	    
+	#     y = y_in[:,NBINS:NBINS+n_categories]
+	#     x = x_in[:,NBINS:NBINS+n_categories]	    
 	#     h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	#     h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	#     h_blike_s = h_blike_slike_s[:,1]
@@ -110,8 +110,8 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 
 	def loss_kldiv0(y_in,x_in):
 	    h = y_in[:,0:NBINS]
-	    y = y_in[:,NBINS:NBINS+2]
-	    x = x_in[:,NBINS:NBINS+2]	    
+	    y = y_in[:,NBINS:NBINS+n_categories]
+	    x = x_in[:,NBINS:NBINS+n_categories]	    
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	    h_blike_s = h_blike_slike_s[:,1]
@@ -145,8 +145,8 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 
 	def loss_kldiv1(y_in,x_in):
 	    h = y_in[:,0:NBINS]
-	    y = y_in[:,NBINS:NBINS+2]
-	    x = x_in[:,NBINS:NBINS+2]	    
+	    y = y_in[:,NBINS:NBINS+n_categories]
+	    x = x_in[:,NBINS:NBINS+n_categories]	    
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	    h_blike_s = h_blike_slike_s[:,1]
@@ -186,8 +186,8 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 
 	def loss_kldiv2(y_in,x_in):
 	    h = y_in[:,0:NBINS]
-	    y = y_in[:,NBINS:NBINS+2]
-	    x = x_in[:,NBINS:NBINS+2]	    
+	    y = y_in[:,NBINS:NBINS+n_categories]
+	    x = x_in[:,NBINS:NBINS+n_categories]	    
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	    h_blike_s = h_blike_slike_s[:,1]
@@ -228,8 +228,8 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 
 	def loss_kldiv3(y_in,x_in):
 	    h = y_in[:,0:NBINS]
-	    y = y_in[:,NBINS:NBINS+2]
-	    x = x_in[:,NBINS:NBINS+2]	    
+	    y = y_in[:,NBINS:NBINS+n_categories]
+	    x = x_in[:,NBINS:NBINS+n_categories]	    
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	    h_blike_s = h_blike_slike_s[:,1]
@@ -268,8 +268,8 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 
 	def loss_kldiv4(y_in,x_in):
 	    h = y_in[:,0:NBINS]
-	    y = y_in[:,NBINS:NBINS+2]
-	    x = x_in[:,NBINS:NBINS+2]	    
+	    y = y_in[:,NBINS:NBINS+n_categories]
+	    x = x_in[:,NBINS:NBINS+n_categories]	    
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	    h_blike_s = h_blike_slike_s[:,1]
@@ -308,8 +308,8 @@ def GetListOfModels(input_dim, output_dim, n_categories):
 
 	def loss_kldiv5(y_in,x_in):
 	    h = y_in[:,0:NBINS]
-	    y = y_in[:,NBINS:NBINS+2]
-	    x = x_in[:,NBINS:NBINS+2]	    
+	    y = y_in[:,NBINS:NBINS+n_categories]
+	    x = x_in[:,NBINS:NBINS+n_categories]	    
 	    h_blike_slike_s = K.dot(K.transpose(h), K.dot(tf.diag(y[:,0]),x))
 	    h_blike_slike_b = K.dot(K.transpose(h), K.dot(tf.diag(y[:,1]),x))
 	    h_blike_s = h_blike_slike_s[:,1]
