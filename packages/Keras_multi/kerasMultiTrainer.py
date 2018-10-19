@@ -400,11 +400,14 @@ class KerasMultiTrainer(object):
 
 		for index, row in df.iterrows():
 			for cat in self.category_labels:
-				if cat in category:
-					hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
-				else:
-					hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
+				if row[cat]==1:
+					if cat in category:
+						hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
+					else:
+						hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
 		
+
+
 		hist_correct.Scale(1/hist_correct.Integral())
 		hist_correct.SetLineColor(color)
 		hist_correct.SetFillColor(color)
