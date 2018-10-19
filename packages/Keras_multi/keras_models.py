@@ -131,7 +131,7 @@ def GetListOfModels(input_dim, output_dim):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv0.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	out1 = Dense(2, name = model_50_D2_25_D2_kldiv0.name+'_output',  activation='softmax')(x)
+	out1 = Dense(output_dim , name = model_50_D2_25_D2_kldiv0.name+'_output',  activation='softmax')(x)
 	
 	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_kldiv0.inputs)
 	def slicer(x):
@@ -168,7 +168,7 @@ def GetListOfModels(input_dim, output_dim):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv1.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	out1 = Dense(2, name = model_50_D2_25_D2_kldiv1.name+'_output',  activation='softmax')(x)
+	out1 = Dense(output_dim , name = model_50_D2_25_D2_kldiv1.name+'_output',  activation='softmax')(x)
 	
 	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_kldiv1.inputs)
 	def slicer(x):
@@ -209,7 +209,7 @@ def GetListOfModels(input_dim, output_dim):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv2.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	out1 = Dense(2, name = model_50_D2_25_D2_kldiv2.name+'_output',  activation='softmax')(x)
+	out1 = Dense(output_dim , name = model_50_D2_25_D2_kldiv2.name+'_output',  activation='softmax')(x)
 	
 	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_kldiv2.inputs)
 	def slicer(x):
@@ -251,7 +251,7 @@ def GetListOfModels(input_dim, output_dim):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv3.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	out1 = Dense(2, name = model_50_D2_25_D2_kldiv3.name+'_output',  activation='softmax')(x)
+	out1 = Dense(output_dim , name = model_50_D2_25_D2_kldiv3.name+'_output',  activation='softmax')(x)
 	
 	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_kldiv3.inputs)
 	def slicer(x):
@@ -291,7 +291,7 @@ def GetListOfModels(input_dim, output_dim):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv4.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	out1 = Dense(2, name = model_50_D2_25_D2_kldiv4.name+'_output',  activation='softmax')(x)
+	out1 = Dense(output_dim , name = model_50_D2_25_D2_kldiv4.name+'_output',  activation='softmax')(x)
 	
 	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_kldiv4.inputs)
 	def slicer(x):
@@ -331,7 +331,7 @@ def GetListOfModels(input_dim, output_dim):
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_kldiv5.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	out1 = Dense(2, name = model_50_D2_25_D2_kldiv5.name+'_output',  activation='softmax')(x)
+	out1 = Dense(output_dim , name = model_50_D2_25_D2_kldiv5.name+'_output',  activation='softmax')(x)
 	
 	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_kldiv5.inputs)
 	def slicer(x):
