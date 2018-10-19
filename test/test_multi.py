@@ -93,8 +93,14 @@ c.add_package("Keras_multi")
 # c.add_method("model_50_D2_25_D2") # Dropout 0.2
 
 c.custom_loss = True
-c.add_method("model_50_D2_25_D2_kldiv0")
+
+c.add_method("model_50_D2_25_D2_mass_control_0")
 c.add_method("model_50_D2_25_D2_mass_control_0p1")
+c.add_method("model_50_D2_25_D2_mass_control_0p2")
+c.add_method("model_50_D2_25_D2_mass_control_0p3")
+c.add_method("model_50_D2_25_D2_mass_control_0p4")
+c.add_method("model_50_D2_25_D2_mass_control_0p5")
+# c.add_method("model_50_D2_25_D2_kldiv0")
 # c.add_method("model_50_D2_25_D2_kldiv1")
 # c.add_method("model_50_D2_25_D2_kldiv2")
 # c.add_method("model_50_D2_25_D2_kldiv3")

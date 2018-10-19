@@ -23,6 +23,7 @@ class KerasMultiTrainer(object):
 		self.mass_bin_labels = []
 		self.category_labels = self.framework.signal_categories+self.framework.bkg_categories
 		self.mass_histograms = []
+		self.mass_histograms_th1d = {}
 
 	def __enter__(self):
 		self.df = pandas.DataFrame()
@@ -84,7 +85,6 @@ class KerasMultiTrainer(object):
 
 	
 						print "Added %s with %i events"%(file.name, single_file_df.shape[0])
-						# if ttbar_flag:
 						self.df = pandas.concat([self.df,single_file_df])
 		
 		self.df.reset_index(inplace=True, drop=True)
@@ -138,12 +138,9 @@ class KerasMultiTrainer(object):
 
 			history = obj.model.fit(			
 									self.df_train_scaled[self.labels].values,
-       		            			# self.df_train_scaled.loc[:,['signal', 'background']].values,
        		            			self.df_train_scaled[self.truth_labels].values,
        		            			epochs=obj.epochs, 
        		            			batch_size=obj.batchSize, 
-       		            			# sample_weight = weights_train.flatten(),			
-       		            			# class_weight = self.df_train['sample_weight'].values,
        		            			verbose=1,
        		            			# callbacks=[
        		            				# early_stopping, 
@@ -451,6 +448,11 @@ class KerasMultiTrainer(object):
 			hists[category+"_"+cat].Draw("histsame")
 			count += 1
 
+		self.mass_histograms_th1d[category].SetLineColor(ROOT.kBlack)
+		self.mass_histograms_th1d[category].SetLineWidth(2)
+		self.mass_histograms_th1d[category].Draw("histsame")
+		legend.AddEntry(self.mass_histograms_th1d[category], "%s: input distribution"%category, "l")
+
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_%s.png"%category)
 		canv.SaveAs(self.package.mainDir+'/'+model_name+"/root/mass_%s.root"%category)
@@ -499,23 +501,27 @@ class KerasMultiTrainer(object):
 			return
 
 		bin_width = float((max-min)/nbins)
-		# print bin_width
 
-
+		for category in self.category_labels:
+			self.mass_histograms_th1d[category] = ROOT.TH1D("input_"+category, "", nbins, min, max)
 
 		for i in range(nbins):
 			df["mass_bin_%i"%i] = 0
-			# print min+i*bin_width, min+(i+1)*bin_width
+
 			df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
 			self.mass_bin_labels.append("mass_bin_%i"%i)
 
 		self.truth_labels.extend(self.mass_bin_labels)
 
 		for category in self.category_labels:
+
 			mass_hist = df.loc[(df[category]>0),self.mass_bin_labels].sum(axis=0)
 			print "mass hist shape for %s: "%category, mass_hist.shape
 			mass_hist = mass_hist / mass_hist.sum()
 			self.mass_histograms.append(mass_hist.values.tolist())	
+
+			for i in range(nbins):
+				self.mass_histograms_th1d[category].SetBinContent(i+1, mass_hist.values.tolist()[i])
 		print self.mass_histograms
 
 		return df
