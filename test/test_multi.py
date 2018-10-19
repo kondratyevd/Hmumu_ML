@@ -86,8 +86,8 @@ c.add_package("Keras_multi")
 
 c.custom_loss = True
 c.add_method("model_50_D2_25_D2_kldiv0")
-c.add_method("model_50_D2_25_D2_kldiv1")
-c.add_method("model_50_D2_25_D2_kldiv2")
+# c.add_method("model_50_D2_25_D2_kldiv1")
+# c.add_method("model_50_D2_25_D2_kldiv2")
 # c.add_method("model_50_D2_25_D2_kldiv3")
 # c.add_method("model_50_D2_25_D2_kldiv4")
 # c.add_method("model_50_D2_25_D2_kldiv5")
