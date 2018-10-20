@@ -355,7 +355,6 @@ def GetListOfModels(framework):
 			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
 			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
-			# mass_shape_correct_id.append(_mass_shape_correct_id)
 			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
 		return loss
 
@@ -391,7 +390,6 @@ def GetListOfModels(framework):
 			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
 			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
-			# mass_shape_correct_id.append(_mass_shape_correct_id)
 			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
 		return loss
 
@@ -427,7 +425,6 @@ def GetListOfModels(framework):
 			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
 			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
-			# mass_shape_correct_id.append(_mass_shape_correct_id)
 			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
 		return loss
 
@@ -464,7 +461,6 @@ def GetListOfModels(framework):
 			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
 			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
-			# mass_shape_correct_id.append(_mass_shape_correct_id)
 			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
 		return loss
 
@@ -501,7 +497,6 @@ def GetListOfModels(framework):
 			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
 			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
-			# mass_shape_correct_id.append(_mass_shape_correct_id)
 			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
 		return loss
 
@@ -538,7 +533,6 @@ def GetListOfModels(framework):
 			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
 			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
-			# mass_shape_correct_id.append(_mass_shape_correct_id)
 			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
 		return loss
 
@@ -559,6 +553,112 @@ def GetListOfModels(framework):
 	model_50_D2_25_D2_mass_control_0p5.outputs = Concatenate()([lambdaLayer, out1]) # order is important
 
 	list_of_models.append(model_50_D2_25_D2_mass_control_0p5)
+
+
+	def loss_multiclass_mass_control_1(y_in,x_in):
+		LAMBDA = 1
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		mass_shape_correct_id = []					# indices of this list correspond to true categories
+		for icat in range(n_categories):
+			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
+			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
+			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
+		return loss
+
+
+
+	model_50_D2_25_D2_mass_control_1 = model_init('model_50_D2_25_D2_mass_control_1', input_dim, 2048, 100, [loss_multiclass_mass_control_1], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_mass_control_1.name+'_layer_1', activation='relu')(model_50_D2_25_D2_mass_control_1.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_mass_control_1.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_mass_control_1.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_mass_control_1.inputs)
+	def slicer(x):
+	    return x[:,0:10]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_mass_control_1.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_mass_control_1)
+
+
+
+	def loss_multiclass_mass_control_2(y_in,x_in):
+		LAMBDA = 2
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		mass_shape_correct_id = []					# indices of this list correspond to true categories
+		for icat in range(n_categories):
+			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
+			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
+			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
+		return loss
+
+
+
+	model_50_D2_25_D2_mass_control_2 = model_init('model_50_D2_25_D2_mass_control_2', input_dim, 2048, 100, [loss_multiclass_mass_control_2], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_mass_control_2.name+'_layer_1', activation='relu')(model_50_D2_25_D2_mass_control_2.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_mass_control_2.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_mass_control_2.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_mass_control_2.inputs)
+	def slicer(x):
+	    return x[:,0:10]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_mass_control_2.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_mass_control_2)
+
+
+	def loss_multiclass_mass_control_3(y_in,x_in):
+		LAMBDA = 3
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		mass_shape_correct_id = []					# indices of this list correspond to true categories
+		for icat in range(n_categories):
+			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+			_mass_shape_correct_id = mass_split_by_prediction[:,icat]
+			_mass_shape_correct_id = _mass_shape_correct_id / K.sum(_mass_shape_correct_id,axis=0)
+			loss += LAMBDA*kullback_leibler_divergence(K.transpose(framework.mass_histograms[icat]), _mass_shape_correct_id)
+		return loss
+
+
+
+	model_50_D2_25_D2_mass_control_3 = model_init('model_50_D2_25_D2_mass_control_3', input_dim, 2048, 100, [loss_multiclass_mass_control_3], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_mass_control_3.name+'_layer_1', activation='relu')(model_50_D2_25_D2_mass_control_3.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_mass_control_3.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_mass_control_3.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_mass_control_3.inputs)
+	def slicer(x):
+	    return x[:,0:10]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_mass_control_3.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_mass_control_3)
 
 
 	return list_of_models
