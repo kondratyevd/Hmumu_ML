@@ -24,6 +24,8 @@ class KerasMultiTrainer(object):
 		self.category_labels = self.framework.signal_categories+self.framework.bkg_categories
 		self.mass_histograms = []
 		self.mass_histograms_th1d = {}
+		for category in self.category_labels:
+			self.mass_histograms_th1d[category] = ROOT.TH1D("input_"+category, "", 10, 110, 150)
 
 	def __enter__(self):
 		self.df = pandas.DataFrame()
@@ -502,8 +504,7 @@ class KerasMultiTrainer(object):
 
 		bin_width = float((max-min)/nbins)
 
-		for category in self.category_labels:
-			self.mass_histograms_th1d[category] = ROOT.TH1D("input_"+category, "", nbins, min, max)
+
 
 		for i in range(nbins):
 			df["mass_bin_%i"%i] = 0
