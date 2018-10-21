@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 4 classes, V3, new loss function"	
+comment = "Multiclassification: 4 classes, V1"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -44,23 +44,42 @@ c.add_variable("nBMed",						1)
 c.add_variable("jets.eta",					2)
 c.add_variable("jetPairs.dEta",				1)
 c.add_variable("jetPairs.mass",				1)
-c.add_variable("min_dR_mu_jet"	,			1)
-c.add_variable("max_dR_mu_jet"	,			1)
-c.add_variable("min_dR_mumu_jet",			1)
-c.add_variable("max_dR_mumu_jet",			1)
-c.add_variable("zepenfeld",					1)
 
-c.add_variable('muons.eta',					2)
-c.add_variable('muons.phi',					2)
 
-decorrelate = False
+var_set = "V1"
 
-if(decorrelate):
-	c.add_variable("mu1_pt_by_mass",			1)
-	c.add_variable("mu2_pt_by_mass",			1)
+
+if var_set == "V1":
 	c.add_spectator('muons.pt',					2)
-else:
+elif var_set == "V2":
+	c.add_spectator('muons.pt',					2)
+	c.add_variable("min_dR_mu_jet"	,			1)
+	c.add_variable("max_dR_mu_jet"	,			1)
+	c.add_variable("min_dR_mumu_jet",			1)
+	c.add_variable("max_dR_mumu_jet",			1)
+	c.add_variable("zepenfeld",					1)
+elif var_set == "V3":
 	c.add_variable('muons.pt',					2)
+	c.add_variable('muons.eta',					2)
+	c.add_variable('muons.phi',					2)
+	c.add_variable("min_dR_mu_jet"	,			1)
+	c.add_variable("max_dR_mu_jet"	,			1)
+	c.add_variable("min_dR_mumu_jet",			1)
+	c.add_variable("max_dR_mumu_jet",			1)
+	c.add_variable("zepenfeld",					1)
+elif var_set == "V4":
+	c.add_spectator('muons.pt',					2)
+	c.add_variable("mu1_pt_by_mass",			1)
+	c.add_variable("mu2_pt_by_mass",			1)	
+	c.add_variable('muons.eta',					2)
+	c.add_variable('muons.phi',					2)
+	c.add_variable("min_dR_mu_jet"	,			1)
+	c.add_variable("max_dR_mu_jet"	,			1)
+	c.add_variable("min_dR_mumu_jet",			1)
+	c.add_variable("max_dR_mumu_jet",			1)
+	c.add_variable("zepenfeld",					1)
+
+
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muPairs.phi',				1)
@@ -90,9 +109,9 @@ c.add_package("Keras_multi")
 # c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
-# c.add_method("model_50_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2") # Dropout 0.2
 
-c.custom_loss = True
+# c.custom_loss = True
 
 # c.add_method("model_50_D2_25_D2_mass_control_0")
 # c.add_method("model_50_D2_25_D2_mass_control_0p1")
@@ -104,7 +123,7 @@ c.custom_loss = True
 # c.add_method("model_50_D2_25_D2_mass_control_2")
 # c.add_method("model_50_D2_25_D2_mass_control_3")
 # c.add_method("model_50_D2_25_D2_mass_control_4")
-c.add_method("model_50_D2_25_D2_mass_control_5")
+# c.add_method("model_50_D2_25_D2_mass_control_5")
 # c.add_method("model_50_D2_25_D2_kldiv0")
 # c.add_method("model_50_D2_25_D2_kldiv1")
 # c.add_method("model_50_D2_25_D2_kldiv2")
