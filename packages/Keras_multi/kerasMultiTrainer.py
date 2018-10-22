@@ -37,7 +37,7 @@ class KerasMultiTrainer(object):
 
 
 	def convert_to_pandas(self):
-		self.calc_sum_wgts()
+		# self.calc_sum_wgts()
 		for file in self.framework.files:
 			for filename in os.listdir(file.path):
 			    if filename.endswith(".root"): 
@@ -97,7 +97,6 @@ class KerasMultiTrainer(object):
 		if self.framework.custom_loss:
 			self.df = self.make_mass_bins(self.df, 10, 110, 150)
 		self.truth_labels.extend(self.category_labels)
-		print self.df['weight']
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
@@ -252,10 +251,9 @@ class KerasMultiTrainer(object):
 		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
 		canv.cd()
 
-		count = 0
 		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
 
-		for category in self.category_labels:
+		for count, category in enumerate(self.category_labels):
 			legend.AddEntry(train_dict[category], category+" train", "f")
 			legend.AddEntry(test_dict[category], category+" test", "pe")
 
@@ -273,8 +271,6 @@ class KerasMultiTrainer(object):
 			test_dict[category].SetMarkerStyle(20)
 			test_dict[category].SetMarkerSize(0.8)
 			test_dict[category].SetLineWidth(1)
-
-			count +=1
 
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+name+"/png/overfit.png")
@@ -373,15 +369,13 @@ class KerasMultiTrainer(object):
 							
 		mass_hists = []
 		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
-		count = 0
-
+	
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 
-		for category in self.category_labels:
+		for count, category in enumerate(self.category_labels):
 			new_mass_hist = CategoryMassHist(self, df, category, model_name, color_pool[count])
 			mass_hists.append(new_mass_hist)
-			count += 1
 			legend.AddEntry(new_mass_hist.hist_correct, category+" correct", "f")
 			legend.AddEntry(new_mass_hist.hist_incorrect, category+" incorrect", "l")
 			new_mass_hist.hist_correct.Draw("histsame")
@@ -440,14 +434,12 @@ class KerasMultiTrainer(object):
 		canv.cd()
 
 		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
-		count = 0
-		for cat in self.category_labels:
+		for count, cat in enumerate(self.category_labels):
 			legend.AddEntry(hists[category+"_"+cat], "true: %s, pred.: %s"%(category, cat), "l")
 			hists[category+"_"+cat].Scale(1/hists[category+"_"+cat].Integral())
 			hists[category+"_"+cat].SetLineColor(color_pool[count])
 			hists[category+"_"+cat].SetLineWidth(2)
 			hists[category+"_"+cat].Draw("histsame")
-			count += 1
 
 		self.mass_histograms_th1d[category].SetLineColor(ROOT.kBlack)
 		self.mass_histograms_th1d[category].SetLineWidth(2)
