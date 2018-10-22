@@ -698,8 +698,8 @@ def GetListOfModels(framework):
 
 
 
-	def loss_cross_cat_mass_control_5(y_in,x_in):
-		LAMBDA = 5
+	def loss_cross_cat_mass_control_4(y_in,x_in):
+		LAMBDA = 4
 		h = y_in[:,0:NBINS]
 		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
 		x = x_in[:,NBINS:NBINS+n_categories]
@@ -717,21 +717,21 @@ def GetListOfModels(framework):
 
 
 
-	model_50_D2_25_D2_cross_cat_mass_control_5 = model_init('model_50_D2_25_D2_cross_cat_mass_control_5', input_dim, 2048, 100, [loss_cross_cat_mass_control_5], 'adam')
-	x = Dense(50, name = model_50_D2_25_D2_cross_cat_mass_control_5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_cross_cat_mass_control_5.inputs)
+	model_50_D2_25_D2_cross_cat_mass_control_4 = model_init('model_50_D2_25_D2_cross_cat_mass_control_4', input_dim, 2048, 100, [loss_cross_cat_mass_control_4], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_cross_cat_mass_control_4.name+'_layer_1', activation='relu')(model_50_D2_25_D2_cross_cat_mass_control_4.inputs)
 	x = Dropout(0.2)(x)
-	x = Dense(25, name = model_50_D2_25_D2_cross_cat_mass_control_5.name+'_layer_2', activation='relu')(x)
+	x = Dense(25, name = model_50_D2_25_D2_cross_cat_mass_control_4.name+'_layer_2', activation='relu')(x)
 	x = Dropout(0.2)(x)
-	out1 = Dense(n_categories , name = model_50_D2_25_D2_cross_cat_mass_control_5.name+'_output',  activation='softmax')(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_cross_cat_mass_control_4.name+'_output',  activation='softmax')(x)
 	
-	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_cross_cat_mass_control_5.inputs)
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_cross_cat_mass_control_4.inputs)
 	def slicer(x):
 	    return x[:,0:NBINS]    
 	lambdaLayer = Lambda(slicer)(lambdaLayer)
 
-	model_50_D2_25_D2_cross_cat_mass_control_5.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+	model_50_D2_25_D2_cross_cat_mass_control_4.outputs = Concatenate()([lambdaLayer, out1]) # order is important
 
-	list_of_models.append(model_50_D2_25_D2_cross_cat_mass_control_5)
+	list_of_models.append(model_50_D2_25_D2_cross_cat_mass_control_4)
 
 
 
