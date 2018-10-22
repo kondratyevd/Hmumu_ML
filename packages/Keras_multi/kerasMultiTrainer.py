@@ -80,12 +80,11 @@ class KerasMultiTrainer(object):
 						weight = SF * single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
 
 						for category in self.category_labels:
-							single_file_df[category] = 0	
-							if file.category is category:
-								single_file_df[category] = 1
-							single_file_df['weight'] = file.weight / self.sum_weights[category] * weight
+							single_file_df[category] = 0
 
-	
+						single_file_df[file.category] = 1
+						single_file_df['weight'] = file.weight / self.sum_weights[file.category] * weight
+
 						print "Added %s with %i events"%(file.name, single_file_df.shape[0])
 						self.df = pandas.concat([self.df,single_file_df])
 		
@@ -463,7 +462,6 @@ class KerasMultiTrainer(object):
 
 
 	def calc_sum_wgts(self):
-		self.sum_weights = {}
 		for category in self.category_labels:
 			self.sum_weights[category] = 0
 
