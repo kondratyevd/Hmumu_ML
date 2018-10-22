@@ -111,7 +111,7 @@ c.add_package("Keras_multi")
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2") # Dropout 0.2
 
-# c.custom_loss = True
+c.custom_loss = True
 c.add_method("model_50_D2_25_D2_mass_control_bkg_4")
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_5")
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_sym_5")
