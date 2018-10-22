@@ -83,8 +83,8 @@ class KerasMultiTrainer(object):
 							single_file_df[category] = 0
 
 						single_file_df[file.category] = 1
-						single_file_df['weight'] = file.weight / self.sum_weights[file.category] * weight
-
+						# single_file_df['weight'] = file.weight / self.sum_weights[file.category] * weight
+						single_file_df['weight'] = file.weight * weight
 						print "Added %s with %i events"%(file.name, single_file_df.shape[0])
 						self.df = pandas.concat([self.df,single_file_df])
 		
@@ -97,7 +97,7 @@ class KerasMultiTrainer(object):
 		if self.framework.custom_loss:
 			self.df = self.make_mass_bins(self.df, 10, 110, 150)
 		self.truth_labels.extend(self.category_labels)
-		print self.df
+		print self.df['weight']
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
 
@@ -168,7 +168,7 @@ class KerasMultiTrainer(object):
 			self.plot_history(history.history, obj.name)
 
 			self.plot_ROC("train", self.df_train_scaled, obj.name)
-			self.plot_ROC("test", self.df_train_scaled, obj.name)
+			self.plot_ROC("test", self.df_test_scaled, obj.name)
 			self.check_overfitting(self.df_train_scaled, self.df_test_scaled, obj.name)
 			self.plot_bkg_shapes(self.df_test_scaled, obj.name)
 
