@@ -35,7 +35,6 @@ class KerasMultiTrainer(object):
 			else:
 				self.bkg_mask.append(0)
 			self.mass_histograms_th1d[category] = ROOT.TH1D("input_"+category, "", 10, 110, 150)
-
 	def __enter__(self):
 		self.df = pandas.DataFrame()
 		return self
@@ -94,7 +93,7 @@ class KerasMultiTrainer(object):
 						single_file_df[file.category] = 1
 						# single_file_df['weight'] = file.weight / self.sum_weights[file.category] * weight
 						single_file_df['weight'] = file.weight * weight
-						self.category_wgts_dict[file.category] = file.weight * weight
+						self.category_wgts_dict[file.category] = file.weight
 						print "Added %s with %i events"%(file.name, single_file_df.shape[0])
 						self.df = pandas.concat([self.df,single_file_df])
 		

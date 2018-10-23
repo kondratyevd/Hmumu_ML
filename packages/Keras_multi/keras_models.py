@@ -838,20 +838,39 @@ def GetListOfModels(trainer):
 	list_of_models.append(model_50_D2_25_D2_mass_control_bkg_4)
 
 
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_4 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_4', input_dim, 2048, 100, [loss_mass_control_bkg_4], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_4.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_4.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_4.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_4.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_4.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_4.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_4.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_4)
+
+
 	def loss_kldiv_binary_wgtd_1(y_in,x_in):
 		LAMBDA = 1
 		h = y_in[:,0:NBINS]
-		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
-		x = x_in[:,NBINS:NBINS+n_categories]
+		y = y_in[:,NBINS:NBINS+n_categories] # truth: order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories] # prediction
 
 		loss = categorical_crossentropy(y, x)  
 		for icat, category in zip(range(n_categories), trainer.category_labels):
-			# if category in trainer.framework.bkg_categories:
 			mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 			mass_bkg = K.dot(mass_split_by_prediction, tf.diag(trainer.bkg_mask)) # remove signal mass histograms
 			bkg_shape = K.dot(mass_bkg, K.transpose(trainer.category_wgts))
 			true_bkg_shape = trainer.bkg_histogram
-			# loss += LAMBDA+kullback_leibler_divergence()
+			loss += LAMBDA*kullback_leibler_divergence()
 
 		return loss
 
