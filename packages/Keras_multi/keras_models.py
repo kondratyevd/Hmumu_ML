@@ -858,11 +858,306 @@ def GetListOfModels(trainer):
 	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_4)
 
 
+
+
+
+	def loss_mass_control_bkg_3p5(y_in,x_in):
+		LAMBDA = 3.5
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		for icat, true_cat in zip(range(n_categories), trainer.category_labels):			# true category
+			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
+				continue
+			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
+				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+					continue
+				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
+				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
+				loss += LAMBDA*kullback_leibler_divergence(K.transpose(trainer.mass_histograms[icat]), mass_shape_in_jth_node)
+		return loss
+
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_3p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_3p5', input_dim, 2048, 100, [loss_mass_control_bkg_3p5], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_3p5)
+
+
+
+	def loss_mass_control_bkg_3(y_in,x_in):
+		LAMBDA = 3
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		for icat, true_cat in zip(range(n_categories), trainer.category_labels):			# true category
+			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
+				continue
+			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
+				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+					continue
+				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
+				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
+				loss += LAMBDA*kullback_leibler_divergence(K.transpose(trainer.mass_histograms[icat]), mass_shape_in_jth_node)
+		return loss
+
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_3 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_3', input_dim, 2048, 100, [loss_mass_control_bkg_3], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_3.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_3.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_3.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_3.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_3)
+
+
+
+	def loss_mass_control_bkg_2p5(y_in,x_in):
+		LAMBDA = 2.5
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		for icat, true_cat in zip(range(n_categories), trainer.category_labels):			# true category
+			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
+				continue
+			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
+				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+					continue
+				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
+				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
+				loss += LAMBDA*kullback_leibler_divergence(K.transpose(trainer.mass_histograms[icat]), mass_shape_in_jth_node)
+		return loss
+
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_2p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_2p5', input_dim, 2048, 100, [loss_mass_control_bkg_2p5], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_2p5)
+
+
+
+
+
+	def loss_mass_control_bkg_2(y_in,x_in):
+		LAMBDA = 2
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		for icat, true_cat in zip(range(n_categories), trainer.category_labels):			# true category
+			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
+				continue
+			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
+				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+					continue
+				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
+				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
+				loss += LAMBDA*kullback_leibler_divergence(K.transpose(trainer.mass_histograms[icat]), mass_shape_in_jth_node)
+		return loss
+
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_2 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_2', input_dim, 2048, 100, [loss_mass_control_bkg_2], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_2.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_2.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_2.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_2.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_2)
+
+
+
+
+	def loss_mass_control_bkg_1p5(y_in,x_in):
+		LAMBDA = 1.5
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		for icat, true_cat in zip(range(n_categories), trainer.category_labels):			# true category
+			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
+				continue
+			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
+				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+					continue
+				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
+				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
+				loss += LAMBDA*kullback_leibler_divergence(K.transpose(trainer.mass_histograms[icat]), mass_shape_in_jth_node)
+		return loss
+
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_1p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_1p5', input_dim, 2048, 100, [loss_mass_control_bkg_1p5], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_1p5)
+
+
+
+
+	def loss_mass_control_bkg_1(y_in,x_in):
+		LAMBDA = 1
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		for icat, true_cat in zip(range(n_categories), trainer.category_labels):			# true category
+			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
+				continue
+			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
+				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+					continue
+				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
+				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
+				loss += LAMBDA*kullback_leibler_divergence(K.transpose(trainer.mass_histograms[icat]), mass_shape_in_jth_node)
+		return loss
+
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_1 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_1', input_dim, 2048, 100, [loss_mass_control_bkg_1], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_1.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_1.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_1.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_1.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_1)
+
+
+
+	def loss_mass_control_bkg_0p5(y_in,x_in):
+		LAMBDA = 0.5
+		h = y_in[:,0:NBINS]
+		y = y_in[:,NBINS:NBINS+n_categories] # order of categories like in category_labels
+		x = x_in[:,NBINS:NBINS+n_categories]
+
+		loss = categorical_crossentropy(y, x)  
+
+		for icat, true_cat in zip(range(n_categories), trainer.category_labels):			# true category
+			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
+				continue
+			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
+				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+					continue
+				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
+				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
+				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
+				loss += LAMBDA*kullback_leibler_divergence(K.transpose(trainer.mass_histograms[icat]), mass_shape_in_jth_node)
+		return loss
+
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_0p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_0p5', input_dim, 2048, 100, [loss_mass_control_bkg_0p5], 'adam')
+	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.inputs)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.name+'_layer_2', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.name+'_layer_3', activation='relu')(x)
+	x = Dropout(0.2)(x)
+	out1 = Dense(n_categories , name = model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.name+'_output',  activation='softmax')(x)
+	
+	lambdaLayer = Lambda(lambda x: 0*x, name='lambda')(model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.inputs)
+	def slicer(x):
+	    return x[:,0:NBINS]    
+	lambdaLayer = Lambda(slicer)(lambdaLayer)
+
+	model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.outputs = Concatenate()([lambdaLayer, out1]) # order is important
+
+	list_of_models.append(model_50_D2_25_D2_25_D2_mass_control_bkg_0p5)
+
+
+
 	def loss_kldiv_binary_wgtd_1(y_in,x_in):
 		LAMBDA = 1
 		h = y_in[:,0:NBINS]
 		y = y_in[:,NBINS:NBINS+n_categories] # truth: order of categories like in category_labels
 		x = x_in[:,NBINS:NBINS+n_categories] # prediction
+
 
 		loss = categorical_crossentropy(y, x)  
 		for icat, category in zip(range(n_categories), trainer.category_labels):
