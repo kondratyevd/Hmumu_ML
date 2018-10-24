@@ -406,9 +406,9 @@ class KerasMultiTrainer(object):
 			for cat in self.category_labels:
 				if row[category]==1:
 					if cat in category:
-						hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
+						hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
 					else:
-						hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
+						hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
 		
 
 
@@ -440,7 +440,7 @@ class KerasMultiTrainer(object):
 		for index, row in df.iterrows():
 			if row[category]==1:
 				for cat in self.category_labels:			
-					hists[category+"_"+cat].Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
+					hists[category+"_"+cat].Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
 		
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
@@ -476,7 +476,7 @@ class KerasMultiTrainer(object):
 		for index, row in df.iterrows():
 			if row[category]==1:
 				for cat in self.category_labels:			
-					hists[category+"_"+cat].Fill(row["pred_%s_%s"%(cat, model_name)])
+					hists[category+"_"+cat].Fill(row["pred_%s_%s"%(cat, model_name)]*row['weight'])
 		
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
