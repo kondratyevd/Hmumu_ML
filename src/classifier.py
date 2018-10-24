@@ -45,6 +45,7 @@ class Framework(object):
 		self.info_file = None
 		self.prepare_dirs()
 		self.custom_loss = False
+		self.wgtd_mass = False
 		self.multiclass = False
 
 
