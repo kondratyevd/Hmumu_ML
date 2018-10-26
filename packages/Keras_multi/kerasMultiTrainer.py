@@ -105,8 +105,7 @@ class KerasMultiTrainer(object):
 		print "Applying cuts: selected %i events out of %i"%(self.df.shape[0], evts_before_cuts)
 		self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
 		self.truth_labels = []
-		if self.framework.custom_loss:
-			self.df = self.make_mass_bins(self.df, 10, 110, 150)
+		self.df = self.make_mass_bins(self.df, 10, 110, 150)
 		self.truth_labels.extend(self.category_labels)
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
@@ -566,8 +565,9 @@ class KerasMultiTrainer(object):
 				df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
 			self.mass_bin_labels.append("mass_bin_%i"%i)
 			self.bkg_histogram.append(0)
-
-		self.truth_labels.extend(self.mass_bin_labels)
+	
+		if self.framework.custom_loss:
+			self.truth_labels.extend(self.mass_bin_labels)
 
 		self.bkg_histogram = df.loc[df[self.framework.bkg_categories].sum(axis=1)>0,self.mass_bin_labels].multiply(df["weight"], axis="index").sum(axis=0).values.tolist()
 		self.bkg_histogram = [x/sum(self.bkg_histogram) for x in self.bkg_histogram]
@@ -575,7 +575,6 @@ class KerasMultiTrainer(object):
 		for category in self.category_labels:
 
 			mass_hist = df.loc[(df[category]>0),self.mass_bin_labels].sum(axis=0)
-			# print "mass hist shape for %s: "%category, mass_hist.shape
 			mass_hist = mass_hist / mass_hist.sum()
 			self.mass_histograms.append(mass_hist.values.tolist())	
 			for i in range(nbins):
