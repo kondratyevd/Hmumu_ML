@@ -28,7 +28,7 @@ class KerasMultiTrainer(object):
 		self.bkg_histogram = []
 		self.mass_histograms_th1d = {}
 		self.bkg_mask = []
-		self.color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
+		self.color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange, ROOT.kViolet, ROOT.kCyan]
 		for category in self.category_labels:
 			if category in self.framework.bkg_categories:
 				self.bkg_mask.append(1)
@@ -271,7 +271,8 @@ class KerasMultiTrainer(object):
 
 			train_dict[category].Draw("histsame")
 			test_dict[category].Draw("pesame")
-
+			train_dict[category].GetXaxis().SetTitle("DNN output")
+			test_dict[category].GetXaxis().SetTitle("DNN output")
 			train_dict[category].SetLineColor(self.color_pool[count])
 			train_dict[category].SetFillColor(self.color_pool[count])
 			train_dict[category].SetMarkerColor(self.color_pool[count])
@@ -325,10 +326,10 @@ class KerasMultiTrainer(object):
 		score_bins["50-75"] = [min_bin+1, min_bin+1.5]
 		score_bins["75-100"] = [min_bin+1.5, min_bin+2]
 		colors = {	
-			"0-25": ROOT.kBlue,
-			"25-50": ROOT.kRed,
-			"50-75": ROOT.kGreen,
-			"75-100": ROOT.kOrange-3
+			"0-25": ROOT.kRed+3,
+			"25-50": ROOT.kCyan+2,
+			"50-75": ROOT.kOrange-3,
+			"75-100": ROOT.kRed+1
 			}
 		hist_dict = {}
 		legend = ROOT.TLegend(.6,.7,.89,.89)
@@ -344,6 +345,7 @@ class KerasMultiTrainer(object):
 			hist_dict[key].SetMarkerSize(0.8)	
 			hist_dict[key].Draw("histsame")
 			hist_dict[key].Draw("pe1same")
+			hist_dict[key].GetXaxis().SetTitle("M(#mu#mu), GeV")
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+method_name+'/png/bkg_shapes.png')
 		canv.SaveAs(self.package.mainDir+'/'+method_name+'/root/bkg_shapes.root')
@@ -403,6 +405,8 @@ class KerasMultiTrainer(object):
 			new_mass_hist.hist_incorrect.Draw("pe1same")
 			new_mass_hist.hist_correct.Draw("histsame")
 			new_mass_hist.hist_incorrect.Draw("histsame")
+			new_mass_hist.hist_correct.GetXaxis().SetTitle("M(#mu#mu), GeV")
+			new_mass_hist.hist_incorrect.GetXaxis().SetTitle("M(#mu#mu), GeV")
 
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_histograms.png")
@@ -466,6 +470,7 @@ class KerasMultiTrainer(object):
 			hists[category+"_"+cat].SetMarkerStyle(20)
 			hists[category+"_"+cat].SetMarkerSize(0.8)
 			hists[category+"_"+cat].Draw("pe1same")
+			hists[category+"_"+cat].GetXaxis().SetTitle("M(#mu#mu), GeV")
 
 		self.mass_histograms_th1d[category].SetLineColor(ROOT.kBlack)
 		self.mass_histograms_th1d[category].SetLineWidth(2)
