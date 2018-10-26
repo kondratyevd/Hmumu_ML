@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Binary, V3"	
+comment = "Multi, V3"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -11,7 +11,7 @@ treePath = 'dimuons/tree'
 
 mc_path = '/tmp/Hmumu_ntuples/updated/'
 
-binary = True
+binary = False
 
 if binary:
 	c.wgtd_mass = True
@@ -117,6 +117,7 @@ c.add_package("Keras_multi")
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 
 c.custom_loss = True
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
@@ -127,7 +128,7 @@ c.custom_loss = True
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_10")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_10")
 
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_5")
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_sym_5")
