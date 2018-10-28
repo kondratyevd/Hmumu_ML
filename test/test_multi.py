@@ -120,13 +120,13 @@ c.add_package("Keras_multi")
 # c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 
 c.custom_loss = True
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
 c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_10")
 
