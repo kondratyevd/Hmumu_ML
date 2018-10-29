@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multi, V3"	
+comment = "Multi, V4"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -53,7 +53,7 @@ c.add_variable("jetPairs.dEta",				1)
 c.add_variable("jetPairs.mass",				1)
 
 
-var_set = "V3"
+var_set = "V4"
 
 
 if var_set == "V1":
@@ -117,13 +117,13 @@ c.add_package("Keras_multi")
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2") # Dropout 0.2
-# c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 
-c.custom_loss = True
+# c.custom_loss = True
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
