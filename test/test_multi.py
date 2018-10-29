@@ -9,7 +9,8 @@ c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
 
-mc_path = '/mnt/hadoop/store/user/dkondrat/2016_ntuples_updated/'
+# mc_path = '/mnt/hadoop/store/user/dkondrat/2016_ntuples_updated/'
+mc_path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
 
 binary = False
 
