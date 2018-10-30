@@ -24,14 +24,6 @@ c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'ZJets_MG')
 c.add_category('tt_ll_AMC', False)
 c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'tt_ll_AMC')
 
-# c.add_category('signal', True)
-# c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'signal')
-# c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'signal')
-
-# c.add_category('background', False)
-# c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'background')
-# c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'background')
-
 c.set_tree_path(treePath)
 
 c.add_variable("muPairs.pt", 				1) 
