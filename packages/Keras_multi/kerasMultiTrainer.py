@@ -28,7 +28,7 @@ class KerasMultiTrainer(object):
 		self.bkg_histogram = []
 		self.mass_histograms_th1d = {}
 		self.bkg_mask = []
-		self.color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange, ROOT.kViolet, ROOT.kCyan]
+
 		for category in self.category_labels:
 			if category in self.framework.bkg_categories:
 				self.bkg_mask.append(1)
@@ -105,7 +105,8 @@ class KerasMultiTrainer(object):
 		print "Applying cuts: selected %i events out of %i"%(self.df.shape[0], evts_before_cuts)
 		self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
 		self.truth_labels = []
-		self.df = self.make_mass_bins(self.df, 10, 110, 150)
+		if self.framework.custom_loss:
+			self.df = self.make_mass_bins(self.df, 10, 110, 150)
 		self.truth_labels.extend(self.category_labels)
 		self.df = shuffle(self.df)
 		self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
@@ -172,7 +173,6 @@ class KerasMultiTrainer(object):
 
 			self.plot_mass_histograms(self.df_test_scaled, obj.name)
 			self.plot_masses_by_input_category(self.df_test_scaled, obj.name)
-			# self.plot_output_by_input_category(self.df_test_scaled, obj.name)
 
 			self.df_history = pandas.DataFrame(history.history)
 			self.plot_history(history.history, obj.name)
@@ -262,7 +262,7 @@ class KerasMultiTrainer(object):
 		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
 		canv.cd()
 
-		
+		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
 
 		for count, category in enumerate(self.category_labels):
 			legend.AddEntry(train_dict[category], category+" train", "f")
@@ -270,15 +270,14 @@ class KerasMultiTrainer(object):
 
 			train_dict[category].Draw("histsame")
 			test_dict[category].Draw("pesame")
-			train_dict[category].GetXaxis().SetTitle("DNN output")
-			test_dict[category].GetXaxis().SetTitle("DNN output")
-			train_dict[category].SetLineColor(self.color_pool[count])
-			train_dict[category].SetFillColor(self.color_pool[count])
-			train_dict[category].SetMarkerColor(self.color_pool[count])
 
-			test_dict[category].SetLineColor(self.color_pool[count])
-			test_dict[category].SetFillColor(self.color_pool[count])
-			test_dict[category].SetMarkerColor(self.color_pool[count])
+			train_dict[category].SetLineColor(color_pool[count])
+			train_dict[category].SetFillColor(color_pool[count])
+			train_dict[category].SetMarkerColor(color_pool[count])
+
+			test_dict[category].SetLineColor(color_pool[count])
+			test_dict[category].SetFillColor(color_pool[count])
+			test_dict[category].SetMarkerColor(color_pool[count])
 
 			test_dict[category].SetMarkerStyle(20)
 			test_dict[category].SetMarkerSize(0.8)
@@ -325,10 +324,10 @@ class KerasMultiTrainer(object):
 		score_bins["50-75"] = [min_bin+1, min_bin+1.5]
 		score_bins["75-100"] = [min_bin+1.5, min_bin+2]
 		colors = {	
-			"0-25": ROOT.kRed+3,
-			"25-50": ROOT.kCyan+2,
-			"50-75": ROOT.kOrange-3,
-			"75-100": ROOT.kRed+1
+			"0-25": ROOT.kBlue,
+			"25-50": ROOT.kRed,
+			"50-75": ROOT.kGreen,
+			"75-100": ROOT.kOrange-3
 			}
 		hist_dict = {}
 		legend = ROOT.TLegend(.6,.7,.89,.89)
@@ -339,12 +338,7 @@ class KerasMultiTrainer(object):
 			if hist_dict[key].Integral():
 				hist_dict[key].Scale(1/hist_dict[key].Integral())
 			legend.AddEntry(hist_dict[key], "%.2f%% < DNN score < %.2f%%"%((value[0]-min_bin)*50, (value[1]-min_bin)*50), 'f')
-			hist_dict[key].SetMarkerColor(colors[key])
-			hist_dict[key].SetMarkerStyle(20)
-			hist_dict[key].SetMarkerSize(0.8)	
 			hist_dict[key].Draw("histsame")
-			hist_dict[key].Draw("pe1same")
-			hist_dict[key].GetXaxis().SetTitle("M(#mu#mu), GeV")
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+method_name+'/png/bkg_shapes.png')
 		canv.SaveAs(self.package.mainDir+'/'+method_name+'/root/bkg_shapes.root')
@@ -385,27 +379,18 @@ class KerasMultiTrainer(object):
 				self.hist_correct, self.hist_incorrect = self.framework.plot_mass_histogram(self.df, self.category, self.model_name, self.color)
 							
 		mass_hists = []
+		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
 	
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 
 		for count, category in enumerate(self.category_labels):
-			new_mass_hist = CategoryMassHist(self, df, category, model_name, self.color_pool[count])
+			new_mass_hist = CategoryMassHist(self, df, category, model_name, color_pool[count])
 			mass_hists.append(new_mass_hist)
 			legend.AddEntry(new_mass_hist.hist_correct, category+" correct", "f")
 			legend.AddEntry(new_mass_hist.hist_incorrect, category+" incorrect", "l")
-			new_mass_hist.hist_correct.SetMarkerColor(self.color_pool[count])
-			new_mass_hist.hist_incorrect.SetMarkerColor(self.color_pool[count])
-			new_mass_hist.hist_correct.SetMarkerStyle(20)
-			new_mass_hist.hist_incorrect.SetMarkerStyle(20)
-			new_mass_hist.hist_correct.SetMarkerSize(0.8)
-			new_mass_hist.hist_incorrect.SetMarkerSize(0.8)
-			new_mass_hist.hist_correct.Draw("pe1same")
-			new_mass_hist.hist_incorrect.Draw("pe1same")
 			new_mass_hist.hist_correct.Draw("histsame")
 			new_mass_hist.hist_incorrect.Draw("histsame")
-			new_mass_hist.hist_correct.GetXaxis().SetTitle("M(#mu#mu), GeV")
-			new_mass_hist.hist_incorrect.GetXaxis().SetTitle("M(#mu#mu), GeV")
 
 		legend.Draw()
 		canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_histograms.png")
@@ -421,9 +406,9 @@ class KerasMultiTrainer(object):
 			for cat in self.category_labels:
 				if row[category]==1:
 					if cat in category:
-						hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
+						hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
 					else:
-						hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
+						hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
 		
 
 
@@ -445,31 +430,27 @@ class KerasMultiTrainer(object):
 		for category in self.category_labels:
 			self.plot_mass_from_output_nodes(df, category, model_name)
 
-
 	def plot_mass_from_output_nodes(self, df, category, model_name):
 		legend = ROOT.TLegend(.6,.7,.89,.89)
 		hists = {}
 		for cat in self.category_labels:
-			hists[category+"_"+cat] = ROOT.TH1D(category+"_"+cat+"_mass", "", 10, 110, 150)
+			hists[category+"_"+cat] = ROOT.TH1D(category+"_"+cat, "", 10, 110, 150)
 
 		for index, row in df.iterrows():
 			if row[category]==1:
 				for cat in self.category_labels:			
-					hists[category+"_"+cat].Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
+					hists[category+"_"+cat].Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)] )
 		
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 
+		color_pool = [ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange-3, ROOT.kViolet, ROOT.kCyan]
 		for count, cat in enumerate(self.category_labels):
 			legend.AddEntry(hists[category+"_"+cat], "true: %s, pred.: %s"%(category, cat), "l")
 			hists[category+"_"+cat].Scale(1/hists[category+"_"+cat].Integral())
-			hists[category+"_"+cat].SetLineColor(self.color_pool[count])
-			hists[category+"_"+cat].SetMarkerColor(self.color_pool[count])
+			hists[category+"_"+cat].SetLineColor(color_pool[count])
 			hists[category+"_"+cat].SetLineWidth(2)
-			hists[category+"_"+cat].SetMarkerStyle(20)
-			hists[category+"_"+cat].SetMarkerSize(0.8)
-			hists[category+"_"+cat].Draw("pe1same")
-			hists[category+"_"+cat].GetXaxis().SetTitle("M(#mu#mu), GeV")
+			hists[category+"_"+cat].Draw("histsame")
 
 		self.mass_histograms_th1d[category].SetLineColor(ROOT.kBlack)
 		self.mass_histograms_th1d[category].SetLineWidth(2)
@@ -480,40 +461,7 @@ class KerasMultiTrainer(object):
 		canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_%s.png"%category)
 		canv.SaveAs(self.package.mainDir+'/'+model_name+"/root/mass_%s.root"%category)
 		canv.Close()
-
-
-	def plot_output_by_input_category(self, df, model_name):
-		for category in self.category_labels:
-			self.plot_output_nodes(df, category, model_name)		
-
-	def plot_output_nodes(self, df, category, model_name):
-		legend = ROOT.TLegend(.6,.7,.89,.89)
-		hists = {}
-		for cat in self.category_labels:
-			hists[category+"_"+cat] = ROOT.TH1D(category+"_"+cat+"_output", "", 50, 0, 1)
-
-		for index, row in df.iterrows():
-			if row[category]==1:
-				for cat in self.category_labels:			
-					hists[category+"_"+cat].Fill(row["pred_%s_%s"%(cat, model_name)]*row['weight'])
 		
-		canv = ROOT.TCanvas("canv", "canv", 800, 800)
-		canv.cd()
-
-		for count, cat in enumerate(self.category_labels):
-			legend.AddEntry(hists[category+"_"+cat], "true: %s, pred.: %s"%(category, cat), "l")
-			hists[category+"_"+cat].Scale(1/hists[category+"_"+cat].Integral())
-			hists[category+"_"+cat].SetLineColor(self.color_pool[count])
-			hists[category+"_"+cat].SetMarkerColor(self.color_pool[count])
-			hists[category+"_"+cat].SetLineWidth(2)
-			hists[category+"_"+cat].SetMarkerStyle(20)
-			hists[category+"_"+cat].SetMarkerSize(0.8)
-			hists[category+"_"+cat].Draw("pe1same")
-
-		legend.Draw()
-		canv.Print(self.package.mainDir+'/'+model_name+"/png/score_%s.png"%category)
-		canv.SaveAs(self.package.mainDir+'/'+model_name+"/root/score_%s.root"%category)
-		canv.Close()
 
 
 	def calc_sum_wgts(self):
@@ -557,17 +505,15 @@ class KerasMultiTrainer(object):
 
 		bin_width = float((max-min)/nbins)
 
+
+
 		for i in range(nbins):
 			df["mass_bin_%i"%i] = 0
-			if self.framework.wgtd_mass:
-				df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "weight"]
-			else:
-				df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
+			df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
 			self.mass_bin_labels.append("mass_bin_%i"%i)
 			self.bkg_histogram.append(0)
-	
-		if self.framework.custom_loss:
-			self.truth_labels.extend(self.mass_bin_labels)
+
+		self.truth_labels.extend(self.mass_bin_labels)
 
 		self.bkg_histogram = df.loc[df[self.framework.bkg_categories].sum(axis=1)>0,self.mass_bin_labels].multiply(df["weight"], axis="index").sum(axis=0).values.tolist()
 		self.bkg_histogram = [x/sum(self.bkg_histogram) for x in self.bkg_histogram]
@@ -575,18 +521,10 @@ class KerasMultiTrainer(object):
 		for category in self.category_labels:
 
 			mass_hist = df.loc[(df[category]>0),self.mass_bin_labels].sum(axis=0)
+			# print "mass hist shape for %s: "%category, mass_hist.shape
 			mass_hist = mass_hist / mass_hist.sum()
 			self.mass_histograms.append(mass_hist.values.tolist())	
 			for i in range(nbins):
 				self.mass_histograms_th1d[category].SetBinContent(i+1, mass_hist.values.tolist()[i])
 
 		return df
-
-
-
-
-
-
-
-
-

@@ -3,41 +3,33 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multi, V4"	
+comment = "Multiclassification: 4 classes, V3"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
 
-# mc_path = '/mnt/hadoop/store/user/dkondrat/2016_ntuples_updated/'
-mc_path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
+mc_path = '/tmp/Hmumu_ntuples/updated/'
 
-binary = False
+c.add_category('H2Mu_gg', True)
+c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
 
-if binary:
-	c.wgtd_mass = True
-	c.add_category('signal', True)
-	c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'signal')
-	c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'signal')
-	
-	c.add_category('background', False)
-	c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'background')
-	c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'background')
+c.add_category('H2Mu_VBF', True)
+c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
 
-else:
-	c.add_category('H2Mu_gg', True)
-	c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
-	
-	c.add_category('H2Mu_VBF', True)
-	c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
-	
-	c.add_category('ZJets_MG', False)
-	c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'ZJets_MG')
-	
-	c.add_category('tt_ll_AMC', False)
-	c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'tt_ll_AMC')
+c.add_category('ZJets_MG', False)
+c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'ZJets_MG')
 
+c.add_category('tt_ll_AMC', False)
+c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'tt_ll_AMC')
 
+# c.add_category('signal', True)
+# c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'signal')
+# c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'signal')
+
+# c.add_category('background', False)
+# c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'background')
+# c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'background')
 
 c.set_tree_path(treePath)
 
@@ -118,18 +110,16 @@ c.add_package("Keras_multi")
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2") # Dropout 0.2
-# c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 
 c.custom_loss = True
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
 c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
-# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_10")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
+c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
 
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_5")
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_sym_5")
