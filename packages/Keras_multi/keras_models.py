@@ -839,7 +839,7 @@ def GetListOfModels(trainer):
 
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_4 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_4', input_dim, 2048, 100, [loss_mass_control_bkg_4], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_4 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_4', input_dim, 2048, 500, [loss_mass_control_bkg_4], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_4.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_4.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_4.name+'_layer_2', activation='relu')(x)
@@ -882,7 +882,7 @@ def GetListOfModels(trainer):
 		return loss
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_3p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_3p5', input_dim, 2048, 100, [loss_mass_control_bkg_3p5], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_3p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_3p5', input_dim, 2048, 500, [loss_mass_control_bkg_3p5], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3p5.name+'_layer_2', activation='relu')(x)
@@ -923,7 +923,7 @@ def GetListOfModels(trainer):
 		return loss
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_3 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_3', input_dim, 2048, 100, [loss_mass_control_bkg_3], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_3 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_3', input_dim, 2048, 500, [loss_mass_control_bkg_3], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_3.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_3.name+'_layer_2', activation='relu')(x)
@@ -964,7 +964,7 @@ def GetListOfModels(trainer):
 		return loss
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_2p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_2p5', input_dim, 2048, 100, [loss_mass_control_bkg_2p5], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_2p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_2p5', input_dim, 2048, 500, [loss_mass_control_bkg_2p5], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2p5.name+'_layer_2', activation='relu')(x)
@@ -1049,7 +1049,7 @@ def GetListOfModels(trainer):
 		return loss
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_1p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_1p5', input_dim, 2048, 100, [loss_mass_control_bkg_1p5], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_1p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_1p5', input_dim, 2048, 500, [loss_mass_control_bkg_1p5], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1p5.name+'_layer_2', activation='relu')(x)
@@ -1091,7 +1091,7 @@ def GetListOfModels(trainer):
 		return loss
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_1 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_1', input_dim, 2048, 100, [loss_mass_control_bkg_1], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_1 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_1', input_dim, 2048, 500, [loss_mass_control_bkg_1], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_1.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_1.name+'_layer_2', activation='relu')(x)
@@ -1132,7 +1132,7 @@ def GetListOfModels(trainer):
 		return loss
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_0p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_0p5', input_dim, 2048, 100, [loss_mass_control_bkg_0p5], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_0p5 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_0p5', input_dim, 2048, 500, [loss_mass_control_bkg_0p5], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_0p5.name+'_layer_2', activation='relu')(x)
