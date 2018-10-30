@@ -9,7 +9,8 @@ c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
 
-mc_path = '/tmp/Hmumu_ntuples/updated/'
+# mc_path = '/tmp/Hmumu_ntuples/updated/'
+mc_path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
 
 c.add_category('H2Mu_gg', True)
 c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
