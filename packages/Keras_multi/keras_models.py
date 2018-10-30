@@ -1007,7 +1007,7 @@ def GetListOfModels(trainer):
 		return loss
 
 
-	model_50_D2_25_D2_25_D2_mass_control_bkg_2 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_2', input_dim, 2048, 100, [loss_mass_control_bkg_2], 'adam')
+	model_50_D2_25_D2_25_D2_mass_control_bkg_2 = model_init('model_50_D2_25_D2_25_D2_mass_control_bkg_2', input_dim, 2048, 500, [loss_mass_control_bkg_2], 'adam')
 	x = Dense(50, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2.name+'_layer_1', activation='relu')(model_50_D2_25_D2_25_D2_mass_control_bkg_2.inputs)
 	x = Dropout(0.2)(x)
 	x = Dense(25, name = model_50_D2_25_D2_25_D2_mass_control_bkg_2.name+'_layer_2', activation='relu')(x)
