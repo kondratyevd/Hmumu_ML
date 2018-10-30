@@ -538,7 +538,6 @@ class KerasMultiTrainer(object):
 		for category in self.category_labels:
 
 			mass_hist = df.loc[(df[category]>0),self.mass_bin_labels].sum(axis=0)
-			# print "mass hist shape for %s: "%category, mass_hist.shape
 			mass_hist = mass_hist / mass_hist.sum()
 			self.mass_histograms.append(mass_hist.values.tolist())	
 			for i in range(nbins):

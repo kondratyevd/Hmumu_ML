@@ -811,8 +811,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
@@ -873,8 +873,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
@@ -914,8 +914,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
@@ -955,8 +955,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
@@ -998,8 +998,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
@@ -1040,8 +1040,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
@@ -1082,8 +1082,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
@@ -1123,8 +1123,8 @@ def GetListOfModels(trainer):
 			if true_cat not in trainer.framework.bkg_categories:							# only control the bkg categories
 				continue
 			for jcat, pred_cat in zip(range(n_categories), trainer.category_labels):		# predicted category
-				if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
-					continue
+				# if pred_cat not in trainer.framework.bkg_categories:						# only control bkg output nodes
+				# 	continue
 				mass_split_by_prediction = K.dot(K.transpose(h), K.dot(tf.diag(y[:,icat]),x))
 				mass_shape_in_jth_node = mass_split_by_prediction[:,jcat]
 				mass_shape_in_jth_node = mass_shape_in_jth_node / K.sum(mass_shape_in_jth_node,axis=0)
