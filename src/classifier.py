@@ -60,6 +60,7 @@ class Framework(object):
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
 			self.weight = 1
+			self.isData = isData
 			if not isData:
 				self.get_original_nEvts()
 			self.category = ''						
