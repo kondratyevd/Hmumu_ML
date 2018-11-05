@@ -31,6 +31,7 @@ class Framework(object):
 		self.signal_categories = []
 		self.bkg_categories = []
 		self.files = []
+		self.data_files = []
 		self.more_var_list = []
 		self.nVar = 0
 		self.package_list = []
@@ -46,11 +47,11 @@ class Framework(object):
 		self.prepare_dirs()
 		self.custom_loss = False
 		self.multiclass = False
-
+		self.lumi = 0
 
 
 	class File(object):
-		def __init__(self, source, name, path, xSec, isDir):
+		def __init__(self, source, name, path, xSec, isDir, isData=False):
 			self.source = source
 			self.name = name
 			self.path = path
@@ -59,7 +60,8 @@ class Framework(object):
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
 			self.weight = 1
-			self.get_original_nEvts()
+			if not isData:
+				self.get_original_nEvts()
 			self.category = ''						
 		
 		def get_original_nEvts(self):
@@ -67,11 +69,7 @@ class Framework(object):
 			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
 			metadata = ROOT.TChain(self.source.metadataPath)
 			if self.isDir:
-				metadata.Add(self.path+"/*.root")				
-				# if self.name is 'tt_ll_AMC':
-				# 	metadata.Add(self.path+"/*_9.root")
-				# else:
-				# 	metadata.Add(self.path+"/*.root")
+				metadata.Add(self.path+"/*.root")		
 			else:
 				metadata.Add(self.path)
 			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
@@ -80,7 +78,10 @@ class Framework(object):
 			self.nEvt = nEvtHist.GetEntries()*nEvtHist.GetMean()
   			sumEventWeightsHist = ROOT.gDirectory.Get("eweights_"+self.name) 
 			self.nOriginalWeighted = sumEventWeightsHist.GetEntries()*sumEventWeightsHist.GetMean()
-			self.weight = self.xSec*40000 / self.nOriginalWeighted
+			if self.source.lumi:
+				self.weight = self.xSec*self.source.lumi / self.nOriginalWeighted
+			else:
+				self.weight = self.xSec*40000 / self.nOriginalWeighted
 
 	def prepare_dirs(self):
 		with open("output/CURRENT_RUN_ID", "r") as IDfile:
@@ -148,6 +149,14 @@ class Framework(object):
 			file = self.File(self, name, path, xSec, True)
 			file.category = category
 			self.files.append(file)
+			
+
+	def add_data(self, name, path, lumi):
+		print "Adding %s with lumi = %f"%(path, lumi)
+		file = self.File(self, name, path, 1, True, isData=True)
+		file.category = "Data"
+		self.data_files.append(file)
+		self.lumi += lumi
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath

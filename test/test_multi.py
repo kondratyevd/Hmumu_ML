@@ -3,26 +3,35 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 4 classes, V3"	
+comment = "Multiclassification: 4 classes, V4, +2016 data"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
 treePath = 'dimuons/tree'
 
-# mc_path = '/tmp/Hmumu_ntuples/updated/'
-mc_path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
+# path = '/tmp/Hmumu_ntuples/updated/'
+path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
+
+c.add_data('SingleMu_2016B'		, path+'/SingleMu_2016B/'	, 5788)
+c.add_data('SingleMu_2016C'		, path+'/SingleMu_2016C/'	, 2573)
+c.add_data('SingleMu_2016D'		, path+'/SingleMu_2016D/'	, 4248)
+c.add_data('SingleMu_2016E'		, path+'/SingleMu_2016E/'	, 4009)
+c.add_data('SingleMu_2016F_1'	, path+'/SingleMu_2016F_1/'	, 3102)
+c.add_data('SingleMu_2016G'		, path+'/SingleMu_2016G/'	, 7540)
+c.add_data('SingleMu_2016H_1'	, path+'/SingleMu_2016H_1/'	, 8392)
+c.add_data('SingleMu_2016H_2'	, path+'/SingleMu_2016H_2/'	, 214)
 
 c.add_category('H2Mu_gg', True)
-c.add_dir_to_category('H2Mu_gg', mc_path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
+c.add_dir_to_category('H2Mu_gg', path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
 
 c.add_category('H2Mu_VBF', True)
-c.add_dir_to_category('H2Mu_VBF', mc_path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
+c.add_dir_to_category('H2Mu_VBF', path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
 
 c.add_category('ZJets_MG', False)
-c.add_dir_to_category('ZJets_MG', mc_path+'/ZJets_MG/', 5765.4, 'ZJets_MG')
+c.add_dir_to_category('ZJets_MG', path+'/ZJets_MG/', 5765.4, 'ZJets_MG')
 
 c.add_category('tt_ll_AMC', False)
-c.add_dir_to_category('tt_ll_AMC', mc_path+'/tt_ll_AMC/', 85.656*0.9, 'tt_ll_AMC')
+c.add_dir_to_category('tt_ll_AMC', path+'/tt_ll_AMC/', 85.656*0.9, 'tt_ll_AMC')
 
 c.set_tree_path(treePath)
 
@@ -39,7 +48,7 @@ c.add_variable("jetPairs.dEta",				1)
 c.add_variable("jetPairs.mass",				1)
 
 
-var_set = "V3"
+var_set = "V4"
 
 
 if var_set == "V1":
@@ -102,17 +111,17 @@ c.add_package("Keras_multi")
 # c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
-# c.add_method("model_50_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 
-c.custom_loss = True
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
+# c.custom_loss = True
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
 
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_5")
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_sym_5")
