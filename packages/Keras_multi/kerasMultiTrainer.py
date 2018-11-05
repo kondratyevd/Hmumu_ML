@@ -83,7 +83,7 @@ class KerasMultiTrainer(object):
                         
                             single_file_df[category] = 0
 
-                        if file in self.framework.data_files:
+                        if file.isData:
                             single_file_df['weight'] = 1
                             self.data = pandas.concat([self.data, single_file_df]) 
 
