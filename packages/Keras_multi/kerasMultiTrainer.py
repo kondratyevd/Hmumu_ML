@@ -55,7 +55,12 @@ class KerasMultiTrainer(object):
                         uproot_tree = f[self.framework.treePath]
                         single_file_df = pandas.DataFrame()
 
-                        for var in self.framework.variable_list + self.framework.spectator_list:
+                        if file.isData:
+                            label_list = self.framework.variable_list + self.framework.data_spectator_list
+                        else:
+                            label_list = self.framework.variable_list + self.framework.spectator_list
+
+                        for var in label_list:
                             # print "Adding variable:", var.name
                             if  "met.pt" in var.name:   # quick fix for met
                                 up_var =  uproot_tree["met"]["pt"].array()

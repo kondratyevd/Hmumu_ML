@@ -53,8 +53,10 @@ var_set = "V4"
 
 if var_set == "V1":
 	c.add_spectator('muons.pt',					2)
+	c.add_data_spectator('muons.pt',			2)
 elif var_set == "V2":
 	c.add_spectator('muons.pt',					2)
+	c.add_data_spectator('muons.pt',			2)
 	c.add_variable("min_dR_mu_jet"	,			1)
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
@@ -71,6 +73,7 @@ elif var_set == "V3":
 	c.add_variable("zepenfeld",					1)
 elif var_set == "V4":
 	c.add_spectator('muons.pt',					2)
+	c.add_data_spectator('muons.pt',			2)
 	c.add_variable("mu1_pt_by_mass",			1)
 	c.add_variable("mu2_pt_by_mass",			1)	
 	c.add_variable('muons.eta',					2)
@@ -85,9 +88,6 @@ elif var_set == "V4":
 
 c.add_spectator('muPairs.mass',				1)
 c.add_spectator('muPairs.phi',				1)
-
-# c.add_spectator('muons.eta',				2)
-# c.add_spectator('muons.phi',				2)
 c.add_spectator('muons.isMediumID',			2)
 c.add_spectator('jets.phi',					2)
 
@@ -101,6 +101,11 @@ c.add_spectator('IsoMu_SF_4',				1)
 c.add_spectator('MuID_SF_4', 				1)
 c.add_spectator('MuIso_SF_4',				1)
 
+c.add_data_spectator('muPairs.mass',		1)
+c.add_data_spectator('muPairs.phi',			1)
+c.add_data_spectator('muons.isMediumID',	2)
+c.add_data_spectator('jets.phi',			2)
+c.add_data_spectator('nJets',				1)
 
 c.weigh_by_event(True)
 c.set_year("2016")
