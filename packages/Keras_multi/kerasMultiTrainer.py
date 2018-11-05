@@ -186,7 +186,7 @@ class KerasMultiTrainer(object):
 
             self.df_train_scaled = pandas.concat([self.df_train_scaled, train_prediction], axis=1)
             self.df_test_scaled = pandas.concat([self.df_test_scaled, test_prediction], axis=1)
-            self.data_scaled = pandas.concat([self.data_scaled, test_prediction], axis=1)
+            self.data_scaled = pandas.concat([self.data_scaled, data_prediction], axis=1)
 
 
             self.fill_out_root_files("test", self.df_test_scaled, obj.name, self.category_labels, False)
@@ -261,20 +261,20 @@ class KerasMultiTrainer(object):
             if isData:
                 mass["Data"][0]             = row["muPairs.mass[0]"]
                 weight["Data"][0]           = 1
-                DY_prediction["Data"][0]    = row["pred_DY_%s"%(method_name)]
-                ttbar_prediction["Data"][0] = row["pred_tt_%s"%(method_name)]
-                ggH_prediction["Data"][0]   = row["pred_ggH_%s"%(method_name)] 
-                VBF_prediction["Data"][0]   = row["pred_VBF_%s"%(method_name)]  
+                DY_prediction["Data"][0]    = row["pred_ZJets_MG_%s"%(method_name)]
+                ttbar_prediction["Data"][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
+                ggH_prediction["Data"][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
+                VBF_prediction["Data"][0]   = row["pred_H2Mu_VBF_%s"%(method_name)]  
                 trees["Data"].Fill() 
             else:
                 for category in category_list:
                     if row[category]==1:
                         mass[category][0]             = row["muPairs.mass[0]"]
                         weight[category][0]           = row["weight"]
-                        DY_prediction[category][0]    = row["pred_DY_%s"%(method_name)]
-                        ttbar_prediction[category][0] = row["pred_tt_%s"%(method_name)]
-                        ggH_prediction[category][0]   = row["pred_ggH_%s"%(method_name)] 
-                        VBF_prediction[category][0]   = row["pred_VBF_%s"%(method_name)]  
+                        DY_prediction[category][0]    = row["pred_ZJets_MG_%s"%(method_name)]
+                        ttbar_prediction[category][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
+                        ggH_prediction[category][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
+                        VBF_prediction[category][0]   = row["pred_H2Mu_VBF_%s"%(method_name)]  
                         trees[category].Fill() 
 
         for category in category_list:
