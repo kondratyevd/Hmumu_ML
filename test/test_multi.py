@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 4 classes, V4, +2016 data"	
+comment = "Multiclassification: 4 classes, V2, +2016 data"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -48,7 +48,7 @@ c.add_variable("jetPairs.dEta",				1)
 c.add_variable("jetPairs.mass",				1)
 
 
-var_set = "V4"
+var_set = "V2"
 
 
 if var_set == "V1":
