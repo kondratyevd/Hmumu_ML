@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 4 classes, V4, +2016 data: mass control (checking GPU performance)"	
+comment = "Multiclassification: 4 classes, V2, +2016 data"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -48,7 +48,7 @@ c.add_variable("jetPairs.dEta",				1)
 c.add_variable("jetPairs.mass",				1)
 
 
-var_set = "V4"
+var_set = "V2"
 
 
 if var_set == "V1":
@@ -113,12 +113,12 @@ c.set_year("2016")
 # c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras_multi")
-# c.add_method("UCSD_model")	# 50_D2
+c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
-# c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 
-c.custom_loss = True
+# c.custom_loss = True
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_1p5")
@@ -126,7 +126,7 @@ c.custom_loss = True
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_2p5")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3")
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_3p5")
-c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
+# c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
 
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_5")
 # c.add_method("model_50_D2_25_D2_mutual_mass_control_sym_5")
@@ -163,7 +163,7 @@ c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_4")
 # c.add_method("model_50_D1_25_D1_25_D1_25_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2_25_D2_25_D2") # Dropout 0.2
 # c.add_method("model_50_D2_25_D2_25_D2_25_D2_25_D2") # Dropout 0.2
-# c.add_method("model_50_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2") # Dropout 0.2
 # c.add_method("model_50_D3_25_D3") # Dropout 0.3
 
 
