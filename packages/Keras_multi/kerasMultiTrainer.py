@@ -232,12 +232,14 @@ class KerasMultiTrainer(object):
         ttbar_prediction    = {}
         ggH_prediction      = {}
         VBF_prediction      = {}
+        nJets               = {}
         newBranch1          = {}
         newBranch2          = {}
         newBranch3          = {}
         newBranch4          = {}
         newBranch5          = {}
         newBranch6          = {}
+        newBranch7          = {}
 
         for category in category_list:
             mass[category]= array('f', [0])
@@ -246,6 +248,7 @@ class KerasMultiTrainer(object):
             ttbar_prediction[category]= array('f', [0])
             ggH_prediction[category]= array('f', [0])
             VBF_prediction[category]= array('f', [0])
+            nJets[category]=array('i', [0])
             trees[category] = ROOT.TTree("tree_%s"%category,"tree_%s"%category)
             newBranch1[category] = trees[category].Branch("mass",               mass[category]            , "mass/F")
             newBranch2[category] = trees[category].Branch("weight",             weight[category]          , "weight/F")
@@ -253,6 +256,7 @@ class KerasMultiTrainer(object):
             newBranch4[category] = trees[category].Branch("ttbar_prediction",   ttbar_prediction[category], "ttbar_prediction/F")
             newBranch5[category] = trees[category].Branch("ggH_prediction",     ggH_prediction[category]  , "ggH_prediction/F")
             newBranch6[category] = trees[category].Branch("VBF_prediction",     VBF_prediction[category]  , "VBF_prediction/F")
+            newBranch7[category] = trees[category].Branch("nJets",     nJets[category]  , "nJets/F")
 
         new_file = ROOT.TFile(self.package.mainDir+'/'+method_name+"/root/output_"+output_name+".root","recreate")
         new_file.cd()
@@ -264,7 +268,8 @@ class KerasMultiTrainer(object):
                 DY_prediction["Data"][0]    = row["pred_ZJets_MG_%s"%(method_name)]
                 ttbar_prediction["Data"][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
                 ggH_prediction["Data"][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
-                VBF_prediction["Data"][0]   = row["pred_H2Mu_VBF_%s"%(method_name)]  
+                VBF_prediction["Data"][0]   = row["pred_H2Mu_VBF_%s"%(method_name)] 
+                nJets["Data"][0]            = row["nJets"] 
                 trees["Data"].Fill() 
             else:
                 for category in category_list:
@@ -275,6 +280,7 @@ class KerasMultiTrainer(object):
                         ttbar_prediction[category][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
                         ggH_prediction[category][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
                         VBF_prediction[category][0]   = row["pred_H2Mu_VBF_%s"%(method_name)]  
+                        nJets[category][0]            = row["nJets"]
                         trees[category].Fill() 
 
         for category in category_list:
