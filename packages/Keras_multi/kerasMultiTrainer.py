@@ -586,7 +586,7 @@ class KerasMultiTrainer(object):
                 (muon1_pt>26)&
                 (muon2_pt>20))
 
-        if year is "2016-noJets":
+        if "2016-noJets" in year:
             flag =  ((muPair_mass>110)&
                 (muPair_mass<150)&
                 (muon1_ID>0)&
@@ -595,7 +595,7 @@ class KerasMultiTrainer(object):
                 (muon2_pt>20)&
                 (nJets==0)) 
 
-        if year is "2016-1jet":
+        if "2016-1jet" on year:
             flag =  ((muPair_mass>110)&
                 (muPair_mass<150)&
                 (muon1_ID>0)&
@@ -604,7 +604,7 @@ class KerasMultiTrainer(object):
                 (muon2_pt>20)&
                 (nJets==1))   
 
-        if year is "2016-2orMoreJets":
+        if "2016-2orMoreJets" in year:
             flag =  ((muPair_mass>110)&
                 (muPair_mass<150)&
                 (muon1_ID>0)&
