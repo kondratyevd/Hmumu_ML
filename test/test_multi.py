@@ -166,7 +166,7 @@ c.weigh_by_event(True)
 # c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
 c.add_package("Keras_multi")
-c.add_method("UCSD_model")	# 50_D2
+# c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
 c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
@@ -216,7 +216,7 @@ c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 # c.add_method("model_50_D1_25_D1_25_D1_25_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2_25_D2_25_D2") # Dropout 0.2
 # c.add_method("model_50_D2_25_D2_25_D2_25_D2_25_D2") # Dropout 0.2
-c.add_method("model_50_D2_25_D2") # Dropout 0.2
+# c.add_method("model_50_D2_25_D2") # Dropout 0.2
 # c.add_method("model_50_D3_25_D3") # Dropout 0.3
 
 
