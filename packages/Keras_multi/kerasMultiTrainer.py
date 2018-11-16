@@ -93,9 +93,9 @@ class KerasMultiTrainer(object):
                             self.data = pandas.concat([self.data, single_file_df]) 
 
                         else:
-                            if self.framework.year is "2016":
+                            if "2016" in self.framework.year:
                                 SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
-                            elif self.framework.year is "2017":
+                            elif "2017" in self.framework.year:
                                 SF = single_file_df['IsoMu_SF_3'] * single_file_df['MuID_SF_3'] * single_file_df['MuIso_SF_3']
                             else:
                                 SF = 1
@@ -576,6 +576,7 @@ class KerasMultiTrainer(object):
         muon1_ID    = df['muons.isMediumID[0]']
         muon2_ID    = df['muons.isMediumID[1]']
         muPair_mass = df['muPairs.mass[0]']
+        nJets       = df['nJets']
 
         if year is "2016":
             flag =  ((muPair_mass>110)&
@@ -584,6 +585,33 @@ class KerasMultiTrainer(object):
                 (muon2_ID>0)&
                 (muon1_pt>26)&
                 (muon2_pt>20))
+
+        if year is "2016-noJets":
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
+                (muon1_ID>0)&
+                (muon2_ID>0)&
+                (muon1_pt>26)&
+                (muon2_pt>20)&
+                (nJets==0)) 
+
+        if year is "2016-1jet":
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
+                (muon1_ID>0)&
+                (muon2_ID>0)&
+                (muon1_pt>26)&
+                (muon2_pt>20)&
+                (nJets==1))   
+
+        if year is "2016-2orMoreJets":
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
+                (muon1_ID>0)&
+                (muon2_ID>0)&
+                (muon1_pt>26)&
+                (muon2_pt>20)&
+                (nJets>1))            
 
         elif year is "2017":
             flag =  ((muPair_mass>110)&
