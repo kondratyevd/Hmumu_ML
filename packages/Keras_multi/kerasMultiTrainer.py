@@ -595,7 +595,7 @@ class KerasMultiTrainer(object):
                 (muon2_pt>20)&
                 (nJets==0)) 
 
-        if "2016-1jet" on year:
+        if "2016-1jet" in year:
             flag =  ((muPair_mass>110)&
                 (muPair_mass<150)&
                 (muon1_ID>0)&
