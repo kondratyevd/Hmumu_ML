@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 4 classes, V2, +2016 data"	
+comment = "Multiclassification: 4 classes, V2-noJets, +2016 data"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -103,16 +103,8 @@ elif var_set == "V4":
 	c.add_variable("max_dR_mumu_jet",			1)
 	c.add_variable("zepenfeld",					1)
 elif var_set == "V2-noJets":
-	c.add_variable("nJetsCent", 				1)
-	c.add_variable("nJetsFwd",					1)
-	c.add_variable("nBMed",						1)
 	c.add_spectator('muons.pt',					2)
 	c.add_data_spectator('muons.pt',			2)
-	c.add_variable("min_dR_mu_jet"	,			1)
-	c.add_variable("max_dR_mu_jet"	,			1)
-	c.add_variable("min_dR_mumu_jet",			1)
-	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
 elif var_set == "V2-1jet":
 	c.add_variable("nJetsCent", 				1)
 	c.add_variable("nJetsFwd",					1)
@@ -124,7 +116,6 @@ elif var_set == "V2-1jet":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
 elif var_set == "V2-2orMoreJets":
 	c.add_variable("nJetsCent", 				1)
 	c.add_variable("nJetsFwd",					1)
