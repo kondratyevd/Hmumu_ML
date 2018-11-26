@@ -74,7 +74,7 @@ class Fitter(object):
 		canv = ROOT.TCanvas("canv", "canv", 800, 800)
 		canv.cd()
 
-		mass_hist, tree = self.get_mass_hist("data_fit", src, src.data_path, "tree_Data", 40, 110, 150)
+		mass_hist, tree = self.get_mass_hist("data_fit", src, src.data_path, "tree_Data", 40, 110, 150, normalize=False)
 		mass_hist.Draw("pe")
 		fit = ROOT.TF1("fit",BWZ,110,160,2)
 		fit.SetParameter(0,0.218615)
@@ -93,7 +93,6 @@ class Fitter(object):
 			yi = func.Eval(xi)
 			hist.SetBinContent(i+1, yi)
 			hist.SetBinError(i+1, 0)
-		hist.Scale(1/hist.Integral())
 		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
 		canv.cd()
 		hist.Draw("hist")
@@ -104,12 +103,13 @@ class Fitter(object):
 p = Fitter()
 v3 = p.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2	,"(mass<120)||(mass>130)")
 data_obs = p.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2	,"(mass>120)&(mass<130)")
+sig_weigted = p.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2	,"((mass>120)&(mass<130))*weight*5")
 
 fit_function = p.fit_mass(v3)
 
 bkg_from_fit = p.make_hist_from_fit(v3, fit_function, 10, 120, 130)
 data_obs_hist, data_obs_tree = p.get_mass_hist("data_obs", data_obs, data_obs.data_path, "tree_Data", 10, 120, 130, normalize=False)
-signal_hist, signal_tree = p.get_mass_hist("signal", data_obs, data_obs.mc_path, "tree_H2Mu_gg", 10, 120, 130)
+signal_hist, signal_tree = p.get_mass_hist("signal", sig_weigted, sig_weigted.mc_path, "tree_H2Mu_gg", 10, 120, 130, normalize=False)
 
 out_file = ROOT.TFile.Open("combine/test/test_input.root", "recreate")
 bkg_from_fit.Write()
@@ -119,12 +119,15 @@ out_file.Close()
 
 canv = ROOT.TCanvas("canv2", "canv2", 800, 800)
 canv.cd()
+canv.SetLogy()
 bkg_from_fit.Draw("hist")
-data_obs_hist.Scale(1/data_obs_hist.Integral())
 data_obs_hist.Draw("pesame")
 signal_hist.Draw("histsame")
 signal_hist.SetLineColor(ROOT.kRed)
-bkg_from_fit.GetYaxis().SetRangeUser(0, .3)
+print "Expected yields:"
+print "		signal:      %f events"%signal_hist.Integral()
+print "		background:  %f events"%bkg_from_fit.Integral()
+bkg_from_fit.GetYaxis().SetRangeUser(0.1, 100000)
 canv.Print("plots/bkg_fit/test_bs.png")
 
 
