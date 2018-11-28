@@ -100,10 +100,12 @@ class Analyzer(object):
 
 		w = ROOT.RooWorkspace("w", False) 
 		Import = getattr(ROOT.RooWorkspace, 'import')
-		Import(w, var)
+		var_window = ROOT.RooRealVar("mass","Dilepton mass",120,130)
+		Import(w, var_window)
 		Import(w, ds)
 		Import(w, data_obs)
 		Import(w, signal_ds)
+
 		w.factory("a1 [1.39, 0.7, 2.1]")
 		w.factory("a2 [0.46, 0.30, 0.62]")
 		w.factory("a3 [-0.26, -0.40, -0.12]")
