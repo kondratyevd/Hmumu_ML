@@ -118,7 +118,6 @@ class Analyzer(object):
 		w_sidebands.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
 
 				
-		
 		# bkg fit
 		
 		fit_func = w_sidebands.pdf('background')
@@ -133,7 +132,9 @@ class Analyzer(object):
 		canv.Print("plots/bkg_fit/unbinned_fit_bwzredux.png")
 
 
+
 		# signal fit
+
 		Import(w, var_window)
 		signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
 		Import(w, signal_ds)
@@ -147,6 +148,7 @@ class Analyzer(object):
 		w.factory("Gaussian::g3(mass,mean3[126,   125, 127],width3[2.1, 2,  2.2])")
 		w.factory("EXPR::signal('@0*@1+@2*@3+@4*@5',{c1,g1,c2,g2,c3,g3})")
 
+
 		fit_func_signal = w.pdf('signal')
 		r1 = fit_func_signal.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
 		r1.Print()
@@ -158,6 +160,7 @@ class Analyzer(object):
 		frame.Draw()
 		canv.Print("plots/bkg_fit/unbinned_fit_signal.png")
 
+
 		data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
 		Import(w, data_obs)
 		w_sidebands.Print()
@@ -168,7 +171,13 @@ class Analyzer(object):
 		w.Write()
 		out_file.Close()
 
-
+		integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
+		integral_wi = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("window"))
+		func_int_sb = integral_sb.getVal()
+		func_int_wi = integral_wi.getVal()
+		data_int_sb = data_sidebands.sumEntries("1","left,right")
+		data_int_wi = data_int_sb * (func_int_wi/func_int_sb)
+		print "Estimated bkg in [120, 130]:	(unbinned fit)", data_int_wi
 
 
 a = Analyzer()
@@ -197,7 +206,7 @@ bkg_from_fit.Draw("hist")
 data_obs_hist.Draw("pesame")
 signal_hist.Draw("histsame")
 signal_hist.SetLineColor(ROOT.kRed)
-print "Expected yields:"
+print "Expected yields: (taken from histograms)"
 print "		signal:      %f events"%signal_hist.Integral()
 print "		background:  %f events"%bkg_from_fit.Integral()
 bkg_from_fit.GetYaxis().SetRangeUser(0.1, 100000)
