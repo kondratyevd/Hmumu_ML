@@ -68,7 +68,7 @@ class Analyzer(object):
 		fit.SetParameter(1,-0.001417)
 		mass_hist.Fit(fit,"","",110,160)
 		fit.Draw("samel")
-		canv.Print("plots/bkg_fit/test.png")
+		canv.Print("combine/test/test.png")
 		return fit
 
 	def make_hist_from_fit(self, src, func, nBins, xmin, xmax):
@@ -82,7 +82,7 @@ class Analyzer(object):
 		canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
 		canv.cd()
 		hist.Draw("hist")
-		canv.Print("plots/bkg_fit/test_bkg.png")
+		canv.Print("combine/test/test_bkg.png")
 		return hist
 
 	def fit_mass_unbinned(self, data_src, signal_src):
@@ -129,11 +129,8 @@ class Analyzer(object):
 		data_sidebands.plotOn(frame, ROOT.RooFit.Range("left, right"))
 		fit_func.plotOn(frame,ROOT.RooFit.Range("full"))
 		frame.Draw()
-		canv.Print("plots/bkg_fit/unbinned_fit_bwzredux.png")
+		canv.Print("combine/test/unbinned_fit_bwzredux.png")
 
-
-
-		# signal fit
 
 		Import(w, var_window)
 		signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
@@ -158,7 +155,7 @@ class Analyzer(object):
 		signal_ds.plotOn(frame)
 		fit_func_signal.plotOn(frame, ROOT.RooFit.Range("window"))
 		frame.Draw()
-		canv.Print("plots/bkg_fit/unbinned_fit_signal.png")
+		canv.Print("combine/test/unbinned_fit_signal.png")
 
 
 		data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
@@ -166,7 +163,7 @@ class Analyzer(object):
 		w_sidebands.Print()
 		w.Print()
 		r1.Print()
-		out_file = ROOT.TFile.Open("plots/bkg_fit/workspace.root", "recreate")
+		out_file = ROOT.TFile.Open("combine/test/workspace.root", "recreate")
 		out_file.cd()
 		w.Write()
 		out_file.Close()
@@ -183,7 +180,7 @@ class Analyzer(object):
 a = Analyzer()
 v3 = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2	,"(mass<120)||(mass>130)")
 data_obs = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2	,"(mass>120)&(mass<130)")
-sig_weigted = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2	,"((mass>120)&(mass<130))*weight*5")
+sig_weigted = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2	,"((mass>120)&(mass<130))*weight*5") # *5 because there are only 20% of MC in test dataset
 
 fit_function = a.fit_mass(v3)
 
@@ -210,7 +207,7 @@ print "Expected yields: (taken from histograms)"
 print "		signal:      %f events"%signal_hist.Integral()
 print "		background:  %f events"%bkg_from_fit.Integral()
 bkg_from_fit.GetYaxis().SetRangeUser(0.1, 100000)
-canv.Print("plots/bkg_fit/test_bs.png")
+canv.Print("combine/test/test_bs.png")
 
 
 
