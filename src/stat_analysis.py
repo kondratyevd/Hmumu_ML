@@ -130,25 +130,27 @@ class Analyzer(object):
 		fit_func.plotOn(frame,ROOT.RooFit.Range("full"))
 		frame.Draw()
 		canv.Print("combine/test/unbinned_fit_bwzredux.png")
+		Import(w, fit_func)
 
 
 		Import(w, var_window)
 		signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
 		Import(w, signal_ds)
-		Import(w, fit_func)
-		w.factory("c1 [0.73, 0.72, 0.73]")
-		w.factory("c2 [0.23, 0.2, 0.3]")
-		w.factory("c3 [0.04, 0, 0.1]")
+		w.factory("c1 [0.73, 0.725, 0.735]")
+		w.factory("c2 [0.2, 0.19, 0.25]")
+		w.factory("c3 [0., 0.02, 0.06]")
 
-		w.factory("Gaussian::g1(mass,mean1[124.8, 120, 130],width1[1.52,1.4,1.6])")
-		w.factory("Gaussian::g2(mass,mean2[122.8, 122, 123],width2[4.24,4.2,4.3])")
-		w.factory("Gaussian::g3(mass,mean3[126,   125, 127],width3[2.1, 2,  2.2])")
+		w.factory("Gaussian::g1(mass,mean1[124.94, 124, 125],width1[1.4,1.3,1.55])")
+		w.factory("Gaussian::g2(mass,mean2[122, 121, 123],width2[4.2,4.1,4.3])")
+		w.factory("Gaussian::g3(mass,mean3[127,   125, 128],width3[2, 1.9,  2.15])")
+
 		w.factory("EXPR::signal('@0*@1+@2*@3+@4*@5',{c1,g1,c2,g2,c3,g3})")
 
 
 		fit_func_signal = w.pdf('signal')
-		r1 = fit_func_signal.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
-		r1.Print()
+		# r1 = fit_func_signal.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+		# r1.Print()
+
 		canv = ROOT.TCanvas("canv2", "canv2", 800, 800)
 		canv.cd()
 		frame = var_window.frame()
@@ -162,7 +164,7 @@ class Analyzer(object):
 		Import(w, data_obs)
 		w_sidebands.Print()
 		w.Print()
-		r1.Print()
+		# r1.Print()
 		out_file = ROOT.TFile.Open("combine/test/workspace.root", "recreate")
 		out_file.cd()
 		w.Write()
