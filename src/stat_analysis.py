@@ -134,8 +134,9 @@ class Analyzer(object):
 
     def plot_unbinned_fit_sig(self, signal_src):
         signal_hist, signal_tree = self.get_mass_hist("signal", signal_src, signal_src.mc_path, "tree_H2Mu_gg", 10, 110, 150, normalize=False)
-        var_window = ROOT.RooRealVar("mass","Dilepton mass",120,130)
-        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
+        var_window = ROOT.RooRealVar("mass","Dilepton mass",110,150)
+        var_window.setRange("full",110,150)
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "")
 
         mean1 = ROOT.RooRealVar("mean1", "mean1", 125.0, 120, 130)
         mean2 = ROOT.RooRealVar("mean2", "mean2", 125.0, 120, 130) 
@@ -151,7 +152,7 @@ class Analyzer(object):
 
         sigParamList = [mean1, mean2, width1, width2, mixGG]
 
-        res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+        res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
         res.Print()
 
         for par in sigParamList:
@@ -187,6 +188,7 @@ class Analyzer(object):
         var = ROOT.RooRealVar("mass","Dilepton mass",110,150)       
         var.setBins(100)
         var.setRange("window",120,130)
+        var.setRange("full",110,150)
         data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var), "")
         Import = getattr(ROOT.RooWorkspace, 'import')
         w = ROOT.RooWorkspace("w", False)
@@ -211,7 +213,7 @@ class Analyzer(object):
         smodel = ROOT.RooAddPdf('signal', 'signal', gaus1, gaus2, mixGG)
         sigParamList = [mean1, mean2, width1, width2, mixGG]
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var), "")
-        res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+        res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
         res.Print()
         for par in sigParamList:
             par.setConstant(True)
@@ -223,6 +225,20 @@ class Analyzer(object):
         w.Write()
         w.Print()
         out_file.Close()
+
+        frame = var.frame()
+
+        sig = w.pdf("signal")
+        bkg = w.pdf("background")
+        sig.plotOn(frame)
+        bkg.plotOn(frame)
+
+        canv = ROOT.TCanvas("canv4", "canv4", 800, 800)
+        canv.cd()
+        frame.Draw()
+        canv.Print("combine/test/pdfs.png")
+
+
 
 a = Analyzer()
 v3 = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2   ,"(mass<120)||(mass>130)")
