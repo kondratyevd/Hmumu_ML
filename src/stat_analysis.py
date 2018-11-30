@@ -99,7 +99,7 @@ class Analyzer(object):
 		var_window = ROOT.RooRealVar("mass","Dilepton mass",120,130)
 
 
-		data_sidebands = ROOT.RooDataSet("data_sidebandata_sidebands","data_sidebands", tree, ROOT.RooArgSet(var), "(mass<120)||(mass>130)")
+		data_sidebands = ROOT.RooDataSet("data_sidebandata_sidebands","data_sidebands", tree, ROOT.RooArgSet(var))
 
 		w_sidebands = ROOT.RooWorkspace("w_sb", False) 
 		w = ROOT.RooWorkspace("w", False) 
@@ -108,7 +108,6 @@ class Analyzer(object):
 		
 		Import(w_sidebands, var)
 		Import(w_sidebands, data_sidebands)
-
 
 
 		w_sidebands.factory("a1 [1.39, 0.7, 2.1]")
@@ -130,15 +129,15 @@ class Analyzer(object):
 		fit_func.plotOn(frame,ROOT.RooFit.Range("full"))
 		frame.Draw()
 		canv.Print("combine/test/unbinned_fit_bwzredux.png")
-		Import(w, fit_func)
-
 
 		Import(w, var_window)
+		Import(w, fit_func)
+		
 		signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
 		Import(w, signal_ds)
 		w.factory("c1 [0.73, 0.725, 0.735]")
 		w.factory("c2 [0.2, 0.19, 0.25]")
-		w.factory("c3 [0., 0.02, 0.06]")
+		w.factory("c3 [0.0000004, 0.02, 0.06]")
 
 		w.factory("Gaussian::g1(mass,mean1[124.94, 124, 125],width1[1.4,1.3,1.55])")
 		w.factory("Gaussian::g2(mass,mean2[122, 121, 123],width2[4.2,4.1,4.3])")
@@ -148,8 +147,8 @@ class Analyzer(object):
 
 
 		fit_func_signal = w.pdf('signal')
-		# r1 = fit_func_signal.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
-		# r1.Print()
+		r1 = fit_func_signal.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+		r1.Print()
 
 		canv = ROOT.TCanvas("canv2", "canv2", 800, 800)
 		canv.cd()
@@ -163,12 +162,20 @@ class Analyzer(object):
 		data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
 		Import(w, data_obs)
 		w_sidebands.Print()
-		w.Print()
+		w.var("mass").Print()
 		# r1.Print()
 		out_file = ROOT.TFile.Open("combine/test/workspace.root", "recreate")
 		out_file.cd()
 		w.Write()
 		out_file.Close()
+
+
+		canv = ROOT.TCanvas("canv3", "canv3", 800, 800)
+		canv.cd()
+		frame = var_window.frame()
+		data_obs.plotOn(frame)
+		frame.Draw()
+		canv.Print("combine/test/data_obs.png")
 
 		integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
 		integral_wi = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("window"))
