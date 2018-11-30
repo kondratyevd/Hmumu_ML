@@ -95,14 +95,14 @@ class Analyzer(object):
         var.setRange("full",110,150)
         var.setRange("window",120,130)
 
-        data_sidebands = ROOT.RooDataSet("data_sidebandata_sidebands","data_sidebands", tree, ROOT.RooArgSet(var), "(mass<120)||(mass>130)")
+        data = ROOT.RooDataSet("data_sidebandata","data", tree, ROOT.RooArgSet(var), "")
 
         w_sidebands = ROOT.RooWorkspace("w_sb", False) 
 
         Import = getattr(ROOT.RooWorkspace, 'import')
         
         Import(w_sidebands, var)
-        Import(w_sidebands, data_sidebands)
+        Import(w_sidebands, data)
 
         w_sidebands.factory("a1 [1.66, 0.7, 2.1]")
         w_sidebands.factory("a2 [0.39, 0.30, 0.62]")
@@ -111,11 +111,11 @@ class Analyzer(object):
         w_sidebands.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
         
         fit_func = w_sidebands.pdf('background')
-        r = fit_func.fitTo(data_sidebands, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+        r = fit_func.fitTo(data, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
         r.Print()
 
         frame = var.frame()
-        data_sidebands.plotOn(frame, ROOT.RooFit.Range("left, right"))
+        data.plotOn(frame, ROOT.RooFit.Range("left, right"))
         fit_func.plotOn(frame,ROOT.RooFit.Range("full"))
 
         canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
@@ -124,13 +124,17 @@ class Analyzer(object):
         canv.Print("combine/test/unbinned_fit_bwzredux.png")
 
         integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
-        integral_wi = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("window"))
+        integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
         func_int_sb = integral_sb.getVal()
-        func_int_wi = integral_wi.getVal()
-        data_int_sb = data_sidebands.sumEntries("1","left,right")
-        data_int_wi = data_int_sb * (func_int_wi/func_int_sb)
-        print "Estimated bkg in [120, 130]: (unbinned fit)", data_int_wi
-
+        func_int_full = integral_full.getVal()
+        data_int_sb = data.sumEntries("1","left,right")
+        data_int_full = data.sumEntries("1","full")
+        bkg_int_full = data_int_sb * (func_int_full/func_int_sb)
+        print "func_int_sb:  ", func_int_sb
+        print "func_int_full:  ", func_int_full
+        print "data_int_sb: ", data_int_sb
+        print "data_int_full: ", data_int_full
+        return bkg_int_full
 
     def plot_unbinned_fit_sig(self, signal_src):
         signal_hist, signal_tree = self.get_mass_hist("signal", signal_src, signal_src.mc_path, "tree_H2Mu_gg", 10, 110, 150, normalize=False)
@@ -167,12 +171,13 @@ class Analyzer(object):
         frame.Draw()
         canv.Print("combine/test/unbinned_fit_signal.png")
 
+        return signal_hist.Integral()
 
 
     def plot_data_obs(self, data_src):
         var = ROOT.RooRealVar("mass","Dilepton mass",110,150)
         mass_hist, tree = self.get_mass_hist("data_fit", data_src, data_src.data_path, "tree_Data", 40, 110, 150, normalize=False)
-        data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var), "")
+        data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var), "(mass>110)&(mass<150)")
         frame = var.frame()
         data_obs.plotOn(frame)
 
@@ -180,6 +185,8 @@ class Analyzer(object):
         canv.cd()
         frame.Draw()
         canv.Print("combine/test/data_obs.png")
+
+        return mass_hist.Integral()
 
 
     def make_workspace(self, data_src, signal_src):
@@ -241,16 +248,20 @@ class Analyzer(object):
 
 
 a = Analyzer()
-v3 = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2   ,"(mass<120)||(mass>130)")
+v3 = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2   ,"")
 data_obs = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2 ,"(mass>120)&(mass<130)")
-sig_weigted = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2  ,"((mass>120)&(mass<130))*weight*5") # *5 because there are only 20% of MC in test dataset
+sig_weigted = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2  ,"(1)*weight*5") # *5 because there are only 20% of MC in test dataset
 
 fit_function = a.fit_mass(v3)
 
-a.plot_unbinned_fit_bkg(v3)
-a.plot_unbinned_fit_sig(sig_weigted)
-a.plot_data_obs(v3)
+bkg_integral = a.plot_unbinned_fit_bkg(v3)
+sig_integral = a.plot_unbinned_fit_sig(sig_weigted)
+data_integral = a.plot_data_obs(v3)
 a.make_workspace(v3, sig_weigted)
+print "Integrals:"
+print "     signal:      %f events"%sig_integral
+print "     background:  %f events"%bkg_integral
+print "     data:        %f events"%data_integral
 
 bkg_from_fit = a.make_hist_from_fit(v3, fit_function, 10, 120, 130)
 data_obs_hist, data_obs_tree = a.get_mass_hist("data_obs", data_obs, data_obs.data_path, "tree_Data", 10, 120, 130, normalize=False)
@@ -269,9 +280,7 @@ bkg_from_fit.Draw("hist")
 data_obs_hist.Draw("pesame")
 signal_hist.Draw("histsame")
 signal_hist.SetLineColor(ROOT.kRed)
-print "Expected yields: (taken from histograms)"
-print "     signal:      %f events"%signal_hist.Integral()
-print "     background:  %f events"%bkg_from_fit.Integral()
+
 bkg_from_fit.GetYaxis().SetRangeUser(0.1, 100000)
 canv.Print("combine/test/test_bs.png")
 
