@@ -99,7 +99,7 @@ class Analyzer(object):
 		var_window = ROOT.RooRealVar("mass","Dilepton mass",120,130)
 
 
-		data_sidebands = ROOT.RooDataSet("data_sidebandata_sidebands","data_sidebands", tree, ROOT.RooArgSet(var))
+		data_sidebands = ROOT.RooDataSet("data_sidebandata_sidebands","data_sidebands", tree, ROOT.RooArgSet(var), "(mass<120)||(mass>130)")
 
 		w_sidebands = ROOT.RooWorkspace("w_sb", False) 
 		w = ROOT.RooWorkspace("w", False) 
@@ -110,8 +110,8 @@ class Analyzer(object):
 		Import(w_sidebands, data_sidebands)
 
 
-		w_sidebands.factory("a1 [1.39, 0.7, 2.1]")
-		w_sidebands.factory("a2 [0.46, 0.30, 0.62]")
+		w_sidebands.factory("a1 [1.66, 0.7, 2.1]")
+		w_sidebands.factory("a2 [0.39, 0.30, 0.62]")
 		w_sidebands.factory("a3 [-0.26, -0.40, -0.12]")
 		w_sidebands.factory("EXPR::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
 		w_sidebands.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
@@ -132,7 +132,7 @@ class Analyzer(object):
 
 		Import(w, var_window)
 		Import(w, fit_func)
-		
+				
 		signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
 		Import(w, signal_ds)
 		w.factory("c1 [0.73, 0.725, 0.735]")
