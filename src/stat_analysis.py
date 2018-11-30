@@ -58,7 +58,7 @@ class Analyzer(object):
             data_hist.Scale(1/data_hist.Integral())
         return data_hist, data
 
-    def fit_mass(self, src):
+    def binned_mass_fit(self, src):
         canv = ROOT.TCanvas("canv", "canv", 800, 800)
         canv.cd()
         mass_hist, tree = self.get_mass_hist("data_fit", src, src.data_path, "tree_Data", 40, 110, 150, normalize=False)
@@ -249,29 +249,34 @@ class Analyzer(object):
 
 a = Analyzer()
 v3 = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2   ,"")
-data_obs = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2 ,"(mass>120)&(mass<130)")
+data_obs = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2 ,"")
 sig_weigted = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2  ,"(1)*weight*5") # *5 because there are only 20% of MC in test dataset
 
-fit_function = a.fit_mass(v3)
 
 bkg_integral = a.plot_unbinned_fit_bkg(v3)
 sig_integral = a.plot_unbinned_fit_sig(sig_weigted)
 data_integral = a.plot_data_obs(v3)
 a.make_workspace(v3, sig_weigted)
-print "Integrals:"
+print "Integrals (unbinned fit):"
 print "     signal:      %f events"%sig_integral
 print "     background:  %f events"%bkg_integral
 print "     data:        %f events"%data_integral
 
-bkg_from_fit = a.make_hist_from_fit(v3, fit_function, 10, 120, 130)
-data_obs_hist, data_obs_tree = a.get_mass_hist("data_obs", data_obs, data_obs.data_path, "tree_Data", 10, 120, 130, normalize=False)
-signal_hist, signal_tree = a.get_mass_hist("signal", sig_weigted, sig_weigted.mc_path, "tree_H2Mu_gg", 10, 120, 130, normalize=False)
+fit_function = a.binned_mass_fit(v3)
+bkg_from_fit = a.make_hist_from_fit(v3, fit_function, 40, 110, 150)
+data_obs_hist, data_obs_tree = a.get_mass_hist("data_obs", data_obs, data_obs.data_path, "tree_Data", 40, 110, 150, normalize=False)
+signal_hist, signal_tree = a.get_mass_hist("signal", sig_weigted, sig_weigted.mc_path, "tree_H2Mu_gg", 40, 110, 150, normalize=False)
 
 out_file = ROOT.TFile.Open("combine/test/test_input.root", "recreate")
 bkg_from_fit.Write()
 data_obs_hist.Write()
 signal_hist.Write()
 out_file.Close()
+
+print "Integrals (binned fit):"
+print "     signal:      %f events"%signal_hist.Integral()
+print "     background:  %f events"%bkg_from_fit.Integral()
+print "     data:        %f events"%data_obs_hist.Integral()
 
 canv = ROOT.TCanvas("canv2", "canv2", 800, 800)
 canv.cd()
