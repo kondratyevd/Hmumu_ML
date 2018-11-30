@@ -149,7 +149,7 @@ class Analyzer(object):
         gaus2 = ROOT.RooGaussian("gaus2", "gaus2", var_window, mean2, width2)
 
         # double gaussian
-        smodel = ROOT.RooAddPdf('smodel', 'smodel', gaus1, gaus2, mixGG)
+        smodel = ROOT.RooAddPdf('signal', 'signal', gaus1, gaus2, mixGG)
 
         sigParamList = [mean1, mean2, width1, width2, mixGG]
 
