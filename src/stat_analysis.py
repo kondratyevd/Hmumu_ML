@@ -61,14 +61,16 @@ class Analyzer(object):
     def binned_mass_fit(self, src):
         canv = ROOT.TCanvas("canv", "canv", 800, 800)
         canv.cd()
+        src.cut = "(mass<120)||(mass>130)"
         mass_hist, tree = self.get_mass_hist("data_fit", src, src.data_path, "tree_Data", 40, 110, 150, normalize=False)
         mass_hist.Draw("pe")
-        fit = ROOT.TF1("fit",BWZ,110,160,2)
+        fit = ROOT.TF1("fit",BWZ,110,150,2)
         fit.SetParameter(0,0.218615)
         fit.SetParameter(1,-0.001417)
-        mass_hist.Fit(fit,"","",110,160)
+        mass_hist.Fit(fit,"","",110,150)
         fit.Draw("samel")
         canv.Print("combine/test/test.png")
+        src.cut = ""
         return fit
 
     def make_hist_from_fit(self, src, func, nBins, xmin, xmax):
@@ -251,7 +253,6 @@ a = Analyzer()
 v3 = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2   ,"")
 data_obs = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2 ,"")
 sig_weigted = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2  ,"(1)*weight*5") # *5 because there are only 20% of MC in test dataset
-
 
 bkg_integral = a.plot_unbinned_fit_bkg(v3)
 sig_integral = a.plot_unbinned_fit_sig(sig_weigted)
