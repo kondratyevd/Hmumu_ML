@@ -85,9 +85,8 @@ class Analyzer(object):
         canv.Print("combine/test/test_bkg.png")
         return hist
 
-    def fit_mass_unbinned(self, data_src, signal_src):
+    def plot_unbinned_fit_bkg(self, data_src):
         mass_hist, tree = self.get_mass_hist("data_fit", data_src, data_src.data_path, "tree_Data", 40, 110, 150, normalize=False)
-        signal_hist, signal_tree = self.get_mass_hist("signal", signal_src, signal_src.mc_path, "tree_H2Mu_gg", 10, 110, 150, normalize=False)
 
         var = ROOT.RooRealVar("mass","Dilepton mass",110,150)       
         var.setBins(100)
@@ -96,58 +95,57 @@ class Analyzer(object):
         var.setRange("full",110,150)
         var.setRange("window",120,130)
 
-        var_window = ROOT.RooRealVar("mass","Dilepton mass",120,130)
-
-
         data_sidebands = ROOT.RooDataSet("data_sidebandata_sidebands","data_sidebands", tree, ROOT.RooArgSet(var), "(mass<120)||(mass>130)")
 
         w_sidebands = ROOT.RooWorkspace("w_sb", False) 
-        w = ROOT.RooWorkspace("w", False) 
 
         Import = getattr(ROOT.RooWorkspace, 'import')
         
         Import(w_sidebands, var)
         Import(w_sidebands, data_sidebands)
 
-
         w_sidebands.factory("a1 [1.66, 0.7, 2.1]")
         w_sidebands.factory("a2 [0.39, 0.30, 0.62]")
         w_sidebands.factory("a3 [-0.26, -0.40, -0.12]")
         w_sidebands.factory("EXPR::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
         w_sidebands.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
-
-                
-        # bkg fit
         
         fit_func = w_sidebands.pdf('background')
         r = fit_func.fitTo(data_sidebands, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
         r.Print()
-        canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
-        canv.cd()
+
         frame = var.frame()
         data_sidebands.plotOn(frame, ROOT.RooFit.Range("left, right"))
         fit_func.plotOn(frame,ROOT.RooFit.Range("full"))
+
+        canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
+        canv.cd()
         frame.Draw()
         canv.Print("combine/test/unbinned_fit_bwzredux.png")
 
-        Import(w, var_window)
-        Import(w, fit_func)
+        integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
+        integral_wi = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("window"))
+        func_int_sb = integral_sb.getVal()
+        func_int_wi = integral_wi.getVal()
+        data_int_sb = data_sidebands.sumEntries("1","left,right")
+        data_int_wi = data_int_sb * (func_int_wi/func_int_sb)
+        print "Estimated bkg in [120, 130]: (unbinned fit)", data_int_wi
 
+
+    def plot_unbinned_fit_sig(self, signal_src):
+        signal_hist, signal_tree = self.get_mass_hist("signal", signal_src, signal_src.mc_path, "tree_H2Mu_gg", 10, 110, 150, normalize=False)
+        var_window = ROOT.RooRealVar("mass","Dilepton mass",120,130)
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
 
         mean1 = ROOT.RooRealVar("mean1", "mean1", 125.0, 120, 130)
-        mean2 = ROOT.RooRealVar("mean2", "mean2", 125.0, 120, 130)
-        
+        mean2 = ROOT.RooRealVar("mean2", "mean2", 125.0, 120, 130) 
         width1 = ROOT.RooRealVar("width1", "width1", 5.0, 2.0, 10.0)
-        width2 = ROOT.RooRealVar("width2", "width2", 1.0, 0.5, 5.0)
-        
+        width2 = ROOT.RooRealVar("width2", "width2", 1.0, 0.5, 5.0)   
         # mixing parameters for the two gaussians
         mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
-
         # define the two gaussians
         gaus1 = ROOT.RooGaussian("gaus1", "gaus1", var_window, mean1, width1)
         gaus2 = ROOT.RooGaussian("gaus2", "gaus2", var_window, mean2, width2)
-
         # double gaussian
         smodel = ROOT.RooAddPdf('signal', 'signal', gaus1, gaus2, mixGG)
 
@@ -159,43 +157,72 @@ class Analyzer(object):
         for par in sigParamList:
             par.setConstant(True)
 
-        Import(w, smodel)
-
-        canv = ROOT.TCanvas("canv2", "canv2", 800, 800)
-        canv.cd()
         frame = var_window.frame()
         signal_ds.plotOn(frame)
         smodel.plotOn(frame, ROOT.RooFit.Range("window"))
+
+        canv = ROOT.TCanvas("canv2", "canv2", 800, 800)
+        canv.cd()
         frame.Draw()
         canv.Print("combine/test/unbinned_fit_signal.png")
 
 
-        data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var_window), "(mass>120)&(mass<130)")
-        Import(w, data_obs)
-        w.Print()
-        w.var("mass").Print()
-        # r1.Print()
-        out_file = ROOT.TFile.Open("combine/test/workspace.root", "recreate")
-        out_file.cd()
-        w.Write()
-        out_file.Close()
 
+    def plot_data_obs(self, data_src):
+        var = ROOT.RooRealVar("mass","Dilepton mass",110,150)
+        mass_hist, tree = self.get_mass_hist("data_fit", data_src, data_src.data_path, "tree_Data", 40, 110, 150, normalize=False)
+        data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var), "")
+        frame = var.frame()
+        data_obs.plotOn(frame)
 
         canv = ROOT.TCanvas("canv3", "canv3", 800, 800)
         canv.cd()
-        frame = var_window.frame()
-        data_obs.plotOn(frame)
         frame.Draw()
         canv.Print("combine/test/data_obs.png")
 
-        integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
-        integral_wi = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("window"))
-        func_int_sb = integral_sb.getVal()
-        func_int_wi = integral_wi.getVal()
-        data_int_sb = data_sidebands.sumEntries("1","left,right")
-        data_int_wi = data_int_sb * (func_int_wi/func_int_sb)
-        print "Estimated bkg in [120, 130]: (unbinned fit)", data_int_wi
 
+    def make_workspace(self, data_src, signal_src):
+        mass_hist, tree = self.get_mass_hist("data_fit", data_src, data_src.data_path, "tree_Data", 40, 110, 150, normalize=False)
+        signal_hist, signal_tree = self.get_mass_hist("signal", signal_src, signal_src.mc_path, "tree_H2Mu_gg", 10, 110, 150, normalize=False)
+        var = ROOT.RooRealVar("mass","Dilepton mass",110,150)       
+        var.setBins(100)
+        var.setRange("window",120,130)
+        data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var), "")
+        Import = getattr(ROOT.RooWorkspace, 'import')
+        w = ROOT.RooWorkspace("w", False)
+        Import(w, var)
+
+        w.factory("a1 [1.66, 0.7, 2.1]")
+        w.factory("a2 [0.39, 0.30, 0.62]")
+        w.factory("a3 [-0.26, -0.40, -0.12]")
+        w.factory("EXPR::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
+        w.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
+
+        mean1 = ROOT.RooRealVar("mean1", "mean1", 125.0, 120, 130)
+        mean2 = ROOT.RooRealVar("mean2", "mean2", 125.0, 120, 130)      
+        width1 = ROOT.RooRealVar("width1", "width1", 5.0, 2.0, 10.0)
+        width2 = ROOT.RooRealVar("width2", "width2", 1.0, 0.5, 5.0)       
+        # mixing parameters for the two gaussians
+        mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
+        # define the two gaussians
+        gaus1 = ROOT.RooGaussian("gaus1", "gaus1", var, mean1, width1)
+        gaus2 = ROOT.RooGaussian("gaus2", "gaus2", var, mean2, width2)
+        # double gaussian
+        smodel = ROOT.RooAddPdf('signal', 'signal', gaus1, gaus2, mixGG)
+        sigParamList = [mean1, mean2, width1, width2, mixGG]
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var), "")
+        res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+        res.Print()
+        for par in sigParamList:
+            par.setConstant(True)
+
+        Import(w, smodel)
+        Import(w, data_obs)
+        out_file = ROOT.TFile.Open("combine/test/workspace.root", "recreate")
+        out_file.cd()
+        w.Write()
+        w.Print()
+        out_file.Close()
 
 a = Analyzer()
 v3 = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2_25_D2", ROOT.kGreen+2   ,"(mass<120)||(mass>130)")
@@ -204,7 +231,10 @@ sig_weigted = a.add_data_src("V3", "Run_2018-11-08_09-49-45", "model_50_D2_25_D2
 
 fit_function = a.fit_mass(v3)
 
-a.fit_mass_unbinned(v3, sig_weigted)
+a.plot_unbinned_fit_bkg(v3)
+a.plot_unbinned_fit_sig(sig_weigted)
+a.plot_data_obs(v3)
+a.make_workspace(v3, sig_weigted)
 
 bkg_from_fit = a.make_hist_from_fit(v3, fit_function, 10, 120, 130)
 data_obs_hist, data_obs_tree = a.get_mass_hist("data_obs", data_obs, data_obs.data_path, "tree_Data", 10, 120, 130, normalize=False)
