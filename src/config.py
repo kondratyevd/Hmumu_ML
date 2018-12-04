@@ -45,16 +45,16 @@ variables.append(Variable("nBMed"			,	"nBMed"				,"nBMed",  				"", 	  	'I', Fal
 # variables.append(Variable("max_dR_mumu_jet"	,	"max_dR_mumu_jet"	,"max_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-5	, False	))
 # variables.append(Variable("zepenfeld"		,	"zepenfeld"			,"zepenfeld", 			"",			'F', False, 	"nJetPairs"	,-5	, False	))variables.append(Variable("jets.pt"			,	"pt"				,"Jet p_{T}",  			"GeV",   	'F', True, 		"nJets"		,	-100	, False	))
 
-variables.append(Variable("jets.eta"		,	"eta"				,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	0	, False	))
-variables.append(Variable("jets.phi"		,	"phi"				,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	0	, False	)) 
-variables.append(Variable("jetPairs.dEta"	,	"dEta"				,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	0	, True	)) 
-variables.append(Variable("jetPairs.mass"	,	"mass"				,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	0	, False	))
+variables.append(Variable("jets.eta"		,	"eta"				,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	-1000	, False	))
+variables.append(Variable("jets.phi"		,	"phi"				,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	-1000	, False	)) 
+variables.append(Variable("jetPairs.dEta"	,	"dEta"				,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-1000	, True	)) 
+variables.append(Variable("jetPairs.mass"	,	"mass"				,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	-1000	, False	))
 
-variables.append(Variable("min_dR_mu_jet"	,	"min_dR_mu_jet"		,"min_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	0	, False	))
-variables.append(Variable("max_dR_mu_jet"	,	"max_dR_mu_jet"		,"max_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	0	, False	))
-variables.append(Variable("min_dR_mumu_jet"	,	"min_dR_mumu_jet"	,"min_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	0	, False	))
-variables.append(Variable("max_dR_mumu_jet"	,	"max_dR_mumu_jet"	,"max_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	0	, False	))
-variables.append(Variable("zepenfeld"		,	"zepenfeld"			,"zepenfeld", 			"",			'F', False, 	"nJetPairs"	,0	, False	))
+variables.append(Variable("min_dR_mu_jet"	,	"min_dR_mu_jet"		,"min_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	-1000	, False	))
+variables.append(Variable("max_dR_mu_jet"	,	"max_dR_mu_jet"		,"max_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	-1000	, False	))
+variables.append(Variable("min_dR_mumu_jet"	,	"min_dR_mumu_jet"	,"min_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-1000	, False	))
+variables.append(Variable("max_dR_mumu_jet"	,	"max_dR_mumu_jet"	,"max_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-1000	, False	))
+variables.append(Variable("zepenfeld"		,	"zepenfeld"			,"zepenfeld", 			"",			'F', False, 	"nJetPairs"	,-1000	, False	))
 
 
 variables.append(Variable("mu1_pt_by_mass"	,	"mu1_pt_by_mass"	,"Muon1 p_{T} / Mmm", 	"",			'F', False, 	"nMuons"	,	0	, False	))
