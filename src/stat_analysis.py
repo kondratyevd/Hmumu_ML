@@ -153,6 +153,7 @@ class Analyzer(object):
         # define the two gaussians
         gaus1 = ROOT.RooGaussian("gaus1", "gaus1", var_window, mean1, width1)
         gaus2 = ROOT.RooGaussian("gaus2", "gaus2", var_window, mean2, width2)
+
         # double gaussian
         smodel = ROOT.RooAddPdf('signal', 'signal', gaus1, gaus2, mixGG)
 
@@ -209,23 +210,44 @@ class Analyzer(object):
         w.factory("EXPR::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
         w.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
 
-        mean1 = ROOT.RooRealVar("mean1", "mean1", 125.0, 120, 130)
-        mean2 = ROOT.RooRealVar("mean2", "mean2", 125.0, 120, 130)      
-        width1 = ROOT.RooRealVar("width1", "width1", 5.0, 2.0, 10.0)
-        width2 = ROOT.RooRealVar("width2", "width2", 1.0, 0.5, 5.0)       
+        # mean1 = ROOT.RooRealVar("mean1", "mean1", 125.0, 120, 130)
+        # mean2 = ROOT.RooRealVar("mean2", "mean2", 125.0, 120, 130)      
+        # width1 = ROOT.RooRealVar("width1", "width1", 5.0, 2.0, 10.0)
+        # width2 = ROOT.RooRealVar("width2", "width2", 1.0, 0.5, 5.0)       
         # mixing parameters for the two gaussians
-        mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
-        # define the two gaussians
-        gaus1 = ROOT.RooGaussian("gaus1", "gaus1", var, mean1, width1)
-        gaus2 = ROOT.RooGaussian("gaus2", "gaus2", var, mean2, width2)
-        # double gaussian
-        smodel = ROOT.RooAddPdf('signal', 'signal', gaus1, gaus2, mixGG)
-        sigParamList = [mean1, mean2, width1, width2, mixGG]
+        # mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
+
+
+        mu_res_beta = ROOT.RooRealVar('mu_res_beta','mu_res_beta',0,-5,5)
+        Import(w, mu_res_beta)
+        uncert = 1.1
+        mu_res_kappa = ROOT.RooRealVar('mu_res_kappa','mu_res_kappa',uncert)
+        mu_res_kappa.setConstant()
+        Import(w, mu_res_kappa)
+        # w.factory("PowFunc::mu_res_nuis(mu_res_kappa, mu_res_beta)")
+        w.factory("Gaussian::gaus1(mass, mean1[125.0, 120, 130], width1[5.0, 2.0, 10.0])")
+        w.factory("EXPR::width2_times_nuis('width2*pow(mu_res_kappa, mu_res_beta)',{width2[1.0, 0.5, 5.0],mu_res_kappa,mu_res_beta})")
+        w.factory("Gaussian::gaus2(mass, mean2[125.0, 120, 130], width2_times_nuis)")
+
+        w.factory("SUM::signal(1*gaus1, mixGG[0.5, 0, 1]*gaus2)")
+
+        w.Print()
+
+        smodel = w.pdf("signal")
+
+        print "#"*100
+        print smodel
+        print "#"*100
+
+        
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var), "")
         res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
         res.Print()
+
+        sigParamList = ["mean1", "mean2", "width1", "width2", "mixGG"]
         for par in sigParamList:
-            par.setConstant(True)
+            par_var = w.var(par)
+            par_var.setConstant(True)
 
         Import(w, smodel)
         Import(w, data_obs)
