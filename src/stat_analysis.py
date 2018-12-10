@@ -212,7 +212,7 @@ class Analyzer(object):
 
         mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
 
-        mu_res_beta = ROOT.RooRealVar('mu_res_beta','mu_res_beta',0,-5,5)
+        mu_res_beta = ROOT.RooRealVar('mu_res_beta','mu_res_beta',0,0,0)
         Import(w, mu_res_beta)
         uncert = 1.1
         mu_res_kappa = ROOT.RooRealVar('mu_res_kappa','mu_res_kappa',uncert)
@@ -237,6 +237,7 @@ class Analyzer(object):
         for par in sigParamList:
             par_var = w.var(par)
             par_var.setConstant(True)
+        mu_res_beta.setRange(-5,5)
 
         Import(w, smodel)
         Import(w, data_obs)
