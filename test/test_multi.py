@@ -163,7 +163,8 @@ c.add_package("Keras_multi")
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
 # c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
-c.add_method("model_50_25_25") # no dropout
+# c.add_method("model_50_25_25") # no dropout
+c.add_method("andrea_model_3") # Andrea's model #3
 
 # c.custom_loss = True
 # c.add_method("model_50_D2_25_D2_25_D2_mass_control_bkg_0p5")

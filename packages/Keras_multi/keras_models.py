@@ -1,5 +1,5 @@
 from keras.models import Sequential, Model
-from keras.layers import Dense, Activation, Input, Dropout, Concatenate, Lambda
+from keras.layers import Dense, Activation, Input, Dropout, Concatenate, Lambda, BatchNormalization
 from keras.regularizers import l2
 from keras.optimizers import SGD
 import os, sys
@@ -70,11 +70,31 @@ def GetListOfModels(trainer):
 	x = Dense(25, name = model_50_25_25.name+'_layer_3', activation='relu')(x)
 	model_50_25_25.outputs = Dense(output_dim, name = model_50_25_25.name+'_output',  activation='softmax')(x)
 
+
+#    model = Sequential()
+#    model.add(Dense(40, input_dim=len(features),activation='sigmoid',use_bias=True,kernel_initializer='glorot_normal',bias_initializer='zeros',kernel_regularizer=l2(0.01),bias_regularizer=l2(0.01)) )
+#    model.add(BatchNormalization() )
+#    model.add(Dropout(0.25))
+#    model.add(Dense(25,activation='sigmoid',use_bias=True,kernel_regularizer=l2(0.01),kernel_initializer='glorot_normal',bias_initializer='zeros'))
+#    model.add(BatchNormalization() )
+#    model.add(Dense(10,activation='sigmoid',use_bias=True,kernel_initializer='glorot_normal',bias_initializer='zeros'))
+#    model.add(Dense(1,activation='sigmoid'))
+
+	andrea_model_3 = model_init('andrea_model_3', input_dim, 2048, 200, 'categorical_crossentropy', 'adam')
+	x = Dense(40, name = andrea_model_3.name+'_layer_1', activation='sigmoid', use_bias=True, kernel_initializer='glorot_normal', bias_initializer='zeros', kernel_regularizer=l2(0.01), bias_regularizer=l2(0.01))(andrea_model_3.inputs)
+	x = BatchNormalization()(x)
+	x = Dropout(0.25)(x)
+	x = Dense(25, name = andrea_model_3.name+'_layer_2', activation='sigmoid',use_bias=True, kernel_regularizer=l2(0.01), kernel_initializer='glorot_normal', bias_initializer='zeros')(x)
+	x = BatchNormalization()(x)
+	x = Dense(10, name = andrea_model_3.name+'_layer_3', activation='sigmoid',use_bias=True,kernel_initializer='glorot_normal',bias_initializer='zeros')(x)
+	andrea_model_3.outputs = Dense(output_dim, name = andrea_model_3.name+'_output',  activation='softmax')(x)
+
 	list_of_models.append(UCSD_model) # 50_D2
 	list_of_models.append(model_50_D1)
 	list_of_models.append(model_50_D2_25_D2)
 	list_of_models.append(model_50_D2_25_D2_25_D2)
 	list_of_models.append(model_50_25_25)
+	list_of_models.append(andrea_model_3)
 
 	from keras import backend as K
 	from tensorflow import where, greater, abs, zeros_like, exp
