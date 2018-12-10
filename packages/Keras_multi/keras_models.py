@@ -64,12 +64,17 @@ def GetListOfModels(trainer):
 	model_50_D2_25_D2_25_D2.outputs = Dense(output_dim, name = model_50_D2_25_D2_25_D2.name+'_output',  activation='softmax')(x)
 
 
+	model_50_25_25 = model_init('model_50_25_25', input_dim, 2048, 200, 'categorical_crossentropy', 'adam')
+	x = Dense(50, name = model_50_25_25.name+'_layer_1', activation='relu')(model_50_25_25.inputs)
+	x = Dense(25, name = model_50_25_25.name+'_layer_2', activation='relu')(x)
+	x = Dense(25, name = model_50_25_25.name+'_layer_3', activation='relu')(x)
+	model_50_25_25.outputs = Dense(output_dim, name = model_50_25_25.name+'_output',  activation='softmax')(x)
 
 	list_of_models.append(UCSD_model) # 50_D2
 	list_of_models.append(model_50_D1)
 	list_of_models.append(model_50_D2_25_D2)
 	list_of_models.append(model_50_D2_25_D2_25_D2)
-
+	list_of_models.append(model_50_25_25)
 
 	from keras import backend as K
 	from tensorflow import where, greater, abs, zeros_like, exp
