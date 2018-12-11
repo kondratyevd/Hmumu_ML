@@ -205,7 +205,7 @@ class Analyzer(object):
         Import(w, var)
 
         w.factory("a1 [1.66, 0.7, 2.1]")
-        w.factory("a2 [0.39, 0.30, 1]")
+        w.factory("a2 [0.39, 0.30, 2]")
         w.factory("a3 [-0.26, -0.40, -0.02]")
         w.factory("expr::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
         w.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
@@ -249,9 +249,9 @@ class Analyzer(object):
 
         frame = var.frame()
 
-        sig = w.pdf("signal")
+        
         bkg = w.pdf("background")
-        sig.plotOn(frame)
+        smodel.plotOn(frame)
         bkg.plotOn(frame)
 
         canv = ROOT.TCanvas("canv4", "canv4", 800, 800)
