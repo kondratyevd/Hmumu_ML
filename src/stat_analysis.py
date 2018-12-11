@@ -204,7 +204,7 @@ class Analyzer(object):
         w = ROOT.RooWorkspace("w", False)
         Import(w, var)
 
-        w.factory("a1 [1.66, 0.7, 2.1]")
+        w.factory("a1 [1.66, 0.7, 3]")
         w.factory("a2 [0.39, 0.30, 10]")
         w.factory("a3 [-0.26, -10, -0.02]")
         w.factory("expr::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
