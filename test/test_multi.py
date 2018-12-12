@@ -3,7 +3,7 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 4 classes, V2, +2016 data, jet variable initialization: 100"	
+comment = "Multiclassification: 4 classes, V2, +2016 data, jet variable initialization: -5, except jj mass (100)"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
