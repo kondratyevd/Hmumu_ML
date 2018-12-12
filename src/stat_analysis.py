@@ -213,14 +213,27 @@ class Analyzer(object):
         mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
 
         mu_res_beta = ROOT.RooRealVar('mu_res_beta','mu_res_beta',0,0,0)
+        mu_scale_beta = ROOT.RooRealVar('mu_scale_beta','mu_scale_beta',0,0,0)
+
         Import(w, mu_res_beta)
-        uncert = 1.1
-        mu_res_kappa = ROOT.RooRealVar('mu_res_kappa','mu_res_kappa',uncert)
-        mu_res_kappa.setConstant()
-        Import(w, mu_res_kappa)
+        Import(w, mu_scale_beta)
+
+        res_uncert = 0.1
+        mu_res_uncert = ROOT.RooRealVar('mu_res_uncert','mu_res_uncert',res_uncert)
+
+        scale_uncert = 0.0005
+        mu_scale_uncert = ROOT.RooRealVar('mu_scale_uncert','mu_scale_uncert',scale_uncert)
+
+        mu_res_uncert.setConstant()
+        mu_scale_uncert.setConstant()
+
+        Import(w, mu_res_uncert)
+        Import(w, mu_scale_uncert)
+        
         w.factory("Gaussian::gaus1(mass, mean1[125.0, 120, 130], width1[5.0, 2.0, 10.0])")
-        w.factory("EXPR::width2_times_nuis('width2*pow(mu_res_kappa, mu_res_beta)',{width2[1.0, 0.5, 5.0],mu_res_kappa,mu_res_beta})")
-        w.factory("Gaussian::gaus2(mass, mean2[125.0, 120, 130], width2_times_nuis)")
+        w.factory("EXPR::mean2_times_nuis('mean2*(1 + mu_scale_uncert*mu_scale_beta)',{mean2[125.0, 120., 130.],mu_scale_uncert,mu_scale_beta})")
+        w.factory("EXPR::width2_times_nuis('width2*(1 + mu_res_uncert*mu_res_beta)',{width2[1.0, 0.5, 5.0],mu_res_uncert,mu_res_beta})")
+        w.factory("Gaussian::gaus2(mass, mean2_times_nuis, width2_times_nuis)")
 
         gaus1 = w.pdf('gaus1')
         gaus2 = w.pdf('gaus2')
@@ -238,6 +251,7 @@ class Analyzer(object):
             par_var = w.var(par)
             par_var.setConstant(True)
         mu_res_beta.setRange(-5,5)
+        mu_scale_beta.setRange(-5,5)
 
         Import(w, smodel)
         Import(w, data_obs)
@@ -253,7 +267,6 @@ class Analyzer(object):
         bkg = w.pdf("background")
         smodel.plotOn(frame)
         bkg.plotOn(frame)
-
         canv = ROOT.TCanvas("canv4", "canv4", 800, 800)
         canv.cd()
         frame.Draw()
