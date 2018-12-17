@@ -300,7 +300,7 @@ class Analyzer(object):
         res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
         res.Print()
 
-        sigParamList = ["mean1", "mean2", "width1", "width2", "mixGG"]
+        sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mixGG", "mixGG1"]
         for par in sigParamList:
             par_var = w.var(par)
             par_var.setConstant(True)
