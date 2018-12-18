@@ -111,28 +111,26 @@ class KerasMultiTrainer(object):
         for category in self.category_labels:
             self.category_wgts.append(self.category_wgts_dict[category]) # want to preserve order
 
-
+        print df
         self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
         
         self.df.reset_index(inplace=True, drop=True)
         self.df = self.apply_cuts(self.df, self.framework.year)
         if self.framework.custom_loss:
             self.df = self.make_mass_bins(self.df, 10, 110, 150)
-
+        print df
         self.data.reset_index(inplace=True, drop=True)
         self.data = self.apply_cuts(self.data, self.framework.year)
         if self.framework.custom_loss:
             self.data = self.make_mass_bins(self.data, 10, 110, 150, isMC=False)
-
+        print df
         self.truth_labels.extend(self.category_labels)
         self.df = shuffle(self.df)
-
+        print df
         self.data = self.add_columns(self.data)
         self.df = self.add_columns(self.df)
 
         self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
-        print self.df_train
-        print self.df_test
     
 
     def train_models(self):
