@@ -113,20 +113,20 @@ class KerasMultiTrainer(object):
 
         print self.df
         self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
-        
+        print self.df
         self.df.reset_index(inplace=True, drop=True)
+        print self.df
         self.df = self.apply_cuts(self.df, self.framework.year)
+        print self.df
+        
         if self.framework.custom_loss:
             self.df = self.make_mass_bins(self.df, 10, 110, 150)
-        print self.df
         self.data.reset_index(inplace=True, drop=True)
         self.data = self.apply_cuts(self.data, self.framework.year)
         if self.framework.custom_loss:
             self.data = self.make_mass_bins(self.data, 10, 110, 150, isMC=False)
-        print self.df
         self.truth_labels.extend(self.category_labels)
         self.df = shuffle(self.df)
-        print self.df
         self.data = self.add_columns(self.data)
         self.df = self.add_columns(self.df)
 
