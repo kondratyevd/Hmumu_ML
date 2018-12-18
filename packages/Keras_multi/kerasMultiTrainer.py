@@ -111,14 +111,11 @@ class KerasMultiTrainer(object):
         for category in self.category_labels:
             self.category_wgts.append(self.category_wgts_dict[category]) # want to preserve order
 
-        print self.df
         self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
-        print self.df
         self.df.reset_index(inplace=True, drop=True)
-        print self.df
+     
         self.df = self.apply_cuts(self.df, self.framework.year)
-        print self.df
-        
+
         if self.framework.custom_loss:
             self.df = self.make_mass_bins(self.df, 10, 110, 150)
         self.data.reset_index(inplace=True, drop=True)
@@ -269,7 +266,7 @@ class KerasMultiTrainer(object):
 
         for index, row in df.iterrows():
             if isData:
-                mass["Data"][0]             = row["muPairs.mass_Roch[0]"]
+                mass["Data"][0]             = row["muPairs.mass_Roch"]
                 max_abs_eta_mu["Data"][0]   = row["max_abs_eta_mu"]
                 weight["Data"][0]           = 1
                 DY_prediction["Data"][0]    = row["pred_ZJets_MG_%s"%(method_name)]
@@ -281,7 +278,7 @@ class KerasMultiTrainer(object):
             else:
                 for category in category_list:
                     if row[category]==1:
-                        mass[category][0]             = row["muPairs.mass_Roch[0]"]
+                        mass[category][0]             = row["muPairs.mass_Roch"]
                         max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
                         weight[category][0]           = row["weight"]
                         DY_prediction[category][0]    = row["pred_ZJets_MG_%s"%(method_name)]
@@ -464,7 +461,7 @@ class KerasMultiTrainer(object):
 
             for category in self.framework.bkg_categories:
                 if (row[category] == 1)&(dnn_score>xmin)&(dnn_score<xmax):
-                    hist.Fill(row['muPairs.mass_Roch[0]'], row['weight'] )
+                    hist.Fill(row['muPairs.mass_Roch'], row['weight'] )
         return hist
 
 
@@ -517,9 +514,9 @@ class KerasMultiTrainer(object):
             for cat in self.category_labels:
                 if row[category]==1:
                     if cat in category:
-                        hist_correct.Fill(row['muPairs.mass_Roch[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
+                        hist_correct.Fill(row['muPairs.mass_Roch'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
                     else:
-                        hist_incorrect.Fill(row['muPairs.mass_Roch[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
+                        hist_incorrect.Fill(row['muPairs.mass_Roch'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
         
 
 
@@ -551,7 +548,7 @@ class KerasMultiTrainer(object):
         for index, row in df.iterrows():
             if row[category]==1:
                 for cat in self.category_labels:            
-                    hists[category+"_"+cat].Fill(row['muPairs.mass_Roch[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
+                    hists[category+"_"+cat].Fill(row['muPairs.mass_Roch'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
         
         canv = ROOT.TCanvas("canv", "canv", 800, 800)
         canv.cd()
@@ -588,7 +585,7 @@ class KerasMultiTrainer(object):
         muon2_pt    = df['muons.pt[1]']
         muon1_ID    = df['muons.isMediumID[0]']
         muon2_ID    = df['muons.isMediumID[1]']
-        muPair_mass = df['muPairs.mass_Roch[0]']
+        muPair_mass = df['muPairs.mass_Roch']
         nJets       = df['nJets']
 
         if year is "2016":
@@ -638,8 +635,8 @@ class KerasMultiTrainer(object):
 
     def make_mass_bins(self, df, nbins, min, max, isMC=True):
 
-        if "muPairs.mass_Roch[0]" not in df.columns:
-            print "Add muPairs.mass_Roch[0] to spectators!"
+        if "muPairs.mass_Roch" not in df.columns:
+            print "Add muPairs.mass_Roch to spectators!"
             return
 
         bin_width = float((max-min)/nbins)
@@ -648,7 +645,7 @@ class KerasMultiTrainer(object):
 
             for i in range(nbins):
                 df["mass_bin_%i"%i] = 0
-                df.loc[(df["muPairs.mass_Roch[0]"]>min+i*bin_width) & (df["muPairs.mass_Roch[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
+                df.loc[(df["muPairs.mass_Roch"]>min+i*bin_width) & (df["muPairs.mass_Roch"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
                 self.mass_bin_labels.append("mass_bin_%i"%i)
                 self.bkg_histogram.append(0)
     
@@ -668,5 +665,5 @@ class KerasMultiTrainer(object):
         else:
             for i in range(nbins):
                 df["mass_bin_%i"%i] = 0
-                df.loc[(df["muPairs.mass_Roch[0]"]>min+i*bin_width) & (df["muPairs.mass_Roch[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
+                df.loc[(df["muPairs.mass_Roch"]>min+i*bin_width) & (df["muPairs.mass_Roch"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
         return df
