@@ -24,6 +24,7 @@ variables.append(Variable("muPairs.phi"		,	"phi"				,"Dimuon #phi", 		"", 		'F',
 variables.append(Variable("muPairs.dEta"	,	"dEta"				,"Dimuon |#delta#eta|", "", 		'F', True, 		"nMuPairs"	,	-1	, True	))
 variables.append(Variable("muPairs.dPhi"	,	"dPhi"				,"Dimuon |#delta#phi|", "", 		'F', True, 		"nMuPairs"	,	-1	, True	))
 variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		'F', True, 		"nMuPairs"	,	0	, False	))
+variables.append(Variable("muPairs.mass_Roch",	"mass"				,"Dimuon mass", 		"GeV", 		'F', True, 		"nMuPairs"	,	0	, False	))
 variables.append(Variable("muons.pt"		,	"pt"				,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
 variables.append(Variable("muons.eta"		,	"eta"				,"Muon #eta",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
 variables.append(Variable("muons.phi"		,	"phi"				,"Muon #phi",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))

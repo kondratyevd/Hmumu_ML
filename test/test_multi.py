@@ -133,7 +133,7 @@ elif var_set == "V2-2orMoreJets":
 	c.add_variable("max_dR_mumu_jet",			1)
 	c.add_variable("zepenfeld",					1)
 
-c.add_spectator('muPairs.mass',				1)
+c.add_spectator('muPairs.mass_Roch',			1)
 c.add_spectator('muPairs.phi',				1)
 c.add_spectator('muons.isMediumID',			2)
 c.add_spectator('jets.phi',					2)
@@ -148,7 +148,7 @@ c.add_spectator('IsoMu_SF_4',				1)
 c.add_spectator('MuID_SF_4', 				1)
 c.add_spectator('MuIso_SF_4',				1)
 
-c.add_data_spectator('muPairs.mass',		1)
+c.add_data_spectator('muPairs.mass_Roch',	1)
 c.add_data_spectator('muPairs.phi',			1)
 c.add_data_spectator('muons.isMediumID',	2)
 c.add_data_spectator('jets.phi',			2)
