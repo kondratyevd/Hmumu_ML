@@ -131,6 +131,8 @@ class KerasMultiTrainer(object):
         self.df = self.add_columns(self.df)
 
         self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
+        print self.df_train
+        print self.df_test
     
 
     def train_models(self):
