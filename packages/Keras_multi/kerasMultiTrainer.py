@@ -114,7 +114,9 @@ class KerasMultiTrainer(object):
         self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
         self.df.reset_index(inplace=True, drop=True)
      
+        print self.df["muPairs.mass_Roch"]
         self.df = self.apply_cuts(self.df, self.framework.year)
+        print self.df["muPairs.mass_Roch"]
 
         if self.framework.custom_loss:
             self.df = self.make_mass_bins(self.df, 10, 110, 150)
