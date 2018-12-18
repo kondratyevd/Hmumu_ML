@@ -114,7 +114,6 @@ class KerasMultiTrainer(object):
 
         self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
         
-
         self.df.reset_index(inplace=True, drop=True)
         self.df = self.apply_cuts(self.df, self.framework.year)
         if self.framework.custom_loss:
@@ -127,6 +126,10 @@ class KerasMultiTrainer(object):
 
         self.truth_labels.extend(self.category_labels)
         self.df = shuffle(self.df)
+
+        self.data = self.add_columns(self.data)
+        self.df = self.add_columns(self.df)
+
         self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
     
 
@@ -267,7 +270,7 @@ class KerasMultiTrainer(object):
         for index, row in df.iterrows():
             if isData:
                 mass["Data"][0]             = row["muPairs.mass_Roch[0]"]
-                max_abs_eta_mu["Data"][0]   = max([abs(row["muons.eta[0]"]), abs(row["muons.eta[1]"])])
+                max_abs_eta_mu["Data"][0]   = row["max_abs_eta_mu"]
                 weight["Data"][0]           = 1
                 DY_prediction["Data"][0]    = row["pred_ZJets_MG_%s"%(method_name)]
                 ttbar_prediction["Data"][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
@@ -279,7 +282,7 @@ class KerasMultiTrainer(object):
                 for category in category_list:
                     if row[category]==1:
                         mass[category][0]             = row["muPairs.mass_Roch[0]"]
-                        max_abs_eta_mu[category][0]   = max([abs(row["muons.eta[0]"]), abs(row["muons.eta[1]"])])
+                        max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
                         weight[category][0]           = row["weight"]
                         DY_prediction[category][0]    = row["pred_ZJets_MG_%s"%(method_name)]
                         ttbar_prediction[category][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
@@ -574,6 +577,11 @@ class KerasMultiTrainer(object):
         canv.SaveAs(self.package.mainDir+'/'+model_name+"/root/mass_%s.root"%category)
         canv.Close()
         
+    def add_columns(self, df):
+        df["abs_eta_1"] = df["muons.eta[0]"].abs()
+        df["abs_eta_2"] = df["muons.eta[1]"].abs()
+        df["max_abs_eta_mu"] = df[["abs_eta_1", "abs_eta_2"]].max(axis=1)
+        return df
 
     def apply_cuts(self, df, year):
         muon1_pt    = df['muons.pt[0]']
