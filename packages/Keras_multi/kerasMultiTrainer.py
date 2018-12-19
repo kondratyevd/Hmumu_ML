@@ -192,6 +192,7 @@ class KerasMultiTrainer(object):
 
 
             self.fill_out_root_files("test", self.df_test_scaled, obj.name, self.category_labels, False)
+            self.fill_out_root_files("train", self.df_train_scaled, obj.name, self.category_labels, False)
             self.fill_out_root_files("Data", self.data_scaled, obj.name, ["Data"], True)
             # self.plot_mass_histograms(self.df_test_scaled, obj.name)
             # self.plot_masses_by_input_category(self.df_test_scaled, obj.name)
