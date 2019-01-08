@@ -65,9 +65,10 @@ def loop_over_events(path, color):
         pfc_phi = -999
 
         for i_pfc, pfc in enumerate(pfCands.product()):
-            print "isElectron: ", pfc.isElectron()
-            print "isPhoton: ", pfc.isPhoton()
-            print " "
+            if pfc.isElectron() or pfc.isPhoton():
+                print "isElectron: ", pfc.isElectron()
+                print "isPhoton: ", pfc.isPhoton()
+                print " "
             if (pfc.pt()>1) and (abs(pfc.eta()<2.4)):
                 pfc_found = True
                 pfc_eta = pfc.eta()
