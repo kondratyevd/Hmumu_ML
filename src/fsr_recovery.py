@@ -60,8 +60,19 @@ def loop_over_events(path, color):
         mu2_phi = -999
         mu2_found = False
 
+        pfc_found = False
+        pfc_eta = -999
+        pfc_phi = -999
+
         for i_pfc, pfc in enumerate(pfCands.product()):
-            print "PF cand. pt: ", pfc.pt()
+            print "isElectron: ", pfc.isElectron()
+            print "isPhoton: ", pfc.isPhoton()
+            print " "
+            if (pfc.pt()>1) and (abs(pfc.eta()<2.4)):
+                pfc_found = True
+                pfc_eta = pfc.eta()
+                pfc.phi = pfc.phi()
+
 
         for i_mu,mu in enumerate(muons.product()):
             iso = mu_rel_iso(mu)
@@ -80,28 +91,28 @@ def loop_over_events(path, color):
     
             # print i_mu, mu.pt()
 
-        nJets = 0
-        for i_jet,jet in enumerate(jets.product()):    
-            if mu1_found and mu2_found:
-                dR_1 = deltaR(jet.eta(), jet.phi(), mu1_eta, mu1_phi)
-                dR_2 = deltaR(jet.eta(), jet.phi(), mu2_eta, mu2_phi)   
-                if jet.pt()>30 and dR_1>0.4 and dR_2>0.4:
-                    nJets = nJets+1
-                    jets_pt_hist.Fill(jet.pt())
-                    jets_eta_hist.Fill(jet.eta())
-                    mu1_eta_hist.Fill(mu1_eta)
-        njets_hist.Fill(nJets)
+        # nJets = 0
+        # for i_jet,jet in enumerate(jets.product()):    
+        #     if mu1_found and mu2_found:
+        #         dR_1 = deltaR(jet.eta(), jet.phi(), mu1_eta, mu1_phi)
+        #         dR_2 = deltaR(jet.eta(), jet.phi(), mu2_eta, mu2_phi)   
+        #         if jet.pt()>30 and dR_1>0.4 and dR_2>0.4:
+        #             nJets = nJets+1
+        #             jets_pt_hist.Fill(jet.pt())
+        #             jets_eta_hist.Fill(jet.eta())
+        #             mu1_eta_hist.Fill(mu1_eta)
+        # njets_hist.Fill(nJets)
 
-    jets_eta_hist.SetLineColor(color)
-    jets_pt_hist.SetLineColor(color)
+    # jets_eta_hist.SetLineColor(color)
+    # jets_pt_hist.SetLineColor(color)
     mu1_eta_hist.SetLineColor(color)
-    njets_hist.SetLineColor(color)
+    # njets_hist.SetLineColor(color)
 
-    jets_eta_hist.Scale(1/jets_eta_hist.Integral())
-    jets_pt_hist.Scale(1/jets_pt_hist.Integral())
+    # jets_eta_hist.Scale(1/jets_eta_hist.Integral())
+    # jets_pt_hist.Scale(1/jets_pt_hist.Integral())
     mu1_eta_hist.Scale(1/mu1_eta_hist.Integral())
-    njets_hist.Scale(1/njets_hist.Integral())
-    return jets_eta_hist, jets_pt_hist, mu1_eta_hist, njets_hist
+    # njets_hist.Scale(1/njets_hist.Integral())
+    # return jets_eta_hist, jets_pt_hist, mu1_eta_hist, njets_hist
 
 
 def plot_hists(hist_list, name, path, legend):
@@ -118,8 +129,8 @@ ggh_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/GluGlu_HToMuMu_M125_13Te
 
 out_path = "plots/miniAOD/"
 
-hist_reco_eta_dy, hist_reco_pt_dy, hist_mu1_eta_dy, njets_hist_reco_dy = loop_over_events(dy_path, ROOT.kBlue)
-hist_reco_eta_ggh, hist_reco_pt_ggh, hist_mu1_eta_ggh, njets_hist_reco_ggh = loop_over_events(ggh_path,  ROOT.kRed)
+loop_over_events(dy_path, ROOT.kBlue)
+loop_over_events(ggh_path,  ROOT.kRed)
 
 
 
