@@ -34,7 +34,7 @@ def loop_over_events(path, color):
     
     muons, muonLabel = Handle("std::vector<pat::Muon>"), "slimmedMuons"
     jets, jetLabel = Handle("std::vector<pat::Jet>"), "slimmedJets"
-    pfCands, pfCandsLabel = Handle("pat::PackedCandidate"), "packedPFCandidates"
+    pfCands, pfCandsLabel = Handle("std::vector<pat::PackedCandidate>"), "packedPFCandidates"
 
     events = Events(path)
     jets_eta_hist = ROOT.TH1D("jet_eta", "jet_eta", 100, -5, 5)
