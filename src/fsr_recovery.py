@@ -60,6 +60,9 @@ def loop_over_events(path, color):
         mu2_phi = -999
         mu2_found = False
 
+        for i_pfc, pfc in enumerate(pfCands.product()):
+            print "PF cand. pt: ", pfc.pt()
+
         for i_mu,mu in enumerate(muons.product()):
             iso = mu_rel_iso(mu)
 
