@@ -30,17 +30,16 @@ def mu_rel_iso(muon):
     return iso/muon.pt()
 
 
-def loop_over_events(path, color):
+def loop_over_events(path):
     
     muons, muonLabel = Handle("std::vector<pat::Muon>"), "slimmedMuons"
     jets, jetLabel = Handle("std::vector<pat::Jet>"), "slimmedJets"
     pfCands, pfCandsLabel = Handle("std::vector<pat::PackedCandidate>"), "packedPFCandidates"
 
     events = Events(path)
-    jets_eta_hist = ROOT.TH1D("jet_eta", "jet_eta", 100, -5, 5)
-    mu1_eta_hist = ROOT.TH1D("mu1_eta", "mu1_eta", 100, -3, 3)
-    jets_pt_hist = ROOT.TH1D("jet_pt", "jet_pt", 100, 0, 300)
-    njets_hist = ROOT.TH1D("nJets", "nJets", 5,0,5)
+
+    mass_hist = ROOT.TH1D("mass", "M_{#mu#mu}", 40,110,150)
+    mass_fsr_hist = ROOT.TH1D("mass_fsr", "M_{#mu#mu} post-FSR", 40,110,150)
 
     for iev,event in enumerate(events):
  
@@ -54,25 +53,25 @@ def loop_over_events(path, color):
         mu1_pt = -999
         mu1_eta = -999
         mu1_phi = -999
+        mu1_v = ROOT.TLorentzVector()
         mu1_found = False
+
         mu2_pt = -999
         mu2_eta = -999
         mu2_phi = -999
+        mu1_v = ROOT.TLorentzVector()        
         mu2_found = False
 
         pfc_found = False
         pfc_eta = -999
         pfc_phi = -999
+        pfc_v = ROOT.TLorentzVector()
 
-        for i_pfc, pfc in enumerate(pfCands.product()):
-            if pfc.isElectron() or pfc.isPhoton():
-                print "isElectron: ", pfc.isElectron()
-                print "isPhoton: ", pfc.isPhoton()
-                print " "
-            if (pfc.pt()>1) and (abs(pfc.eta()<2.4)):
-                pfc_found = True
-                pfc_eta = pfc.eta()
-                pfc.phi = pfc.phi()
+        ph_mu1_dR = -999
+        ph_mu2_dR = -999
+
+        dimu_mass = -999
+        dimu_fsr_mass = -999
 
 
         for i_mu,mu in enumerate(muons.product()):
@@ -83,55 +82,62 @@ def loop_over_events(path, color):
                 mu1_pt = mu.pt()
                 mu1_eta = mu.eta()
                 mu1_phi = mu.phi()
+                mu1_v.SetPtEtaPhiE(mu1_pt, mu1_eta, mu1_phi, mu.energy())
 
             elif (mu.pt()>20) and (abs(mu.eta())<2.4) and (iso<0.25) and mu1_found and not mu2_found:
                 mu2_found = True
                 mu2_pt = mu.pt()
                 mu2_eta = mu.eta()
                 mu2_phi = mu.phi()
-    
-            # print i_mu, mu.pt()
+                mu2_v.SetPtEtaPhiE(mu2_pt, mu2_eta, mu2_phi, mu.energy())
 
-        # nJets = 0
-        # for i_jet,jet in enumerate(jets.product()):    
-        #     if mu1_found and mu2_found:
-        #         dR_1 = deltaR(jet.eta(), jet.phi(), mu1_eta, mu1_phi)
-        #         dR_2 = deltaR(jet.eta(), jet.phi(), mu2_eta, mu2_phi)   
-        #         if jet.pt()>30 and dR_1>0.4 and dR_2>0.4:
-        #             nJets = nJets+1
-        #             jets_pt_hist.Fill(jet.pt())
-        #             jets_eta_hist.Fill(jet.eta())
-        #             mu1_eta_hist.Fill(mu1_eta)
-        # njets_hist.Fill(nJets)
+        for i_pfc, pfc in enumerate(pfCands.product()):
+            if (pfc.pt()>1) and (abs(pfc.eta()<2.4)):
+                pfc_found = True
+                pfc_eta = pfc.eta()
+                pfc.phi = pfc.phi()
+                pfc_v.SetPtEtaPhiE(pfc.pt(), pfc_eta, pfc_phi, pfc.energy())
+                if mu1_found and mu2_found:
+                    ph_mu1_dR = deltaR(pfc_eta, pfc_phi, mu1_eta, mu1_phi)
+                    ph_mu2_dR = deltaR(pfc_eta, pfc_phi, mu2_eta, mu2_phi)
 
-    # jets_eta_hist.SetLineColor(color)
-    # jets_pt_hist.SetLineColor(color)
-    mu1_eta_hist.SetLineColor(color)
-    # njets_hist.SetLineColor(color)
+        if mu1_found and mu2_found:
+            dimu_mass = (mu1_v + mu2_v).M()
+            mass_hist.Fill(dimu_mass)
+            if pfc_found:
+                dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
+                mass_fsr_hist.Fill(dimu_fsr_mass)
 
-    # jets_eta_hist.Scale(1/jets_eta_hist.Integral())
-    # jets_pt_hist.Scale(1/jets_pt_hist.Integral())
-    mu1_eta_hist.Scale(1/mu1_eta_hist.Integral())
-    # njets_hist.Scale(1/njets_hist.Integral())
-    # return jets_eta_hist, jets_pt_hist, mu1_eta_hist, njets_hist
+    mass_hist.SetLineColor(ROOT.kBlue)
+    mass_fsr_hist.SetLineColor(ROOT.kRed)
 
+    return mass_hist, mass_fsr_hist
 
-def plot_hists(hist_list, name, path, legend):
+def set_out_path(self, path):
+    try:
+        os.makedirs(path)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+def plot_hists(hist_list, name, path):
     canvas = ROOT.TCanvas("name", "name", 800, 800)
     canvas.cd()
     for hist in hist_list:
         hist.Draw("histsame")
-    legend.Draw()
     canvas.SaveAs(path+name+".png")
 
 dy_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/4CDE9146-50F1-E611-AE57-02163E014769.root"
 ggh_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/36967CD0-3CC1-E611-A615-D8D385FF1996.root"
 
 
-out_path = "plots/miniAOD/"
+out_path = "plots/fsr_recovery/"
+set_out_path(out_path)
 
-loop_over_events(dy_path, ROOT.kBlue)
-loop_over_events(ggh_path,  ROOT.kRed)
+# loop_over_events(dy_path)
+mass_hist, mass_fsr_hist =  loop_over_events(ggh_path)
+
+plot_hists([mass_hist, mass_fsr_hist], "test", out_path)
 
 
 
