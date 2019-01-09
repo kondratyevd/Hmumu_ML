@@ -113,7 +113,7 @@ def loop_over_events(path):
 
     return mass_hist, mass_fsr_hist
 
-def set_out_path(self, path):
+def set_out_path(path):
     try:
         os.makedirs(path)
     except OSError as e:
