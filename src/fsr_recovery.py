@@ -49,6 +49,9 @@ def loop_over_events(path):
 
         if (iev % 1000) is 0: 
             print "Event # %i"%iev
+
+        if iev>10000:
+            break
     
         mu1_pt = -999
         mu1_eta = -999
