@@ -59,7 +59,7 @@ def loop_over_events(path):
         mu2_pt = -999
         mu2_eta = -999
         mu2_phi = -999
-        mu1_v = ROOT.TLorentzVector()        
+        mu2_v = ROOT.TLorentzVector()        
         mu2_found = False
 
         pfc_found = False
