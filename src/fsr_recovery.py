@@ -47,7 +47,7 @@ def loop_over_events(path):
         event.getByLabel(muonLabel, muons)
         event.getByLabel(pfCandsLabel, pfCands)
 
-        if (iev % 10000) is 0: 
+        if (iev % 1000) is 0: 
             print "Event # %i"%iev
     
         mu1_pt = -999
@@ -104,7 +104,7 @@ def loop_over_events(path):
         if mu1_found and mu2_found:
             dimu_mass = (mu1_v + mu2_v).M()
             mass_hist.Fill(dimu_mass)
-            if pfc_found:
+            if pfc_found and (ph_mu1_dR<0.5) and (ph_mu2_dR<0.5):
                 dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
                 mass_fsr_hist.Fill(dimu_fsr_mass)
 
