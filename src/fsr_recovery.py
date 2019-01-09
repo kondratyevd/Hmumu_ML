@@ -88,9 +88,6 @@ def loop_over_events(path):
     tree.Branch('mass_postFSR', mass_postFSR, 'mass_postFSR/F')
     tree.Branch('max_abs_eta_mu', max_abs_eta_mu, 'max_abs_eta_mu/F')
 
-    out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
-    out_file.cd()
-
     for iev,event in enumerate(events):
         mass[0] = -999
         fsr_tag[0] = -999
@@ -150,8 +147,9 @@ def loop_over_events(path):
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
-
-
+    tree.setDirectory(0)
+    out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
+    out_file.cd()
     tree.Write()
     out_file.Close()
 
