@@ -78,6 +78,8 @@ def loop_over_events(path):
     mass_fsr_hist_tagged = ROOT.TH1D("mass_fsr_tagged", "", 40,110,150)
 
     tree = ROOT.TTree("tree", "tree")
+    tree.setDirectory(0)
+
     mass = array("f", [0])
     fsr_tag = array("i", [0])
     mass_postFSR = array("f", [0])
@@ -147,7 +149,6 @@ def loop_over_events(path):
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
-    tree.setDirectory(0)
     out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
     out_file.cd()
     tree.Write()
