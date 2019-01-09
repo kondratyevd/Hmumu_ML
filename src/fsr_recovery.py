@@ -84,22 +84,22 @@ def loop_over_events(path):
                 mu1_pt = mu.pt()
                 mu1_eta = mu.eta()
                 mu1_phi = mu.phi()
-                mu1_v.SetPtEtaPhiE(mu1_pt, mu1_eta, mu1_phi, mu.energy())
+                mu1_v = mu.p4()
 
             elif (mu.pt()>20) and (abs(mu.eta())<2.4) and (iso<0.25) and mu1_found and not mu2_found:
                 mu2_found = True
                 mu2_pt = mu.pt()
                 mu2_eta = mu.eta()
                 mu2_phi = mu.phi()
-                mu2_v.SetPtEtaPhiE(mu2_pt, mu2_eta, mu2_phi, mu.energy())
+                mu2_v = mu.p4()
 
         for i_pfc, pfc in enumerate(pfCands.product()):
             if (pfc.pt()>1) and (abs(pfc.eta()<2.4)) and not pfc_found:
-            # if (pfc.pt()>1) and not pfc_found:
                 pfc_found = True
                 pfc_eta = pfc.eta()
-                pfc.phi = pfc.phi()
-                pfc_v.SetPtEtaPhiE(pfc.pt(), pfc_eta, pfc_phi, pfc.energy())
+                pfc_phi = pfc.phi()
+                pfc_v = pfc.p4()
+
                 if mu1_found and mu2_found:
                     ph_mu1_dR = deltaR(pfc_eta, pfc_phi, mu1_eta, mu1_phi)
                     ph_mu2_dR = deltaR(pfc_eta, pfc_phi, mu2_eta, mu2_phi)
