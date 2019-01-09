@@ -94,8 +94,8 @@ def loop_over_events(path):
                 mu2_v.SetPtEtaPhiE(mu2_pt, mu2_eta, mu2_phi, mu.energy())
 
         for i_pfc, pfc in enumerate(pfCands.product()):
-            # if (pfc.pt()>1) and (abs(pfc.eta()<2.4)) and not pfc_found:
-            if (pfc.pt()>1) and not pfc_found:
+            if (pfc.pt()>1) and (abs(pfc.eta()<2.4)) and not pfc_found:
+            # if (pfc.pt()>1) and not pfc_found:
                 pfc_found = True
                 pfc_eta = pfc.eta()
                 pfc.phi = pfc.phi()
