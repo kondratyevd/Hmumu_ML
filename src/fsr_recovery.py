@@ -29,11 +29,11 @@ def mu_rel_iso(muon):
     iso += max( 0., muon.pfIsolationR04().sumNeutralHadronEt + muon.pfIsolationR04().sumPhotonEt - 0.5*muon.pfIsolationR04().sumPUPt )
     return iso/muon.pt()
 
-def mu1_selection(muon):
+def mu1_selection(mu):
     passed = (mu.pt()>26) and (abs(mu.eta())<2.4) and (mu_rel_iso(mu)<0.25)
     return passed
 
-def mu2_selection(muon):
+def mu2_selection(mu):
     passed = (mu.pt()>20) and (abs(mu.eta())<2.4) and (mu_rel_iso(mu)<0.25)
     return passed
 
