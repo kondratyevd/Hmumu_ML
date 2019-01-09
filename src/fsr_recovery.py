@@ -68,6 +68,7 @@ def loop_over_events(path):
         pfc_found = False
         pfc_eta = -999
         pfc_phi = -999
+        pfc_et = -999
         pfc_v = ROOT.TLorentzVector()
 
         ph_mu1_dR = 999
@@ -98,6 +99,7 @@ def loop_over_events(path):
                 pfc_found = True
                 pfc_eta = pfc.eta()
                 pfc_phi = pfc.phi()
+                pfc_et = pfc.et()
                 pfc_v = pfc.p4()
 
                 if mu1_found and mu2_found:
@@ -107,7 +109,7 @@ def loop_over_events(path):
         if mu1_found and mu2_found:
             dimu_mass = (mu1_v + mu2_v).M()
             # mass_hist.Fill(dimu_mass)
-            if pfc_found and ((ph_mu1_dR<0.5) or (ph_mu2_dR<0.5)):
+            if pfc_found and ((ph_mu1_dR<0.5 and ph_mu1_dR/(pfc_et*pfc_et)<0.012) or (ph_mu2_dR<0.5 and ph_mu2_dR/(pfc_et*pfc_et)<0.012)):
                 dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
                 mass_fsr_hist.Fill(dimu_fsr_mass)
                 mass_hist.Fill(dimu_mass)
