@@ -92,7 +92,7 @@ def loop_over_events(path):
                     photons_for_mu2.append(pfc)                   
 
 
-        if mu1_found and mu2_found:
+        if mu1 and mu2:
             dimu_mass = (mu1.p4() + mu2.p4()).M()
             # mass_hist.Fill(dimu_mass)
             if photons_for_mu1 or photons_for_mu2:
