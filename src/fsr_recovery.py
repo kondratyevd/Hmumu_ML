@@ -79,7 +79,7 @@ def loop_over_events(path):
 
     tree = ROOT.TTree("tree", "tree")
     mass = array("f", [0])
-    fsr_tag = array("f", [0])
+    fsr_tag = array("i", [0])
     mass_postFSR = array("f", [0])
     max_abs_eta_mu = array("f", [0])
 
@@ -130,20 +130,20 @@ def loop_over_events(path):
                    
         if mu1 and mu2 and isolated(mu1, mu2, photon):
             dimu_mass = (mu1.p4() + mu2.p4()).M()
-            mass = dimu_mass
+            mass[0] = dimu_mass
             if photon and min_dR_over_et2<0.012:
                 dimu_fsr_mass = (mu1.p4()+mu2.p4()+photon.p4()).M()
                 mass_fsr_hist_tagged.Fill(dimu_fsr_mass)
                 mass_fsr_hist.Fill(dimu_fsr_mass)
                 mass_hist_tagged.Fill(dimu_mass)
                 mass_hist.Fill(dimu_mass)
-                mass_postFSR = dimu_fsr_mass
-                fsr_tag = 1
+                mass_postFSR[0] = dimu_fsr_mass
+                fsr_tag[0] = 1
             else:
                 mass_fsr_hist.Fill(dimu_mass)
                 mass_hist.Fill(dimu_mass)
-                mass_postFSR = dimu_mass
-                fsr_tag = 0
+                mass_postFSR[0] = dimu_mass
+                fsr_tag[0] = 0
             tree.Fill()
 
     mass_hist_tagged.SetLineColor(ROOT.kBlue)
