@@ -78,7 +78,7 @@ def loop_over_events(path):
     mass_fsr_hist_tagged = ROOT.TH1D("mass_fsr_tagged", "", 40,110,150)
 
     tree = ROOT.TTree("tree", "tree")
-    tree.setDirectory(0)
+    tree.SetDirectory(0)
 
     mass = array("f", [0])
     fsr_tag = array("i", [0])
