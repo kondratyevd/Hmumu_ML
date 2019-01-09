@@ -61,16 +61,12 @@ def loop_over_events(path):
         if (iev % 1000) is 0: 
             print "Event # %i"%iev
 
-        if iev>5000:
-            break
+        # if iev>5000:
+        #     break
     
         mu1 = None
         mu2 = None
         photon = None
-
-
-
-
 
         for i_mu,mu in enumerate(muons.product()):
             iso = mu_rel_iso(mu)
@@ -86,11 +82,9 @@ def loop_over_events(path):
                 ph_mu1_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
                 ph_mu2_dR = deltaR(pfc.eta(), pfc.phi(), mu2.eta(), mu2.phi())
                 if ph_mu1_dR<0.5 or ph_mu2_dR<0.5:
-                    # print ph_mu1_dR/(pfc.et()*pfc.et())
                     if ph_mu1_dR/(pfc.et()*pfc.et()) < min_dR_over_et2:
                         min_dR_over_et2 = ph_mu1_dR/(pfc.et()*pfc.et())
                         photon = pfc
-        # print "Min:", min_dR_over_et2, "\n\n"
                    
 
 
@@ -133,7 +127,7 @@ set_out_path(out_path)
 # loop_over_events(dy_path)
 mass_hist, mass_fsr_hist =  loop_over_events(ggh_path)
 
-plot_hists([mass_hist, mass_fsr_hist], "test", out_path)
+plot_hists([mass_fsr_hist, mass_hist], "test", out_path)
 
 
 
