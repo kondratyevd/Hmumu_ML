@@ -78,7 +78,7 @@ def loop_over_events(path):
     mass_fsr_hist_tagged = ROOT.TH1D("mass_fsr_tagged", "", 40,110,150)
 
     out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
-    out_file.cd()
+    # out_file.cd()
 
     tree = ROOT.TTree("tree", "tree")
     mass = array("f", [0])
