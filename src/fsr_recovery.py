@@ -50,7 +50,7 @@ def loop_over_events(path):
         if (iev % 1000) is 0: 
             print "Event # %i"%iev
 
-        if iev>10000:
+        if iev>5000:
             break
     
         mu1_pt = -999
@@ -108,7 +108,7 @@ def loop_over_events(path):
             mass_hist.Fill(dimu_mass)
             if pfc_found and ((ph_mu1_dR<0.5) or (ph_mu2_dR<0.5)):
                 dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
-                # print dimu_fsr_mass
+                print dimu_fsr_mass
                 mass_fsr_hist.Fill(dimu_fsr_mass)
 
     mass_hist.SetLineColor(ROOT.kBlue)
