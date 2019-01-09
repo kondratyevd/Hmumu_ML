@@ -25,17 +25,38 @@ def deltaR(eta1,phi1,eta2,phi2):
         dPhi = dPhi + 2*math.pi
     return math.sqrt(dEta*dEta+dPhi*dPhi) 
 
-def mu_rel_iso(muon):
-    iso  = muon.pfIsolationR04().sumChargedHadronPt
-    iso += max( 0., muon.pfIsolationR04().sumNeutralHadronEt + muon.pfIsolationR04().sumPhotonEt - 0.5*muon.pfIsolationR04().sumPUPt )
-    return iso/muon.pt()
+
+
+def mu_rel_iso(mu):
+    iso  = mu.pfIsolationR04().sumChargedHadronPt
+    iso += max( 0., mu.pfIsolationR04().sumNeutralHadronEt + mu.pfIsolationR04().sumPhotonEt - 0.5*mu.pfIsolationR04().sumPUPt )
+    return iso/mu.pt()
+
+def mu_rel_iso_corrected(mu, photon):
+    if (deltaR(photon.eta(), photon.phi(), mu.eta(), mu.phi())<0.4):
+        iso  = mu.pfIsolationR04().sumChargedHadronPt
+        iso += max( 0., mu.pfIsolationR04().sumNeutralHadronEt + mu.pfIsolationR04().sumPhotonEt - photon.et() - 0.5*mu.pfIsolationR04().sumPUPt )
+        return iso/mu.pt()
+    else:
+        return mu_rel_iso(mu)
+
+def isolated(mu1, mu2, photon):
+    if photon:
+        mu1_rel_iso_corrected = mu_rel_iso_corrected(mu1, photon)
+        mu2_rel_iso_corrected = mu_rel_iso_corrected(mu2, photon)
+        result = (mu1_rel_iso_corrected<0.25) and (mu2_rel_iso_corrected<0.25)
+    else:
+        result = (mu_rel_iso(mu1)<0.25) and (mu_rel_iso(mu2)<0.25)
+
+    return result
+
 
 def mu1_selection(mu):
-    passed = (mu.pt()>26) and (abs(mu.eta())<2.4) and (mu_rel_iso(mu)<0.25)
+    passed = (mu.pt()>26) and (abs(mu.eta())<2.4)# and (mu_rel_iso(mu)<0.25)
     return passed
 
 def mu2_selection(mu):
-    passed = (mu.pt()>20) and (abs(mu.eta())<2.4) and (mu_rel_iso(mu)<0.25)
+    passed = (mu.pt()>20) and (abs(mu.eta())<2.4)# and (mu_rel_iso(mu)<0.25)
     return passed
 
 def photon_preselection(photon):
@@ -89,8 +110,7 @@ def loop_over_events(path):
                         min_dR_over_et2 = ph_mu1_dR/(pfc.et()*pfc.et())
                         photon = pfc
                    
-
-        if mu1 and mu2:
+        if mu1 and mu2 and isolated(mu1, mu2, photon):
             dimu_mass = (mu1.p4() + mu2.p4()).M()
             
             if photon and min_dR_over_et2<0.012:
@@ -139,8 +159,8 @@ legend = ROOT.TLegend(0.65,0.7,0.89,0.89)
 legend.AddEntry(mass_hist, 'pre-FSR', 'l')
 legend.AddEntry(mass_fsr_hist, ' post-FSR', 'l')
 
-plot_hists([mass_fsr_hist, mass_hist], "inclusive", out_path, legend)
-plot_hists([mass_fsr_hist_tagged, mass_hist_tagged], "fsr_tagged", out_path, legend)
+plot_hists([mass_fsr_hist, mass_hist], "inclusive_removeFromIso", out_path, legend)
+plot_hists([mass_fsr_hist_tagged, mass_hist_tagged], "fsr_tagged_removeFromIso", out_path, legend)
 
 
 
