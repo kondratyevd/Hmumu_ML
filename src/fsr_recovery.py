@@ -92,10 +92,10 @@ def loop_over_events(path):
     out_file.cd()
 
     for iev,event in enumerate(events):
-        mass = -999
-        fsr_tag = -999
-        mass_postFSR = -999
-        max_abs_eta_mu = -999
+        mass[0] = -999
+        fsr_tag[0] = -999
+        mass_postFSR[0] = -999
+        max_abs_eta_mu[0] = -999
         event.getByLabel(jetLabel, jets)
         event.getByLabel(muonLabel, muons)
         event.getByLabel(pfCandsLabel, pfCands)
