@@ -135,7 +135,7 @@ set_out_path(out_path)
 # loop_over_events(dy_path)
 mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged =  loop_over_events(ggh_path)
 
-legend = ROOT.TLegend(0.78,0.6,0.98,0.75)
+legend = ROOT.TLegend(0.65,0.7,0.89,0.89)
 legend.AddEntry(mass_hist, 'pre-FSR', 'l')
 legend.AddEntry(mass_fsr_hist, ' post-FSR', 'l')
 
