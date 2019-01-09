@@ -76,8 +76,22 @@ def loop_over_events(path):
     mass_hist_tagged = ROOT.TH1D("mass_tagged", "", 40,110,150)
     mass_fsr_hist_tagged = ROOT.TH1D("mass_fsr_tagged", "", 40,110,150)
 
+    tree = ROOT.TTree("tree")
+    mass = array("f", [0])
+    fsr_tag = array("f", [0])
+    mass_postFSR = array("f", [0])
+    max_abs_eta_mu = array("f", [0])
+
+    tree.Branch('mass', mass, 'mass/F')
+    tree.Branch('fsr_tag', fsr_tag, 'fsr_tag/I')
+    tree.Branch('mass_postFSR', mass_postFSR, 'mass_postFSR/F')
+    tree.Branch('max_abs_eta_mu', max_abs_eta_mu, 'max_abs_eta_mu/F')
+
     for iev,event in enumerate(events):
- 
+        mass = -999
+        fsr_tag = -999
+        mass_postFSR = -999
+        max_abs_eta_mu = -999
         event.getByLabel(jetLabel, jets)
         event.getByLabel(muonLabel, muons)
         event.getByLabel(pfCandsLabel, pfCands)
@@ -112,21 +126,31 @@ def loop_over_events(path):
                    
         if mu1 and mu2 and isolated(mu1, mu2, photon):
             dimu_mass = (mu1.p4() + mu2.p4()).M()
-            
+            mass = dimu_mass
             if photon and min_dR_over_et2<0.012:
                 dimu_fsr_mass = (mu1.p4()+mu2.p4()+photon.p4()).M()
                 mass_fsr_hist_tagged.Fill(dimu_fsr_mass)
                 mass_fsr_hist.Fill(dimu_fsr_mass)
                 mass_hist_tagged.Fill(dimu_mass)
                 mass_hist.Fill(dimu_mass)
+                mass_postFSR = dimu_fsr_mass
+                fsr_tag = 1
             else:
                 mass_fsr_hist.Fill(dimu_mass)
                 mass_hist.Fill(dimu_mass)
+                mass_postFSR = dimu_mass
+                fsr_tag = 0
+            tree.Fill()
 
     mass_hist_tagged.SetLineColor(ROOT.kBlue)
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
+
+    out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
+    out_file.cd()
+    tree.Write()
+    out_file.Close()
 
     return mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged
 
@@ -152,7 +176,6 @@ ggh_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/GluGlu_HToMuMu_M125_13Te
 out_path = "plots/fsr_recovery/"
 set_out_path(out_path)
 
-# loop_over_events(dy_path)
 mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged =  loop_over_events(ggh_path)
 
 legend = ROOT.TLegend(0.65,0.7,0.89,0.89)
