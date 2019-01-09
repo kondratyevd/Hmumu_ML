@@ -106,13 +106,13 @@ def loop_over_events(path):
 
         if mu1_found and mu2_found:
             dimu_mass = (mu1_v + mu2_v).M()
-            mass_hist.Fill(dimu_mass)
+            # mass_hist.Fill(dimu_mass)
             if pfc_found and ((ph_mu1_dR<0.5) or (ph_mu2_dR<0.5)):
                 dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
-                print dimu_fsr_mass, ph_mu1_dR, ph_mu2_dR
                 mass_fsr_hist.Fill(dimu_fsr_mass)
-            else:
-                mass_fsr_hist.Fill(dimu_mass)
+                mass_hist.Fill(dimu_mass)
+            # else:
+            #     mass_fsr_hist.Fill(dimu_mass)
 
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
