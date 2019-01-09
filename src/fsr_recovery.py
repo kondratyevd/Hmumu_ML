@@ -86,18 +86,18 @@ def loop_over_events(path):
                 ph_mu1_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
                 ph_mu2_dR = deltaR(pfc.eta(), pfc.phi(), mu2.eta(), mu2.phi())
                 if ph_mu1_dR<0.5 or ph_mu2_dR<0.5:
-                    print ph_mu1_dR/(pfc.et()*pfc.et())
+                    # print ph_mu1_dR/(pfc.et()*pfc.et())
                     if ph_mu1_dR/(pfc.et()*pfc.et()) < min_dR_over_et2:
                         min_dR_over_et2 = ph_mu1_dR/(pfc.et()*pfc.et())
                         photon = pfc
-        print "Min:", min_dR_over_et2, "\n\n"
+        # print "Min:", min_dR_over_et2, "\n\n"
                    
 
 
         if mu1 and mu2:
             dimu_mass = (mu1.p4() + mu2.p4()).M()
             # mass_hist.Fill(dimu_mass)
-            if photon:
+            if photon and min_dR_over_et2<0.012:
                 dimu_fsr_mass = (mu1.p4()+mu2.p4()+photon.p4()).M()
                 mass_fsr_hist.Fill(dimu_fsr_mass)
                 mass_hist.Fill(dimu_mass)
