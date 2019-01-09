@@ -4,6 +4,7 @@ oldargv = sys.argv[:]
 sys.argv = [ '-b-' ]
 import ROOT
 ROOT.gROOT.SetBatch(True)
+ROOT.gStyle.SetOptStat(0)
 sys.argv = oldargv
 
 # load FWLite C++ libraries
@@ -49,8 +50,10 @@ def loop_over_events(path):
 
     events = Events(path)
 
-    mass_hist = ROOT.TH1D("mass", "M_{#mu#mu}", 40,110,150)
-    mass_fsr_hist = ROOT.TH1D("mass_fsr", "M_{#mu#mu} post-FSR", 40,110,150)
+    mass_hist = ROOT.TH1D("mass", "", 40,110,150)
+    mass_fsr_hist = ROOT.TH1D("mass_fsr", "", 40,110,150)
+    mass_hist_tagged = ROOT.TH1D("mass_tagged", "", 40,110,150)
+    mass_fsr_hist_tagged = ROOT.TH1D("mass_fsr_tagged", "", 40,110,150)
 
     for iev,event in enumerate(events):
  
@@ -87,21 +90,25 @@ def loop_over_events(path):
                         photon = pfc
                    
 
-
         if mu1 and mu2:
             dimu_mass = (mu1.p4() + mu2.p4()).M()
-            # mass_hist.Fill(dimu_mass)
+            
             if photon and min_dR_over_et2<0.012:
                 dimu_fsr_mass = (mu1.p4()+mu2.p4()+photon.p4()).M()
+                mass_fsr_hist_tagged.Fill(dimu_fsr_mass)
                 mass_fsr_hist.Fill(dimu_fsr_mass)
+                mass_hist_tagged.Fill(dimu_mass)
                 mass_hist.Fill(dimu_mass)
-            # else:
-            #     mass_fsr_hist.Fill(dimu_mass)
+            else:
+                mass_fsr_hist.Fill(dimu_mass)
+                mass_hist.Fill(dimu_mass)
 
+    mass_hist_tagged.SetLineColor(ROOT.kBlue)
+    mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
 
-    return mass_hist, mass_fsr_hist
+    return mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged
 
 def set_out_path(path):
     try:
@@ -110,11 +117,12 @@ def set_out_path(path):
         if e.errno != errno.EEXIST:
             raise
 
-def plot_hists(hist_list, name, path):
+def plot_hists(hist_list, name, path, legend):
     canvas = ROOT.TCanvas("name", "name", 800, 800)
     canvas.cd()
     for hist in hist_list:
         hist.Draw("histsame")
+    legend.Draw()
     canvas.SaveAs(path+name+".png")
 
 dy_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/4CDE9146-50F1-E611-AE57-02163E014769.root"
@@ -125,9 +133,14 @@ out_path = "plots/fsr_recovery/"
 set_out_path(out_path)
 
 # loop_over_events(dy_path)
-mass_hist, mass_fsr_hist =  loop_over_events(ggh_path)
+mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged =  loop_over_events(ggh_path)
 
-plot_hists([mass_fsr_hist, mass_hist], "test", out_path)
+legend = ROOT.TLegend(0.78,0.6,0.98,0.75)
+legend.AddEntry(mass_hist, 'pre-FSR', 'l')
+legend.AddEntry(mass_fsr_hist, ' post-FSR', 'l')
+
+plot_hists([mass_fsr_hist, mass_hist], "inclusive", out_path, legend)
+plot_hists([mass_fsr_hist_tagged, mass_hist_tagged], "fsr_tagged", out_path, legend)
 
 
 
