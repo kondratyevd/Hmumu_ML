@@ -38,7 +38,7 @@ def mu2_selection(mu):
     return passed
 
 def photon_preselection(photon):
-    passed = (photon.pt()>1) and (abs(photon.eta()<2.4))
+    passed = (photon.pt()>1) and (abs(photon.eta()<2.4)) and (photon.pdgId()==22)
     return passed
 
 def loop_over_events(path):
