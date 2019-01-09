@@ -29,6 +29,17 @@ def mu_rel_iso(muon):
     iso += max( 0., muon.pfIsolationR04().sumNeutralHadronEt + muon.pfIsolationR04().sumPhotonEt - 0.5*muon.pfIsolationR04().sumPUPt )
     return iso/muon.pt()
 
+def mu1_selection(muon):
+    passed = (mu.pt()>26) and (abs(mu.eta())<2.4) and (mu_rel_iso(mu)<0.25)
+    return passed
+
+def mu2_selection(muon):
+    passed = (mu.pt()>20) and (abs(mu.eta())<2.4) and (mu_rel_iso(mu)<0.25)
+    return passed
+
+def photon_preselection(photon):
+    passed = (photon.pt()>1) and (abs(photon.eta()<2.4))
+    return passed
 
 def loop_over_events(path):
     
@@ -53,64 +64,47 @@ def loop_over_events(path):
         if iev>5000:
             break
     
-        mu1_pt = -999
-        mu1_eta = -999
-        mu1_phi = -999
-        mu1_v = ROOT.TLorentzVector()
-        mu1_found = False
+        mu1 = NULL
+        mu2 = NULL
+        photons_for_mu1 = []
+        photons_for_mu2 = []
 
-        mu2_pt = -999
-        mu2_eta = -999
-        mu2_phi = -999
-        mu2_v = ROOT.TLorentzVector()        
+
+        mu1_found = False
+ 
         mu2_found = False
 
-        pfc_found = False
-        pfc_eta = -999
-        pfc_phi = -999
-        pfc_et = -999
-        pfc_v = ROOT.TLorentzVector()
-
-        ph_mu1_dR = 999
-        ph_mu2_dR = 999
-
-        dimu_mass = -999
-        dimu_fsr_mass = -999
 
 
         for i_mu,mu in enumerate(muons.product()):
             iso = mu_rel_iso(mu)
-            if (mu.pt()>26) and (abs(mu.eta())<2.4) and (iso<0.25) and not mu1_found:
+            if mu1_selection(mu) and not mu1_found:
                 mu1_found = True
-                mu1_pt = mu.pt()
-                mu1_eta = mu.eta()
-                mu1_phi = mu.phi()
-                mu1_v = mu.p4()
+                mu1 = mu
 
-            elif (mu.pt()>20) and (abs(mu.eta())<2.4) and (iso<0.25) and mu1_found and not mu2_found:
+            elif mu2_selection(mu) and mu1_found and not mu2_found:
                 mu2_found = True
-                mu2_pt = mu.pt()
-                mu2_eta = mu.eta()
-                mu2_phi = mu.phi()
-                mu2_v = mu.p4()
+                mu2 = mu
+
 
         for i_pfc, pfc in enumerate(pfCands.product()):
-            if (pfc.pt()>1) and (abs(pfc.eta()<2.4)) and not pfc_found:
-                pfc_found = True
-                pfc_eta = pfc.eta()
-                pfc_phi = pfc.phi()
-                pfc_et = pfc.et()
-                pfc_v = pfc.p4()
+            if photon_preselection(pfc) and mu1 and mu2:
+                ph_mu1_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
+                ph_mu2_dR = deltaR(pfc.eta(), pfc.phi(), mu2.eta(), mu2.phi())
+                if ph_mu1_dR<0.5:
+                    photons_for_mu1.append(pfc)
+                elif ph_mu2_dR<0.5:
+                    photons_for_mu2.append(pfc)                   
 
-                if mu1_found and mu2_found:
-                    ph_mu1_dR = deltaR(pfc_eta, pfc_phi, mu1_eta, mu1_phi)
-                    ph_mu2_dR = deltaR(pfc_eta, pfc_phi, mu2_eta, mu2_phi)
 
         if mu1_found and mu2_found:
-            dimu_mass = (mu1_v + mu2_v).M()
+            dimu_mass = (mu1.p4() + mu2.p4()).M()
             # mass_hist.Fill(dimu_mass)
-            if pfc_found and ((ph_mu1_dR<0.5 and ph_mu1_dR/(pfc_et*pfc_et)<0.012) or (ph_mu2_dR<0.5 and ph_mu2_dR/(pfc_et*pfc_et)<0.012)):
-                dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
+            if photons_for_mu1 or photons_for_mu2:
+                total_p4 = mu1.p4()+mu2.p4()
+                for pho in photons_for_mu1 + photons_for_mu2:
+                    total_p4 = total_p4+pho.p4()
+                dimu_fsr_mass = total_p4.M()
                 mass_fsr_hist.Fill(dimu_fsr_mass)
                 mass_hist.Fill(dimu_mass)
             # else:
