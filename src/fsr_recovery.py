@@ -77,9 +77,6 @@ def loop_over_events(path):
     mass_hist_tagged = ROOT.TH1D("mass_tagged", "", 40,110,150)
     mass_fsr_hist_tagged = ROOT.TH1D("mass_fsr_tagged", "", 40,110,150)
 
-    out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
-    # out_file.cd()
-
     tree = ROOT.TTree("tree", "tree")
     mass = array("f", [0])
     fsr_tag = array("f", [0])
@@ -90,6 +87,9 @@ def loop_over_events(path):
     tree.Branch('fsr_tag', fsr_tag, 'fsr_tag/I')
     tree.Branch('mass_postFSR', mass_postFSR, 'mass_postFSR/F')
     tree.Branch('max_abs_eta_mu', max_abs_eta_mu, 'max_abs_eta_mu/F')
+
+    out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
+    out_file.cd()
 
     for iev,event in enumerate(events):
         mass = -999
