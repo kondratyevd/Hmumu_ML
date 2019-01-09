@@ -90,7 +90,7 @@ def loop_over_events(path):
                     if ph_mu1_dR/(pfc.et()*pfc.et()) < min_dR_over_et2:
                         min_dR_over_et2 = ph_mu1_dR/(pfc.et()*pfc.et())
                         photon = pfc
-        print min_dR_over_et2, "\n"
+        print "Min:" min_dR_over_et2, "\n\n"
                    
 
 
