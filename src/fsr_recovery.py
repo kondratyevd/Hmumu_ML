@@ -1,5 +1,5 @@
 # import ROOT in batch mode
-import sys, os, math
+import sys, os, math, errno
 oldargv = sys.argv[:]
 sys.argv = [ '-b-' ]
 import ROOT
