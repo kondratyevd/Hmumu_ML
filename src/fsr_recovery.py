@@ -79,7 +79,6 @@ def loop_over_events(path):
 
         for i_mu,mu in enumerate(muons.product()):
             iso = mu_rel_iso(mu)
-
             if (mu.pt()>26) and (abs(mu.eta())<2.4) and (iso<0.25) and not mu1_found:
                 mu1_found = True
                 mu1_pt = mu.pt()
@@ -107,8 +106,9 @@ def loop_over_events(path):
         if mu1_found and mu2_found:
             dimu_mass = (mu1_v + mu2_v).M()
             mass_hist.Fill(dimu_mass)
-            if pfc_found and (ph_mu1_dR<0.5) and (ph_mu2_dR<0.5):
+            if pfc_found and ((ph_mu1_dR<0.5) or (ph_mu2_dR<0.5)):
                 dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
+                # print dimu_fsr_mass
                 mass_fsr_hist.Fill(dimu_fsr_mass)
 
     mass_hist.SetLineColor(ROOT.kBlue)
