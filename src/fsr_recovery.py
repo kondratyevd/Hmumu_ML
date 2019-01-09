@@ -118,7 +118,7 @@ def set_out_path(path):
             raise
 
 def plot_hists(hist_list, name, path, legend):
-    canvas = ROOT.TCanvas("name", "name", 800, 800)
+    canvas = ROOT.TCanvas(name, name, 800, 800)
     canvas.cd()
     for hist in hist_list:
         hist.Draw("histsame")
