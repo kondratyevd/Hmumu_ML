@@ -66,8 +66,7 @@ def loop_over_events(path):
     
         mu1 = None
         mu2 = None
-        photons_for_mu1 = []
-        photons_for_mu2 = []
+        photon = None
 
 
 
@@ -81,25 +80,25 @@ def loop_over_events(path):
             elif mu2_selection(mu) and mu1 and not mu2:
                 mu2 = mu
 
-
+        min_dR_over_et2 = 999
         for i_pfc, pfc in enumerate(pfCands.product()):
             if photon_preselection(pfc) and mu1 and mu2:
                 ph_mu1_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
                 ph_mu2_dR = deltaR(pfc.eta(), pfc.phi(), mu2.eta(), mu2.phi())
-                if ph_mu1_dR<0.5:
-                    photons_for_mu1.append(pfc)
-                elif ph_mu2_dR<0.5:
-                    photons_for_mu2.append(pfc)                   
+                if ph_mu1_dR<0.5 or ph_mu2_dR<0.5:
+                    print ph_mu1_dR/(pfc.et()*pfc.et())
+                    if ph_mu1_dR/(pfc.et()*pfc.et()) < min_dR_over_et2:
+                        min_dR_over_et2 = ph_mu1_dR/(pfc.et()*pfc.et())
+                        photon = pfc
+        print min_dR_over_et2, "\n"
+                   
 
 
         if mu1 and mu2:
             dimu_mass = (mu1.p4() + mu2.p4()).M()
             # mass_hist.Fill(dimu_mass)
-            if photons_for_mu1 or photons_for_mu2:
-                total_p4 = mu1.p4()+mu2.p4()
-                for pho in photons_for_mu1 + photons_for_mu2:
-                    total_p4 = total_p4+pho.p4()
-                dimu_fsr_mass = total_p4.M()
+            if photon:
+                dimu_fsr_mass = (mu1.p4()+mu2.p4()+photon.p4()).M()
                 mass_fsr_hist.Fill(dimu_fsr_mass)
                 mass_hist.Fill(dimu_mass)
             # else:
