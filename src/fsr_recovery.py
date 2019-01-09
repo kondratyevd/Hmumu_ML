@@ -64,26 +64,21 @@ def loop_over_events(path):
         if iev>5000:
             break
     
-        mu1 = NULL
-        mu2 = NULL
+        mu1 = None
+        mu2 = None
         photons_for_mu1 = []
         photons_for_mu2 = []
 
 
-        mu1_found = False
- 
-        mu2_found = False
 
 
 
         for i_mu,mu in enumerate(muons.product()):
             iso = mu_rel_iso(mu)
-            if mu1_selection(mu) and not mu1_found:
-                mu1_found = True
+            if mu1_selection(mu) and not mu1:
                 mu1 = mu
 
-            elif mu2_selection(mu) and mu1_found and not mu2_found:
-                mu2_found = True
+            elif mu2_selection(mu) and mu1 and not mu2:
                 mu2 = mu
 
 
