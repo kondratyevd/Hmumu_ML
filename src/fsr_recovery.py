@@ -94,7 +94,8 @@ def loop_over_events(path):
                 mu2_v.SetPtEtaPhiE(mu2_pt, mu2_eta, mu2_phi, mu.energy())
 
         for i_pfc, pfc in enumerate(pfCands.product()):
-            if (pfc.pt()>1) and (abs(pfc.eta()<2.4)):
+            # if (pfc.pt()>1) and (abs(pfc.eta()<2.4)) and not pfc_found:
+            if (pfc.pt()>1) and not pfc_found:
                 pfc_found = True
                 pfc_eta = pfc.eta()
                 pfc.phi = pfc.phi()
@@ -106,7 +107,7 @@ def loop_over_events(path):
         if mu1_found and mu2_found:
             dimu_mass = (mu1_v + mu2_v).M()
             mass_hist.Fill(dimu_mass)
-            if pfc_found and ((ph_mu1_dR<0.5) or (ph_mu2_dR<0.5)):
+            if pfc_found:# and ((ph_mu1_dR<0.5) or (ph_mu2_dR<0.5)):
                 dimu_fsr_mass = (mu1_v+mu2_v+pfc_v).M()
                 print dimu_fsr_mass
                 mass_fsr_hist.Fill(dimu_fsr_mass)
