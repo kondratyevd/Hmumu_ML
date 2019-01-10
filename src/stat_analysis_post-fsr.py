@@ -25,7 +25,7 @@ def get_mass_hist(name, src, nBins, xmin, xmax):
 def signal_fit_DCB(signal_src, name, label, xmin, xmax):
     signal_hist, signal_tree = get_mass_hist("signal", signal_src, 10, xmin, xmax)
     var = ROOT.RooRealVar(var_name,"Dilepton mass",xmin,xmax)
-    # max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4)
+    max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4)
     # ggH_prediction_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
     # VBF_prediction_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
     # DY_prediction_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
@@ -41,7 +41,7 @@ def signal_fit_DCB(signal_src, name, label, xmin, xmax):
     w.factory("RooDCBShape::cb(%s, mean[125,120,130], sigma[2,0,20], alphaL[2,0,25] , alphaR[2,0,25], nL[1.5,0,25], nR[1.5,0,25])"%var_name)
     smodel = w.pdf("cb")
     
-    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var), signal_src.cut)
+    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var), signal_src.cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print("v")
 
@@ -74,7 +74,7 @@ def signal_fit_3Gaus(signal_src, name, label, xmin, xmax):
     # print signal_hist.GetEntries()
 
     var = ROOT.RooRealVar(var_name,"Dilepton mass",xmin,xmax)
-    # max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4)
+    max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4)
     # ggH_prediction_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
     # VBF_prediction_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
     # DY_prediction_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
@@ -119,7 +119,7 @@ def signal_fit_3Gaus(signal_src, name, label, xmin, xmax):
     gaus12 = ROOT.RooAddPdf('gaus12', 'gaus12', gaus1, gaus2, mixGG)
     smodel = ROOT.RooAddPdf('signal', 'signal', gaus3, gaus12, mixGG1)
     Import(w,smodel)        
-    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var), signal_src.cut)
+    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var), signal_src.cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print("v")
     frame = var.frame()
@@ -164,5 +164,23 @@ class DataSrc(object):
 
 out_dir = "combine/fsr_test/"
 signal_src = DataSrc("ggH", "combine/fsr_test.root", "tree","1")
+src_in = DataSrc("ggH_maxEta<0.9", "combine/fsr_test.root", "tree", "(max_abs_eta_mu<0.9)")
+src_mid = DataSrc("ggH_maxEta0.9-1.9", "combine/fsr_test.root", "tree", "(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)")
+src_out = DataSrc("ggH_maxEta>1.9", "combine/fsr_test.root", "tree", "(max_abs_eta_mu>1.9)")
 
-test_signal_fits(signal_src, "ggh_postFSR_115-132", "ggh_postFSR_115-132", 115, 132)    
+src_1 = DataSrc("ggH_maxEta<0.5", 	"combine/fsr_test.root", "tree", "(max_abs_eta_mu<0.5)")
+src_2 = DataSrc("ggH_maxEta0.5-1", 	"combine/fsr_test.root", "tree", "(max_abs_eta_mu>0.5)&(max_abs_eta_mu<1)")
+src_3 = DataSrc("ggH_maxEta1-1.5", 	"combine/fsr_test.root", "tree", "(max_abs_eta_mu>1)&(max_abs_eta_mu<1.5)")
+src_4 = DataSrc("ggH_maxEta1.5-2", 	"combine/fsr_test.root", "tree", "(max_abs_eta_mu>1.5)&(max_abs_eta_mu<2)")
+src_5 = DataSrc("ggH_maxEta>2", 	"combine/fsr_test.root", "tree", "(max_abs_eta_mu>2)")
+
+# test_signal_fits(signal_src, "ggh_postFSR_115-132", "ggh_postFSR_115-132", 115, 132)  
+# test_signal_fits(src_in,  "ggh_postFSR_110-135_in", "ggh_postFSR_110-135_in", 110, 135)  
+# test_signal_fits(src_mid, "ggh_postFSR_110-135_mid", "ggh_postFSR_110-135_mid", 110, 135)  
+# test_signal_fits(src_out, "ggh_postFSR_110-135_out", "ggh_postFSR_110-135_out", 110, 135) 
+
+test_signal_fits(src_1, "ggh_postFSR_110-135_1", "ggh_postFSR_110-135_1", 110, 135)  
+test_signal_fits(src_2, "ggh_postFSR_110-135_2", "ggh_postFSR_110-135_2", 110, 135)  
+test_signal_fits(src_3, "ggh_postFSR_110-135_3", "ggh_postFSR_110-135_3", 110, 135) 
+test_signal_fits(src_4, "ggh_postFSR_110-135_4", "ggh_postFSR_110-135_4", 110, 135)  
+test_signal_fits(src_5, "ggh_postFSR_110-135_5", "ggh_postFSR_110-135_5", 110, 135)    
