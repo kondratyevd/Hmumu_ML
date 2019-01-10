@@ -109,15 +109,23 @@ def loop_over_events(path):
         mu2 = None
         photon = None
 
+        
+        
         for i_mu,mu in enumerate(muons.product()):
             iso = mu_rel_iso(mu)
             if mu1_selection(mu) and not mu1:
                 mu1 = mu
+                if abs(mu.eta())>max_abs_eta_mu[0]:
+                    max_abs_eta_mu[0] = abs(mu.eta())
 
             elif mu2_selection(mu) and mu1 and not mu2:
                 mu2 = mu
+                if abs(mu.eta())>max_abs_eta_mu[0]:
+                    max_abs_eta_mu[0] = abs(mu.eta())
 
         min_dR_over_et2 = 999
+       
+
         for i_pfc, pfc in enumerate(pfCands.product()):
             if photon_preselection(pfc) and mu1 and mu2:
                 ph_mu1_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
