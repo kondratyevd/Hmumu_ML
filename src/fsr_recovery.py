@@ -82,11 +82,15 @@ def loop_over_events(path):
     fsr_tag = array("i", [0])
     mass_postFSR = array("f", [0])
     max_abs_eta_mu = array("f", [0])
+    mu1_eta = array("f", [0])
+    mu2_eta = array("f", [0])
 
     tree.Branch('mass', mass, 'mass/F')
     tree.Branch('fsr_tag', fsr_tag, 'fsr_tag/I')
     tree.Branch('mass_postFSR', mass_postFSR, 'mass_postFSR/F')
     tree.Branch('max_abs_eta_mu', max_abs_eta_mu, 'max_abs_eta_mu/F')
+    tree.Branch('mu1_eta', mu1_eta, 'mu1_eta/F')    
+    tree.Branch('mu2_eta', mu2_eta, 'mu2_eta/F')
 
     for filename in os.listdir(path):
         if filename.endswith(".root"): 
@@ -112,16 +116,17 @@ def loop_over_events(path):
                 photon = None
 
                 
-                
                 for i_mu,mu in enumerate(muons.product()):
                     iso = mu_rel_iso(mu)
                     if mu1_selection(mu) and not mu1:
                         mu1 = mu
+                        mu1_eta[0] = mu.eta()
                         if abs(mu.eta())>max_abs_eta_mu[0]:
                             max_abs_eta_mu[0] = abs(mu.eta())
 
                     elif mu2_selection(mu) and mu1 and not mu2:
                         mu2 = mu
+                        mu2_eta[0] = mu.eta()
                         if abs(mu.eta())>max_abs_eta_mu[0]:
                             max_abs_eta_mu[0] = abs(mu.eta())
 
