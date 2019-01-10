@@ -91,7 +91,7 @@ def loop_over_events(path):
     for filename in os.listdir(path):
         if filename.endswith(".root"): 
             events = Events(path+filename)
-            print "Processing path: ", path
+            print "Processing file: ", filename
             for iev,event in enumerate(events):
                 mass[0] = -999
                 fsr_tag[0] = -999
