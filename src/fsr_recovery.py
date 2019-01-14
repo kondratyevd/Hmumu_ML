@@ -117,8 +117,8 @@ def loop_over_events(path):
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
 
-                if iev>2000:
-                    break
+                # if iev>2000:
+                #     break
             
                 mu1 = None
                 mu2 = None
@@ -184,8 +184,7 @@ def loop_over_events(path):
                         mu2_p4 = mu2.p4()+photon2.p4()
                     else:
                         mu2_p4 = mu2.p4()                    
-    
-                               
+                                
                     if isolated(mu1, mu2, photon1, photon2):
                         dimu_mass = (mu1.p4() + mu2.p4()).M()
                         dimu_fsr_mass = (mu1_p4+mu2_p4).M()
