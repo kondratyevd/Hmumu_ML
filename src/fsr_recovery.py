@@ -33,18 +33,25 @@ def mu_rel_iso(mu):
     iso += max( 0., mu.pfIsolationR04().sumNeutralHadronEt + mu.pfIsolationR04().sumPhotonEt - 0.5*mu.pfIsolationR04().sumPUPt )
     return iso/mu.pt()
 
-def mu_rel_iso_corrected(mu, photon):
-    if (deltaR(photon.eta(), photon.phi(), mu.eta(), mu.phi())<0.4):
-        iso  = mu.pfIsolationR04().sumChargedHadronPt
-        iso += max( 0., mu.pfIsolationR04().sumNeutralHadronEt + mu.pfIsolationR04().sumPhotonEt - photon.et() - 0.5*mu.pfIsolationR04().sumPUPt )
-        return iso/mu.pt()
-    else:
-        return mu_rel_iso(mu)
+def mu_rel_iso_corrected(mu, photon1, photon2):
+    ph1_et = 0
+    ph2_et = 0
 
-def isolated(mu1, mu2, photon):
+    if photon1:
+        if deltaR(photon1.eta(), photon1.phi(), mu.eta(), mu.phi())<0.4:
+            ph1_et = photon1.et()
+    if photon2:
+        if deltaR(photon2.eta(), photon2.phi(), mu.eta(), mu.phi())<0.4:
+            ph2_et = photon2.et()
+
+    iso  = mu.pfIsolationR04().sumChargedHadronPt
+    iso += max( 0., mu.pfIsolationR04().sumNeutralHadronEt + mu.pfIsolationR04().sumPhotonEt - ph1_et - ph2_et - 0.5*mu.pfIsolationR04().sumPUPt )
+    return iso/mu.pt()
+
+def isolated(mu1, mu2, photon1, photon2):
     if photon:
-        mu1_rel_iso_corrected = mu_rel_iso_corrected(mu1, photon)
-        mu2_rel_iso_corrected = mu_rel_iso_corrected(mu2, photon)
+        mu1_rel_iso_corrected = mu_rel_iso_corrected(mu1, photon1, photon2)
+        mu2_rel_iso_corrected = mu_rel_iso_corrected(mu2, photon1, photon2)
         result = (mu1_rel_iso_corrected<0.25) and (mu2_rel_iso_corrected<0.25)
     else:
         result = (mu_rel_iso(mu1)<0.25) and (mu_rel_iso(mu2)<0.25)
@@ -180,7 +187,7 @@ def loop_over_events(path):
                     mu2_p4 = mu2.p4()                    
 
                            
-                if isolated(mu1, mu2, photon1) and isolated(mu1, mu2, photon2):
+                if isolated(mu1, mu2, photon1, photon2):
                     dimu_mass = (mu1.p4() + mu2.p4()).M()
                     dimu_fsr_mass = (mu1_p4+mu2_p4).M()
                     mass[0] = dimu_mass
