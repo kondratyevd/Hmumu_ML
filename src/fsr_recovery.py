@@ -104,7 +104,7 @@ def loop_over_events(path):
     tree.Branch('mu2_eta', mu2_eta, 'mu2_eta/F')
 
     for filename in os.listdir(path):
-        if filename.endswith(".root"): 
+        if filename.endswith("C.root"): 
             events = Events(path+filename)
             print "Processing file: ", filename
             for iev,event in enumerate(events):
@@ -120,7 +120,7 @@ def loop_over_events(path):
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
 
-                if iev>1000:
+                if iev>5000:
                     break
             
                 mu1 = None
