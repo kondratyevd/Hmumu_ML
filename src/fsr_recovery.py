@@ -164,7 +164,7 @@ def loop_over_events(path):
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
-    out_file = ROOT.TFile("combine/fsr_test.root", "RECREATE")
+    out_file = ROOT.TFile("combine/fsr_test_2017.root", "RECREATE")
     out_file.cd()
     tree.Write()
     out_file.Close()
@@ -188,8 +188,8 @@ def plot_hists(hist_list, name, path, legend):
 
 dy_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/4CDE9146-50F1-E611-AE57-02163E014769.root"
 # ggh_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/36967CD0-3CC1-E611-A615-D8D385FF1996.root"
-ggh_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/"
-
+# ggh_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/"
+ggh_path = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
 
 out_path = "plots/fsr_recovery/"
 set_out_path(out_path)
