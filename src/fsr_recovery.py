@@ -49,7 +49,7 @@ def mu_rel_iso_corrected(mu, photon1, photon2):
     return iso/mu.pt()
 
 def isolated(mu1, mu2, photon1, photon2):
-    if photon:
+    if photon1 or photon2:
         mu1_rel_iso_corrected = mu_rel_iso_corrected(mu1, photon1, photon2)
         mu2_rel_iso_corrected = mu_rel_iso_corrected(mu2, photon1, photon2)
         result = (mu1_rel_iso_corrected<0.25) and (mu2_rel_iso_corrected<0.25)
@@ -117,7 +117,7 @@ def loop_over_events(path):
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
 
-                if iev>20000:
+                if iev>2000:
                     break
             
                 mu1 = None
