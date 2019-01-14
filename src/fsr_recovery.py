@@ -147,60 +147,59 @@ def loop_over_events(path):
                         if abs(mu.eta())>max_abs_eta_mu[0]:
                             max_abs_eta_mu[0] = abs(mu.eta())
 
-                if (not mu1) or (not mu2):
-                    break  
+                if mu1 and mu2:
 
-                # preselect photons: cuts on pT, eta, id, and close to at least one muon
-                for i_pfc, pfc in enumerate(pfCands.product()):
-                    if photon_preselection(pfc, mu1, mu2):
-                        preselected_photons.append(pfc)
-
-                min_dR1_over_et2 = 0.012
-                min_dR2_over_et2 = 0.012
-
-                # find closest photon to the first muon
-                for pfc in preselected_photons:
-                    ph_mu1_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
-                    if (ph_mu1_dR<0.5) and (ph_mu1_dR/(pfc.et()*pfc.et()) < min_dR1_over_et2):
-                        min_dR1_over_et2 = ph_mu1_dR/(pfc.et()*pfc.et())
-                        photon1 = pfc  
-
-                # find closest photon to the second muon
-                for pfc in preselected_photons:
-                    ph_mu2_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
-                    if (ph_mu2_dR<0.5) and (ph_mu2_dR/(pfc.et()*pfc.et()) < min_dR2_over_et2):
-                        min_dR2_over_et2 = ph_mu2_dR/(pfc.et()*pfc.et())
-                        if photon1:
-                            if deltaR(pfc.eta(), pfc.phi(), photon1.eta(), photon1.phi())>0.001:
-                                photon2 = pfc 
-                        else:
-                            photon2 = pfc    
-
-                if photon1:
-                    mu1_p4 = mu1.p4()+photon1.p4()
-                else:
-                    mu1_p4 = mu1.p4()
-
-                if photon2:
-                    mu2_p4 = mu2.p4()+photon2.p4()
-                else:
-                    mu2_p4 = mu2.p4()                    
-
-                           
-                if isolated(mu1, mu2, photon1, photon2):
-                    dimu_mass = (mu1.p4() + mu2.p4()).M()
-                    dimu_fsr_mass = (mu1_p4+mu2_p4).M()
-                    mass[0] = dimu_mass
-                    mass_postFSR[0] = dimu_fsr_mass
-                    mass_fsr_hist.Fill(dimu_fsr_mass)
-                    mass_hist.Fill(dimu_mass)
-                    if photon1 or photon2:
-                        mass_fsr_hist_tagged.Fill(dimu_fsr_mass)
-                        mass_hist_tagged.Fill(dimu_mass)
-                        fsr_tag[0] = 1
+                    # preselect photons: cuts on pT, eta, id, and close to at least one muon
+                    for i_pfc, pfc in enumerate(pfCands.product()):
+                        if photon_preselection(pfc, mu1, mu2):
+                            preselected_photons.append(pfc)
+    
+                    min_dR1_over_et2 = 0.012
+                    min_dR2_over_et2 = 0.012
+    
+                    # find closest photon to the first muon
+                    for pfc in preselected_photons:
+                        ph_mu1_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
+                        if (ph_mu1_dR<0.5) and (ph_mu1_dR/(pfc.et()*pfc.et()) < min_dR1_over_et2):
+                            min_dR1_over_et2 = ph_mu1_dR/(pfc.et()*pfc.et())
+                            photon1 = pfc  
+    
+                    # find closest photon to the second muon
+                    for pfc in preselected_photons:
+                        ph_mu2_dR = deltaR(pfc.eta(), pfc.phi(), mu1.eta(), mu1.phi())
+                        if (ph_mu2_dR<0.5) and (ph_mu2_dR/(pfc.et()*pfc.et()) < min_dR2_over_et2):
+                            min_dR2_over_et2 = ph_mu2_dR/(pfc.et()*pfc.et())
+                            if photon1:
+                                if deltaR(pfc.eta(), pfc.phi(), photon1.eta(), photon1.phi())>0.001:
+                                    photon2 = pfc 
+                            else:
+                                photon2 = pfc    
+    
+                    if photon1:
+                        mu1_p4 = mu1.p4()+photon1.p4()
                     else:
-                        fsr_tag[0] = 0
-                    tree.Fill()
+                        mu1_p4 = mu1.p4()
+    
+                    if photon2:
+                        mu2_p4 = mu2.p4()+photon2.p4()
+                    else:
+                        mu2_p4 = mu2.p4()                    
+    
+                               
+                    if isolated(mu1, mu2, photon1, photon2):
+                        dimu_mass = (mu1.p4() + mu2.p4()).M()
+                        dimu_fsr_mass = (mu1_p4+mu2_p4).M()
+                        mass[0] = dimu_mass
+                        mass_postFSR[0] = dimu_fsr_mass
+                        mass_fsr_hist.Fill(dimu_fsr_mass)
+                        mass_hist.Fill(dimu_mass)
+                        if photon1 or photon2:
+                            mass_fsr_hist_tagged.Fill(dimu_fsr_mass)
+                            mass_hist_tagged.Fill(dimu_mass)
+                            fsr_tag[0] = 1
+                        else:
+                            fsr_tag[0] = 0
+                        tree.Fill()
 
     mass_hist_tagged.SetLineColor(ROOT.kBlue)
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
