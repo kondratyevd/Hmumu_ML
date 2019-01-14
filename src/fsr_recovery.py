@@ -89,6 +89,7 @@ def loop_over_events(path):
 
     mass = array("f", [0])
     fsr_tag = array("i", [0])
+    fsr_2tag = array("i", [0])
     mass_postFSR = array("f", [0])
     max_abs_eta_mu = array("f", [0])
     mu1_eta = array("f", [0])
@@ -96,6 +97,7 @@ def loop_over_events(path):
 
     tree.Branch('mass', mass, 'mass/F')
     tree.Branch('fsr_tag', fsr_tag, 'fsr_tag/I')
+    tree.Branch('fsr_2tag', fsr_2tag, 'fsr_2tag/I')
     tree.Branch('mass_postFSR', mass_postFSR, 'mass_postFSR/F')
     tree.Branch('max_abs_eta_mu', max_abs_eta_mu, 'max_abs_eta_mu/F')
     tree.Branch('mu1_eta', mu1_eta, 'mu1_eta/F')    
@@ -108,6 +110,7 @@ def loop_over_events(path):
             for iev,event in enumerate(events):
                 mass[0] = -999
                 fsr_tag[0] = -999
+                fsr_2tag[0] = -999
                 mass_postFSR[0] = -999
                 max_abs_eta_mu[0] = -999
                 event.getByLabel(jetLabel, jets)
@@ -117,8 +120,8 @@ def loop_over_events(path):
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
 
-                # if iev>2000:
-                #     break
+                if iev>1000:
+                    break
             
                 mu1 = None
                 mu2 = None
@@ -198,6 +201,12 @@ def loop_over_events(path):
                             fsr_tag[0] = 1
                         else:
                             fsr_tag[0] = 0
+
+                        if photon1 and photon2:
+                            fsr_2tag[0] = 1
+                        else:
+                            fsr_2tag[0] = 0
+
                         tree.Fill()
 
     mass_hist_tagged.SetLineColor(ROOT.kBlue)
