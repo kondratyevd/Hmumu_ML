@@ -77,13 +77,13 @@ def photonPfIso03(pho, pfCands):
     ptsum = 0.0
     for i_pfc, pfc in enumerate(pfCands.product()):
         dr = deltaR(pho.eta(), pho.phi(), pfc.eta(), pfc.phi())
-        if (dr >= 0.3)
+        if (dr >= 0.3):
             continue
         if (pfc.charge() != 0 and abs(pfc.pdgId()) == 211 and pfc.pt() > 0.2):
             if (dr > 0.0001):
                 ptsum += pfc.pt()
         elif (pfc.charge() == 0 and (abs(pfc.pdgId()) == 22 || abs(pfc.pdgId()) == 130) and pfc.pt() > 0.5):
-            if (dr > 0.01)
+            if (dr > 0.01)?
                 ptsum += pfc.pt()
   return ptsum
 
