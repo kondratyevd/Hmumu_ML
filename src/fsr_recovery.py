@@ -123,7 +123,7 @@ def loop_over_events(path):
     tree.Branch('fsr_spectrum', fsr_spectrum, 'fsr_spectrum/F')
 
     for filename in os.listdir(path):
-        if filename.endswith(".root"): 
+        if filename.endswith("D37BC.root"): 
             events = Events(path+filename)
             print "Processing file: ", filename
             for iev,event in enumerate(events):
@@ -238,7 +238,7 @@ def loop_over_events(path):
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
-    out_file = ROOT.TFile("combine/fsr_test_2017.root", "RECREATE")
+    out_file = ROOT.TFile("combine/fsr_test_2017_1.root", "RECREATE")
     out_file.cd()
     tree.Write()
     out_file.Close()
