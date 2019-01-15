@@ -123,7 +123,7 @@ def loop_over_events(path):
     tree.Branch('fsr_spectrum', fsr_spectrum, 'fsr_spectrum/F')
 
     for filename in os.listdir(path):
-        if filename.endswith("C.root"): 
+        if filename.endswith(".root"): 
             events = Events(path+filename)
             print "Processing file: ", filename
             for iev,event in enumerate(events):
@@ -140,8 +140,8 @@ def loop_over_events(path):
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
 
-                if iev>10000:
-                    break
+                # if iev>10000:
+                #     break
             
                 mu1 = None
                 mu2 = None
