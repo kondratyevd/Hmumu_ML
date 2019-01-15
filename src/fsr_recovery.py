@@ -85,7 +85,7 @@ def photonPfIso03(pho, pfCands):
         elif (pfc.charge() == 0 and (abs(pfc.pdgId()) == 22 or abs(pfc.pdgId()) == 130) and pfc.pt() > 0.5):
             if (dr > 0.01):
                 ptsum += pfc.pt()
-  return ptsum
+    return ptsum
 
 
 
