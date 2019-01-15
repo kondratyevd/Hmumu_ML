@@ -70,7 +70,7 @@ def mu2_selection(mu):
 def photon_preselection(photon, mu1, mu2):
     ph_mu1_dR = deltaR(photon.eta(), photon.phi(), mu1.eta(), mu1.phi())
     ph_mu2_dR = deltaR(photon.eta(), photon.phi(), mu2.eta(), mu2.phi())
-    passed = (photon.pt()>1) and (abs(photon.eta()<2.4)) and (photon.pdgId()==22) and (ph_mu1_dR<0.5 or ph_mu2_dR<0.5)
+    passed = (photon.pt()>2) and (abs(photon.eta()<2.4)) and (photon.pdgId()==22) and (ph_mu1_dR<0.5 or ph_mu2_dR<0.5)
     return passed
 
 def loop_over_events(path):
