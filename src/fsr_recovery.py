@@ -181,7 +181,6 @@ def loop_over_events(path):
     
                     if photon1:
                         mu1_p4 = mu1.p4()+photon1.p4()
-                        print photon1.pt()
                     else:
                         mu1_p4 = mu1.p4()
     
