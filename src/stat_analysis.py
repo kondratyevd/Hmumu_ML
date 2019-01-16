@@ -305,7 +305,7 @@ class Analyzer(object):
         var.setRange("full",110,150)
         data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), data_src.cut)
         Import = getattr(ROOT.RooWorkspace, 'import')
-        w = ROOT.RooWorkspace("w0", False)
+        w = ROOT.RooWorkspace("w", False)
         Import(w, var)
         
         w.factory("a1 [1.66, 0.7, 3]")
@@ -330,9 +330,16 @@ class Analyzer(object):
         # w.factory("expr::mean('mean*(mu_scale_uncert*mu_scale_beta)',{mean[125,120,130], mu_scale_uncert, mu_scale_beta})")
         # w.factory("expr::sigma('sigma*(mu_res_uncert*mu_res_beta)',{sigma[2,0,20], mu_res_uncert, mu_res_beta})")
 
-        ROOT.gROOT.ProcessLine(".L src/RooDCBShape.cxx")
-        w.factory("RooDCBShape::signal(mass, mean[125,120,130], sigma[2,0,20], alphaL[2,0,25] , alphaR[2,0,25], nL[1.5,0,25], nR[1.5,0,25])")
+        # ROOT.gROOT.ProcessLine(".L src/RooDCBShape.cxx")
+        ROOT.gSystem.Load("src/RooDCBShape_cxx.so")
+        mean = w.factory("mean[125,120,130]")
+        sigma = w.factory("sigma[2,0,20]")
+        alphaL = w.factory("alphaL[2,0,25]")
+        alphaR = w.factory("alphaR[2,0,25]")
+        nL = w.factory("nL[1.5,0,25]")
+        nR = w.factory("nR[1.5,0,25]")
 
+        w.factory("RooDCBShape::signal(mass, mean[125,120,130], sigma[2,0,20], alphaL[2,0,25] , alphaR[2,0,25], nL[1.5,0,25], nR[1.5,0,25])")
         smodel = w.pdf("signal")
         smodel.Print()        
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), signal_src.cut)
