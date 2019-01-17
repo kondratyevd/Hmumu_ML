@@ -70,7 +70,7 @@ def mu2_selection(mu):
 def photon_preselection(photon, mu1, mu2, pfCands):
     ph_mu1_dR = deltaR(photon.eta(), photon.phi(), mu1.eta(), mu1.phi())
     ph_mu2_dR = deltaR(photon.eta(), photon.phi(), mu2.eta(), mu2.phi())
-    passed = (photon.pt()>1) and (abs(photon.eta()<2.4)) and (photon.pdgId()==22) and (ph_mu1_dR<0.5 or ph_mu2_dR<0.5) #and (photonPfIso03(photon, pfCands)<1.8)
+    passed = (photon.pt()>1) and (abs(photon.eta()<2.4)) and (photon.pdgId()==22) and (ph_mu1_dR<0.5 or ph_mu2_dR<0.5) and (photonPfIso03(photon, pfCands)<1.8)
     return passed
 
 def photonPfIso03(pho, pfCands):
@@ -178,10 +178,10 @@ def loop_over_events(path):
                     if photon_preselection(pfc, mu1, mu2, pfCands):
                         preselected_photons.append(pfc)
     
-                # min_dR1_over_et2 = 0.012
-                # min_dR2_over_et2 = 0.012
-                min_dR1_over_et2 = 999999
-                min_dR2_over_et2 = 999999    
+                min_dR1_over_et2 = 0.012
+                min_dR2_over_et2 = 0.012
+                # min_dR1_over_et2 = 999999
+                # min_dR2_over_et2 = 999999    
 
                 # find closest photon to the first muon
                 for pfc in preselected_photons:
@@ -240,7 +240,7 @@ def loop_over_events(path):
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
-    out_file = ROOT.TFile("combine/fsr_test_2017_nodRETCut_noPhoIso.root", "RECREATE")
+    out_file = ROOT.TFile("combine/fsr_test_2017_noPhoIso.root", "RECREATE")
     out_file.cd()
     tree.Write()
     out_file.Close()
