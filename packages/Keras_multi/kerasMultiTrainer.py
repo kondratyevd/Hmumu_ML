@@ -7,7 +7,8 @@ from array import array
 import pandas
 import numpy
 import uproot
-from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
+from sklearn.cross_validation import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import shuffle
 from keras_models import GetListOfModels
