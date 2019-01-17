@@ -124,7 +124,7 @@ def loop_over_events(path):
 
     for filename in os.listdir(path):
         # if filename.endswith("D37BC.root"):
-        if filename.endswith("C.root"):         
+        if filename.endswith("1.root"):         
             events = Events(path+filename)
             print "Processing file: ", filename
             for iev,event in enumerate(events):
