@@ -109,6 +109,8 @@ def loop_over_events(path):
     fsr_2tag = array("i", [0])
     mass_postFSR = array("f", [0])
     max_abs_eta_mu = array("f", [0])
+    dimu_eta = array("f", [0])
+    dimu_eta_postFSR = array("f", [0])
     mu1_eta = array("f", [0])
     mu2_eta = array("f", [0])
     fsr_spectrum = array("f", [0])
@@ -118,6 +120,8 @@ def loop_over_events(path):
     tree.Branch('fsr_2tag', fsr_2tag, 'fsr_2tag/I')
     tree.Branch('mass_postFSR', mass_postFSR, 'mass_postFSR/F')
     tree.Branch('max_abs_eta_mu', max_abs_eta_mu, 'max_abs_eta_mu/F')
+    tree.Branch('dimu_eta', dimu_eta, 'dimu_eta/F')
+    tree.Branch('dimu_eta_postFSR', dimu_eta_postFSR, 'dimu_eta_postFSR/F')
     tree.Branch('mu1_eta', mu1_eta, 'mu1_eta/F')    
     tree.Branch('mu2_eta', mu2_eta, 'mu2_eta/F')
     tree.Branch('fsr_spectrum', fsr_spectrum, 'fsr_spectrum/F')
@@ -216,6 +220,8 @@ def loop_over_events(path):
                     dimu_mass = (mu1.p4() + mu2.p4()).M()
                     dimu_fsr_mass = (mu1_p4+mu2_p4).M()
                     mass[0] = dimu_mass
+                    dimu_eta[0] = (mu1.p4() + mu2.p4()).eta()
+                    dimu_eta_postFSR[0] = (mu1_p4+mu2_p4).eta()
                     mass_postFSR[0] = dimu_fsr_mass
                     mass_fsr_hist.Fill(dimu_fsr_mass)
                     mass_hist.Fill(dimu_mass)
