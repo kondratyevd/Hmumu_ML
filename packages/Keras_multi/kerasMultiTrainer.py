@@ -232,6 +232,9 @@ class KerasMultiTrainer(object):
         trees               = {}
         mass                = {}
         max_abs_eta_mu      = {}
+        mu1_eta             = {}
+        mu2_eta             = {}
+        dimu_eta            = {}
         weight              = {}
         DY_prediction       = {}
         ttbar_prediction    = {}
@@ -245,10 +248,16 @@ class KerasMultiTrainer(object):
         newBranch5          = {}
         newBranch6          = {}
         newBranch7          = {}
+        newBranch8          = {}
+        newBranch9          = {}
+        newBranch0          = {}
 
         for category in category_list:
             mass[category]= array('f', [0])
             max_abs_eta_mu[category]= array('f', [0])
+            mu1_eta[category] = array('f', [0])
+            mu2_eta[category] = array('f', [0])
+            dimu_eta[category] = array('f', [0])
             weight[category]= array('f', [0])
             DY_prediction[category]= array('f', [0])
             ttbar_prediction[category]= array('f', [0])
@@ -264,6 +273,9 @@ class KerasMultiTrainer(object):
             newBranch5[category] = trees[category].Branch("ggH_prediction",     ggH_prediction[category]  , "ggH_prediction/F")
             newBranch6[category] = trees[category].Branch("VBF_prediction",     VBF_prediction[category]  , "VBF_prediction/F")
             newBranch7[category] = trees[category].Branch("nJets",     nJets[category]  , "nJets/F")
+            newBranch8[category] = trees[category].Branch("mu1_eta",     mu1_eta[category]  , "mu1_eta/F")
+            newBranch9[category] = trees[category].Branch("mu2_eta",     mu2_eta[category]  , "mu2_eta/F")
+            newBranch0[category] = trees[category].Branch("dimu_eta",     dimu_eta[category]  , "dimu_eta/F")
 
         new_file = ROOT.TFile(self.package.mainDir+'/'+method_name+"/root/output_"+output_name+".root","recreate")
         new_file.cd()
@@ -278,6 +290,9 @@ class KerasMultiTrainer(object):
                 ggH_prediction["Data"][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
                 VBF_prediction["Data"][0]   = row["pred_H2Mu_VBF_%s"%(method_name)] 
                 nJets["Data"][0]            = row["nJets"] 
+                mu1_eta["Data"][0]          = row["muons.eta[0]"]
+                mu2_eta["Data"][0]          = row["muons.eta[1]"]
+                dimu_eta["Data"][0]         = row["muPairs.eta[0]"]
                 trees["Data"].Fill() 
             else:
                 for category in category_list:
@@ -290,6 +305,9 @@ class KerasMultiTrainer(object):
                         ggH_prediction[category][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
                         VBF_prediction[category][0]   = row["pred_H2Mu_VBF_%s"%(method_name)]  
                         nJets[category][0]            = row["nJets"]
+                        mu1_eta[category][0]          = row["muons.eta[0]"]
+                        mu2_eta[category][0]          = row["muons.eta[1]"]
+                        dimu_eta[category][0]         = row["muPairs.eta[0]"]
                         trees[category].Fill() 
 
         for category in category_list:
