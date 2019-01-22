@@ -271,9 +271,13 @@ class Analyzer(object):
         # mu_res_beta.setRange(-5,5)
         # mu_scale_beta.setRange(-5,5)
 
+
+        width1 = w.var("width1").getVal()
+        w.var("width1").setVal(width1*1.01)
+
         Import(w, smodel)
         Import(w, data_obs)
-        out_file = ROOT.TFile.Open(self.out_dir+"workspace.root", "recreate")
+        out_file = ROOT.TFile.Open(self.out_dir+"workspace_1.root", "recreate")
         out_file.cd()
         w.Write()
         w.Print()
