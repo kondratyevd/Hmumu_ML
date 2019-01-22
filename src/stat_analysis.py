@@ -205,46 +205,57 @@ class Analyzer(object):
         mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
         mixGG1 = ROOT.RooRealVar("mixGG1",  "mixGG1", 0.5,0.,1.)
 
-        mu_res_beta = ROOT.RooRealVar('mu_res_beta','mu_res_beta',0,0,0)
-        mu_scale_beta = ROOT.RooRealVar('mu_scale_beta','mu_scale_beta',0,0,0)
+        # mu_res_beta = ROOT.RooRealVar('mu_res_beta','mu_res_beta',0,0,0)
+        # mu_scale_beta = ROOT.RooRealVar('mu_scale_beta','mu_scale_beta',0,0,0)
 
-        Import(w, mu_res_beta)
-        Import(w, mu_scale_beta)
+        # Import(w, mu_res_beta)
+        # Import(w, mu_scale_beta)
 
-        res_uncert = 0.1
-        mu_res_uncert = ROOT.RooRealVar('mu_res_uncert','mu_res_uncert',res_uncert)
+        # res_uncert = 0.1
+        # mu_res_uncert = ROOT.RooRealVar('mu_res_uncert','mu_res_uncert',res_uncert)
 
-        scale_uncert = 0.0005
-        mu_scale_uncert = ROOT.RooRealVar('mu_scale_uncert','mu_scale_uncert',scale_uncert)
+        # scale_uncert = 0.0005
+        # mu_scale_uncert = ROOT.RooRealVar('mu_scale_uncert','mu_scale_uncert',scale_uncert)
 
-        mu_res_uncert.setConstant()
-        mu_scale_uncert.setConstant()
+        # mu_res_uncert.setConstant()
+        # mu_scale_uncert.setConstant()
 
-        Import(w, mu_res_uncert)
-        Import(w, mu_scale_uncert)
+        # Import(w, mu_res_uncert)
+        # Import(w, mu_scale_uncert)
               
-        w.factory("EXPR::mean1_times_nuis('mean1*(1 + mu_scale_uncert*mu_scale_beta)',{mean1[125.0, 120., 130.],mu_scale_uncert,mu_scale_beta})")
-        w.factory("EXPR::mean2_times_nuis('mean2*(1 + mu_scale_uncert*mu_scale_beta)',{mean2[125.0, 120., 130.],mu_scale_uncert,mu_scale_beta})")
-        w.factory("EXPR::mean3_times_nuis('mean3*(1 + mu_scale_uncert*mu_scale_beta)',{mean3[125.0, 120., 130.],mu_scale_uncert,mu_scale_beta})")
+        # w.factory("EXPR::mean1_times_nuis('mean1*(1 + mu_scale_uncert*mu_scale_beta)',{mean1[125.0, 120., 130.],mu_scale_uncert,mu_scale_beta})")
+        # w.factory("EXPR::mean2_times_nuis('mean2*(1 + mu_scale_uncert*mu_scale_beta)',{mean2[125.0, 120., 130.],mu_scale_uncert,mu_scale_beta})")
+        # w.factory("EXPR::mean3_times_nuis('mean3*(1 + mu_scale_uncert*mu_scale_beta)',{mean3[125.0, 120., 130.],mu_scale_uncert,mu_scale_beta})")
 
-        w.factory("expr::deltaM21('mean2-mean1',{mean2, mean1})")
-        w.factory("expr::deltaM31('mean3-mean1',{mean3, mean1})")
+        # w.factory("expr::deltaM21('mean2-mean1',{mean2, mean1})")
+        # w.factory("expr::deltaM31('mean3-mean1',{mean3, mean1})")
 
-        w.factory("EXPR::mean2_final('mean2_times_nuis + mu_res_uncert*mu_res_beta*deltaM21',{mean2_times_nuis, mu_res_uncert, mu_res_beta, deltaM21})")
-        w.factory("EXPR::mean3_final('mean3_times_nuis + mu_res_uncert*mu_res_beta*deltaM31',{mean3_times_nuis, mu_res_uncert, mu_res_beta, deltaM31})")
+        # w.factory("EXPR::mean2_final('mean2_times_nuis + mu_res_uncert*mu_res_beta*deltaM21',{mean2_times_nuis, mu_res_uncert, mu_res_beta, deltaM21})")
+        # w.factory("EXPR::mean3_final('mean3_times_nuis + mu_res_uncert*mu_res_beta*deltaM31',{mean3_times_nuis, mu_res_uncert, mu_res_beta, deltaM31})")
 
-        w.factory("EXPR::width1_times_nuis('width1*(1 + mu_res_uncert*mu_res_beta)',{width1[1.0, 0.5, 5.0],mu_res_uncert,mu_res_beta})")
-        w.factory("EXPR::width2_times_nuis('width2*(1 + mu_res_uncert*mu_res_beta)',{width2[5.0, 2, 10],mu_res_uncert,mu_res_beta})")
-        w.factory("EXPR::width3_times_nuis('width3*(1 + mu_res_uncert*mu_res_beta)',{width3[5.0, 1, 10],mu_res_uncert,mu_res_beta})")
+        # w.factory("EXPR::width1_times_nuis('width1*(1 + mu_res_uncert*mu_res_beta)',{width1[1.0, 0.5, 5.0],mu_res_uncert,mu_res_beta})")
+        # w.factory("EXPR::width2_times_nuis('width2*(1 + mu_res_uncert*mu_res_beta)',{width2[5.0, 2, 10],mu_res_uncert,mu_res_beta})")
+        # w.factory("EXPR::width3_times_nuis('width3*(1 + mu_res_uncert*mu_res_beta)',{width3[5.0, 1, 10],mu_res_uncert,mu_res_beta})")
 
-        w.factory("Gaussian::gaus1(mass, mean1_times_nuis, width1_times_nuis)")
-        w.factory("Gaussian::gaus2(mass, mean2_final, width2_times_nuis)")
-        w.factory("Gaussian::gaus3(mass, mean3_final, width3_times_nuis)")
+        # w.factory("Gaussian::gaus1(mass, mean1_times_nuis, width1_times_nuis)")
+        # w.factory("Gaussian::gaus2(mass, mean2_final, width2_times_nuis)")
+        # w.factory("Gaussian::gaus3(mass, mean3_final, width3_times_nuis)")
 
+        # gaus1 = w.pdf('gaus1')
+        # gaus2 = w.pdf('gaus2')
+        # gaus3 = w.pdf('gaus3')
+        # gaus12 = ROOT.RooAddPdf('gaus12', 'gaus12', gaus1, gaus2, mixGG)
+        # smodel = ROOT.RooAddPdf('signal', 'signal', gaus3, gaus12, mixGG1)
+        # Import(w,smodel)
+
+        w.factory("Gaussian::gaus1(mass, mean1[125., 120., 130.], width1[1.0, 0.5, 5.0])")
+        w.factory("Gaussian::gaus2(mass, mean2[125., 120., 130.], width2[5.0, 2.0, 10.])")
+        w.factory("Gaussian::gaus3(mass, mean3[125., 120., 130.], width3[5.0, 1.0, 10.])")
         gaus1 = w.pdf('gaus1')
         gaus2 = w.pdf('gaus2')
         gaus3 = w.pdf('gaus3')
         gaus12 = ROOT.RooAddPdf('gaus12', 'gaus12', gaus1, gaus2, mixGG)
+
         smodel = ROOT.RooAddPdf('signal', 'signal', gaus3, gaus12, mixGG1)
         Import(w,smodel)
         w.Print()
@@ -370,7 +381,7 @@ class Analyzer(object):
         canv = ROOT.TCanvas("canv4", "canv4", 800, 800)
         canv.cd()
         frame.Draw()
-        canv.Print(self.out_dir+"pdfs.png")
+        canv.Print(self.out_dir+"pdfs_DCB.png")
 
         frame_new = var.frame()
         signal_ds.plotOn(frame_new, ROOT.RooFit.Name("signal_ds"))
