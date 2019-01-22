@@ -301,7 +301,7 @@ class Analyzer(object):
         canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
         canv.cd()
         frame_new.Draw()
-        canv.Print(self.out_dir+"signal_fit.png")
+        canv.Print(self.out_dir+"signal_fit_1.png")
 
         print "3Gaus chi2/d.o.f: ", frame_new.chiSquare("signal_3gaus", "signal_ds", 8)
 
