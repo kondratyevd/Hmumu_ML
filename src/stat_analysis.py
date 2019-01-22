@@ -273,7 +273,7 @@ class Analyzer(object):
 
 
         width1 = w.var("width1").getVal()
-        w.var("width1").setVal(width1*1.01)
+        w.var("width1").setVal(width1*1.1)
 
         Import(w, smodel)
         Import(w, data_obs)
