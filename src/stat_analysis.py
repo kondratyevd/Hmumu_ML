@@ -399,6 +399,90 @@ class Analyzer(object):
 
         print "DCB chi2/d.o.f: ", frame_new.chiSquare("signal_DCB", "signal_ds", 8)
 
+    def make_workspace_DCBGaus(self, data_src, signal_src):
+        mass_hist, tree = self.get_mass_hist("data_fit", data_src, data_src.data_path, "", 40, 110, 150, normalize=False)
+        signal_hist, signal_tree = self.get_mass_hist("signal", signal_src, signal_src.mc_path, "", 10, 110, 150, normalize=False)
+        var = ROOT.RooRealVar("mass","Dilepton mass",110,150)     
+        max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
+        ggH_prediction_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
+        VBF_prediction_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
+        DY_prediction_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
+        ttbar_prediction_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
+
+        var.setBins(100)
+        var.setRange("window",120,130)
+        var.setRange("full",110,150)
+        data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), data_src.cut)
+        Import = getattr(ROOT.RooWorkspace, 'import')
+        w = ROOT.RooWorkspace("w", False)
+        Import(w, var)
+        
+        w.factory("a1 [1.66, 0.7, 3]")
+        w.factory("a2 [0.39, 0.30, 10]")
+        w.factory("a3 [-0.26, -10, -0.02]")
+        w.factory("expr::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
+        w.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
+
+        ROOT.gSystem.Load("src/RooDCBShape_cxx.so")
+        mean = w.factory("mean[125,120,130]")
+        sigma = w.factory("sigma[2,0,20]")
+        alphaL = w.factory("alphaL[2,0,25]")
+        alphaR = w.factory("alphaR[2,0,25]")
+        nL = w.factory("nL[1.5,0,25]")
+        nR = w.factory("nR[1.5,0,25]")
+
+
+
+
+        w.factory("RooDCBShape::dcb(mass, mean[125,120,130], sigma[2,0,20], alphaL[2,0,25] , alphaR[2,0,25], nL[1.5,0,25], nR[1.5,0,25])")
+
+        w.factory("Gaussian::gaus(mass, mean_gaus[125., 120., 130.], width_gaus[2.0, 0, 20])")
+        mix = ROOT.RooRealVar("mix",  "mix", 0.5,0.,1.)
+
+        dcb = w.pdf('dcb')
+        gaus = w.pdf('gaus')
+        smodel = ROOT.RooAddPdf('signal', 'signal', dcb, gaus, mix)
+
+        # smodel = w.pdf("signal")
+        # smodel.Print()    
+            
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), signal_src.cut)
+        res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+        res.Print()
+
+        sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR", "mean_gaus", "width_gaus"]
+        for par in sigParamList:
+            par_var = w.var(par)
+            par_var.setConstant(True)
+
+        Import(w, smodel)
+        Import(w, data_obs)
+        out_file = ROOT.TFile.Open(self.out_dir+"workspace_DCBGaus.root", "recreate")
+        out_file.cd()
+        w.Write()
+        w.Print()
+        out_file.Close()
+
+        frame = var.frame()
+        
+        bkg = w.pdf("background")
+        smodel.plotOn(frame)
+        bkg.plotOn(frame)
+        canv = ROOT.TCanvas("canv4", "canv4", 800, 800)
+        canv.cd()
+        frame.Draw()
+        canv.Print(self.out_dir+"pdfs_DCBGaus.png")
+
+        frame_new = var.frame()
+        signal_ds.plotOn(frame_new, ROOT.RooFit.Name("signal_ds"))
+        smodel.plotOn(frame_new, ROOT.RooFit.Name("signal_DCBGaus"))
+
+        canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
+        canv.cd()
+        frame_new.Draw()
+        canv.Print(self.out_dir+"signal_fit_DCBGaus.png")
+
+        print "DCBGaus chi2/d.o.f: ", frame_new.chiSquare("signal_DCBGaus", "signal_ds", 8)
 
     def full_plotting_sequence(self, data_src, signal_src):
        
@@ -412,6 +496,7 @@ class Analyzer(object):
         self.plot_data_obs(data_src)
         self.make_workspace(data_src, signal_src)
         self.make_workspace_DCB(data_src, signal_src)
+        self.make_workspace_DCBGaus(data_src, signal_src)
         print "Integrals (unbinned fit):"
         print "     signal:      %f events"%sig_integral
         print "     background:  %f events"%bkg_integral
