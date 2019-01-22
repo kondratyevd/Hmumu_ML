@@ -104,9 +104,6 @@ class Analyzer(object):
     def plot_unbinned_fit_bkg(self, data_src):
         mass_hist, tree = self.get_mass_hist("data_fit", data_src, data_src.data_path, "", 40, 110, 150, normalize=False)
 
-        signal_src = a.add_data_src("V3", "Run_2018-12-19_14-25-02", "model_50_D2_25_D2_25_D2", "tree_H2Mu_gg", ROOT.kGreen+2  ,"1", "weight*5/4") 
-        signal_hist, signal_tree = self.get_mass_hist("signal", signal_src, signal_src.mc_path, "", 10, 110, 150, normalize=False)
-
         var = ROOT.RooRealVar("mass","Dilepton mass",110,150) 
         max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
         ggH_prediction_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
@@ -120,9 +117,6 @@ class Analyzer(object):
         var.setRange("window",120,130)
 
         data = ROOT.RooDataSet("data_sidebandata","data", tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), data_src.cut)
-
-        fake_data = ROOT.RooDataSet("fake_data","fake_data", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), signal_src.cut) 
-        data.append(fake_data)
 
         w_sidebands = ROOT.RooWorkspace("w_sb", False) 
 
@@ -148,7 +142,7 @@ class Analyzer(object):
         canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
         canv.cd()
         frame.Draw()
-        canv.Print(self.out_dir+"unbinned_fit_bwzredux_fake.png")
+        canv.Print(self.out_dir+"unbinned_fit_bwzredux.png")
 
         integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
         integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
@@ -198,10 +192,6 @@ class Analyzer(object):
         var.setRange("window",120,130)
         var.setRange("full",110,150)
         data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), data_src.cut)
-        
-        fake_data = ROOT.RooDataSet("fake_data","fake_data", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), signal_src.cut) 
-        data_obs.append(fake_data)
-
         Import = getattr(ROOT.RooWorkspace, 'import')
         w = ROOT.RooWorkspace("w", False)
         Import(w, var)
@@ -212,8 +202,12 @@ class Analyzer(object):
         w.factory("expr::bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, a2, a3})")
         w.factory("EXPR::background('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, a1, bwz_redux_f})")
 
-        mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
-        mixGG1 = ROOT.RooRealVar("mixGG1",  "mixGG1", 0.5,0.,1.)
+        # mixGG = ROOT.RooRealVar("mixGG",  "mixGG", 0.5,0.,1.)
+        # mixGG1 = ROOT.RooRealVar("mixGG1",  "mixGG1", 0.5,0.,1.)
+        w.factory("mixGG [0.5, 0.0, 1.0]")
+        w.factory("mixGG1 [0.5, 0.0, 1.0]")
+        mixGG = w.var("mixGG")
+        mixGG1 = w.var("mixGG1")
 
         # mu_res_beta = ROOT.RooRealVar('mu_res_beta','mu_res_beta',0,0,0)
         # mu_scale_beta = ROOT.RooRealVar('mu_scale_beta','mu_scale_beta',0,0,0)
@@ -270,7 +264,7 @@ class Analyzer(object):
         Import(w,smodel)
         w.Print()
         
-        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), signal_src.cut) 
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), signal_src.cut)
         res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
         res.Print()
 
@@ -281,38 +275,33 @@ class Analyzer(object):
         # mu_res_beta.setRange(-5,5)
         # mu_scale_beta.setRange(-5,5)
 
-
         Import(w, smodel)
         Import(w, data_obs)
-        out_file = ROOT.TFile.Open(self.out_dir+"workspace_fake.root", "recreate")
+        out_file = ROOT.TFile.Open(self.out_dir+"workspace_1.root", "recreate")
         out_file.cd()
         w.Write()
         w.Print()
         out_file.Close()
 
-        frame = var.frame()      
+        frame = var.frame()
+
+        
         bkg = w.pdf("background")
         smodel.plotOn(frame)
         bkg.plotOn(frame)
         canv = ROOT.TCanvas("canv4", "canv4", 800, 800)
         canv.cd()
         frame.Draw()
-        canv.Print(self.out_dir+"pdfs_fake.png")
+        canv.Print(self.out_dir+"pdfs.png")
 
         frame_new = var.frame()
         signal_ds.plotOn(frame_new, ROOT.RooFit.Name("signal_ds"))
         smodel.plotOn(frame_new, ROOT.RooFit.Name("signal_3gaus"))
+
         canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
         canv.cd()
         frame_new.Draw()
-        canv.Print(self.out_dir+"signal_fit_fake.png")
-
-        frame_data = var.frame()      
-        data_obs.plotOn(frame_data)
-        canv = ROOT.TCanvas("canv_data", "canv_data", 800, 800)
-        canv.cd()
-        frame_data.Draw()
-        canv.Print(self.out_dir+"data_fake.png")
+        canv.Print(self.out_dir+"signal_fit.png")
 
         print "3Gaus chi2/d.o.f: ", frame_new.chiSquare("signal_3gaus", "signal_ds", 8)
 
@@ -330,10 +319,6 @@ class Analyzer(object):
         var.setRange("window",120,130)
         var.setRange("full",110,150)
         data_obs = ROOT.RooDataSet("data_obs","data_obs", tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), data_src.cut)
-
-        fake_data = ROOT.RooDataSet("fake_data","fake_data", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggH_prediction_var, VBF_prediction_var, DY_prediction_var, ttbar_prediction_var), signal_src.cut) 
-        data_obs.append(fake_data)
-
         Import = getattr(ROOT.RooWorkspace, 'import')
         w = ROOT.RooWorkspace("w", False)
         Import(w, var)
@@ -383,9 +368,10 @@ class Analyzer(object):
         # w.var("mu_scale_beta").setRange(-5,5)
         # w.var("mu_res_beta").setRange(-5,5)
 
+
         Import(w, smodel)
         Import(w, data_obs)
-        out_file = ROOT.TFile.Open(self.out_dir+"workspace_DCB_fake.root", "recreate")
+        out_file = ROOT.TFile.Open(self.out_dir+"workspace_DCB.root", "recreate")
         out_file.cd()
         w.Write()
         w.Print()
@@ -400,7 +386,7 @@ class Analyzer(object):
         canv = ROOT.TCanvas("canv4", "canv4", 800, 800)
         canv.cd()
         frame.Draw()
-        canv.Print(self.out_dir+"pdfs_DCB_fake.png")
+        canv.Print(self.out_dir+"pdfs_DCB.png")
 
         frame_new = var.frame()
         signal_ds.plotOn(frame_new, ROOT.RooFit.Name("signal_ds"))
@@ -409,7 +395,7 @@ class Analyzer(object):
         canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
         canv.cd()
         frame_new.Draw()
-        canv.Print(self.out_dir+"signal_fit_DCB_fake.png")
+        canv.Print(self.out_dir+"signal_fit_DCB.png")
 
         print "DCB chi2/d.o.f: ", frame_new.chiSquare("signal_DCB", "signal_ds", 8)
 
