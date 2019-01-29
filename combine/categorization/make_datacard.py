@@ -264,10 +264,36 @@ def plot_sig_evenly():
     graph1_p.SetMarkerColor(ROOT.kRed)
     graph1_p.SetLineColor(ROOT.kRed)
 
+    graph_o = ROOT.TGraph()
+    graph_op = ROOT.TGraph()
+    opt_sig = [
+        [2, 0.585433],
+        [2, 0.583011],
+        [3, 0.596026],
+        [3, 0.5987],
+        # [4, 0.563011]
+    ]
+    for i,s in enumerate(opt_sig):
+        graph_o.SetPoint(i, s[0], s[1])
+        graph_op.SetPoint(i, s[0], (s[1]-significance['1'])/significance['1']*100)
+
+    graph_o.SetMarkerStyle(20)
+    graph_o.SetMarkerSize(2)
+    graph_o.SetLineWidth(2)
+    graph_op.SetMarkerStyle(20)
+    graph_op.SetMarkerSize(2)
+    graph_op.SetLineWidth(2)  
+    graph_o.SetMarkerColor(ROOT.kGreen)
+    graph_o.SetLineColor(ROOT.kGreen)
+    graph_op.SetMarkerColor(ROOT.kGreen)
+    graph_op.SetLineColor(ROOT.kGreen)
+
+
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     graph.Draw("apl")
     graph1.Draw("plsame")
+    graph_o.Draw("psame")
     canvas.Print("combine/categorization/evenly/sig_plt1.png")
 
     canvas = ROOT.TCanvas("c1", "c1", 800, 800)
@@ -275,6 +301,7 @@ def plot_sig_evenly():
     graph_p.SetMaximum(15)
     graph_p.Draw("apl")
     graph1_p.Draw("plsame")
+    graph_op.Draw("psame")
     canvas.Print("combine/categorization/evenly/sig_plt1_percents.png")
 
 
@@ -286,11 +313,11 @@ def plot_sig_evenly():
 # create_datacard([0, 2.4], "combine/categorization/", "datacard_1cat", "workspace_1cat")
 # create_datacard([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4], "combine/categorization/", "datacard_24cat", "workspace_24cat")
 # create_datacard([0, 0.9, 1.9, 2.4], "combine/categorization/", "datacard_like2016", "workspace_like2016")
-create_datacard([0, 0.9, 2.4], "combine/categorization/", "datacard_opt2cat", "workspace_opt2cat")
-create_datacard([0, 1.6, 2.4], "combine/categorization/", "datacard_opt2cat1", "workspace_opt2cat1")
-create_datacard([0, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt3cat", "workspace_opt3cat")
-create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
-create_datacard([0, 0.2, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt4cat", "workspace_opt4cat")
+# create_datacard([0, 0.9, 2.4], "combine/categorization/", "datacard_opt2cat", "workspace_opt2cat")
+# create_datacard([0, 1.6, 2.4], "combine/categorization/", "datacard_opt2cat1", "workspace_opt2cat1")
+# create_datacard([0, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt3cat", "workspace_opt3cat")
+# create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
+# create_datacard([0, 0.2, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt4cat", "workspace_opt4cat")
 
 # for i in range(25):
 #     if not i:
@@ -301,3 +328,8 @@ create_datacard([0, 0.2, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_op
 #         bins.append(round(24*(j+1)/float(i))/10.0)
 #     create_datacard(bins, "combine/categorization/evenly1/", "datacard_%icat"%i, "workspace_%icat"%i)
 #     print bins
+
+
+for i in range(23):
+    bins = [0, (i+1)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%%(i+1))
