@@ -241,5 +241,5 @@ for i in range(25):
     bins = [0]
     for j in range(i):
         bins.append(round(24*(j+1)/float(i))/10.0)
-    # create_datacard(bins, "combine/categorization/evenly/", "datacard_%icat"%i, "workspace_%icat"%i)
+    create_datacard(bins, "combine/categorization/evenly/", "datacard_%icat"%i, "workspace_%icat"%i)
     print bins
