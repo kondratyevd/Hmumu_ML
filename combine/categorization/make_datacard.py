@@ -187,4 +187,13 @@ def create_datacard(bins, path, name, workspace_filename):
 # create_datacard([0, 2.4], "combine/categorization/", "datacard_1cat", "workspace_1cat")
 # create_datacard([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4], "combine/categorization/", "datacard_24cat", "workspace_24cat")
 # create_datacard([0, 0.9, 1.9, 2.4], "combine/categorization/", "datacard_like2016", "workspace_like2016")
-create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
+# create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
+
+for i in range(24):
+    if not i:
+        continue
+
+    bins = [0]
+    for j in range(i):
+        bins.append((24*(j+1)/i)/10.0)
+    create_datacard(bins, "combine/categorization/evenly/", "datacard_%icat"%i, "workspace_%icat"%i)
