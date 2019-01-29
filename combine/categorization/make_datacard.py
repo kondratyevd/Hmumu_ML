@@ -116,7 +116,7 @@ def get_rates(w, cat_number, eta_min, eta_max):
 
     return sig_rate, bkg_rate
 
-def make_eta_categories(bins, filename):
+def make_eta_categories(bins, path, filename):
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -155,7 +155,7 @@ def make_eta_categories(bins, filename):
     combine_ipro_str = combine_ipro_str+"\n"
     combine_rate_str = combine_rate_str+"\n"
     w.Print()
-    workspace_file = ROOT.TFile.Open("combine/categorization/"+filename+".root", "recreate")
+    workspace_file = ROOT.TFile.Open(path+filename+".root", "recreate")
     workspace_file.cd()
     w.Write()
     workspace_file.Close()
@@ -168,7 +168,7 @@ def create_datacard(bins, path, name, workspace_filename):
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings = make_eta_categories(bins, workspace_filename)
+    import_str, bins_obs, cat_strings = make_eta_categories(bins, path, workspace_filename)
     out_file = open(path+name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
