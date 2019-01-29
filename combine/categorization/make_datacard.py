@@ -184,79 +184,98 @@ def create_datacard(bins, path, name, workspace_filename):
     out_file.close()
 
 def plot_sig_evenly():
-    # significance = {
-    #     '1'     : 0.553469,
-    #     '2'     : 0.585567,
-    #     '3'     : 0.593943,
-    #     '4'     : 0.598493,
-    #     '5'     : 0.601114,
-    #     '6'     : 0.60118,
-    #     '7'     : 0.565581,
-    #     '8'     : 0.566162,
-    #     '9'     : 0.572278,
-    #     '10'    : 0.570536,
-    #     '11'    : 0.59924,
-    #     '12'    : 0.585927,
-    #     '13'    : 0.58562,
-    #     '14'    : 0.685168,
-    #     '15'    : 0.598107,
-    #     '16'    : 0.5758,
-    #     '17'    : 0.608572,
-    #     '18'    : 0.609287,
-    #     '19'    : 0.608703,
-    #     '20'    : 0.589827,
-    #     '21'    : 0.584066,
-    #     '22'    : 0.590644,
-    #     '23'    : 0.585997,
-    #     '24'    : 0.60994
-    # }
     significance = {
-        '1'     :   0,
-        '2'     :   0,
-        '3'     :   0,
-        '4'     :   0,
-        '5'     :   0,
-        '6'     :   0,
-        '7'     :   0,
-        '8'     :   0,
-        '9'     :   0,
-        '10'    :   0,
-        '11'    :   0,
-        '12'    :   0,
-        '13'    :   0,
-        '14'    :   0,
-        '15'    :   0,
-        '16'    :   0,
-        '17'    :   0,
-        '18'    :   0,
-        '19'    :   0,
-        '20'    :   0,
-        '21'    :   0,
-        '22'    :   0,
-        '23'    :   0,
-        '24'    :   0,
+        '1'     : 0.553469,
+        '2'     : 0.585567,
+        '3'     : 0.593943,
+        # '3'     : 0.597208, #"optimal"
+        # '3'     : 0.5987,   #hig-17-019
+        '4'     : 0.598493,
+        '5'     : 0.601114,
+        '6'     : 0.60118,
+        '7'     : 0.565581,
+        '8'     : 0.566162,
+        '9'     : 0.572278,
+        '10'    : 0.570536,
+        '11'    : 0.59924,
+        '12'    : 0.585927,
+        '13'    : 0.58562,
+        '14'    : 0.685168,
+        '15'    : 0.598107,
+        '16'    : 0.5758,
+        '17'    : 0.608572,
+        '18'    : 0.609287,
+        '19'    : 0.608703,
+        '20'    : 0.589827,
+        '21'    : 0.584066,
+        '22'    : 0.590644,
+        '23'    : 0.585997,
+        '24'    : 0.60994
+    }
+    significance1 = {
+        '1'     :   0.552706,
+        '2'     :   0.586123,
+        '3'     :   0.593512,
+        '4'     :   0.597389,
+        '5'     :   0.601174,
+        '6'     :   0.600333,
+        '7'     :   0.596228,
+        '8'     :   0.565726,
+        '9'     :   0.658959,
+        '10'    :   0.598229,
+        '11'    :   0.575846,
+        '12'    :   0.578905,
+        '13'    :   0.598192,
+        '14'    :   0.587813,
+        '15'    :   0.567488,
+        '16'    :   0.57834,
+        '17'    :   0.592896,
+        '18'    :   0.60844,
+        '19'    :   0.586028,
+        '20'    :   0.569959,
+        '21'    :   0.583279,
+        '22'    :   0.61001,
+        '23'    :   0.586347,
+        '24'    :   0.588394,
     }
     graph = ROOT.TGraph()
+    graph_p = ROOT.TGraph()
     graph1 = ROOT.TGraph()
+    graph1_p = ROOT.TGraph()
     for i in range(24):
         graph.SetPoint(i, i+1, significance['%i'%(i+1)])
-        graph1.SetPoint(i, i+1, (significance['%i'%(i+1)]-significance['1'])/significance['1']*100)
+        graph_p.SetPoint(i, i+1, (significance['%i'%(i+1)]-significance['1'])/significance['1']*100)
+        graph1.SetPoint(i, i+1, significance1['%i'%(i+1)])
+        graph1_p.SetPoint(i, i+1, (significance1['%i'%(i+1)]-significance1['1'])/significance1['1']*100)
     graph.SetMarkerStyle(20)
     graph.SetMarkerSize(2)
     graph.SetLineWidth(2)
+    graph_p.SetMarkerStyle(20)
+    graph_p.SetMarkerSize(2)
+    graph_p.SetLineWidth(2)    
     graph1.SetMarkerStyle(20)
     graph1.SetMarkerSize(2)
-    graph1.SetLineWidth(2)    
+    graph1.SetLineWidth(2)
+    graph1_p.SetMarkerStyle(20)
+    graph1_p.SetMarkerSize(2)
+    graph1_p.SetLineWidth(2)  
+    graph1.SetMarkerColor(ROOT.kRed)
+    graph1.SetLineColor(ROOT.kRed)
+    graph1_p.SetMarkerColor(ROOT.kRed)
+    graph1_p.SetLineColor(ROOT.kRed)
 
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     graph.Draw("apl")
-    canvas.Print("combine/categorization/evenly1/sig_plt.png")
+    graph1.Draw("plsame")
+    canvas.Print("combine/categorization/evenly/sig_plt1.png")
 
     canvas = ROOT.TCanvas("c1", "c1", 800, 800)
     canvas.cd()
-    graph1.Draw("apl")
-    canvas.Print("combine/categorization/evenly1/sig_plt_percents.png")
+    graph_p.SetMaximum(15)
+    graph_p.Draw("apl")
+    graph1_p.Draw("plsame")
+    canvas.Print("combine/categorization/evenly/sig_plt1_percents.png")
 
 
 
@@ -267,15 +286,18 @@ def plot_sig_evenly():
 # create_datacard([0, 2.4], "combine/categorization/", "datacard_1cat", "workspace_1cat")
 # create_datacard([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4], "combine/categorization/", "datacard_24cat", "workspace_24cat")
 # create_datacard([0, 0.9, 1.9, 2.4], "combine/categorization/", "datacard_like2016", "workspace_like2016")
-# create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
+create_datacard([0, 0.9, 2.4], "combine/categorization/", "datacard_opt2cat", "workspace_opt2cat")
+create_datacard([0, 1.6, 2.4], "combine/categorization/", "datacard_opt2cat1", "workspace_opt2cat1")
+create_datacard([0, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt3cat", "workspace_opt3cat")
+create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
+create_datacard([0, 0.2, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt4cat", "workspace_opt4cat")
 
+# for i in range(25):
+#     if not i:
+#         continue
 
-for i in range(25):
-    if not i:
-        continue
-
-    bins = [0]
-    for j in range(i):
-        bins.append(round(24*(j+1)/float(i))/10.0)
-    create_datacard(bins, "combine/categorization/evenly1/", "datacard_%icat"%i, "workspace_%icat"%i)
-    print bins
+#     bins = [0]
+#     for j in range(i):
+#         bins.append(round(24*(j+1)/float(i))/10.0)
+#     create_datacard(bins, "combine/categorization/evenly1/", "datacard_%icat"%i, "workspace_%icat"%i)
+#     print bins
