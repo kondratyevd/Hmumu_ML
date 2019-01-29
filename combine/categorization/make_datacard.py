@@ -304,10 +304,53 @@ def plot_sig_evenly():
     graph_op.Draw("psame")
     canvas.Print("combine/categorization/evenly/sig_plt1_percents.png")
 
+def plot_2cat_scan():
+    base = 0.552706
+    sign = [
+        0.553628,
+        0.515218,
+        0.515502,
+        0.560336,
+        0.566407,
+        0.570469,
+        0.575749,
+        0.581327,
+        0.585433,
+        0.586237,  #10
+        0.586395,
+        0.586123,
+        0.58522,
+        0.584909,
+        0.586891,  #15
+        0.583011,
+        0.584645,
+        0.584129,
+        0.581442,
+        0.57764,   #20
+        0.574374,
+        0.57041,
+        0.561635
+    ]
+    gr = ROOT.TGraph()
+    for i,s in enumerate(sign):
+        gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
+
+    gr.SetMarkerStyle(20)
+    gr.SetMarkerSize(2)
+    gr.SetLineWidth(2)
+    gr.GetXaxis().SetTitle("Rapidity cut")
+    gr.GetYaxis().SetTitle("% gain in significance")
+    gr.SetMinimum(0)
+    gr.SetMaximum(7)
+    gr.GetXaxis().SetRangeUser(0,2.4)
+    canvas = ROOT.TCanvas("c", "c", 800, 800)
+    canvas.cd()
+    gr.Draw("apl")
+    canvas.Print("combine/categorization/2cat_scan.png")
 
 
 # plot_sig_evenly()
-
+# plot_2cat_scan()
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
 # create_datacard([0, 2.4], "combine/categorization/", "datacard_1cat", "workspace_1cat")
@@ -330,6 +373,12 @@ def plot_sig_evenly():
 #     print bins
 
 
-for i in range(23):
-    bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+# for i in range(23):
+#     bins = [0, (i+1)/10.0, 2.4]
+#     create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+
+
+for i in range(14):
+    print (i+10)/10.0
+    bins = [0, 0.9, (i+10)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/3cat_0p9_scan/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
