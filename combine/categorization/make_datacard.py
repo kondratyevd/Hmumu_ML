@@ -109,7 +109,9 @@ def add_bkg_model(w, cat_number, path, cut):
     return bkg_rate
 
 def get_rates(w, cat_number, eta_min, eta_max):
-    path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"    
+    # path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/" 
+    path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      
+      
     eta_cut = "((max_abs_eta_mu>%.1f)&(max_abs_eta_mu<%.1f))"%(eta_min, eta_max)
     sig_rate = add_sig_model(w, cat_number, path, eta_cut) 
     bkg_rate = add_bkg_model(w, cat_number, path, eta_cut)
@@ -182,45 +184,79 @@ def create_datacard(bins, path, name, workspace_filename):
     out_file.close()
 
 def plot_sig_evenly():
-    significance = {
-        '1'     : 0.553469,
-        '2'     : 0.585567,
-        '3'     : 0.593943,
-        '4'     : 0.598493,
-        '5'     : 0.601194,
-        '6'     : 0.60118,
-        '7'     : 0.560027,
-        '8'     : 0.566162,
-        '9'     : 0.602681,
-        '10'    : 0.573478,
-        '11'    : 0.6007,
-        '12'    : 0.58592,
-        '13'    : 0.566687,
-        '14'    : 0.576296,
-        '15'    : 0.609533,
-        '16'    : 0.597621,
-        '17'    : 0.61044,
-        '18'    : 0.609806,
-        '19'    : 0.58808,
-        '20'    : 0.594293,
-        '21'    : 0.576005,
-        '22'    : 0.589324,
-        '23'    : 0.591388,
-        '24'    : 0.60994
+    # significance = {
+    #     '1'     : 0.553469,
+    #     '2'     : 0.585567,
+    #     '3'     : 0.593943,
+    #     '4'     : 0.598493,
+    #     '5'     : 0.601114,
+    #     '6'     : 0.60118,
+    #     '7'     : 0.565581,
+    #     '8'     : 0.566162,
+    #     '9'     : 0.572278,
+    #     '10'    : 0.570536,
+    #     '11'    : 0.59924,
+    #     '12'    : 0.585927,
+    #     '13'    : 0.58562,
+    #     '14'    : 0.685168,
+    #     '15'    : 0.598107,
+    #     '16'    : 0.5758,
+    #     '17'    : 0.608572,
+    #     '18'    : 0.609287,
+    #     '19'    : 0.608703,
+    #     '20'    : 0.589827,
+    #     '21'    : 0.584066,
+    #     '22'    : 0.590644,
+    #     '23'    : 0.585997,
+    #     '24'    : 0.60994
+    # }
+        significance = {
+        '1'     :   0,
+        '2'     :   0,
+        '3'     :   0,
+        '4'     :   0,
+        '5'     :   0,
+        '6'     :   0,
+        '7'     :   0,
+        '8'     :   0,
+        '9'     :   0,
+        '10'    :   0,
+        '11'    :   0,
+        '12'    :   0,
+        '13'    :   0,
+        '14'    :   0,
+        '15'    :   0,
+        '16'    :   0,
+        '17'    :   0,
+        '18'    :   0,
+        '19'    :   0,
+        '20'    :   0,
+        '21'    :   0,
+        '22'    :   0,
+        '23'    :   0,
+        '24'    :   0,
     }
     graph = ROOT.TGraph()
+    graph1 = ROOT.TGraph()
     for i in range(24):
-        # graph.SetPoint(i, i+1, significance['%i'%(i+1)])
-        graph.SetPoint(i, i+1, (significance['%i'%(i+1)]-significance['1'])/significance['1']*100)
+        graph.SetPoint(i, i+1, significance['%i'%(i+1)])
+        graph1.SetPoint(i, i+1, (significance['%i'%(i+1)]-significance['1'])/significance['1']*100)
     graph.SetMarkerStyle(20)
     graph.SetMarkerSize(2)
     graph.SetLineWidth(2)
+    graph1.SetMarkerStyle(20)
+    graph1.SetMarkerSize(2)
+    graph1.SetLineWidth(2)    
+
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     graph.Draw("apl")
-    # canvas.Print("combine/categorization/evenly/sig_plt.png")
-    canvas.Print("combine/categorization/evenly/sig_plt_percents.png")
+    canvas.Print("combine/categorization/evenly1/sig_plt.png")
 
+    canvas = ROOT.TCanvas("c1", "c1", 800, 800)
+    canvas.cd()
+    graph1.Draw("apl")
+    canvas.Print("combine/categorization/evenly1/sig_plt_percents.png")
 
 
 
@@ -241,5 +277,5 @@ for i in range(25):
     bins = [0]
     for j in range(i):
         bins.append(round(24*(j+1)/float(i))/10.0)
-    create_datacard(bins, "combine/categorization/evenly/", "datacard_%icat"%i, "workspace_%icat"%i)
+    create_datacard(bins, "combine/categorization/evenly1/", "datacard_%icat"%i, "workspace_%icat"%i)
     print bins
