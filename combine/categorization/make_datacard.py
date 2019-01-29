@@ -210,7 +210,7 @@ def plot_sig_evenly():
     #     '23'    : 0.585997,
     #     '24'    : 0.60994
     # }
-        significance = {
+    significance = {
         '1'     :   0,
         '2'     :   0,
         '3'     :   0,
