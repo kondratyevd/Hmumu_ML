@@ -109,8 +109,8 @@ def add_bkg_model(w, cat_number, path, cut):
     return bkg_rate
 
 def get_rates(w, cat_number, eta_min, eta_max):
-    # path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/" 
-    path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      
+    path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/" 
+    # path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      
       
     eta_cut = "((max_abs_eta_mu>%.1f)&(max_abs_eta_mu<%.1f))"%(eta_min, eta_max)
     sig_rate = add_sig_model(w, cat_number, path, eta_cut) 
@@ -306,47 +306,72 @@ def plot_sig_evenly():
 
 def plot_2cat_scan():
     base = 0.552706
-    sign = [
-        0.553628,
-        0.515218,
-        0.515502,
-        0.560336,
-        0.566407,
-        0.570469,
-        0.575749,
-        0.581327,
-        0.585433,
-        0.586237,  #10
-        0.586395,
-        0.586123,
-        0.58522,
-        0.584909,
-        0.586891,  #15
-        0.583011,
-        0.584645,
-        0.584129,
-        0.581442,
-        0.57764,   #20
-        0.574374,
-        0.57041,
-        0.561635
-    ]
     gr = ROOT.TGraph()
-    for i,s in enumerate(sign):
-        gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
 
+    # sign = [
+    #     0.553628,
+    #     0.515218,
+    #     0.515502,
+    #     0.560336,
+    #     0.566407,
+    #     0.570469,
+    #     0.575749,
+    #     0.581327,
+    #     0.585433,
+    #     0.586237,  #10
+    #     0.586395,
+    #     0.586123,
+    #     0.58522,
+    #     0.584909,
+    #     0.586891,  #15
+    #     0.583011,
+    #     0.584645,
+    #     0.584129,
+    #     0.581442,
+    #     0.57764,   #20
+    #     0.574374,
+    #     0.57041,
+    #     0.561635
+    # ]
+    # for i,s in enumerate(sign):
+    #     gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
+
+    sign = [
+        0.555409, #10
+        0.589778,
+        0.594343,
+        0.5929,
+        0.595213,
+        0.591885, #15
+        0.595343,
+        0.596026,
+        0.601915,
+        0.598848, 
+        0.598845, #20
+        0.570285,
+        0.575149,
+        0.591722
+    ]
+    for i,s in enumerate(sign):
+        gr.SetPoint(i, (i+10)/10.0, (s-0.585433)/0.585433*100)
+
+    gr.SetTitle("Fix one cut at 0.9: gain w.r.t one cut")
     gr.SetMarkerStyle(20)
     gr.SetMarkerSize(2)
     gr.SetLineWidth(2)
     gr.GetXaxis().SetTitle("Rapidity cut")
     gr.GetYaxis().SetTitle("% gain in significance")
     gr.SetMinimum(0)
-    gr.SetMaximum(7)
+    gr.SetMaximum(3)
     gr.GetXaxis().SetRangeUser(0,2.4)
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     gr.Draw("apl")
-    canvas.Print("combine/categorization/2cat_scan.png")
+
+    # y = (0.585433-base)/base*100.0
+    # line = ROOT.TLine(0.9,y,2.4,y)
+    # line.Draw("same")
+    canvas.Print("combine/categorization/3cat_0p9_scan_1.png")
 
 
 # plot_sig_evenly()
@@ -373,12 +398,12 @@ def plot_2cat_scan():
 #     print bins
 
 
-# for i in range(23):
-#     bins = [0, (i+1)/10.0, 2.4]
-#     create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+for i in range(23):
+    bins = [0, (i+1)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/2cat_scan1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
-for i in range(14):
-    print (i+10)/10.0
-    bins = [0, 0.9, (i+10)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/3cat_0p9_scan/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
+# for i in range(14):
+#     print (i+10)/10.0
+#     bins = [0, 0.9, (i+10)/10.0, 2.4]
+#     create_datacard(bins, "combine/categorization/3cat_0p9_scan/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
