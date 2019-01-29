@@ -332,4 +332,4 @@ def plot_sig_evenly():
 
 for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%%(i+1))
+    create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
