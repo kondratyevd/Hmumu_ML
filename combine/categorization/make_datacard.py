@@ -193,26 +193,26 @@ def plot_sig_evenly():
         # '3'     : 0.597208, #"optimal"
         # '3'     : 0.5987,   #hig-17-019
         '4'     : 0.598493,
-        '5'     : 0.601114,
+        '5'     : 0.600864,
         '6'     : 0.60118,
-        '7'     : 0.565581,
+        '7'     : 0.568954,
         '8'     : 0.566162,
-        '9'     : 0.572278,
-        '10'    : 0.570536,
-        '11'    : 0.59924,
+        '9'     : 0.561477,
+        '10'    : 0.598896,
+        '11'    : 0.580472,
         '12'    : 0.585927,
-        '13'    : 0.58562,
-        '14'    : 0.685168,
-        '15'    : 0.598107,
-        '16'    : 0.5758,
-        '17'    : 0.608572,
-        '18'    : 0.609287,
-        '19'    : 0.608703,
-        '20'    : 0.589827,
-        '21'    : 0.584066,
-        '22'    : 0.590644,
-        '23'    : 0.585997,
-        '24'    : 0.60994
+        '13'    : 0.584745,
+        '14'    : 0.576766,
+        '15'    : 0.600524,
+        '16'    : 0.590952,
+        '17'    : 0.598741,
+        '18'    : 0.593598,
+        '19'    : 0.596877,
+        '20'    : 0.610964,
+        '21'    : 0.589647,
+        '22'    : 0.601112,
+        '23'    : 0.610482,
+        '24'    : 0.60994,
     }
     # significance1 = {
     #     '1'     :   0.552706,
@@ -247,64 +247,65 @@ def plot_sig_evenly():
     for i in range(24):
         graph.SetPoint(i, i+1, significance['%i'%(i+1)])
         graph_p.SetPoint(i, i+1, (significance['%i'%(i+1)]-significance['1'])/significance['1']*100)
-        graph1.SetPoint(i, i+1, significance1['%i'%(i+1)])
-        graph1_p.SetPoint(i, i+1, (significance1['%i'%(i+1)]-significance1['1'])/significance1['1']*100)
+        # graph1.SetPoint(i, i+1, significance1['%i'%(i+1)])
+        # graph1_p.SetPoint(i, i+1, (significance1['%i'%(i+1)]-significance1['1'])/significance1['1']*100)
     graph.SetMarkerStyle(20)
     graph.SetMarkerSize(2)
     graph.SetLineWidth(2)
     graph_p.SetMarkerStyle(20)
     graph_p.SetMarkerSize(2)
     graph_p.SetLineWidth(2)    
-    graph1.SetMarkerStyle(20)
-    graph1.SetMarkerSize(2)
-    graph1.SetLineWidth(2)
-    graph1_p.SetMarkerStyle(20)
-    graph1_p.SetMarkerSize(2)
-    graph1_p.SetLineWidth(2)  
-    graph1.SetMarkerColor(ROOT.kRed)
-    graph1.SetLineColor(ROOT.kRed)
-    graph1_p.SetMarkerColor(ROOT.kRed)
-    graph1_p.SetLineColor(ROOT.kRed)
+    # graph1.SetMarkerStyle(20)
+    # graph1.SetMarkerSize(2)
+    # graph1.SetLineWidth(2)
+    # graph1_p.SetMarkerStyle(20)
+    # graph1_p.SetMarkerSize(2)
+    # graph1_p.SetLineWidth(2)  
+    # graph1.SetMarkerColor(ROOT.kRed)
+    # graph1.SetLineColor(ROOT.kRed)
+    # graph1_p.SetMarkerColor(ROOT.kRed)
+    # graph1_p.SetLineColor(ROOT.kRed)
 
-    graph_o = ROOT.TGraph()
-    graph_op = ROOT.TGraph()
-    opt_sig = [
-        [2, 0.585433],
-        [2, 0.583011],
-        [3, 0.596026],
-        [3, 0.5987],
+    # graph_o = ROOT.TGraph()
+    # graph_op = ROOT.TGraph()
+    # opt_sig = [
+    #     [2, 0.585433],
+    #     [2, 0.583011],
+    #     [3, 0.596026],
+    #     [3, 0.5987],
         # [4, 0.563011]
-    ]
-    for i,s in enumerate(opt_sig):
-        graph_o.SetPoint(i, s[0], s[1])
-        graph_op.SetPoint(i, s[0], (s[1]-significance['1'])/significance['1']*100)
+    # ]
+    # for i,s in enumerate(opt_sig):
+    #     graph_o.SetPoint(i, s[0], s[1])
+    #     graph_op.SetPoint(i, s[0], (s[1]-significance['1'])/significance['1']*100)
 
-    graph_o.SetMarkerStyle(20)
-    graph_o.SetMarkerSize(2)
-    graph_o.SetLineWidth(2)
-    graph_op.SetMarkerStyle(20)
-    graph_op.SetMarkerSize(2)
-    graph_op.SetLineWidth(2)  
-    graph_o.SetMarkerColor(ROOT.kGreen)
-    graph_o.SetLineColor(ROOT.kGreen)
-    graph_op.SetMarkerColor(ROOT.kGreen)
-    graph_op.SetLineColor(ROOT.kGreen)
+    # graph_o.SetMarkerStyle(20)
+    # graph_o.SetMarkerSize(2)
+    # graph_o.SetLineWidth(2)
+    # graph_op.SetMarkerStyle(20)
+    # graph_op.SetMarkerSize(2)
+    # graph_op.SetLineWidth(2)  
+    # graph_o.SetMarkerColor(ROOT.kGreen)
+    # graph_o.SetLineColor(ROOT.kGreen)
+    # graph_op.SetMarkerColor(ROOT.kGreen)
+    # graph_op.SetLineColor(ROOT.kGreen)
 
 
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     graph.Draw("apl")
-    graph1.Draw("plsame")
-    graph_o.Draw("psame")
-    canvas.Print("combine/categorization/evenly/sig_plt1.png")
+    # graph1.Draw("plsame")
+    # graph_o.Draw("psame")
+    canvas.Print("combine/categorization/sig_plt.png")
 
     canvas = ROOT.TCanvas("c1", "c1", 800, 800)
     canvas.cd()
     graph_p.SetMaximum(15)
+    graph_p.SetMinimum(0)
     graph_p.Draw("apl")
-    graph1_p.Draw("plsame")
-    graph_op.Draw("psame")
-    canvas.Print("combine/categorization/evenly/sig_plt1_percents.png")
+    # graph1_p.Draw("plsame")
+    # graph_op.Draw("psame")
+    canvas.Print("combine/categorization/sig_plt_percents.png")
 
 def plot_2cat_scan():
     base = 0.552706
@@ -510,15 +511,15 @@ def plot_2cat_scan():
 # create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
 # create_datacard([0, 0.2, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt4cat", "workspace_opt4cat")
 
-for i in range(25):
-    if not i:
-        continue
+# for i in range(25):
+#     if not i:
+#         continue
 
-    bins = [0]
-    for j in range(i):
-        bins.append((24*(j+1)/float(i))/10.0)
-    create_datacard(bins, "combine/categorization/evenly2/", "datacard_%icat"%i, "workspace_%icat"%i)
-    # print bins
+#     bins = [0]
+#     for j in range(i):
+#         bins.append((24*(j+1)/float(i))/10.0)
+#     create_datacard(bins, "combine/categorization/evenly2/", "datacard_%icat"%i, "workspace_%icat"%i)
+#     # print bins
 
 
 # for i in range(23):
@@ -526,7 +527,7 @@ for i in range(25):
 #     create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
-# for i in range(14):
-#     print (i+10)/10.0
-#     bins = [0, 0.9, (i+10)/10.0, 2.4]
-#     create_datacard(bins, "combine/categorization/3cat_0p9_scan1/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
+for i in range(14):
+    print (i+10)/10.0
+    bins = [0, 0.9, (i+10)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/3cat_0p9_scan/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
