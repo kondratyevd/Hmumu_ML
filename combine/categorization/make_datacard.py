@@ -50,14 +50,14 @@ def add_sig_model(w, cat_number, path, cut):
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
 
     signal_tree = ROOT.TChain("tree_H2Mu_gg")
-    signal_tree.Add(path+"/output_test.root")  
-    # signal_tree.Add(path+"/output_train.root")  
+    # signal_tree.Add(path+"/output_test.root")  
+    signal_tree.Add(path+"/output_train.root")  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
-    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -799,32 +799,32 @@ def plot_4cat_scan2():
         0.565574
     ]
     sign_test = [
-        0, #12
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,#20
-        0,
-        0,
-        0
+        0.592657, #12
+        0.594053,
+        0.593041,
+        0.599075,
+        0.596964,
+        0.597357,
+        0.59956,
+        0.600722,
+        0.601027,#20
+        0.575598,
+        0.604928,
+        0.601621
     ]
     sign_test1 = [
-        0, #12
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,#20
-        0,
-        0,
-        0
+        0.595014, #12
+        0.596126,
+        0.598157,
+        0.597909,
+        0.598306,
+        0.600086,
+        0.602445,
+        0.60266 ,
+        0.603903,#20
+        0.578241,
+        0.602088,
+        0.568345
     ]
     for i in range(len(sign)):
         gr.SetPoint(i, (i+12)/10.0, (sign[i]-0.553469)/0.553469*100)
@@ -904,8 +904,14 @@ def plot_4cat_scan2():
 #     bins = [0, 0.9, (i+10)/10.0, 2.4]
 #     create_datacard(bins, "combine/categorization/3cat_0p9_scan_test1/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
 
-for i in range(12):
-    # print (i+10)/10.0
-    bins = [0, 0.9, 1.1, (i+12)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/4cat_0p9_1p1_scan_test/", "datacard_4cat_0p9_1p1_%i"%(i+12), "workspace_4cat_0p9_1p1_%i"%(i+12))
-    # print bins
+# for i in range(12):
+#     # print (i+10)/10.0
+#     bins = [0, 0.9, 1.1, (i+12)/10.0, 2.4]
+#     create_datacard(bins, "combine/categorization/4cat_0p9_1p1_scan_test/", "datacard_4cat_0p9_1p1_%i"%(i+12), "workspace_4cat_0p9_1p1_%i"%(i+12))
+#     # print bins
+
+for i in range(23):
+    for j in range(i):
+        bins = [0.0, (j+1)/10.0, (i+1)/10.0, 2.4]
+        create_datacard(bins, "combine/categorization/full_3cat_scan/", "datacard_3cat_%i_%i"%(j+1, i+1), "workspace_3cat_%i_%i"%(j+1, i+1))
+        # print bins
