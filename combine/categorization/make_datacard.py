@@ -55,7 +55,8 @@ def add_sig_model(w, cat_number, path, cut):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in this file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight/4"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -308,6 +309,7 @@ def plot_2cat_scan():
     base = 0.552706
     gr = ROOT.TGraph()
     gr1 = ROOT.TGraph()
+    gr2 = ROOT.TGraph()
 
     sign = [
         0.554437,
@@ -359,9 +361,37 @@ def plot_2cat_scan():
         0.57041,
         0.561635
     ]
+
+    sign2 = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,  #10
+        0,
+        0,
+        0,
+        0,
+        0,  #15
+        0,
+        0,
+        0,
+        0,
+        0,  #20
+        0,
+        0,
+        0
+    ]
+
     for i,s in enumerate(sign):
         gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
         gr1.SetPoint(i, (i+1)/10.0, (sign1[i]-base)/base*100)
+        gr2.SetPoint(i, (i+1)/10.0, (sign2[i]-base)/base*100)
 
     # sign = [
     #     0.555409, #10
@@ -408,6 +438,11 @@ def plot_2cat_scan():
     gr1.SetLineWidth(2)    
     gr1.SetMarkerColor(ROOT.kRed)
     gr1.SetLineColor(ROOT.kRed)
+    gr2.SetMarkerStyle(20)
+    gr2.SetMarkerSize(2)
+    gr2.SetLineWidth(2)    
+    gr2.SetMarkerColor(ROOT.kGreen)
+    gr2.SetLineColor(ROOT.kGreen)
     gr.GetXaxis().SetTitle("Rapidity cut")
     gr.GetYaxis().SetTitle("% gain in significance")
     gr.SetMinimum(0)
@@ -417,6 +452,7 @@ def plot_2cat_scan():
     canvas.cd()
     gr.Draw("apl")
     gr1.Draw("plsame")
+    gr2.Draw("plsame")
     # y = (0.585433-base)/base*100.0
     # line = ROOT.TLine(0.9,y,2.4,y)
     # line.Draw("same")
