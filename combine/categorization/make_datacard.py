@@ -700,7 +700,7 @@ def plot_4cat_scan():
 #     bins = [0, 0.9, (i+10)/10.0, 2.4]
 #     create_datacard(bins, "combine/categorization/3cat_0p9_scan_test1/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
 
-for i in range(10):
+for i in range(11):
     # print (i+10)/10.0
     bins = [0, 0.9, 1.2, (i+13)/10.0, 2.4]
     create_datacard(bins, "combine/categorization/4cat_0p9_1p2_scan1/", "datacard_4cat_0p9_1p2_%i"%(i+10), "workspace_4cat_0p9_1p2_%i"%(i+10))
