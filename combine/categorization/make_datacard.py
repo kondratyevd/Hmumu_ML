@@ -111,8 +111,8 @@ def add_bkg_model(w, cat_number, path, cut):
     return bkg_rate
 
 def get_rates(w, cat_number, eta_min, eta_max):
-    path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    # path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    # path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
       
     eta_cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
     sig_rate = add_sig_model(w, cat_number, path, eta_cut) 
@@ -703,5 +703,5 @@ def plot_4cat_scan():
 for i in range(10):
     # print (i+10)/10.0
     bins = [0, 0.9, 1.2, (i+13)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/4cat_0p9_1p2_scan/", "datacard_4cat_0p9_1p2_%i"%(i+10), "workspace_4cat_0p9_1p2_%i"%(i+10))
+    create_datacard(bins, "combine/categorization/4cat_0p9_1p2_scan1/", "datacard_4cat_0p9_1p2_%i"%(i+10), "workspace_4cat_0p9_1p2_%i"%(i+10))
     # print bins
