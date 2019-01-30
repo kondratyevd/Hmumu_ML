@@ -308,6 +308,34 @@ def plot_2cat_scan():
     base = 0.552706
     gr = ROOT.TGraph()
 
+    sign = [
+        0.554437,
+        0.516243,
+        0.516894,
+        0.562795,
+        0.567076,
+        0.571554,
+        0.576514,
+        0.581921,
+        0.586033,
+        0.586966,  #10
+        0.587322,
+        0.585567,
+        0.585923,
+        0.5856,
+        0.589508,  #15
+        0.58374,
+        0.584785,
+        0.541814,
+        0.580755,
+        0.577793,   #20
+        0.575762,
+        0.571004,
+        0.562312
+    ]
+    for i,s in enumerate(sign):
+        gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
+
     # sign = [
     #     0.553628,
     #     0.515218,
@@ -336,33 +364,33 @@ def plot_2cat_scan():
     # for i,s in enumerate(sign):
     #     gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
 
-    sign = [
-        0.555409, #10
-        0.589778,
-        0.594343,
-        0.5929,
-        0.595213,
-        0.591885, #15
-        0.595343,
-        0.596026,
-        0.601915,
-        0.598848, 
-        0.598845, #20
-        0.570285,
-        0.575149,
-        0.591722
-    ]
-    for i,s in enumerate(sign):
-        gr.SetPoint(i, (i+10)/10.0, (s-0.585433)/0.585433*100)
+    # sign = [
+    #     0.555409, #10
+    #     0.589778,
+    #     0.594343,
+    #     0.5929,
+    #     0.595213,
+    #     0.591885, #15
+    #     0.595343,
+    #     0.596026,
+    #     0.601915,
+    #     0.598848, 
+    #     0.598845, #20
+    #     0.570285,
+    #     0.575149,
+    #     0.591722
+    # ]
+    # for i,s in enumerate(sign):
+        # gr.SetPoint(i, (i+10)/10.0, (s-0.585433)/0.585433*100)
 
-    gr.SetTitle("Fix one cut at 0.9: gain w.r.t one cut")
+    # gr.SetTitle("Fix one cut at 0.9: gain w.r.t one cut")
     gr.SetMarkerStyle(20)
     gr.SetMarkerSize(2)
     gr.SetLineWidth(2)
     gr.GetXaxis().SetTitle("Rapidity cut")
     gr.GetYaxis().SetTitle("% gain in significance")
     gr.SetMinimum(0)
-    gr.SetMaximum(3)
+    gr.SetMaximum(7)
     gr.GetXaxis().SetRangeUser(0,2.4)
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
@@ -371,7 +399,8 @@ def plot_2cat_scan():
     # y = (0.585433-base)/base*100.0
     # line = ROOT.TLine(0.9,y,2.4,y)
     # line.Draw("same")
-    canvas.Print("combine/categorization/3cat_0p9_scan_1.png")
+    # canvas.Print("combine/categorization/3cat_0p9_scan_1.png")
+    canvas.Print("combine/categorization/2cat_scan_1.png")
 
 
 # plot_sig_evenly()
@@ -398,12 +427,12 @@ def plot_2cat_scan():
 #     print bins
 
 
-for i in range(23):
-    bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+# for i in range(23):
+#     bins = [0, (i+1)/10.0, 2.4]
+#     create_datacard(bins, "combine/categorization/2cat_scan1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
-# for i in range(14):
-#     print (i+10)/10.0
-#     bins = [0, 0.9, (i+10)/10.0, 2.4]
-#     create_datacard(bins, "combine/categorization/3cat_0p9_scan/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
+for i in range(14):
+    print (i+10)/10.0
+    bins = [0, 0.9, (i+10)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/3cat_0p9_scan1/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
