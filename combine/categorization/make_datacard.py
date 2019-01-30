@@ -50,14 +50,14 @@ def add_sig_model(w, cat_number, path, cut):
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
 
     signal_tree = ROOT.TChain("tree_H2Mu_gg")
-    # signal_tree.Add(path+"/output_test.root")  
-    signal_tree.Add(path+"/output_train.root")  
+    signal_tree.Add(path+"/output_test.root")  
+    # signal_tree.Add(path+"/output_train.root")  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -530,4 +530,4 @@ def plot_2cat_scan():
 for i in range(14):
     print (i+10)/10.0
     bins = [0, 0.9, (i+10)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/3cat_0p9_scan/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
+    create_datacard(bins, "combine/categorization/3cat_0p9_scan_test/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
