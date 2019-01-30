@@ -50,13 +50,14 @@ def add_sig_model(w, cat_number, path, cut):
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
 
     signal_tree = ROOT.TChain("tree_H2Mu_gg")
-    signal_tree.Add(path+"/output_test.root")  
+    # signal_tree.Add(path+"/output_test.root")  
+    signal_tree.Add(path+"/output_train.root")  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
-    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -417,7 +418,7 @@ def plot_2cat_scan():
     for i,s in enumerate(sign):
         gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
         gr1.SetPoint(i, (i+1)/10.0, (sign1[i]-base)/base*100)
-        gr2.SetPoint(i, (i+1)/10.0, (sign2[i]-base)/base*100)
+        gr2.SetPoint(i, (i+1)/10.0, (sign2[i]-0.55153)/0.55153*100)
         gr3.SetPoint(i, (i+1)/10.0, (sign3[i]-0.554712)/0.554712*100)
 
     # sign = [
@@ -497,7 +498,7 @@ def plot_2cat_scan():
 # plot_2cat_scan()
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
-create_datacard([0, 2.4], "combine/categorization/2cat_scan_test/", "datacard_1cat", "workspace_1cat")
+create_datacard([0, 2.4], "combine/categorization/2cat_scan/", "datacard_1cat", "workspace_1cat")
 # create_datacard([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4], "combine/categorization/", "datacard_24cat", "workspace_24cat")
 # create_datacard([0, 0.9, 1.9, 2.4], "combine/categorization/", "datacard_like2016", "workspace_like2016")
 # create_datacard([0, 0.9, 2.4], "combine/categorization/", "datacard_opt2cat", "workspace_opt2cat")
