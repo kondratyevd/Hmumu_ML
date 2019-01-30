@@ -55,7 +55,7 @@ def add_sig_model(w, cat_number, path, cut):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight/4"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
     # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
