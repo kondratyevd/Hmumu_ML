@@ -111,8 +111,8 @@ def add_bkg_model(w, cat_number, path, cut):
     return bkg_rate
 
 def get_rates(w, cat_number, eta_min, eta_max):
-    # path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    # path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
       
     eta_cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
     sig_rate = add_sig_model(w, cat_number, path, eta_cut) 
@@ -671,30 +671,30 @@ def plot_4cat_scan1():
     gr3 = ROOT.TGraph()
 
     sign = [
-        0, #13
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,#20
-        0,
-        0,
-        0,
+        0.585074, #13
+        0.595275,
+        0.5962,
+        0.648615,
+        0.599145,
+        0.6035,
+        0.601497,
+        0.602899,#20
+        0.602737,
+        0.559154,
+        0.59749,
     ]
     sign1 = [
-        0, #13
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,#20
-        0,
-        0,
-        0,
+        0.593592, #13
+        0.593718,
+        0.596255,
+        0.569909,
+        0.598089,
+        0.602729,
+        0.600732,
+        0.602279,#20
+        0.602585,
+        0.558478,
+        0.599723,
     ]
     sign_test = [
         0, #13
@@ -728,7 +728,7 @@ def plot_4cat_scan1():
         gr2.SetPoint(i, (i+13)/10.0, (sign_test[i]-0.55153)/0.55153*100)
         gr3.SetPoint(i, (i+13)/10.0, (sign_test1[i]-0.554712)/0.554712*100)
 
-    gr.SetTitle("Fix cuts at 0.9, 2.0")
+    gr.SetTitle("Fix cuts at 0.9, 1.2")
     gr.SetMarkerStyle(20)
     gr.SetMarkerSize(2)
     gr.SetLineWidth(2)
@@ -800,8 +800,8 @@ def plot_4cat_scan1():
 #     bins = [0, 0.9, (i+10)/10.0, 2.4]
 #     create_datacard(bins, "combine/categorization/3cat_0p9_scan_test1/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
 
-for i in range(11):
+for i in range(12):
     # print (i+10)/10.0
-    bins = [0, 0.9, 1.2, (i+13)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/4cat_0p9_1p2_scan1/", "datacard_4cat_0p9_1p2_%i"%(i+13), "workspace_4cat_0p9_1p2_%i"%(i+13))
+    bins = [0, 0.9, 1.1, (i+12)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/4cat_0p9_1p1_scan/", "datacard_4cat_0p9_1p1_%i"%(i+12), "workspace_4cat_0p9_1p1_%i"%(i+12))
     # print bins
