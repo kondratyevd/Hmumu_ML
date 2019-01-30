@@ -111,8 +111,8 @@ def add_bkg_model(w, cat_number, path, cut):
     return bkg_rate
 
 def get_rates(w, cat_number, eta_min, eta_max):
-    path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/" 
-    # path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      
+    # path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/" 
+    path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      
       
     eta_cut = "((max_abs_eta_mu>%.1f)&(max_abs_eta_mu<%.1f))"%(eta_min, eta_max)
     sig_rate = add_sig_model(w, cat_number, path, eta_cut) 
@@ -312,32 +312,8 @@ def plot_2cat_scan():
     gr1 = ROOT.TGraph()
     gr2 = ROOT.TGraph()
     gr3 = ROOT.TGraph()
+
     sign = [
-        0.554437,
-        0.516243,
-        0.516894,
-        0.562795,
-        0.567076,
-        0.571554,
-        0.576514,
-        0.581921,
-        0.586033,
-        0.586966,  #10
-        0.587322,
-        0.585567,
-        0.585923,
-        0.5856,
-        0.589508,  #15
-        0.58374,
-        0.584785,
-        0.541814,
-        0.580755,
-        0.577793,   #20
-        0.575762,
-        0.571004,
-        0.562312
-    ]
-    sign1 = [
         0.553628,
         0.515218,
         0.515502,
@@ -362,6 +338,32 @@ def plot_2cat_scan():
         0.57041,
         0.561635
     ]
+    sign1 = [
+        0.554437,
+        0.516243,
+        0.516894,
+        0.562795,
+        0.567076,
+        0.571554,
+        0.576514,
+        0.581921,
+        0.586033,
+        0.586966,  #10
+        0.587322,
+        0.585567,
+        0.585923,
+        0.5856,
+        0.589508,  #15
+        0.58374,
+        0.584785,
+        0.541814,
+        0.580755,
+        0.577793,   #20
+        0.575762,
+        0.571004,
+        0.562312
+    ]
+
 
     sign2 = [
         0.552966,
@@ -416,7 +418,7 @@ def plot_2cat_scan():
     ]
 
     for i,s in enumerate(sign):
-        gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
+        gr.SetPoint(i, (i+1)/10.0, (s-0.553469)/0.553469*100)
         gr1.SetPoint(i, (i+1)/10.0, (sign1[i]-base)/base*100)
         gr2.SetPoint(i, (i+1)/10.0, (sign2[i]-0.55153)/0.55153*100)
         gr3.SetPoint(i, (i+1)/10.0, (sign3[i]-0.554712)/0.554712*100)
@@ -498,7 +500,7 @@ def plot_2cat_scan():
 # plot_2cat_scan()
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
-create_datacard([0, 2.4], "combine/categorization/2cat_scan/", "datacard_1cat", "workspace_1cat")
+create_datacard([0, 2.4], "combine/categorization/2cat_scan1/", "datacard_1cat", "workspace_1cat")
 # create_datacard([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4], "combine/categorization/", "datacard_24cat", "workspace_24cat")
 # create_datacard([0, 0.9, 1.9, 2.4], "combine/categorization/", "datacard_like2016", "workspace_like2016")
 # create_datacard([0, 0.9, 2.4], "combine/categorization/", "datacard_opt2cat", "workspace_opt2cat")
