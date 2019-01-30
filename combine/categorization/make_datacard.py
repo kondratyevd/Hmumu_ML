@@ -314,31 +314,6 @@ def plot_2cat_scan():
     gr3 = ROOT.TGraph()
 
     sign = [
-        0.553628,
-        0.515218,
-        0.515502,
-        0.560336,
-        0.566407,
-        0.570469,
-        0.575749,
-        0.581327,
-        0.585433,
-        0.586237,  #10
-        0.586395,
-        0.586123,
-        0.58522,
-        0.584909,
-        0.586891,  #15
-        0.583011,
-        0.584645,
-        0.584129,
-        0.581442,
-        0.57764,   #20
-        0.574374,
-        0.57041,
-        0.561635
-    ]
-    sign1 = [
         0.554437,
         0.516243,
         0.516894,
@@ -363,6 +338,32 @@ def plot_2cat_scan():
         0.571004,
         0.562312
     ]
+    sign1 = [
+        0.553628,
+        0.515218,
+        0.515502,
+        0.560336,
+        0.566407,
+        0.570469,
+        0.575749,
+        0.581327,
+        0.585433,
+        0.586237,  #10
+        0.586395,
+        0.586123,
+        0.58522,
+        0.584909,
+        0.586891,  #15
+        0.583011,
+        0.584645,
+        0.584129,
+        0.581442,
+        0.57764,   #20
+        0.574374,
+        0.57041,
+        0.561635
+    ]
+
 
 
     sign2 = [
@@ -417,9 +418,9 @@ def plot_2cat_scan():
         0.564528,
     ]
 
-    for i,s in enumerate(sign):
-        gr.SetPoint(i, (i+1)/10.0, (s-0.553469)/0.553469*100)
-        gr1.SetPoint(i, (i+1)/10.0, (sign1[i]-base)/base*100)
+    for i in range(len(sign)):
+        gr.SetPoint(i, (i+1)/10.0, (sign[i]-0.553469)/0.553469*100)
+        gr1.SetPoint(i, (i+1)/10.0, (sign1[i]-0.552706)/0.552706*100)
         gr2.SetPoint(i, (i+1)/10.0, (sign2[i]-0.55153)/0.55153*100)
         gr3.SetPoint(i, (i+1)/10.0, (sign3[i]-0.554712)/0.554712*100)
 
@@ -500,7 +501,7 @@ def plot_2cat_scan():
 # plot_2cat_scan()
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
-create_datacard([0, 2.4], "combine/categorization/2cat_scan1/", "datacard_1cat", "workspace_1cat")
+# create_datacard([0, 2.4], "combine/categorization/2cat_scan1/", "datacard_1cat", "workspace_1cat")
 # create_datacard([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4], "combine/categorization/", "datacard_24cat", "workspace_24cat")
 # create_datacard([0, 0.9, 1.9, 2.4], "combine/categorization/", "datacard_like2016", "workspace_like2016")
 # create_datacard([0, 0.9, 2.4], "combine/categorization/", "datacard_opt2cat", "workspace_opt2cat")
@@ -520,9 +521,9 @@ create_datacard([0, 2.4], "combine/categorization/2cat_scan1/", "datacard_1cat",
 #     print bins
 
 
-# for i in range(23):
-#     bins = [0, (i+1)/10.0, 2.4]
-#     create_datacard(bins, "combine/categorization/2cat_scan_test1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+for i in range(23):
+    bins = [0, (i+1)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/2cat_scan1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
 # for i in range(14):
