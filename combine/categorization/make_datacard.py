@@ -664,10 +664,110 @@ def plot_4cat_scan():
     line.Draw("same")
     canvas.Print("combine/categorization/4cat_0p9_2p0_scan.png")
 
+def plot_4cat_scan1():
+    gr = ROOT.TGraph()
+    gr1 = ROOT.TGraph()
+    gr2 = ROOT.TGraph()
+    gr3 = ROOT.TGraph()
+
+    sign = [
+        0, #13
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,#20
+        0,
+        0,
+        0,
+    ]
+    sign1 = [
+        0, #13
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,#20
+        0,
+        0,
+        0,
+    ]
+    sign_test = [
+        0, #13
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,#20
+        0,
+        0,
+        0,
+    ]
+    sign_test1 = [
+        0, #13
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,#20
+        0,
+        0,
+        0,
+    ]
+    for i in range(len(sign)):
+        gr.SetPoint(i, (i+13)/10.0, (sign[i]-0.553469)/0.553469*100)
+        gr1.SetPoint(i, (i+13)/10.0, (sign1[i]-0.552706)/0.552706*100)
+        gr2.SetPoint(i, (i+13)/10.0, (sign_test[i]-0.55153)/0.55153*100)
+        gr3.SetPoint(i, (i+13)/10.0, (sign_test1[i]-0.554712)/0.554712*100)
+
+    gr.SetTitle("Fix cuts at 0.9, 2.0")
+    gr.SetMarkerStyle(20)
+    gr.SetMarkerSize(2)
+    gr.SetLineWidth(2)
+    gr1.SetMarkerStyle(20)
+    gr1.SetMarkerSize(2)
+    gr1.SetLineWidth(2)    
+    gr1.SetMarkerColor(ROOT.kRed)
+    gr1.SetLineColor(ROOT.kRed)
+    gr2.SetMarkerStyle(20)
+    gr2.SetMarkerSize(2)
+    gr2.SetLineWidth(2)    
+    gr2.SetMarkerColor(ROOT.kGreen)
+    gr2.SetLineColor(ROOT.kGreen)
+    gr3.SetMarkerStyle(20)
+    gr3.SetMarkerSize(2)
+    gr3.SetLineWidth(2)    
+    gr3.SetMarkerColor(ROOT.kBlue)
+    gr3.SetLineColor(ROOT.kBlue)
+    gr.GetXaxis().SetTitle("Rapidity cut")
+    gr.GetYaxis().SetTitle("% gain in significance")
+    gr.SetMinimum(0)
+    gr.SetMaximum(10)
+    # gr.GetXaxis().SetRangeUser(0,2.4)
+    canvas = ROOT.TCanvas("c", "c", 800, 800)
+    canvas.cd()
+    gr.Draw("apl")
+    gr1.Draw("plsame")
+    gr2.Draw("plsame")
+    gr3.Draw("plsame")
+    # y = (0.585433-base)/base*100.0
+    y=7.4
+    line = ROOT.TLine(1.2,y,2.4,y)
+    line.Draw("same")
+    canvas.Print("combine/categorization/4cat_0p9_1p2_scan.png")
+
 # plot_sig_evenly()
 # plot_2cat_scan()
 # plot_3cat_scan()
-# plot_4cat_scan()
+# plot_4cat_scan1()
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
 # create_datacard([0, 2.4], "combine/categorization/2cat_scan1/", "datacard_1cat", "workspace_1cat")
@@ -703,5 +803,5 @@ def plot_4cat_scan():
 for i in range(11):
     # print (i+10)/10.0
     bins = [0, 0.9, 1.2, (i+13)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/4cat_0p9_1p2_scan/", "datacard_4cat_0p9_1p2_%i"%(i+10), "workspace_4cat_0p9_1p2_%i"%(i+10))
+    create_datacard(bins, "combine/categorization/4cat_0p9_1p2_scan/", "datacard_4cat_0p9_1p2_%i"%(i+13), "workspace_4cat_0p9_1p2_%i"%(i+13))
     # print bins
