@@ -111,8 +111,8 @@ def add_bkg_model(w, cat_number, path, cut):
     return bkg_rate
 
 def get_rates(w, cat_number, eta_min, eta_max):
-    # path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/" 
-    path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      
+    path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    # path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
       
     eta_cut = "((max_abs_eta_mu>%.1f)&(max_abs_eta_mu<%.1f))"%(eta_min, eta_max)
     sig_rate = add_sig_model(w, cat_number, path, eta_cut) 
@@ -313,7 +313,7 @@ def plot_2cat_scan():
     gr2 = ROOT.TGraph()
     gr3 = ROOT.TGraph()
 
-    sign = [
+    sign = [ #
         0.554437,
         0.516243,
         0.516894,
@@ -338,7 +338,7 @@ def plot_2cat_scan():
         0.571004,
         0.562312
     ]
-    sign1 = [
+    sign1 = [ #1
         0.553628,
         0.515218,
         0.515502,
@@ -366,7 +366,7 @@ def plot_2cat_scan():
 
 
 
-    sign2 = [
+    sign2 = [ #test
         0.552966,
         0.561842,
         0.513707,
@@ -392,7 +392,7 @@ def plot_2cat_scan():
         0.562487
     ]
 
-    sign3 = [
+    sign3 = [ #test1
         0.555528,
         0.517786,
         0.56669,
@@ -523,7 +523,7 @@ def plot_2cat_scan():
 
 for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+    create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
 # for i in range(14):
