@@ -50,7 +50,7 @@ def add_sig_model(w, cat_number, path, cut):
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
 
     signal_tree = ROOT.TChain("tree_H2Mu_gg")
-    signal_tree.Add(path+"/output_train.root")  
+    signal_tree.Add(path+"/output_test.root")  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
@@ -307,6 +307,7 @@ def plot_sig_evenly():
 def plot_2cat_scan():
     base = 0.552706
     gr = ROOT.TGraph()
+    gr1 = ROOT.TGraph()
 
     sign = [
         0.554437,
@@ -333,36 +334,34 @@ def plot_2cat_scan():
         0.571004,
         0.562312
     ]
+    sign1 = [
+        0.553628,
+        0.515218,
+        0.515502,
+        0.560336,
+        0.566407,
+        0.570469,
+        0.575749,
+        0.581327,
+        0.585433,
+        0.586237,  #10
+        0.586395,
+        0.586123,
+        0.58522,
+        0.584909,
+        0.586891,  #15
+        0.583011,
+        0.584645,
+        0.584129,
+        0.581442,
+        0.57764,   #20
+        0.574374,
+        0.57041,
+        0.561635
+    ]
     for i,s in enumerate(sign):
         gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
-
-    # sign = [
-    #     0.553628,
-    #     0.515218,
-    #     0.515502,
-    #     0.560336,
-    #     0.566407,
-    #     0.570469,
-    #     0.575749,
-    #     0.581327,
-    #     0.585433,
-    #     0.586237,  #10
-    #     0.586395,
-    #     0.586123,
-    #     0.58522,
-    #     0.584909,
-    #     0.586891,  #15
-    #     0.583011,
-    #     0.584645,
-    #     0.584129,
-    #     0.581442,
-    #     0.57764,   #20
-    #     0.574374,
-    #     0.57041,
-    #     0.561635
-    # ]
-    # for i,s in enumerate(sign):
-    #     gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
+        gr1.SetPoint(i, (i+1)/10.0, (sign1[i]-base)/base*100)
 
     # sign = [
     #     0.555409, #10
@@ -380,27 +379,49 @@ def plot_2cat_scan():
     #     0.575149,
     #     0.591722
     # ]
+    # sign1 = [
+    #     0.557002, #10
+    #     0.589961,
+    #     0.592896,
+    #     0.593644,
+    #     0.584138,
+    #     0.5967, #15
+    #     0.596309,
+    #     0.597208,
+    #     0.598568,
+    #     0.5987, 
+    #     0.599409, #20
+    #     0.571323,
+    #     0.576055,
+    #     0.591819
+    # ]
     # for i,s in enumerate(sign):
-        # gr.SetPoint(i, (i+10)/10.0, (s-0.585433)/0.585433*100)
+    #     gr.SetPoint(i, (i+10)/10.0, (s-base)/base*100)
+    #     gr1.SetPoint(i, (i+10)/10.0, (sign1[i]-base)/base*100)
 
     # gr.SetTitle("Fix one cut at 0.9: gain w.r.t one cut")
     gr.SetMarkerStyle(20)
     gr.SetMarkerSize(2)
     gr.SetLineWidth(2)
+    gr1.SetMarkerStyle(20)
+    gr1.SetMarkerSize(2)
+    gr1.SetLineWidth(2)    
+    gr1.SetMarkerColor(ROOT.kRed)
+    gr1.SetLineColor(ROOT.kRed)
     gr.GetXaxis().SetTitle("Rapidity cut")
     gr.GetYaxis().SetTitle("% gain in significance")
     gr.SetMinimum(0)
-    gr.SetMaximum(7)
+    gr.SetMaximum(10)
     gr.GetXaxis().SetRangeUser(0,2.4)
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     gr.Draw("apl")
-
+    gr1.Draw("plsame")
     # y = (0.585433-base)/base*100.0
     # line = ROOT.TLine(0.9,y,2.4,y)
     # line.Draw("same")
-    # canvas.Print("combine/categorization/3cat_0p9_scan_1.png")
-    canvas.Print("combine/categorization/2cat_scan_1.png")
+    # canvas.Print("combine/categorization/3cat_0p9_scan_2.png")
+    canvas.Print("combine/categorization/2cat_scan_2.png")
 
 
 # plot_sig_evenly()
@@ -427,12 +448,12 @@ def plot_2cat_scan():
 #     print bins
 
 
-# for i in range(23):
-#     bins = [0, (i+1)/10.0, 2.4]
-#     create_datacard(bins, "combine/categorization/2cat_scan1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+for i in range(23):
+    bins = [0, (i+1)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/2cat_scan_test/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
-for i in range(14):
-    print (i+10)/10.0
-    bins = [0, 0.9, (i+10)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/3cat_0p9_scan1/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
+# for i in range(14):
+#     print (i+10)/10.0
+#     bins = [0, 0.9, (i+10)/10.0, 2.4]
+#     create_datacard(bins, "combine/categorization/3cat_0p9_scan1/", "datacard_3cat_0p9_%i"%(i+10), "workspace_3cat_0p9_%i"%(i+10))
