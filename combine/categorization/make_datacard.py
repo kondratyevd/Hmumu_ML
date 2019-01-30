@@ -310,7 +310,7 @@ def plot_2cat_scan():
     gr = ROOT.TGraph()
     gr1 = ROOT.TGraph()
     gr2 = ROOT.TGraph()
-
+    gr3 = ROOT.TGraph()
     sign = [
         0.554437,
         0.516243,
@@ -388,10 +388,37 @@ def plot_2cat_scan():
         0.562487
     ]
 
+    sign3 = [
+        0.555528,
+        0.517786,
+        0.56669,
+        0.564121,
+        0.569423,
+        0.573305,
+        0.577591,
+        0.583426,
+        0.588338,
+        0.592604,  #10
+        0.589984,
+        0.589489,
+        0.588423,
+        0.590484,
+        0.538182,  #15
+        0.585608,
+        0.586105,
+        0.586364,
+        0.584115,
+        0.580525,  #20
+        0.577304,
+        0.573375,
+        0.564528,
+    ]
+
     for i,s in enumerate(sign):
         gr.SetPoint(i, (i+1)/10.0, (s-base)/base*100)
         gr1.SetPoint(i, (i+1)/10.0, (sign1[i]-base)/base*100)
         gr2.SetPoint(i, (i+1)/10.0, (sign2[i]-base)/base*100)
+        gr3.SetPoint(i, (i+1)/10.0, (sign3[i]-base)/base*100)
 
     # sign = [
     #     0.555409, #10
@@ -443,6 +470,11 @@ def plot_2cat_scan():
     gr2.SetLineWidth(2)    
     gr2.SetMarkerColor(ROOT.kGreen)
     gr2.SetLineColor(ROOT.kGreen)
+    gr3.SetMarkerStyle(20)
+    gr3.SetMarkerSize(2)
+    gr3.SetLineWidth(2)    
+    gr3.SetMarkerColor(ROOT.kBlue)
+    gr3.SetLineColor(ROOT.kBlue)
     gr.GetXaxis().SetTitle("Rapidity cut")
     gr.GetYaxis().SetTitle("% gain in significance")
     gr.SetMinimum(0)
@@ -453,6 +485,7 @@ def plot_2cat_scan():
     gr.Draw("apl")
     gr1.Draw("plsame")
     gr2.Draw("plsame")
+    gr3.Draw("plsame")
     # y = (0.585433-base)/base*100.0
     # line = ROOT.TLine(0.9,y,2.4,y)
     # line.Draw("same")
@@ -464,7 +497,7 @@ def plot_2cat_scan():
 # plot_2cat_scan()
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
-# create_datacard([0, 2.4], "combine/categorization/", "datacard_1cat", "workspace_1cat")
+create_datacard([0, 2.4], "combine/categorization/3cat_0p9_scan1", "datacard_1cat", "workspace_1cat")
 # create_datacard([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4], "combine/categorization/", "datacard_24cat", "workspace_24cat")
 # create_datacard([0, 0.9, 1.9, 2.4], "combine/categorization/", "datacard_like2016", "workspace_like2016")
 # create_datacard([0, 0.9, 2.4], "combine/categorization/", "datacard_opt2cat", "workspace_opt2cat")
@@ -484,9 +517,9 @@ def plot_2cat_scan():
 #     print bins
 
 
-for i in range(23):
-    bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan_test1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+# for i in range(23):
+#     bins = [0, (i+1)/10.0, 2.4]
+#     create_datacard(bins, "combine/categorization/2cat_scan_test1/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
 # for i in range(14):
