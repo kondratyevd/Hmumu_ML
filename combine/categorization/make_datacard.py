@@ -111,8 +111,8 @@ def add_bkg_model(w, cat_number, path, cut):
     return bkg_rate
 
 def get_rates(w, cat_number, eta_min, eta_max):
-    # path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    # path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
       
     eta_cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
     sig_rate = add_sig_model(w, cat_number, path, eta_cut) 
@@ -568,9 +568,106 @@ def plot_3cat_scan():
     line.Draw("same")
     canvas.Print("combine/categorization/3cat_0p9_scan_2.png")
 
+def plot_4cat_scan():
+    gr = ROOT.TGraph()
+    gr1 = ROOT.TGraph()
+    gr2 = ROOT.TGraph()
+    gr3 = ROOT.TGraph()
+
+    sign = [
+        0.603668, #10
+        0.601165,
+        0.602899,
+        0.599513,
+        0.566333,
+        0.601409,#15
+        0.584398,
+        0.562898,
+        0.567662,
+        0.603055,
+    ]
+    sign1 = [
+        0.567972, #10
+        0.600637,
+        0.602279,
+        0.604818,
+        0.565132,
+        0.601168,#15
+        0.599388,
+        0.562019,
+        0.567233,
+        0.564117,
+    ]
+    sign_test = [
+        0, #10
+        0,
+        0,
+        0,
+        0,
+        0,#15
+        0,
+        0,
+        0,
+        0,
+    ]
+    sign_test1 = [
+        0, #10
+        0,
+        0,
+        0,
+        0,
+        0,#15
+        0,
+        0,
+        0,
+        0,
+    ]
+    for i in range(len(sign)):
+        gr.SetPoint(i, (i+10)/10.0, (sign[i]-0.553469)/0.553469*100)
+        gr1.SetPoint(i, (i+10)/10.0, (sign1[i]-0.552706)/0.552706*100)
+        gr2.SetPoint(i, (i+10)/10.0, (sign_test[i]-0.55153)/0.55153*100)
+        gr3.SetPoint(i, (i+10)/10.0, (sign_test1[i]-0.554712)/0.554712*100)
+
+    gr.SetTitle("Fix cuts at 0.9, 2.0")
+    gr.SetMarkerStyle(20)
+    gr.SetMarkerSize(2)
+    gr.SetLineWidth(2)
+    gr1.SetMarkerStyle(20)
+    gr1.SetMarkerSize(2)
+    gr1.SetLineWidth(2)    
+    gr1.SetMarkerColor(ROOT.kRed)
+    gr1.SetLineColor(ROOT.kRed)
+    gr2.SetMarkerStyle(20)
+    gr2.SetMarkerSize(2)
+    gr2.SetLineWidth(2)    
+    gr2.SetMarkerColor(ROOT.kGreen)
+    gr2.SetLineColor(ROOT.kGreen)
+    gr3.SetMarkerStyle(20)
+    gr3.SetMarkerSize(2)
+    gr3.SetLineWidth(2)    
+    gr3.SetMarkerColor(ROOT.kBlue)
+    gr3.SetLineColor(ROOT.kBlue)
+    gr.GetXaxis().SetTitle("Rapidity cut")
+    gr.GetYaxis().SetTitle("% gain in significance")
+    gr.SetMinimum(0)
+    gr.SetMaximum(10)
+    # gr.GetXaxis().SetRangeUser(0,2.4)
+    canvas = ROOT.TCanvas("c", "c", 800, 800)
+    canvas.cd()
+    gr.Draw("apl")
+    gr1.Draw("plsame")
+    gr2.Draw("plsame")
+    gr3.Draw("plsame")
+    # y = (0.585433-base)/base*100.0
+    y=8.35
+    line = ROOT.TLine(0.9,y,2.0,y)
+    line.Draw("same")
+    canvas.Print("combine/categorization/4cat_0p9_2p0_scan.png")
+
 # plot_sig_evenly()
 # plot_2cat_scan()
 # plot_3cat_scan()
+# plot_4cat_scan()
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
 # create_datacard([0, 2.4], "combine/categorization/2cat_scan1/", "datacard_1cat", "workspace_1cat")
@@ -605,6 +702,6 @@ def plot_3cat_scan():
 
 for i in range(10):
     # print (i+10)/10.0
-    bins = [0, 0.9, (i+10)/10.0, 2.0, 2.4]
-    create_datacard(bins, "combine/categorization/4cat_0p9_2p0_scan1/", "datacard_4cat_0p9_2p0_%i"%(i+10), "workspace_4cat_0p9_2p0_%i"%(i+10))
+    bins = [0, 0.9, 1.2, (i+13)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/4cat_0p9_1p2_scan/", "datacard_4cat_0p9_1p2_%i"%(i+10), "workspace_4cat_0p9_1p2_%i"%(i+10))
     # print bins
