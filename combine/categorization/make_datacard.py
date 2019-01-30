@@ -510,20 +510,20 @@ def plot_2cat_scan():
 # create_datacard([0, 0.2, 1.6, 2.4], "combine/categorization/", "datacard_opt3cat1", "workspace_opt3cat1")
 # create_datacard([0, 0.2, 0.9, 1.7, 2.4], "combine/categorization/", "datacard_opt4cat", "workspace_opt4cat")
 
-# for i in range(25):
-#     if not i:
-#         continue
+for i in range(25):
+    if not i:
+        continue
 
-#     bins = [0]
-#     for j in range(i):
-#         bins.append(round(24*(j+1)/float(i))/10.0)
-#     create_datacard(bins, "combine/categorization/evenly1/", "datacard_%icat"%i, "workspace_%icat"%i)
-#     print bins
+    bins = [0]
+    for j in range(i):
+        bins.append((24*(j+1)/float(i))/10.0)
+    create_datacard(bins, "combine/categorization/evenly2/", "datacard_%icat"%i, "workspace_%icat"%i)
+    # print bins
 
 
-for i in range(23):
-    bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+# for i in range(23):
+#     bins = [0, (i+1)/10.0, 2.4]
+#     create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
 
 
 # for i in range(14):
