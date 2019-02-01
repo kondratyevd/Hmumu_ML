@@ -187,8 +187,8 @@ def create_datacard(bins, path, name, workspace_filename):
     out_file.close()
 
 def make_BB_EE_categories(barrel_cut, endcap_cut, output_path, filename):
-    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
     cat_names = []
     combine_import = ""
     combine_bins = "bin         "
@@ -271,7 +271,7 @@ for key, value in second_cut_options.iteritems():
     for scan in scan_options:
         if "O" in scan:
             for i in range(int((value - 1)*10)):
-                bins = [0.9, (i+10)/10.0, value]
+                bins = [0.9, (i+10)/10.0, value, 2.4]
                 print key+"_"+scan+":"
                 print bins
                 print ""
@@ -279,7 +279,7 @@ for key, value in second_cut_options.iteritems():
         bins.append(value)
         if "E" in scan:
             for i in range(23-int((value)*10)):
-                bins = [0.9, value, i/10.0+value+0.1]
+                bins = [0.9, value, i/10.0+value+0.1, 2.4]
                 print key+"_"+scan+":"
                 print bins
                 print ""
