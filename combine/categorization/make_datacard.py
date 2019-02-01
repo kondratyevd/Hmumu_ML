@@ -271,7 +271,7 @@ for key, value in second_cut_options.iteritems():
     for scan in scan_options:
         if "O" in scan:
             for i in range(int((value - 1)*10)):
-                bins = [0.9, (i+10)/10.0, value, 2.4]
+                bins = [0, 0.9, (i+10)/10.0, value, 2.4]
                 print key+"_"+scan+":"
                 print bins
                 print ""
@@ -279,7 +279,7 @@ for key, value in second_cut_options.iteritems():
         bins.append(value)
         if "E" in scan:
             for i in range(23-int((value)*10)):
-                bins = [0.9, value, i/10.0+value+0.1, 2.4]
+                bins = [0, 0.9, value, i/10.0+value+0.1, 2.4]
                 print key+"_"+scan+":"
                 print bins
                 print ""
