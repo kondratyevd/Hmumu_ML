@@ -117,8 +117,8 @@ def add_bkg_model(w, cat_number, input_path, cut):
 
 
 def make_eta_categories(bins, output_path, filename):
-    input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -288,7 +288,7 @@ def create_BB_EE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_f
 
 for cut in [13, 14, 15, 16, 17, 18]:
     bins = [0, 0.9, 1.2, cut/10.0, 1.9, 2.4]
-    create_datacard(bins, "combine/categorization/5cat_test/", "datacard_%i"%(cut), "workspace_%i"%(cut))
+    create_datacard(bins, "combine/categorization/5cat_test1/", "datacard_%i"%(cut), "workspace_%i"%(cut))
 
 
 
