@@ -53,14 +53,14 @@ def add_sig_model(w, cat_number, input_path, cut):
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
     signal_tree = ROOT.TChain("tree_H2Mu_gg")
-    # signal_tree.Add(input_path+"/output_test.root")  
-    signal_tree.Add(input_path+"/output_train.root")  
+    signal_tree.Add(input_path+"/output_test.root")  
+    # signal_tree.Add(input_path+"/output_train.root")  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -117,8 +117,8 @@ def add_bkg_model(w, cat_number, input_path, cut):
 
 
 def make_eta_categories(bins, output_path, filename):
-    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -288,7 +288,7 @@ def create_BB_EE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_f
 
 for cut in [13, 14, 15, 16, 17, 18]:
     bins = [0, 0.9, 1.2, cut/10.0, 1.9, 2.4]
-    create_datacard(bins, "combine/categorization/5cat_1/", "datacard_%i"%(cut), "workspace_%i"%(cut))
+    create_datacard(bins, "combine/categorization/5cat_test/", "datacard_%i"%(cut), "workspace_%i"%(cut))
 
 
 
