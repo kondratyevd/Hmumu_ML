@@ -117,8 +117,8 @@ def add_bkg_model(w, cat_number, input_path, cut):
 
 
 def make_eta_categories(bins, output_path, filename):
-    input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -186,55 +186,55 @@ def create_datacard(bins, path, name, workspace_filename):
     out_file.write(cat_strings)
     out_file.close()
 
-def make_BB_EE_categories(barrel_cut, endcap_cut, output_path, filename):
-    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
-    cat_names = []
-    combine_import = ""
-    combine_bins = "bin         "
-    combine_obs =  "observation "
-    combine_bins_str = "bin        "
-    combine_proc_str = "process    "
-    combine_ipro_str = "process    "
-    combine_rate_str = "rate       "
-    BB = "(abs(mu1_eta)<%f)&(abs(mu2_eta)<%f)"%(barrel_cut, barrel_cut)
-    EE = "(abs(mu1_eta)>%f)&(abs(mu2_eta)>%f)"%(endcap_cut, endcap_cut)
-    overlap = "(!(%s))&(!(%s))"%(BB, EE)
-    cuts = [
-        BB, overlap, EE
-    ]
-    w = create_workspace()
-    for i, cut in enumerate(cuts): 
-        name = "cat%i"%i
-        cat_names.append(name)
+# def make_BB_EE_categories(barrel_cut, endcap_cut, output_path, filename):
+#     input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+#     # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+#     cat_names = []
+#     combine_import = ""
+#     combine_bins = "bin         "
+#     combine_obs =  "observation "
+#     combine_bins_str = "bin        "
+#     combine_proc_str = "process    "
+#     combine_ipro_str = "process    "
+#     combine_rate_str = "rate       "
+#     BB = "(abs(mu1_eta)<%f)&(abs(mu2_eta)<%f)"%(barrel_cut, barrel_cut)
+#     EE = "(abs(mu1_eta)>%f)&(abs(mu2_eta)>%f)"%(endcap_cut, endcap_cut)
+#     overlap = "(!(%s))&(!(%s))"%(BB, EE)
+#     cuts = [
+#         BB, overlap, EE
+#     ]
+#     w = create_workspace()
+#     for i, cut in enumerate(cuts): 
+#         name = "cat%i"%i
+#         cat_names.append(name)
         
-        sig_rate = add_sig_model(w, i, input_path, cut) 
-        bkg_rate = add_bkg_model(w, i, input_path, cut)
+#         sig_rate = add_sig_model(w, i, input_path, cut) 
+#         bkg_rate = add_bkg_model(w, i, input_path, cut)
 
-        combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
-        combine_import = combine_import+"shapes cat%i_ggh  cat%i %s.root w:cat%i_ggh\n"%(i,i,filename,i)
-        combine_import = combine_import+"shapes data_obs  cat%i %s.root w:cat%i_data\n"%(i,filename,i)
+#         combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
+#         combine_import = combine_import+"shapes cat%i_ggh  cat%i %s.root w:cat%i_ggh\n"%(i,i,filename,i)
+#         combine_import = combine_import+"shapes data_obs  cat%i %s.root w:cat%i_data\n"%(i,filename,i)
 
-        combine_bins = combine_bins+name+" "
-        combine_obs = combine_obs+"-1   "
+#         combine_bins = combine_bins+name+" "
+#         combine_obs = combine_obs+"-1   "
 
-        combine_bins_str = combine_bins_str+ "{:14s}{:14s}".format(name,name)
-        combine_proc_str = combine_proc_str+ "cat%i_ggh      cat%i_bkg      "%(i,i)
-        combine_ipro_str = combine_ipro_str+ "0             1             "
-        combine_rate_str = combine_rate_str+ "{:<14f}{:<14f}".format(sig_rate, bkg_rate)
+#         combine_bins_str = combine_bins_str+ "{:14s}{:14s}".format(name,name)
+#         combine_proc_str = combine_proc_str+ "cat%i_ggh      cat%i_bkg      "%(i,i)
+#         combine_ipro_str = combine_ipro_str+ "0             1             "
+#         combine_rate_str = combine_rate_str+ "{:<14f}{:<14f}".format(sig_rate, bkg_rate)
 
 
-    combine_bins_str = combine_bins_str+"\n"
-    combine_proc_str = combine_proc_str+"\n"
-    combine_ipro_str = combine_ipro_str+"\n"
-    combine_rate_str = combine_rate_str+"\n"
-    w.Print()
-    workspace_file = ROOT.TFile.Open(output_path+filename+".root", "recreate")
-    workspace_file.cd()
-    w.Write()
-    workspace_file.Close()
+#     combine_bins_str = combine_bins_str+"\n"
+#     combine_proc_str = combine_proc_str+"\n"
+#     combine_ipro_str = combine_ipro_str+"\n"
+#     combine_rate_str = combine_rate_str+"\n"
+#     w.Print()
+#     workspace_file = ROOT.TFile.Open(output_path+filename+".root", "recreate")
+#     workspace_file.cd()
+#     w.Write()
+#     workspace_file.Close()
 
-    return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str
+#     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str
 
 def create_BB_EE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_filename): 
     try:
