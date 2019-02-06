@@ -232,6 +232,7 @@ class KerasMultiTrainer(object):
         trees               = {}
         mass                = {}
         max_abs_eta_mu      = {}
+        min_abs_eta_mu      = {}
         mu1_eta             = {}
         mu2_eta             = {}
         dimu_eta            = {}
@@ -255,6 +256,7 @@ class KerasMultiTrainer(object):
         for category in category_list:
             mass[category]= array('f', [0])
             max_abs_eta_mu[category]= array('f', [0])
+            min_abs_eta_mu[category]= array('f', [0])
             mu1_eta[category] = array('f', [0])
             mu2_eta[category] = array('f', [0])
             dimu_eta[category] = array('f', [0])
@@ -267,6 +269,7 @@ class KerasMultiTrainer(object):
             trees[category] = ROOT.TTree("tree_%s"%category,"tree_%s"%category)
             newBranch1[category] = trees[category].Branch("mass",               mass[category]            , "mass/F")
             newBranch1[category] = trees[category].Branch("max_abs_eta_mu",     max_abs_eta_mu[category]  , "max_abs_eta_mu/F")
+            newBranch1[category] = trees[category].Branch("min_abs_eta_mu",     min_abs_eta_mu[category]  , "min_abs_eta_mu/F")
             newBranch2[category] = trees[category].Branch("weight",             weight[category]          , "weight/F")
             newBranch3[category] = trees[category].Branch("DY_prediction",      DY_prediction[category]   , "DY_prediction/F")
             newBranch4[category] = trees[category].Branch("ttbar_prediction",   ttbar_prediction[category], "ttbar_prediction/F")
@@ -284,6 +287,7 @@ class KerasMultiTrainer(object):
             if isData:
                 mass["Data"][0]             = row["muPairs.mass[0]"]
                 max_abs_eta_mu["Data"][0]   = row["max_abs_eta_mu"]
+                min_abs_eta_mu["Data"][0]   = row["min_abs_eta_mu"]
                 weight["Data"][0]           = 1
                 DY_prediction["Data"][0]    = row["pred_ZJets_MG_%s"%(method_name)]
                 ttbar_prediction["Data"][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
@@ -299,6 +303,7 @@ class KerasMultiTrainer(object):
                     if row[category]==1:
                         mass[category][0]             = row["muPairs.mass[0]"]
                         max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
+                        min_abs_eta_mu[category][0]   = row["min_abs_eta_mu"]
                         weight[category][0]           = row["weight"]
                         DY_prediction[category][0]    = row["pred_ZJets_MG_%s"%(method_name)]
                         ttbar_prediction[category][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
@@ -600,6 +605,7 @@ class KerasMultiTrainer(object):
         df["abs_eta_1"] = df["muons.eta[0]"].abs()
         df["abs_eta_2"] = df["muons.eta[1]"].abs()
         df["max_abs_eta_mu"] = df[["abs_eta_1", "abs_eta_2"]].max(axis=1)
+        df["min_abs_eta_mu"] = df[["abs_eta_1", "abs_eta_2"]].min(axis=1)
         return df
 
     def apply_cuts(self, df, year):
