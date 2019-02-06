@@ -53,14 +53,14 @@ def add_sig_model(w, cat_number, input_path, cut):
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
     signal_tree = ROOT.TChain("tree_H2Mu_gg")
-    # signal_tree.Add(input_path+"/output_test.root")  
-    signal_tree.Add(input_path+"/output_train.root")  
+    signal_tree.Add(input_path+"/output_test.root")  
+    # signal_tree.Add(input_path+"/output_train.root")  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -117,8 +117,8 @@ def add_bkg_model(w, cat_number, input_path, cut):
 
 
 def make_eta_categories(bins, output_path, filename):
-    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -275,21 +275,21 @@ for key, value in second_cut_options.iteritems():
                 print key+"_"+scan+":"
                 print bins
                 print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_1/"%(key, scan), "datacard_0p9_%i_%s"%((i+10), key), "workspace_0p9_%i_%s"%((i+10), key))
+                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test/"%(key, scan), "datacard_0p9_%i_%s"%((i+10), key), "workspace_0p9_%i_%s"%((i+10), key))
         if "E" in scan:
             for i in range(23-int((value)*10)):
                 bins = [0, 0.9, value, i/10.0+value+0.1, 2.4]
                 print key+"_"+scan+":"
                 print bins
                 print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_1/"%(key, scan), "datacard_0p9_%s_%i"%(key, (i+1+value*10)), "workspace_0p9_%s_%i"%(key, (i+1+value*10)))
+                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test/"%(key, scan), "datacard_0p9_%s_%i"%(key, (i+1+value*10)), "workspace_0p9_%s_%i"%(key, (i+1+value*10)))
         if "B" in scan:
             for i in range(8):
                 bins = [0, (i+1)/10.0 ,0.9, value, 2.4]
                 print key+"_"+scan+":"
                 print bins
                 print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_1/"%(key, scan), "datacard_0p9_%i_%s"%((i+1), key), "workspace_0p9_%i_%s"%((i+1), key))
+                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test/"%(key, scan), "datacard_0p9_%i_%s"%((i+1), key), "workspace_0p9_%i_%s"%((i+1), key))
         
 
 # for cut in [13, 14, 15, 16, 17]:
