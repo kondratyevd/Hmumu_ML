@@ -53,14 +53,14 @@ def add_sig_model(w, cat_number, input_path, cut):
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
     signal_tree = ROOT.TChain("tree_H2Mu_gg")
-    # signal_tree.Add(input_path+"/output_test.root")  
-    signal_tree.Add(input_path+"/output_train.root")  
+    signal_tree.Add(input_path+"/output_test.root")  
+    # signal_tree.Add(input_path+"/output_train.root")  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5"%(cut)) # only 20% of events were saved in "test" file, hence the weight
+    # signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight*5/4"%(cut)) # only 80% of events were saved in "train" file, hence the weight
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -306,7 +306,7 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 #     create_datacard(bins, "combine/categorization/5cat_1p8_test1/", "datacard_%i"%(cut), "workspace_%i"%(cut))
 
 
-create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE_1/", "datacard_BOE", "workspace")
+create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE_test/", "datacard_BOE", "workspace")
 
 # for i in range(14):
 #     create_BOE_datacard(0.9, (i+10)/10.0, "combine/categorization/BBEE/", "datacard_BB09_EE%i"%(i+10), "workspace_BB09_EE%i"%(i+10))
