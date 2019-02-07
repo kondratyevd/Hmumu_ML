@@ -186,110 +186,119 @@ def create_datacard(bins, path, name, workspace_filename):
     out_file.write(cat_strings)
     out_file.close()
 
-# def make_BB_EE_categories(barrel_cut, endcap_cut, output_path, filename):
-#     input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-#     # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
-#     cat_names = []
-#     combine_import = ""
-#     combine_bins = "bin         "
-#     combine_obs =  "observation "
-#     combine_bins_str = "bin        "
-#     combine_proc_str = "process    "
-#     combine_ipro_str = "process    "
-#     combine_rate_str = "rate       "
-#     BB = "(abs(mu1_eta)<%f)&(abs(mu2_eta)<%f)"%(barrel_cut, barrel_cut)
-#     EE = "(abs(mu1_eta)>%f)&(abs(mu2_eta)>%f)"%(endcap_cut, endcap_cut)
-#     overlap = "(!(%s))&(!(%s))"%(BB, EE)
-#     cuts = [
-#         BB, overlap, EE
-#     ]
-#     w = create_workspace()
-#     for i, cut in enumerate(cuts): 
-#         name = "cat%i"%i
-#         cat_names.append(name)
-        
-#         sig_rate = add_sig_model(w, i, input_path, cut) 
-#         bkg_rate = add_bkg_model(w, i, input_path, cut)
-
-#         combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
-#         combine_import = combine_import+"shapes cat%i_ggh  cat%i %s.root w:cat%i_ggh\n"%(i,i,filename,i)
-#         combine_import = combine_import+"shapes data_obs  cat%i %s.root w:cat%i_data\n"%(i,filename,i)
-
-#         combine_bins = combine_bins+name+" "
-#         combine_obs = combine_obs+"-1   "
-
-#         combine_bins_str = combine_bins_str+ "{:14s}{:14s}".format(name,name)
-#         combine_proc_str = combine_proc_str+ "cat%i_ggh      cat%i_bkg      "%(i,i)
-#         combine_ipro_str = combine_ipro_str+ "0             1             "
-#         combine_rate_str = combine_rate_str+ "{:<14f}{:<14f}".format(sig_rate, bkg_rate)
-
-
-#     combine_bins_str = combine_bins_str+"\n"
-#     combine_proc_str = combine_proc_str+"\n"
-#     combine_ipro_str = combine_ipro_str+"\n"
-#     combine_rate_str = combine_rate_str+"\n"
-#     w.Print()
-#     workspace_file = ROOT.TFile.Open(output_path+filename+".root", "recreate")
-#     workspace_file.cd()
-#     w.Write()
-#     workspace_file.Close()
-
-#     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str
-
-# def create_BB_EE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_filename): 
-#     try:
-#         os.makedirs(output_path)
-#     except OSError as e:
-#         if e.errno != errno.EEXIST:
-#             raise
-#     import_str, bins_obs, cat_strings = make_BB_EE_categories(barrel_cut, endcap_cut, output_path, workspace_filename)
-#     out_file = open(output_path+name+".txt", "w")
-#     out_file.write("imax *\n")
-#     out_file.write("jmax *\n")
-#     out_file.write("kmax *\n")
-#     out_file.write("---------------\n")
-#     out_file.write(import_str)
-#     out_file.write("---------------\n")
-#     out_file.write(bins_obs)
-#     out_file.write("------------------------------\n")
-#     out_file.write(cat_strings)
-#     out_file.close()
-
-
-
-second_cut_options = {
-    "1p8": 1.8,
-    "1p9": 1.9,
-    "2p0": 2.0,
-    }
-
-scan_options = [
-    "Bscan"#,"Oscan", "Escan"
+def make_BOE_categories(barrel_cut, endcap_cut, output_path, filename):
+    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+    cat_names = []
+    combine_import = ""
+    combine_bins = "bin         "
+    combine_obs =  "observation "
+    combine_bins_str = "bin        "
+    combine_proc_str = "process    "
+    combine_ipro_str = "process    "
+    combine_rate_str = "rate       "
+    BB = "(abs(mu1_eta)<%f)&(abs(mu2_eta)<%f)"%(barrel_cut, barrel_cut)
+    EE = "(abs(mu1_eta)>%f)&(abs(mu2_eta)>%f)"%(endcap_cut, endcap_cut)
+    BO1 = "(abs(mu1_eta)<%f)&(abs(mu2_eta)>%f)&(abs(mu2_eta)<%f)"%(barrel_cut, barrel_cut, endcap_cut)
+    BO2 = "(abs(mu2_eta)<%f)&(abs(mu1_eta)>%f)&(abs(mu1_eta)<%f)"%(barrel_cut, barrel_cut, endcap_cut)
+    BO = "((%s)||(%s))"%(BO1, BO2)
+    OE1 = "(abs(mu1_eta)>%f)&(abs(mu2_eta)>%f)&(abs(mu2_eta)<%f)"%(endcap_cut, barrel_cut, endcap_cut)
+    OE2 = "(abs(mu2_eta)>%f)&(abs(mu1_eta)>%f)&(abs(mu1_eta)<%f)"%(endcap_cut, barrel_cut, endcap_cut)
+    OE = "((%s)||(%s))"%(OE1, OE2)
+    BE1 = "(abs(mu1_eta)<%f)&(abs(mu2_eta)>%f)"%(barrel_cut, endcap_cut)
+    BE2 = "(abs(mu2_eta)<%f)&(abs(mu1_eta)>%f)"%(barrel_cut, endcap_cut)
+    BE = "((%s)||(%s))"%(BE1, BE2)
+    OO = "(abs(mu2_eta)>%f)&(abs(mu2_eta)<%f)&(abs(mu1_eta)>%f)&(abs(mu1_eta)<%f)"%(barrel_cut, endcap_cut, barrel_cut, endcap_cut)
+    cuts = [
+        BB, BO, BE, OO, OE, EE
     ]
+    w = create_workspace()
+    for i, cut in enumerate(cuts): 
+        name = "cat%i"%i
+        cat_names.append(name)
+        
+        sig_rate = add_sig_model(w, i, input_path, cut) 
+        bkg_rate = add_bkg_model(w, i, input_path, cut)
 
-for key, value in second_cut_options.iteritems():
-    for scan in scan_options:
-        if "O" in scan:
-            for i in range(int((value - 1)*10)):
-                bins = [0, 0.9, (i+10)/10.0, value, 2.4]
-                print key+"_"+scan+":"
-                print bins
-                print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test1/"%(key, scan), "datacard_0p9_%i_%s"%((i+10), key), "workspace_0p9_%i_%s"%((i+10), key))
-        if "E" in scan:
-            for i in range(23-int((value)*10)):
-                bins = [0, 0.9, value, i/10.0+value+0.1, 2.4]
-                print key+"_"+scan+":"
-                print bins
-                print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test1/"%(key, scan), "datacard_0p9_%s_%i"%(key, (i+1+value*10)), "workspace_0p9_%s_%i"%(key, (i+1+value*10)))
-        if "B" in scan:
-            for i in range(8):
-                bins = [0, (i+1)/10.0 ,0.9, value, 2.4]
-                print key+"_"+scan+":"
-                print bins
-                print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test1/"%(key, scan), "datacard_0p9_%i_%s"%((i+1), key), "workspace_0p9_%i_%s"%((i+1), key))
+        combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
+        combine_import = combine_import+"shapes cat%i_ggh  cat%i %s.root w:cat%i_ggh\n"%(i,i,filename,i)
+        combine_import = combine_import+"shapes data_obs  cat%i %s.root w:cat%i_data\n"%(i,filename,i)
+
+        combine_bins = combine_bins+name+" "
+        combine_obs = combine_obs+"-1   "
+
+        combine_bins_str = combine_bins_str+ "{:14s}{:14s}".format(name,name)
+        combine_proc_str = combine_proc_str+ "cat%i_ggh      cat%i_bkg      "%(i,i)
+        combine_ipro_str = combine_ipro_str+ "0             1             "
+        combine_rate_str = combine_rate_str+ "{:<14f}{:<14f}".format(sig_rate, bkg_rate)
+
+
+    combine_bins_str = combine_bins_str+"\n"
+    combine_proc_str = combine_proc_str+"\n"
+    combine_ipro_str = combine_ipro_str+"\n"
+    combine_rate_str = combine_rate_str+"\n"
+    w.Print()
+    workspace_file = ROOT.TFile.Open(output_path+filename+".root", "recreate")
+    workspace_file.cd()
+    w.Write()
+    workspace_file.Close()
+
+    return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str
+
+def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_filename): 
+    try:
+        os.makedirs(output_path)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+    import_str, bins_obs, cat_strings = make_BOE_categories(barrel_cut, endcap_cut, output_path, workspace_filename)
+    out_file = open(output_path+name+".txt", "w")
+    out_file.write("imax *\n")
+    out_file.write("jmax *\n")
+    out_file.write("kmax *\n")
+    out_file.write("---------------\n")
+    out_file.write(import_str)
+    out_file.write("---------------\n")
+    out_file.write(bins_obs)
+    out_file.write("------------------------------\n")
+    out_file.write(cat_strings)
+    out_file.close()
+
+
+
+# second_cut_options = {
+#     "1p8": 1.8,
+#     "1p9": 1.9,
+#     "2p0": 2.0,
+#     }
+
+# scan_options = [
+#     "Bscan","Oscan", "Escan"
+#     ]
+
+# for key, value in second_cut_options.iteritems():
+#     for scan in scan_options:
+#         if "O" in scan:
+#             for i in range(int((value - 1)*10)):
+#                 bins = [0, 0.9, (i+10)/10.0, value, 2.4]
+#                 print key+"_"+scan+":"
+#                 print bins
+#                 print ""
+#                 create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test1/"%(key, scan), "datacard_0p9_%i_%s"%((i+10), key), "workspace_0p9_%i_%s"%((i+10), key))
+#         if "E" in scan:
+#             for i in range(23-int((value)*10)):
+#                 bins = [0, 0.9, value, i/10.0+value+0.1, 2.4]
+#                 print key+"_"+scan+":"
+#                 print bins
+#                 print ""
+#                 create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test1/"%(key, scan), "datacard_0p9_%s_%i"%(key, (i+1+value*10)), "workspace_0p9_%s_%i"%(key, (i+1+value*10)))
+#         if "B" in scan:
+#             for i in range(8):
+#                 bins = [0, (i+1)/10.0 ,0.9, value, 2.4]
+#                 print key+"_"+scan+":"
+#                 print bins
+#                 print ""
+#                 create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_test1/"%(key, scan), "datacard_0p9_%i_%s"%((i+1), key), "workspace_0p9_%i_%s"%((i+1), key))
         
 
 # for cut in [13, 14, 15, 16, 17]:
@@ -297,10 +306,10 @@ for key, value in second_cut_options.iteritems():
 #     create_datacard(bins, "combine/categorization/5cat_1p8_test1/", "datacard_%i"%(cut), "workspace_%i"%(cut))
 
 
-
+create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE/", "datacard_BOE", "workspace")
 
 # for i in range(14):
-#     create_BB_EE_datacard(0.9, (i+10)/10.0, "combine/categorization/BBEE/", "datacard_BB09_EE%i"%(i+10), "workspace_BB09_EE%i"%(i+10))
+#     create_BOE_datacard(0.9, (i+10)/10.0, "combine/categorization/BBEE/", "datacard_BB09_EE%i"%(i+10), "workspace_BB09_EE%i"%(i+10))
 
 # bins_list = [0, 0.8, 1.7, 2.4]
 # create_datacard(bins_list, "combine/categorization/", "datacard", "workspace")
