@@ -211,11 +211,13 @@ def make_BOE_categories(barrel_cut, endcap_cut, output_path, filename):
     OO = "(abs(mu2_eta)>%f)&(abs(mu2_eta)<%f)&(abs(mu1_eta)>%f)&(abs(mu1_eta)<%f)"%(barrel_cut, endcap_cut, barrel_cut, endcap_cut)
 
     overlap = "%s||%s"%(BO, OO)
+
     endcap = "%s||%s||%s"%(BE, OE, EE)
     # cuts = [
     #     BB, BO, BE, OO, OE, EE
     # ]
-    cuts = [BB, overlap, endcap]
+    # cuts = [BB, overlap, endcap]
+    cuts = [BB, BO, OO, endcap]
     w = create_workspace()
     for i, cut in enumerate(cuts): 
         name = "cat%i"%i
@@ -310,7 +312,7 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 #     create_datacard(bins, "combine/categorization/5cat_1p8_test1/", "datacard_%i"%(cut), "workspace_%i"%(cut))
 
 
-create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE_3cat/", "datacard_BOE", "workspace")
+create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE_4cat/", "datacard_BOE", "workspace")
 
 # for i in range(14):
 #     create_BOE_datacard(0.9, (i+10)/10.0, "combine/categorization/BBEE/", "datacard_BB09_EE%i"%(i+10), "workspace_BB09_EE%i"%(i+10))
