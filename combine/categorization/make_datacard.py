@@ -210,8 +210,8 @@ def make_BOE_categories(barrel_cut, endcap_cut, output_path, filename):
     BE = "((%s)||(%s))"%(BE1, BE2)
     OO = "(abs(mu2_eta)>%f)&(abs(mu2_eta)<%f)&(abs(mu1_eta)>%f)&(abs(mu1_eta)<%f)"%(barrel_cut, endcap_cut, barrel_cut, endcap_cut)
 
-    overlap = "%s&%s"%(BO, OO)
-    endcap = "%s&%s&%s"%(BE, OE, EE)
+    overlap = "%s||%s"%(BO, OO)
+    endcap = "%s||%s||%s"%(BE, OE, EE)
     # cuts = [
     #     BB, BO, BE, OO, OE, EE
     # ]
