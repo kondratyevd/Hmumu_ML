@@ -17,6 +17,7 @@
 # rate        210.139180    450918.137735 
 
 import ROOT
+from math import sqrt
 import os, sys, errno
 Import = getattr(ROOT.RooWorkspace, 'import')
 
