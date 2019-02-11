@@ -116,9 +116,9 @@ def add_bkg_model(w, cat_number, input_path, cut):
     return bkg_rate
 
 
-def make_eta_categories(bins, output_path, filename):
-    # input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
-    input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
+def make_eta_categories(bins, output_path, filename, statUnc=False):
+    input_path = "output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/"     # no index
+    # input_path = "output/Run_2019-01-18_14-34-07/Keras_multi/model_50_D2_25_D2_25_D2/root/"      # index '1'
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -128,6 +128,11 @@ def make_eta_categories(bins, output_path, filename):
     combine_proc_str = "process    "
     combine_ipro_str = "process    "
     combine_rate_str = "rate       "
+    if statUnc:
+        combine_unc = "statUnc  lnN   "
+    else:
+        combine_unc = ""
+
     w = create_workspace()
     for i, b in enumerate(bins):
         if i is len(bins)-1:
@@ -152,6 +157,8 @@ def make_eta_categories(bins, output_path, filename):
         combine_proc_str = combine_proc_str+ "cat%i_ggh      cat%i_bkg      "%(i,i)
         combine_ipro_str = combine_ipro_str+ "0             1             "
         combine_rate_str = combine_rate_str+ "{:<14f}{:<14f}".format(sig_rate, bkg_rate)
+        if statUnc:
+            combine_unc = combine_unc+ "{:<14f}{:<14f}".format(sqrt(sig_rate), sqrt(bkg_rate))
 
 
     combine_bins_str = combine_bins_str+"\n"
@@ -164,16 +171,16 @@ def make_eta_categories(bins, output_path, filename):
     w.Write()
     workspace_file.Close()
 
-    return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str
+    return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n"
 
 
-def create_datacard(bins, path, name, workspace_filename): 
+def create_datacard(bins, path, name, workspace_filename, statUnc=False): 
     try:
         os.makedirs(path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings = make_eta_categories(bins, path, workspace_filename)
+    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, path, workspace_filename, statUnc=statUnc)
     out_file = open(path+name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
@@ -184,6 +191,9 @@ def create_datacard(bins, path, name, workspace_filename):
     out_file.write(bins_obs)
     out_file.write("------------------------------\n")
     out_file.write(cat_strings)
+    out_file.write("------------------------------\n")
+    if statUnc:
+        out_file.write(unc_str)
     out_file.close()
 
 def make_BOE_categories(barrel_cut, endcap_cut, output_path, filename):
@@ -312,7 +322,7 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 #     create_datacard(bins, "combine/categorization/5cat_1p8_test1/", "datacard_%i"%(cut), "workspace_%i"%(cut))
 
 
-create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE_4cat/", "datacard_BOE", "workspace")
+# create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE_4cat/", "datacard_BOE", "workspace")
 
 # for i in range(14):
 #     create_BOE_datacard(0.9, (i+10)/10.0, "combine/categorization/BBEE/", "datacard_BB09_EE%i"%(i+10), "workspace_BB09_EE%i"%(i+10))
@@ -339,9 +349,9 @@ create_BOE_datacard(0.9, 1.8, "combine/categorization/BOE_4cat/", "datacard_BOE"
 #     # print bins
 
 
-# for i in range(23):
-#     bins = [0, (i+1)/10.0, 2.4]
-#     create_datacard(bins, "combine/categorization/2cat_scan/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1))
+for i in range(23):
+    bins = [0, (i+1)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/2cat_scan_statUnc/", "datacard_2cat_%i_statUnc"%(i+1), "workspace_2cat_%i_statUnc"%(i+1), statUnc=True)
 
 
 # for i in range(14):
