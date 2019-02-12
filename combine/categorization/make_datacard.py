@@ -118,7 +118,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     # w.factory("cat%i_mu_scale_beta [0, 0, 0]"%cat_number)
 
     # w.factory("mu_res_beta [0, 0, 0]")
-    w.factory("mu_res_beta [-1, -1, -1]")
+    w.factory("mu_res_beta [1, 1, 1]")
     w.factory("mu_scale_beta [0, 0, 0]")
 
     w.factory("cat%i_mu_res_unc [0.1, 0.1, 0.1]"%cat_number)
@@ -441,7 +441,7 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 
 for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan_5000bins_narrowed/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=True)
+    create_datacard(bins, "combine/categorization/2cat_scan_5000bins_widened/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=True)
 
 
 # for i in range(14):
