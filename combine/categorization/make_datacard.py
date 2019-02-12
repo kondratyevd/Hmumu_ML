@@ -33,6 +33,7 @@ def create_workspace():
 
 def add_data(w, cat_number, input_path, cut):
     var = w.var("mass")
+    var.setBins(500)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
@@ -50,6 +51,7 @@ def add_data(w, cat_number, input_path, cut):
 
 def add_sig_model(w, cat_number, input_path, cut):
     var = w.var("mass")
+    var.setBins(500)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
@@ -88,12 +90,12 @@ def add_sig_model(w, cat_number, input_path, cut):
         par_var = w.var("cat%s_%s"%(cat_number,par))
         par_var.setConstant(True)
     Import(w, smodel)
-
     return signal_rate
 
 def add_bkg_model(w, cat_number, input_path, cut):
     data = add_data(w, cat_number, input_path, cut)
     var = w.var("mass")
+    var.setBins(500)
     var.setRange("left",110,120+0.1)
     var.setRange("right",130-0.1,150)
     # data = w.data("cat%i_data"%cat_number)
@@ -352,7 +354,7 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 
 for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan_statUnc/", "datacard_2cat_%i_statUnc"%(i+1), "workspace_2cat_%i_statUnc"%(i+1), statUnc=True)
+    create_datacard(bins, "combine/categorization/2cat_scan_500bins/", "datacard_2cat_%i_500bins"%(i+1), "workspace_2cat_%i_500bins"%(i+1), statUnc=False)
 
 
 # for i in range(14):
