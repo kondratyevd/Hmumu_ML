@@ -117,7 +117,8 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     # w.factory("cat%i_mu_res_beta [0, 0, 0]"%cat_number)
     # w.factory("cat%i_mu_scale_beta [0, 0, 0]"%cat_number)
 
-    w.factory("mu_res_beta [0, 0, 0]")
+    # w.factory("mu_res_beta [0, 0, 0]")
+    w.factory("mu_res_beta [-1, -1, -1]")
     w.factory("mu_scale_beta [0, 0, 0]")
 
     w.factory("cat%i_mu_res_unc [0.1, 0.1, 0.1]"%cat_number)
@@ -163,7 +164,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     for par in sigParamList:
         par_var = w.var("cat%s_%s"%(cat_number,par))
         par_var.setConstant(True)
-    w.var("mu_res_beta").setRange(-5, 5)
+    # w.var("mu_res_beta").setRange(-5, 5)
     w.var("mu_scale_beta").setRange(-5, 5)
     Import(w, smodel)
     return signal_rate
@@ -278,9 +279,9 @@ def create_datacard(bins, path, name, workspace_filename, statUnc=False, nuis=Fa
     out_file.write("------------------------------\n")
     if statUnc:
         out_file.write(unc_str)
-    if nuis:
-        out_file.write("mu_res_beta    param    0    1.\n")
-        out_file.write("mu_scale_beta    param    0    1.\n")
+    # if nuis:
+    #     out_file.write("mu_res_beta    param    0    1.\n")
+    #     out_file.write("mu_scale_beta    param    0    1.\n")
     out_file.close()
 
 def make_BOE_categories(barrel_cut, endcap_cut, output_path, filename):
@@ -438,9 +439,9 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 
 # create_datacard([0, 2.4], "combine/categorization/nuis_test/", "datacard", "workspace", nuis=True)
 
-# for i in range(23):
-#     bins = [0, (i+1)/10.0, 2.4]
-#     create_datacard(bins, "combine/categorization/2cat_scan_5000bins_nuis_simple/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=True)
+for i in range(23):
+    bins = [0, (i+1)/10.0, 2.4]
+    create_datacard(bins, "combine/categorization/2cat_scan_5000bins_narrowed/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=True)
 
 
 # for i in range(14):
@@ -454,8 +455,8 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 #     create_datacard(bins, "combine/categorization/4cat_0p9_1p1_scan_test/", "datacard_4cat_0p9_1p1_%i"%(i+12), "workspace_4cat_0p9_1p1_%i"%(i+12))
 #     # print bins
 
-for i in range(23):
-    for j in range(i):
-        bins = [0.0, (j+1)/10.0, (i+1)/10.0, 2.4]
-        create_datacard(bins, "combine/categorization/full_3cat_scan_5000bins_nuis_simple/", "datacard_3cat_%i_%i"%(j+1, i+1), "workspace_3cat_%i_%i"%(j+1, i+1), nuis=True)
-        print bins
+# for i in range(23):
+#     for j in range(i):
+#         bins = [0.0, (j+1)/10.0, (i+1)/10.0, 2.4]
+#         create_datacard(bins, "combine/categorization/full_3cat_scan_5000bins_nuis_simple/", "datacard_3cat_%i_%i"%(j+1, i+1), "workspace_3cat_%i_%i"%(j+1, i+1), nuis=True)
+#         print bins
