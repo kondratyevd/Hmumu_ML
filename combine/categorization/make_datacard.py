@@ -457,7 +457,7 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 #     create_datacard(bins, "combine/categorization/4cat_0p9_1p1_scan_test/", "datacard_4cat_0p9_1p1_%i"%(i+12), "workspace_4cat_0p9_1p1_%i"%(i+12))
 #     # print bins
 
-for i in range(16,23):
+for i in range(15,23):
     for j in range(i):
         bins = [0.0, (j+1)/10.0, (i+1)/10.0, 2.4]
         create_datacard(bins, "combine/categorization/full_3cat_scan_5000bins/", "datacard_3cat_%i_%i"%(j+1, i+1), "workspace_3cat_%i_%i"%(j+1, i+1), nuis=False)
