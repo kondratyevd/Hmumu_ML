@@ -118,7 +118,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     # w.factory("cat%i_mu_scale_beta [0, 0, 0]"%cat_number)
 
     # w.factory("mu_res_beta [0, 0, 0]")
-    w.factory("mu_res_beta [1, 1, 1]")
+    w.factory("mu_res_beta [0, 0, 0]")
     w.factory("mu_scale_beta [0, 0, 0]")
 
     w.factory("cat%i_mu_res_unc [0.1, 0.1, 0.1]"%cat_number)
@@ -131,24 +131,26 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     mixGG1 = w.var("cat%i_mixGG1"%cat_number)
 
     w.factory("EXPR::cat%i_mean1_times_nuis('cat%i_mean1*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean1[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean2_times_nuis('cat%i_mean2*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean2[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean3_times_nuis('cat%i_mean3*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean3[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_mean2_times_nuis('cat%i_mean2*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean2[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_mean3_times_nuis('cat%i_mean3*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean3[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
 
-    w.factory("expr::cat%i_deltaM21('cat%i_mean2-cat%i_mean1',{cat%i_mean2, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("expr::cat%i_deltaM31('cat%i_mean3-cat%i_mean1',{cat%i_mean3, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("expr::cat%i_deltaM21('cat%i_mean2-cat%i_mean1',{cat%i_mean2, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("expr::cat%i_deltaM31('cat%i_mean3-cat%i_mean1',{cat%i_mean3, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
 
     # w.factory("EXPR::cat%i_mean2_final('cat%i_mean2_times_nuis + cat%i_mu_res_unc*mu_res_beta*cat%i_deltaM21',{cat%i_mean2_times_nuis, cat%i_mu_res_unc, mu_res_beta, cat%i_deltaM21})"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
     # w.factory("EXPR::cat%i_mean3_final('cat%i_mean3_times_nuis + cat%i_mu_res_unc*mu_res_beta*cat%i_deltaM31',{cat%i_mean3_times_nuis, cat%i_mu_res_unc, mu_res_beta, cat%i_deltaM31})"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
 
     w.factory("EXPR::cat%i_width1_times_nuis('cat%i_width1*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width1[1.0, 0.5, 5.0],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
 
     w.factory("Gaussian::cat%i_gaus1(mass, cat%i_mean1_times_nuis, cat%i_width1_times_nuis)"%(cat_number, cat_number, cat_number))
     # w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_final, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
     # w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_final, cat%i_width3_times_nuis)"%(cat_number, cat_number, cat_number))
-    w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_times_nuis, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
-    w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_times_nuis, cat%i_width3_times_nuis)"%(cat_number, cat_number, cat_number))
+    # w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_times_nuis, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
+    # w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_times_nuis, cat%i_width3_times_nuis)"%(cat_number, cat_number, cat_number))
+    w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2[125.,120.,130.], cat%i_width2[5.,2.,10.])"%(cat_number, cat_number, cat_number))
+    w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3[125.,120.,130.], cat%i_width3[5.,1.,10.])"%(cat_number, cat_number, cat_number))
 
     gaus1 = w.pdf('cat%i_gaus1'%(cat_number))
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
@@ -164,7 +166,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     for par in sigParamList:
         par_var = w.var("cat%s_%s"%(cat_number,par))
         par_var.setConstant(True)
-    # w.var("mu_res_beta").setRange(-5, 5)
+    w.var("mu_res_beta").setRange(-5, 5)
     w.var("mu_scale_beta").setRange(-5, 5)
     Import(w, smodel)
     return signal_rate
@@ -279,9 +281,9 @@ def create_datacard(bins, path, name, workspace_filename, statUnc=False, nuis=Fa
     out_file.write("------------------------------\n")
     if statUnc:
         out_file.write(unc_str)
-    # if nuis:
-    #     out_file.write("mu_res_beta    param    0    1.\n")
-    #     out_file.write("mu_scale_beta    param    0    1.\n")
+    if nuis:
+        out_file.write("mu_res_beta    param    0    1.\n")
+        out_file.write("mu_scale_beta    param    0    1.\n")
     out_file.close()
 
 def make_BOE_categories(barrel_cut, endcap_cut, output_path, filename):
@@ -441,7 +443,7 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 
 for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, "combine/categorization/2cat_scan_5000bins_widened/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=True)
+    create_datacard(bins, "combine/categorization/2cat_scan_5000bins_nuis_inner/", "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=True)
 
 
 # for i in range(14):
