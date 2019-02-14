@@ -376,8 +376,8 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 
 second_cut_options = {
     # "1p8": 1.8,
-    "1p9": 1.9,
-    # "2p0": 2.0,
+    # "1p9": 1.9,
+    "2p0": 2.0,
     }
 
 scan_options = [
