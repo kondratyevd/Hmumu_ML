@@ -374,39 +374,39 @@ def create_BOE_datacard(barrel_cut, endcap_cut, output_path, name, workspace_fil
 
 
 
-second_cut_options = {
-    # "1p8": 1.8,
-    # "1p9": 1.9,
-    "2p0": 2.0,
-    }
+# second_cut_options = {
+#     # "1p8": 1.8,
+#     # "1p9": 1.9,
+#     "2p0": 2.0,
+#     }
 
-scan_options = [
-    "Bscan","Oscan", "Escan"
-    ]
+# scan_options = [
+#     "Bscan","Oscan", "Escan"
+#     ]
 
-for key, value in second_cut_options.iteritems():
-    for scan in scan_options:
-        if "O" in scan:
-            for i in range(int((value - 1)*10)):
-                bins = [0, 0.9, (i+10)/10.0, value, 2.4]
-                print key+"_"+scan+":"
-                print bins
-                print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_5000bins/"%(key, scan), "datacard_0p9_%i_%s"%((i+10), key), "workspace_0p9_%i_%s"%((i+10), key))
-        if "E" in scan:
-            for i in range(23-int((value)*10)):
-                bins = [0, 0.9, value, i/10.0+value+0.1, 2.4]
-                print key+"_"+scan+":"
-                print bins
-                print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_5000bins/"%(key, scan), "datacard_0p9_%s_%i"%(key, (i+1+value*10)), "workspace_0p9_%s_%i"%(key, (i+1+value*10)))
-        if "B" in scan:
-            for i in range(8):
-                bins = [0, (i+1)/10.0 ,0.9, value, 2.4]
-                print key+"_"+scan+":"
-                print bins
-                print ""
-                create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_5000bins/"%(key, scan), "datacard_0p9_%i_%s"%((i+1), key), "workspace_0p9_%i_%s"%((i+1), key))
+# for key, value in second_cut_options.iteritems():
+#     for scan in scan_options:
+#         if "O" in scan:
+#             for i in range(int((value - 1)*10)):
+#                 bins = [0, 0.9, (i+10)/10.0, value, 2.4]
+#                 print key+"_"+scan+":"
+#                 print bins
+#                 print ""
+#                 create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_5000bins/"%(key, scan), "datacard_0p9_%i_%s"%((i+10), key), "workspace_0p9_%i_%s"%((i+10), key))
+#         if "E" in scan:
+#             for i in range(23-int((value)*10)):
+#                 bins = [0, 0.9, value, i/10.0+value+0.1, 2.4]
+#                 print key+"_"+scan+":"
+#                 print bins
+#                 print ""
+#                 create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_5000bins/"%(key, scan), "datacard_0p9_%s_%i"%(key, (i+1+value*10)), "workspace_0p9_%s_%i"%(key, (i+1+value*10)))
+#         if "B" in scan:
+#             for i in range(8):
+#                 bins = [0, (i+1)/10.0 ,0.9, value, 2.4]
+#                 print key+"_"+scan+":"
+#                 print bins
+#                 print ""
+#                 create_datacard(bins, "combine/categorization/4cat_0p9_%s_%s_5000bins/"%(key, scan), "datacard_0p9_%i_%s"%((i+1), key), "workspace_0p9_%i_%s"%((i+1), key))
         
 
 # for cut in [13, 14, 15, 16, 17]:
@@ -441,7 +441,7 @@ for key, value in second_cut_options.iteritems():
 #     # print bins
 
 
-# create_datacard([0, 2.4], "combine/categorization/nuis_test/", "datacard", "workspace", nuis=True)
+create_datacard([0, 2.4], "combine/categorization/inclusive_5000bins/", "datacard", "workspace")
 
 # for i in range(23):
 #     bins = [0, (i+1)/10.0, 2.4]
