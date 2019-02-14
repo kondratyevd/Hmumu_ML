@@ -16,4 +16,5 @@ args = parser.parse_args()
 
 # output_path = "output/inclusive/"
 
-run_inclusive(args.input_path, args.output_path)
+# run_inclusive(args.input_path, args.output_path)
+run_2cat_scan(args.input_path, args.output_path)
