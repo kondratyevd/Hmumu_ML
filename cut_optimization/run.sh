@@ -8,6 +8,7 @@ for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and "txt" and use as a name in combine output. 
     # I stole that from some stacexchange topic, don't really know how it works
     SUFF=$(echo "$filename" | sed "s|datacard\(.*\)\.txt|\1|");
-    combine -M Significance --expectSignal=1 -t -1 -n $SUFF $filename
+    echo $filename
+    combine -M Significance --expectSignal=1 -t -1 -n $SUFF -d $filename
 done
 cd -
