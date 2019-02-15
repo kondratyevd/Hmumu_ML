@@ -110,18 +110,16 @@ def fit_in_eta_bin(src, eta_lo, eta_hi, fit_func, var_name, nMassBins, massMin, 
     width = w.var("sigma").getVal()
     width_err = w.var("sigma").getError()
     output = FitOutput(mean, mean_err, width, width_err, chi2, frame)
-    return output, signal_ds.sumEntries()
+    return output
 
 
 def make_resolution_plot(sources, label):
     legend = ROOT.TLegend(0.13, 0.75, 0.35, 0.89)
-    entries = 0
     for src in sources:
         for i in range(1,25):
             eta_lo = (i-1)/10.0
             eta_hi = i/10.0
-            fit_output, ientries = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass_Roch", 100, 110, 135)
-            entries = entries+ientries
+            fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass_Roch", 100, 110, 135)
             src.hist.SetBinContent(i, fit_output.width)
             src.hist.SetBinError(i, fit_output.width_err)
         legend.AddEntry(src.hist, src.title, "pl")
@@ -139,10 +137,11 @@ def make_resolution_plot(sources, label):
     canvas.SaveAs("plots/%s.png"%label)
     canvas.SaveAs("plots/%s.root"%label)
     canvas.Close()
-    print "Total entries: ", entries
+
 sig_sources = []
 
-sig_sources.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kRed))
+sig_sources.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlue))
+sig_sources.append(SignalSrc("ggH_2017", "ggH 2017", "~/Hmumu_analysis/Hmumu_ML/combine/fsr_test_2017_full.root", "dimuons/tree", "1", ROOT.kRed))
 # sig_sources.append(SignalSrc("ggH_2017", "ggH 2017", "/mnt/hadoop/store/user/dkondrat/skim/2017/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlue))
 
 # sig_sources.append(SignalSrc("ggH_local_1", "ggH local 1", "/Users/dmitrykondratyev/root_files/mc/2017/updated/gluglu/gluglu_1.root", "dimuons/tree", "weight_over_lumi*(mu1_eta<0)", ROOT.kRed))
