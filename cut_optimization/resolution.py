@@ -140,8 +140,8 @@ def make_resolution_plot(sources, label):
 
 sig_sources = []
 
-sig_sources.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/user/dkondra/skim/2016/H2Mu_gg/*root", "dimuons/tree", "weight_over_lumi", ROOT.kRed))
-sig_sources.append(SignalSrc("ggH_2017", "ggH 2017", "/mnt/hadoop/user/dkondra/skim/2017/H2Mu_gg/*root", "dimuons/tree", "weight_over_lumi", ROOT.kBlue))
+sig_sources.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "weight_over_lumi", ROOT.kRed))
+sig_sources.append(SignalSrc("ggH_2017", "ggH 2017", "/mnt/hadoop/user/dkondrat/skim/2017/H2Mu_gg/*root", "dimuons/tree", "weight_over_lumi", ROOT.kBlue))
 
 # sig_sources.append(SignalSrc("ggH_local_1", "ggH local 1", "/Users/dmitrykondratyev/root_files/mc/2017/updated/gluglu/gluglu_1.root", "dimuons/tree", "weight_over_lumi*(mu1_eta<0)", ROOT.kRed))
 # sig_sources.append(SignalSrc("ggH_local_2", "ggH local 2", "/Users/dmitrykondratyev/root_files/mc/2017/updated/gluglu/gluglu_1.root", "dimuons/tree", "weight_over_lumi*(mu1_eta>0)", ROOT.kBlue))
