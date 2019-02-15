@@ -110,26 +110,25 @@ def fit_in_eta_bin(src, eta_lo, eta_hi, fit_func, var_name, nMassBins, massMin, 
     width = w.var("sigma").getVal()
     width_err = w.var("sigma").getError()
     output = FitOutput(mean, mean_err, width, width_err, chi2, frame)
-    return output
+    return output, signal_tree.GetEntries()
 
 
 def make_resolution_plot(sources, label):
     legend = ROOT.TLegend(0.13, 0.75, 0.35, 0.89)
+    entries = 0
     for src in sources:
         for i in range(1,25):
             eta_lo = (i-1)/10.0
             eta_hi = i/10.0
-            fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass_Roch", 100, 110, 135)
+            fit_output, ientries = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass_Roch", 100, 110, 135)
+            entries = entries+ientries
             src.hist.SetBinContent(i, fit_output.width)
             src.hist.SetBinError(i, fit_output.width_err)
         legend.AddEntry(src.hist, src.title, "pl")
     canvas = ROOT.TCanvas("c","c",800,800)
     canvas.cd()
-    entries = 0
-    for i,src in enumerate(sources):
+    for src in sources:
         src.hist.Draw("ple1same")
-        entries = entries+src.hist.GetEntries()
-        print src.hist.GetEntries()
         src.hist.SetTitle("")
         src.hist.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.hist.GetYaxis().SetTitle("width, GeV")
@@ -141,7 +140,6 @@ def make_resolution_plot(sources, label):
     canvas.SaveAs("plots/%s.root"%label)
     canvas.Close()
     print "Total entries: ", entries
-
 sig_sources = []
 
 sig_sources.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kRed))
