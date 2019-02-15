@@ -17,7 +17,7 @@ gInterpreter.ProcessLine('#include "interface/GenMuPairInfo.h"')
 gInterpreter.ProcessLine('#include "interface/GenJetInfo.h"')
 
 input_dir = "/mnt/hadoop/store/user/dkondrat/"
-output_dir = "/tmp/Hmumu_ntuples/updated_data/"
+output_dir = "/tmp/Hmumu_ntuples/2016_ntuples_skim/"
 # input_dir = "/Users/dmitrykondratyev/root_files/mc/2017/"
 # output_dir = "/Users/dmitrykondratyev/root_files/mc/2017/updated/"
 
