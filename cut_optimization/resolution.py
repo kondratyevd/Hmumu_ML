@@ -119,7 +119,7 @@ def make_resolution_plot(sources, label):
         for i in range(1,25):
             eta_lo = (i-1)/10.0
             eta_hi = i/10.0
-            fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass_Roch", 100, 110, 135)
+            fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass", 100, 110, 135)
             src.hist.SetBinContent(i, fit_output.width)
             src.hist.SetBinError(i, fit_output.width_err)
         legend.AddEntry(src.hist, src.title, "pl")
