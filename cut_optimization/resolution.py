@@ -125,8 +125,11 @@ def make_resolution_plot(sources, label):
         legend.AddEntry(src.hist, src.title, "pl")
     canvas = ROOT.TCanvas("c","c",800,800)
     canvas.cd()
+    entries = 0
     for i,src in enumerate(sources):
         src.hist.Draw("ple1same")
+        entries = entries+src.hist.GetEntries()
+        print src.hist.GetEntries()
         src.hist.SetTitle("")
         src.hist.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.hist.GetYaxis().SetTitle("width, GeV")
@@ -137,12 +140,12 @@ def make_resolution_plot(sources, label):
     canvas.SaveAs("plots/%s.png"%label)
     canvas.SaveAs("plots/%s.root"%label)
     canvas.Close()
-
+    print "Total entries: ", entries
 
 sig_sources = []
 
 sig_sources.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kRed))
-sig_sources.append(SignalSrc("ggH_2017", "ggH 2017", "/mnt/hadoop/store/user/dkondrat/skim/2017/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlue))
+# sig_sources.append(SignalSrc("ggH_2017", "ggH 2017", "/mnt/hadoop/store/user/dkondrat/skim/2017/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlue))
 
 # sig_sources.append(SignalSrc("ggH_local_1", "ggH local 1", "/Users/dmitrykondratyev/root_files/mc/2017/updated/gluglu/gluglu_1.root", "dimuons/tree", "weight_over_lumi*(mu1_eta<0)", ROOT.kRed))
 # sig_sources.append(SignalSrc("ggH_local_2", "ggH local 2", "/Users/dmitrykondratyev/root_files/mc/2017/updated/gluglu/gluglu_1.root", "dimuons/tree", "weight_over_lumi*(mu1_eta>0)", ROOT.kBlue))
