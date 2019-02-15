@@ -110,7 +110,7 @@ def fit_in_eta_bin(src, eta_lo, eta_hi, fit_func, var_name, nMassBins, massMin, 
     width = w.var("sigma").getVal()
     width_err = w.var("sigma").getError()
     output = FitOutput(mean, mean_err, width, width_err, chi2, frame)
-    return output, signal_tree.GetEntries()
+    return output, signal_ds.sumEntries()
 
 
 def make_resolution_plot(sources, label):
