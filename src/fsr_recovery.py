@@ -95,6 +95,9 @@ def loop_over_events(path):
     jets, jetLabel = Handle("std::vector<pat::Jet>"), "slimmedJets"
     pfCands, pfCandsLabel = Handle("std::vector<pat::PackedCandidate>"), "packedPFCandidates"
 
+    genEvtInfo, genEvtInfoLabel = Handle("GenEventInfoProduct"), "generator"
+
+
     mass_hist = ROOT.TH1D("mass", "", 40,110,150)
     mass_fsr_hist = ROOT.TH1D("mass_fsr", "", 40,110,150)
     mass_hist_tagged = ROOT.TH1D("mass_tagged", "", 40,110,150)
@@ -141,6 +144,9 @@ def loop_over_events(path):
                 event.getByLabel(jetLabel, jets)
                 event.getByLabel(muonLabel, muons)
                 event.getByLabel(pfCandsLabel, pfCands)
+                event.getByLabel(genEvtInfoLabel,  genEvtInfo)
+
+                print "GEN weight: ". genEvtInfo.weight()
 
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
