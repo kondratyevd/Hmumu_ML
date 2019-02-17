@@ -136,8 +136,8 @@ def loop_over_events(path, out_path):
 
 
     for filename in os.listdir(path):
-        if filename.endswith("A68BB.root"):
-        # if filename.endswith(".root"):         
+        # if filename.endswith("A68BB.root"):
+        if filename.endswith(".root"):         
             events = Events(path+filename)
             print "Processing file: ", filename            
             for iev,event in enumerate(events):
@@ -162,8 +162,8 @@ def loop_over_events(path, out_path):
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
 
-                if iev>1000:
-                    break
+                # if iev>1000:
+                #     break
             
                 mu1 = None
                 mu2 = None
@@ -329,7 +329,7 @@ dy_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP
 ggh_path = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/"
 
 
-output_file = "combine/fsr_test_2018.root"
+output_file = "combine/fsr_test_2018_full.root"
 
 mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged =  loop_over_events(ggh_path, output_file)
 write_weights_to_tree(output_file)
