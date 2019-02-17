@@ -289,7 +289,7 @@ def write_weights_to_tree(file_path):
 
     # print f.tree.GetEntries()
     for i in range(f.tree.GetEntries()):
-        tree.GetEntry(i)
+        f.tree.GetEntry(i)
     # for iev, event in enumerate(f.tree):
     #     print "Reading event #", iev
     #     event.weight_over_lumi = 0.009618/nOriginalWeighted
