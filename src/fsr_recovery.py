@@ -281,10 +281,12 @@ def write_weights_to_tree(file_path):
     tree = file.Get("dimuons/tree")
     metadata = file.Get("dimuons/metadata")
 
-    nOriginalWeighted = metadata.GetLeaf('sumGenWeights').GetValue()
     weight_over_lumi = array('f', [0])
     newBranch = tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
 
+    for i in range(metadata.GetEntries()):
+        metadata.GetEntry(i)
+        nOriginalWeighted = metadata.GetLeaf('sumGenWeights').GetValue()
     for i in range(tree.GetEntries()):
         tree.GetEntry(i)
         weight_over_lumi[0] = 0.009618/nOriginalWeighted
