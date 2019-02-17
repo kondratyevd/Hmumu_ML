@@ -287,12 +287,13 @@ def write_weights_to_tree(file_path):
     for event in f.metadata:
         nOriginalWeighted = event.sumGenWeights
 
-    for iev, event in enumerate(f.tree):
-        print "Reading event #", iev
-        event.weight_over_lumi = 0.009618/nOriginalWeighted
-        # weight_over_lumi[0] = 0.009618/nOriginalWeighted
-        f.tree.Fill()
-    f.tree.Write()
+    print f.tree.GetEntries()
+    # for iev, event in enumerate(f.tree):
+    #     print "Reading event #", iev
+    #     event.weight_over_lumi = 0.009618/nOriginalWeighted
+    #     # weight_over_lumi[0] = 0.009618/nOriginalWeighted
+    #     f.tree.Fill()
+    # f.tree.Write()
     f.metadata.Write()
     f.Close()
 
