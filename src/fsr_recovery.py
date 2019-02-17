@@ -107,6 +107,8 @@ def loop_over_events(path):
     tree = ROOT.TTree("tree", "tree")
     tree.SetDirectory(0)
 
+    metadata = ROOT.TTree("metadata", "metadata")
+
     mass = array("f", [0])
     fsr_tag = array("i", [0])
     fsr_2tag = array("i", [0])
@@ -117,6 +119,7 @@ def loop_over_events(path):
     mu1_eta = array("f", [0])
     mu2_eta = array("f", [0])
     fsr_spectrum = array("f", [0])
+    sumGenWeights = array("f", [0])
 
     tree.Branch('mass', mass, 'mass/F')
     tree.Branch('fsr_tag', fsr_tag, 'fsr_tag/I')
@@ -129,11 +132,14 @@ def loop_over_events(path):
     tree.Branch('mu2_eta', mu2_eta, 'mu2_eta/F')
     tree.Branch('fsr_spectrum', fsr_spectrum, 'fsr_spectrum/F')
 
+    metadata.Branch('sumGenWeights', sumGenWeights, 'sumGenWeights/F')
+
+
     for filename in os.listdir(path):
-        # if filename.endswith("D37BC.root"):
-        if filename.endswith(".root"):         
+        if filename.endswith("A68BB.root"):
+        # if filename.endswith(".root"):         
             events = Events(path+filename)
-            print "Processing file: ", filename
+            print "Processing file: ", filename            
             for iev,event in enumerate(events):
                 mass[0] = -999
                 fsr_tag[0] = -999
@@ -146,13 +152,20 @@ def loop_over_events(path):
                 event.getByLabel(pfCandsLabel, pfCands)
                 event.getByLabel(genEvtInfoLabel,  genEvtInfo)
 
-                print "GEN weight: ", genEvtInfo.product().weight()
+
+
+                gen_wgt = genEvtInfo.product().weight()
+
+                if gen_wgt > 0:
+                    sumGenWeights[0] = sumGenWeights[0] + 1
+                else:
+                    sumGenWeights[0] = sumGenWeights[0] - 1
 
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
 
-                # if iev>10000:
-                #     break
+                if iev>1000:
+                    break
             
                 mu1 = None
                 mu2 = None
@@ -248,12 +261,13 @@ def loop_over_events(path):
                     elif photon2:
                         fsr_spectrum[0] = photon2.pt()
                     tree.Fill()
+    metadata.Fill()                    
 
     mass_hist_tagged.SetLineColor(ROOT.kBlue)
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
-    out_file = ROOT.TFile("combine/fsr_test_2018_full.root", "RECREATE")
+    out_file = ROOT.TFile("combine/fsr_test_2018.root", "RECREATE")
     out_file.cd()
     tree.Write()
     out_file.Close()
