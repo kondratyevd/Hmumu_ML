@@ -298,11 +298,12 @@ def write_weights_to_tree(file_path):
     for i in range(tree.GetEntries()):
         tree.GetEntry(i)
         weight_over_lumi[0] = 0.009618/nOriginalWeighted
-        print weight_over_lumi[0]
         new_tree.Fill()
 
     new_tree.Write()
     new_file.Close()
+
+
 
 def set_out_path(path):
     try:
@@ -327,20 +328,12 @@ dy_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP
 # Autumn 2018 
 ggh_path = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/"
 
-# out_path = "plots/fsr_recovery/"
-# set_out_path(out_path)
 
 output_file = "combine/fsr_test_2018.root"
 
 mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged =  loop_over_events(ggh_path, output_file)
 write_weights_to_tree(output_file)
 
-# legend = ROOT.TLegend(0.65,0.7,0.89,0.89)
-# legend.AddEntry(mass_hist, 'pre-FSR', 'l')
-# legend.AddEntry(mass_fsr_hist, ' post-FSR', 'l')
-
-# plot_hists([mass_fsr_hist, mass_hist], "inclusive_removeFromIso", out_path, legend)
-# plot_hists([mass_fsr_hist_tagged, mass_hist_tagged], "fsr_tagged_removeFromIso", out_path, legend)
 
 
 
