@@ -289,9 +289,9 @@ def write_weights_to_tree(file_path):
 
     for event in f.tree:
         weight_over_lumi[0] = 0.009618/nOriginalWeighted
-        tree.Fill()
-    tree.Write()
-    metadata.Write()
+        f.tree.Fill()
+    f.tree.Write()
+    f.metadata.Write()
     f.Close()
 
 def set_out_path(path):
