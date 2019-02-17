@@ -89,7 +89,7 @@ def photonPfIso03(pho, pfCands):
 
 
 
-def loop_over_events(path):
+def loop_over_events(path, out_path):
     
     muons, muonLabel = Handle("std::vector<pat::Muon>"), "slimmedMuons"
     jets, jetLabel = Handle("std::vector<pat::Jet>"), "slimmedJets"
@@ -151,8 +151,6 @@ def loop_over_events(path):
                 event.getByLabel(muonLabel, muons)
                 event.getByLabel(pfCandsLabel, pfCands)
                 event.getByLabel(genEvtInfoLabel,  genEvtInfo)
-
-
 
                 gen_wgt = genEvtInfo.product().weight()
 
@@ -267,13 +265,33 @@ def loop_over_events(path):
     mass_fsr_hist_tagged.SetLineColor(ROOT.kRed)
     mass_hist.SetLineColor(ROOT.kBlue)
     mass_fsr_hist.SetLineColor(ROOT.kRed)
-    out_file = ROOT.TFile("combine/fsr_test_2018.root", "RECREATE")
+    out_file = ROOT.TFile(out_path, "RECREATE")
     out_file.cd()
     metadata.Write()
     tree.Write()
     out_file.Close()
 
     return mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged
+
+
+
+
+def write_weights_to_tree(file_path): 
+    file = ROOT.TFile(file_path, "update")
+    tree = file.Get("dimuons/tree")
+    metadata = file.Get("dimuons/metadata")
+
+    nOriginalWeighted = metadata.GetLeaf('sumGenWeights').GetValue()
+    weight_over_lumi = array('f', [0])
+    newBranch = tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
+
+    for i in range(tree.GetEntries()):
+        tree.GetEntry(i)
+        weight_over_lumi[0] = 0.009618/nOriginalWeighted
+        tree.Fill()
+    tree.Write()
+    metadata.Write()
+    file.Close()
 
 def set_out_path(path):
     try:
@@ -298,17 +316,20 @@ dy_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP
 # Autumn 2018 
 ggh_path = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/"
 
-out_path = "plots/fsr_recovery/"
-set_out_path(out_path)
+# out_path = "plots/fsr_recovery/"
+# set_out_path(out_path)
 
-mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged =  loop_over_events(ggh_path)
+output_file = "combine/fsr_test_2018.root"
 
-legend = ROOT.TLegend(0.65,0.7,0.89,0.89)
-legend.AddEntry(mass_hist, 'pre-FSR', 'l')
-legend.AddEntry(mass_fsr_hist, ' post-FSR', 'l')
+mass_hist, mass_fsr_hist, mass_hist_tagged, mass_fsr_hist_tagged =  loop_over_events(ggh_path, output_file)
+write_weights_to_tree(output_file)
 
-plot_hists([mass_fsr_hist, mass_hist], "inclusive_removeFromIso", out_path, legend)
-plot_hists([mass_fsr_hist_tagged, mass_hist_tagged], "fsr_tagged_removeFromIso", out_path, legend)
+# legend = ROOT.TLegend(0.65,0.7,0.89,0.89)
+# legend.AddEntry(mass_hist, 'pre-FSR', 'l')
+# legend.AddEntry(mass_fsr_hist, ' post-FSR', 'l')
+
+# plot_hists([mass_fsr_hist, mass_hist], "inclusive_removeFromIso", out_path, legend)
+# plot_hists([mass_fsr_hist_tagged, mass_hist_tagged], "fsr_tagged_removeFromIso", out_path, legend)
 
 
 
