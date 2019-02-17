@@ -285,16 +285,13 @@ def write_weights_to_tree(file_path):
     newBranch = f.tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
 
     for event in f.metadata:
-        print event.sumGenWeights
-        # metadata.GetEntry(i)
-        # nOriginalWeighted = metadata.GetLeaf('sumGenWeights').GetValue()
+        nOriginalWeighted = event.sumGenWeights
 
-    # for i in range(tree.GetEntries()):
-    #     tree.GetEntry(i)
-    #     weight_over_lumi[0] = 0.009618/nOriginalWeighted
-    #     tree.Fill()
-    # tree.Write()
-    # metadata.Write()
+    for event in f.tree:
+        weight_over_lumi[0] = 0.009618/nOriginalWeighted
+        tree.Fill()
+    tree.Write()
+    metadata.Write()
     f.Close()
 
 def set_out_path(path):
