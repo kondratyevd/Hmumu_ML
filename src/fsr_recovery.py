@@ -302,7 +302,7 @@ def write_weights_to_tree(file_path):
         new_tree.Fill()
     # f.Close()
 
-    new_file = ROOT.TFile.Open(file_path, "RECREATE")
+    new_file = ROOT.TFile.Open("combine/fsr_test_2018_dummy.root", "RECREATE")
     new_tree.Write()
     new_file.Close()
 
