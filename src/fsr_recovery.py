@@ -277,27 +277,32 @@ def loop_over_events(path, out_path):
 
 
 def write_weights_to_tree(file_path): 
-    f = ROOT.TFile(file_path, "update")
-    # tree = file.Get("dimuons/tree")
-    # metadata = file.Get("dimuons/metadata")
-    new_tree = f.tree.CloneTree()
+    # f = ROOT.TFile(file_path, "update")
+    tree = ROOT.TChain("dimuons/tree")
+    metadata = ROOT.TChain("dimuons/metadata")
+    tree.Add(file_path)
+    metadata.Add(file_path)
+    new_tree = tree.CloneTree()
 
     weight_over_lumi = array('f', [0])
     newBranch = new_tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
 
-    for event in f.metadata:
-        nOriginalWeighted = event.sumGenWeights
+    # for event in f.metadata:
+    #     nOriginalWeighted = event.sumGenWeights
+    for i in range(metadata.GetEntries()):
+        metadata.GetEntry(i)
+        nOriginalWeighted = metadata.GetLeaf("sumGenWeights").GetValue()
 
     # print f.tree.GetEntries()
-    for i in range(f.tree.GetEntries()):
-        f.tree.GetEntry(i)
+    for i in range(tree.GetEntries()):
+        tree.GetEntry(i)
         weight_over_lumi[0] = 0.009618/nOriginalWeighted
         new_tree.Fill()
-    f.Close()
+    # f.Close()
     new_file = ROOT.TFile.Open(file_path, "RECREATE")
     new_tree.Write()
     new_file.Close()
-    
+
 def set_out_path(path):
     try:
         os.makedirs(path)
