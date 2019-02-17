@@ -282,8 +282,8 @@ def write_weights_to_tree(file_path):
     metadata = ROOT.TChain("dimuons/metadata")
     tree.Add(file_path)
     metadata.Add(file_path)
-
-    new_file = ROOT.TFile.Open(file_path, "RECREATE")
+    print tree.GetEntries()
+    new_file = ROOT.TFile.Open("combine/fsr_test_2018_dummy.root", "RECREATE")
     new_tree = tree.CloneTree(0)
 
     weight_over_lumi = array('f', [0])
