@@ -282,6 +282,8 @@ def write_weights_to_tree(file_path):
     metadata = ROOT.TChain("dimuons/metadata")
     tree.Add(file_path)
     metadata.Add(file_path)
+
+    new_file = ROOT.TFile.Open(file_path, "RECREATE")
     new_tree = tree.CloneTree(0)
 
     weight_over_lumi = array('f', [0])
@@ -299,7 +301,7 @@ def write_weights_to_tree(file_path):
         weight_over_lumi[0] = 0.009618/nOriginalWeighted
         new_tree.Fill()
     # f.Close()
-    new_file = ROOT.TFile.Open(file_path, "RECREATE")
+
     new_tree.Write()
     new_file.Close()
 
