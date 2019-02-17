@@ -278,15 +278,17 @@ def loop_over_events(path, out_path):
 
 def write_weights_to_tree(file_path): 
     file = ROOT.TFile(file_path, "update")
-    tree = file.Get("dimuons/tree")
-    metadata = file.Get("dimuons/metadata")
+    # tree = file.Get("dimuons/tree")
+    # metadata = file.Get("dimuons/metadata")
 
     weight_over_lumi = array('f', [0])
-    newBranch = tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
+    newBranch = f.tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
 
-    for i in range(metadata.GetEntries()):
-        metadata.GetEntry(i)
-        nOriginalWeighted = metadata.GetLeaf('sumGenWeights').GetValue()
+    for event in f.metadata:
+        print event.sumGenWeights
+        # metadata.GetEntry(i)
+        # nOriginalWeighted = metadata.GetLeaf('sumGenWeights').GetValue()
+
     for i in range(tree.GetEntries()):
         tree.GetEntry(i)
         weight_over_lumi[0] = 0.009618/nOriginalWeighted
