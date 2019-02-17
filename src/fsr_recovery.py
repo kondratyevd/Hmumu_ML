@@ -280,9 +280,10 @@ def write_weights_to_tree(file_path):
     f = ROOT.TFile(file_path, "update")
     # tree = file.Get("dimuons/tree")
     # metadata = file.Get("dimuons/metadata")
+    new_tree = f.tree.CloneTree()
 
     weight_over_lumi = array('f', [0])
-    newBranch = f.tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
+    newBranch = new_tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
 
     for event in f.metadata:
         nOriginalWeighted = event.sumGenWeights
@@ -290,15 +291,13 @@ def write_weights_to_tree(file_path):
     # print f.tree.GetEntries()
     for i in range(f.tree.GetEntries()):
         f.tree.GetEntry(i)
-    # for iev, event in enumerate(f.tree):
-    #     print "Reading event #", iev
-    #     event.weight_over_lumi = 0.009618/nOriginalWeighted
         weight_over_lumi[0] = 0.009618/nOriginalWeighted
-        f.tree.Fill()
-    f.tree.Write()
-    f.metadata.Write()
+        new_tree.Fill()
     f.Close()
-
+    new_file = ROOT.TFile.Open(file_path, "RECREATE")
+    new_tree.Write()
+    new_file.Close()
+    
 def set_out_path(path):
     try:
         os.makedirs(path)
