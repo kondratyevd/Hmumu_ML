@@ -282,7 +282,7 @@ def write_weights_to_tree(file_path):
     metadata = ROOT.TChain("dimuons/metadata")
     tree.Add(file_path)
     metadata.Add(file_path)
-    new_tree = tree.CloneTree()
+    new_tree = tree.CloneTree(0)
 
     weight_over_lumi = array('f', [0])
     newBranch = new_tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
