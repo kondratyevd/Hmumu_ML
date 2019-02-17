@@ -146,7 +146,7 @@ def loop_over_events(path):
                 event.getByLabel(pfCandsLabel, pfCands)
                 event.getByLabel(genEvtInfoLabel,  genEvtInfo)
 
-                print "GEN weight: ". genEvtInfo.weight()
+                print "GEN weight: ", genEvtInfo.weight()
 
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
