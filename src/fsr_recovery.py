@@ -269,6 +269,7 @@ def loop_over_events(path):
     mass_fsr_hist.SetLineColor(ROOT.kRed)
     out_file = ROOT.TFile("combine/fsr_test_2018.root", "RECREATE")
     out_file.cd()
+    metadata.Write()
     tree.Write()
     out_file.Close()
 
