@@ -3,6 +3,8 @@ from math import sqrt
 import os, sys, errno
 Import = getattr(ROOT.RooWorkspace, 'import')
 
+LUMI = 35866
+
 def create_workspace():
     var = ROOT.RooRealVar("mass","Dilepton mass",110,150)     
     var.setBins(100)
@@ -45,7 +47,7 @@ def add_sig_model(w, cat_number, input_path, cut):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*2573"%(cut))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, LUMI))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -86,7 +88,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*2573"%(cut))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, LUMI))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
