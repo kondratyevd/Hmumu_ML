@@ -5,7 +5,7 @@ CURRENT_LOCATION=$(pwd)
 SIG_INPUT_PATH=/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/H2Mu_gg.root
 DATA_INPUT_PATH=/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu*B/*root
 OUTPUT_PATH=output/
-python categorize.py --in_path $SIG_INPUT_PATH --out_path $OUTPUT_PATH
+python categorize.py --sig_in_path $SIG_INPUT_PATH --data_in_path $DATA_INPUT_PATH --out_path $OUTPUT_PATH
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
