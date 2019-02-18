@@ -19,7 +19,7 @@ def add_data(w, cat_number, input_path, cut):
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
-    data_tree = ROOT.TChain("tree_Data")
+    data_tree = ROOT.TChain("dimuons/tree")
     data_tree.Add(input_path)  
     data_hist_name = "data_%i"%cat_number
     data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 150)
@@ -37,7 +37,7 @@ def add_sig_model(w, cat_number, input_path, cut):
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
-    signal_tree = ROOT.TChain("tree_H2Mu_gg")
+    signal_tree = ROOT.TChain("dimuons/tree")
     signal_tree.Add(input_path)  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
@@ -78,7 +78,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
-    signal_tree = ROOT.TChain("tree_H2Mu_gg")
+    signal_tree = ROOT.TChain("dimuons/tree")
     signal_tree.Add(input_path)  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
