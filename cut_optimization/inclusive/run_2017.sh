@@ -3,7 +3,7 @@
 CURRENT_LOCATION=$(pwd)
 SIG_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2017/H2Mu_gg/H2Mu_gg.root"
 DATA_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
-SIG_TREE="tree"
+SIG_TREE="dimuons/tree"
 DATA_TREE="dimuons/tree"
 LUMI=35866
 OUTPUT_PATH=output/
