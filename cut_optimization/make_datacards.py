@@ -3,8 +3,6 @@ from math import sqrt
 import os, sys, errno
 Import = getattr(ROOT.RooWorkspace, 'import')
 
-LUMI = 35866
-
 def create_workspace():
     var = ROOT.RooRealVar("mass","Dilepton mass",110,150)     
     var.setBins(100)
@@ -15,13 +13,13 @@ def create_workspace():
 
     return w
 
-def add_data(w, cat_number, input_path, cut):
+def add_data(w, cat_number, input_path, data_tree, cut):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
-    data_tree = ROOT.TChain("dimuons/tree")
+    data_tree = ROOT.TChain(data_tree)
     data_tree.Add(input_path)  
     print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
     data_hist_name = "data_%i"%cat_number
@@ -34,20 +32,20 @@ def add_data(w, cat_number, input_path, cut):
     Import(w, data)
     return w.data("cat%i_data"%cat_number)
 
-def add_sig_model(w, cat_number, input_path, cut):
+def add_sig_model(w, cat_number, input_path, sig_tree, lumi, cut):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
-    signal_tree = ROOT.TChain("dimuons/tree")
+    signal_tree = ROOT.TChain(sig_tree)
     signal_tree.Add(input_path)  
     print "Loaded tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, LUMI))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -76,19 +74,19 @@ def add_sig_model(w, cat_number, input_path, cut):
     Import(w, smodel)
     return signal_rate
 
-def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
+def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
-    signal_tree = ROOT.TChain("dimuons/tree")
+    signal_tree = ROOT.TChain(sig_tree)
     signal_tree.Add(input_path)  
     signal_hist_name = "signal_%i"%cat_number
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, LUMI))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -155,8 +153,8 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     Import(w, smodel)
     return signal_rate
 
-def add_bkg_model(w, cat_number, input_path, cut):
-    data = add_data(w, cat_number, input_path, cut)
+def add_bkg_model(w, cat_number, input_path, data_tree, cut):
+    data = add_data(w, cat_number, input_path, data_tree, cut)
     var = w.var("mass")
     var.setBins(5000)
     var.setRange("left",110,120+0.1)
@@ -182,7 +180,7 @@ def add_bkg_model(w, cat_number, input_path, cut):
     return bkg_rate
 
 
-def make_eta_categories(bins, sig_input_path, data_input_path, output_path, filename, statUnc=False, nuis=False):
+def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tree, output_path, filename, lumi, statUnc=False, nuis=False):
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -209,11 +207,11 @@ def make_eta_categories(bins, sig_input_path, data_input_path, output_path, file
         cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
         
         if nuis:
-            sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, cut)    
+            sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut)    
         else:
-            sig_rate = add_sig_model(w, i, sig_input_path, cut) 
+            sig_rate = add_sig_model(w, i, sig_input_path, sig_tree, lumi, cut) 
 
-        bkg_rate = add_bkg_model(w, i, data_input_path, cut)
+        bkg_rate = add_bkg_model(w, i, data_input_path, data_tree, cut)
 
         combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
         combine_import = combine_import+"shapes cat%i_ggh  cat%i %s.root w:cat%i_ggh\n"%(i,i,filename,i)
@@ -243,13 +241,13 @@ def make_eta_categories(bins, sig_input_path, data_input_path, output_path, file
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n"
 
 
-def create_datacard(bins, sig_in_path, data_in_path, out_path, name, workspace_filename, statUnc=False, nuis=False): 
+def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, name, workspace_filename, lumi, statUnc=False, nuis=False): 
     try:
         os.makedirs(out_path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, data_in_path, out_path, workspace_filename, statUnc=statUnc, nuis=nuis)
+    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, workspace_filename, lumi statUnc=statUnc, nuis=nuis)
     out_file = open(out_path+name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
