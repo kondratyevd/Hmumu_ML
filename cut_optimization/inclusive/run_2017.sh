@@ -14,6 +14,6 @@ for filename in *.txt; do
     # I stole that from some stackexchange topic, don't really know how it works
     SUFF=$(echo "$filename" | sed "s|datacard\(.*\)\.txt|\1|");
     echo $filename
-    combine -M Significance --expectSignal=1 -t -1 -n "$SUFF"_2017 -d $filename
+    combine -M Significance --expectSignal=1 -t -1 -n "$SUFF" -d $filename
 done
 cd $CURRENT_LOCATION
