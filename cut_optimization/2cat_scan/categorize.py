@@ -4,12 +4,15 @@ from make_datacards import create_datacard
 import argparse
 
 parser = argparse.ArgumentParser(description='')
-parser.add_argument('--in_path', action='store', dest='input_path', help='Input path')
+parser.add_argument('--sig_in_path', action='store', dest='sig_input_path', help='Input path')
+parser.add_argument('--data_in_path', action='store', dest='data_input_path', help='Input path')
+parser.add_argument('--sig_tree', action='store', dest='sig_tree', help='Tree name')
+parser.add_argument('--data_tree', action='store', dest='data_tree', help='Tree name')
 parser.add_argument('--out_path', action='store', dest='output_path', help='Output path')
-parser.add_argument('--nuis', action='store_true', dest='nuis', help='Include nuisances')
-
+parser.add_argument('--lumi', action='store', dest='lumi', help='Integrated luminosity')
+parser.add_argument('--suff', action='store', dest='suff', help='')
 args = parser.parse_args()
 
 for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, args.input_path, args.output_path, "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=args.nuis)
+    create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path,  "datacard_2cat_%i_%s"%(i+1, suff), "workspace_2cat_%i_%s"%(i+1, suff), args.lumi)
