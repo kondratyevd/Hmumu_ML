@@ -43,7 +43,7 @@ def add_sig_model(w, cat_number, input_path, cut):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*2573"%(cut))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -84,7 +84,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight"%(cut)) # only 80% of events were saved in "train" file, hence the weight
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*2573"%(cut))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -178,7 +178,7 @@ def add_bkg_model(w, cat_number, input_path, cut):
     return bkg_rate
 
 
-def make_eta_categories(bins, input_path, output_path, filename, statUnc=False, nuis=False):
+def make_eta_categories(bins, sig_input_path, data_input_path, output_path, filename, statUnc=False, nuis=False):
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -205,11 +205,11 @@ def make_eta_categories(bins, input_path, output_path, filename, statUnc=False, 
         cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
         
         if nuis:
-            sig_rate = add_sig_model_with_nuisances(w, i, input_path, cut)    
+            sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, cut)    
         else:
-            sig_rate = add_sig_model(w, i, input_path, cut) 
+            sig_rate = add_sig_model(w, i, sig_input_path, cut) 
 
-        bkg_rate = add_bkg_model(w, i, input_path, cut)
+        bkg_rate = add_bkg_model(w, i, data_input_path, cut)
 
         combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
         combine_import = combine_import+"shapes cat%i_ggh  cat%i %s.root w:cat%i_ggh\n"%(i,i,filename,i)
@@ -239,13 +239,13 @@ def make_eta_categories(bins, input_path, output_path, filename, statUnc=False, 
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n"
 
 
-def create_datacard(bins, in_path, out_path, name, workspace_filename, statUnc=False, nuis=False): 
+def create_datacard(bins, sig_in_path, data_in_path, out_path, name, workspace_filename, statUnc=False, nuis=False): 
     try:
         os.makedirs(out_path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, in_path, out_path, workspace_filename, statUnc=statUnc, nuis=nuis)
+    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, data_in_path, out_path, workspace_filename, statUnc=statUnc, nuis=nuis)
     out_file = open(out_path+name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")

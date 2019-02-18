@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 CURRENT_LOCATION=$(pwd)
-INPUT_PATH=../../output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/
+# SIG_INPUT_PATH=../../output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/
+SIG_INPUT_PATH=/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/H2Mu_gg.root
+DATA_INPUT_PATH=/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu*B/*root
 OUTPUT_PATH=output/
-python categorize.py --in_path $INPUT_PATH --out_path $OUTPUT_PATH
+python categorize.py --in_path $SIG_INPUT_PATH --out_path $OUTPUT_PATH
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
