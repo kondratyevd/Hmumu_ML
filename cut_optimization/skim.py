@@ -40,60 +40,60 @@ sources = []
 
 ### ### 2017 ntuples ### ###
 
-input_dir = "/mnt/hadoop/store/user/dkondrat/2017_ntuples/"
-output_dir = "/tmp/Hmumu_ntuples/2017_ntuples_skim/"
+# input_dir = "/mnt/hadoop/store/user/dkondrat/2017_ntuples/"
+# output_dir = "/tmp/Hmumu_ntuples/2017_ntuples_skim/"
 
-sources.append(Source('H2Mu_gg', '/GluGlu_HToMuMu_M125_13TeV_amcatnloFXFX_pythia8/180802_164158/0000/*root', 'H2Mu_gg', year="2017", xSec=0.009618))
+# sources.append(Source('H2Mu_gg', '/GluGlu_HToMuMu_M125_13TeV_amcatnloFXFX_pythia8/180802_164158/0000/*root', 'H2Mu_gg', year="2017", xSec=0.009618))
 
-sources.append(Source('SingleMu_2017B_1', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_1*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_2', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_2*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_3', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_3*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_4', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_4*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_5', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_5*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_6', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_6*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_7', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_7*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_8', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_8*', 'SingleMu_2017B', isData=True))
-sources.append(Source('SingleMu_2017B_9', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_9*', 'SingleMu_2017B', isData=True))  
+# sources.append(Source('SingleMu_2017B_1', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_1*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_2', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_2*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_3', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_3*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_4', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_4*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_5', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_5*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_6', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_6*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_7', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_7*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_8', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_8*', 'SingleMu_2017B', isData=True))
+# sources.append(Source('SingleMu_2017B_9', '/SingleMuon/SingleMu_2017B/180802_163835/0000/tuple_9*', 'SingleMu_2017B', isData=True))  
 
-sources.append(Source('SingleMu_2017C_1', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_1*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_2', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_2*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_3', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_3*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_4', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_4*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_5', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_5*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_6', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_6*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_7', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_7*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_8', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_8*', 'SingleMu_2017C', isData=True))
-sources.append(Source('SingleMu_2017C_9', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_9*', 'SingleMu_2017C', isData=True))        
+# sources.append(Source('SingleMu_2017C_1', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_1*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_2', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_2*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_3', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_3*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_4', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_4*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_5', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_5*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_6', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_6*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_7', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_7*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_8', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_8*', 'SingleMu_2017C', isData=True))
+# sources.append(Source('SingleMu_2017C_9', '/SingleMuon/SingleMu_2017C/180802_163916/0000/tuple_9*', 'SingleMu_2017C', isData=True))        
 
-sources.append(Source('SingleMu_2017D_1', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_1*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_2', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_2*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_3', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_3*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_4', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_4*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_5', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_5*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_6', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_6*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_7', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_7*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_8', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_8*', 'SingleMu_2017D', isData=True))
-sources.append(Source('SingleMu_2017D_9', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_9*', 'SingleMu_2017D', isData=True))  
+# sources.append(Source('SingleMu_2017D_1', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_1*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_2', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_2*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_3', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_3*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_4', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_4*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_5', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_5*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_6', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_6*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_7', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_7*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_8', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_8*', 'SingleMu_2017D', isData=True))
+# sources.append(Source('SingleMu_2017D_9', '/SingleMuon/SingleMu_2017D/180802_163956/0000/tuple_9*', 'SingleMu_2017D', isData=True))  
 
-sources.append(Source('SingleMu_2017E_1', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_1*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_2', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_2*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_3', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_3*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_4', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_4*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_5', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_5*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_6', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_6*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_7', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_7*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_8', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_8*', 'SingleMu_2017E', isData=True))
-sources.append(Source('SingleMu_2017E_9', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_9*', 'SingleMu_2017E', isData=True))   
+# sources.append(Source('SingleMu_2017E_1', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_1*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_2', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_2*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_3', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_3*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_4', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_4*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_5', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_5*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_6', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_6*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_7', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_7*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_8', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_8*', 'SingleMu_2017E', isData=True))
+# sources.append(Source('SingleMu_2017E_9', '/SingleMuon/SingleMu_2017E/180802_164036/0000/tuple_9*', 'SingleMu_2017E', isData=True))   
 
-sources.append(Source('SingleMu_2017F_1', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_1*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_2', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_2*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_3', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_3*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_4', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_4*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_5', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_5*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_6', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_6*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_7', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_7*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_8', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_8*', 'SingleMu_2017F', isData=True))
-sources.append(Source('SingleMu_2017F_9', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_9*', 'SingleMu_2017F', isData=True)) 
+# sources.append(Source('SingleMu_2017F_1', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_1*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_2', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_2*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_3', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_3*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_4', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_4*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_5', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_5*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_6', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_6*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_7', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_7*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_8', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_8*', 'SingleMu_2017F', isData=True))
+# sources.append(Source('SingleMu_2017F_9', '/SingleMuon/SingleMu_2017F/180802_164117/0000/tuple_9*', 'SingleMu_2017F', isData=True)) 
 
 
 
@@ -101,10 +101,11 @@ sources.append(Source('SingleMu_2017F_9', '/SingleMuon/SingleMu_2017F/180802_164
 
 ### ### 2016 ntuples ### ###
 
-# input_dir = "/mnt/hadoop/store/user/dkondrat/"
-# output_dir = "/tmp/Hmumu_ntuples/2016_ntuples_skim/"
+input_dir = "/mnt/hadoop/store/user/dkondrat/"
+output_dir = "/tmp/Hmumu_ntuples/2016_ntuples_skim/"
 
 # sources.append(Source('H2Mu_gg', '/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_gg/180827_202700/0000/*root', 'H2Mu_gg', year="2016", xSec=0.009618))
+sources.append(Source('H2Mu_VBF', '/VBF_HToMuMu_M125_13TeV_powheg_pythia8/H2Mu_VBF/180827_202716/0000/*root', 'H2Mu_VBF', year="2016", xSec=0.0008208))
 
 # sources.append(Source('SingleMu_2016B_1', '/SingleMuon/SingleMu_2016B/180912_165011/0000/tuple_1*', 'SingleMu_2016B', isData=True))
 # sources.append(Source('SingleMu_2016B_2', '/SingleMuon/SingleMu_2016B/180912_165011/0000/tuple_2*', 'SingleMu_2016B', isData=True))
