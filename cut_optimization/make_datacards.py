@@ -247,7 +247,7 @@ def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_pa
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, workspace_filename, lumi statUnc=statUnc, nuis=nuis)
+    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, workspace_filename, lumi, statUnc=statUnc, nuis=nuis)
     out_file = open(out_path+name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
