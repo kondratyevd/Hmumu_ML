@@ -9,6 +9,7 @@ parser.add_argument('--data_in_path', action='store', dest='data_input_path', he
 parser.add_argument('--sig_tree', action='store', dest='sig_tree', help='Tree name')
 parser.add_argument('--data_tree', action='store', dest='data_tree', help='Tree name')
 parser.add_argument('--out_path', action='store', dest='output_path', help='Output path')
+parser.add_argument('--lumi', action='store', dest='lumi', help='Integrated luminosity')
 
 args = parser.parse_args()
 
