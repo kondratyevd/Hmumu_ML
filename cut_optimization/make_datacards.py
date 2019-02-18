@@ -45,7 +45,7 @@ def add_sig_model(w, cat_number, input_path, sig_tree, lumi, cut):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, lumi))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -86,7 +86,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut)
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%i"%(cut, lumi))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
