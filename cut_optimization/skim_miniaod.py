@@ -100,13 +100,6 @@ def loop_over_events(path, out_path):
 
                 mu1_p4 = None
                 mu2_p4 = None
-
-                photon = None
-                photon1 = None
-                photon2 = None
-                photon1_found = False
-                photon2_found = False
-                preselected_photons = []
                 
                 for i_mu,mu in enumerate(muons.product()):
                     iso = mu_rel_iso(mu)
@@ -141,7 +134,7 @@ def loop_over_events(path, out_path):
 
 
 
-def write_weights_to_tree(file_path): 
+def write_weights_to_tree(file_path, lumi): 
     tree = ROOT.TChain("tree")
     tree.Add(file_path)
     new_tree = tree.CloneTree(0)
@@ -162,7 +155,7 @@ def write_weights_to_tree(file_path):
 
     for i in range(tree.GetEntries()):
         tree.GetEntry(i)
-        weight_over_lumi[0] = 0.009618/nOriginalWeighted
+        weight_over_lumi[0] = lumi/nOriginalWeighted
         new_tree.Fill()
 
     new_tree.Write()
@@ -200,13 +193,25 @@ zh_2017_3 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13
 zh_2017_4 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/"
 
 output_path = "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/"
-output_file = "zh_2017_4.root"
+
 
 set_out_path(output_path)
 
 # loop_over_events(ggh_path, output_path+output_file)
-loop_over_events(zh_2017_4, output_path+output_file)
-write_weights_to_tree(output_path+output_file)
+# write_weights_to_tree(output_path+output_file, lumi=0.009618) #ggH
+
+zh_2017_1_name = "zh_2017_1.root"
+zh_2017_2_name = "zh_2017_2.root"
+zh_2017_3_name = "zh_2017_3.root"
+zh_2017_4_name = "zh_2017_4.root"
+loop_over_events(zh_2017_1, output_path+zh_2017_1_name)
+loop_over_events(zh_2017_2, output_path+zh_2017_2_name)
+loop_over_events(zh_2017_3, output_path+zh_2017_3_name)
+loop_over_events(zh_2017_4, output_path+zh_2017_4_name)
+write_weights_to_tree(output_path+zh_2017_1_name, lumi=0.00003865) #ZH
+write_weights_to_tree(output_path+zh_2017_2_name, lumi=0.00003865) #ZH
+write_weights_to_tree(output_path+zh_2017_3_name, lumi=0.00003865) #ZH
+write_weights_to_tree(output_path+zh_2017_4_name, lumi=0.00003865) #ZH
 
 
 
