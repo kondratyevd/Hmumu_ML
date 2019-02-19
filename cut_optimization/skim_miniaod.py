@@ -208,17 +208,24 @@ def plot_hists(hist_list, name, path, legend):
 # dy_path = "/mnt/hadoop/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/4CDE9146-50F1-E611-AE57-02163E014769.root"
 
 # 2017 high stat sample
-ggh_path = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
+# ggh_path = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
 
 # Autumn 2018 
 # ggh_path = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/"
 
+
+zh_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000"
+zh_2017_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/00000"
+zh_2017_3 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/70000"
+zh_2017_4 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000"
+
 output_path = "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/"
-output_file = "ggH_2017_full.root"
+output_file = "zh_2017_1.root"
 
 set_out_path(output_path)
 
-loop_over_events(ggh_path, output_path+output_file)
+# loop_over_events(ggh_path, output_path+output_file)
+loop_over_events(zh_2017_1, output_path+output_file)
 write_weights_to_tree(output_path+output_file)
 
 
