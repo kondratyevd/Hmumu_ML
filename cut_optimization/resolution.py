@@ -152,4 +152,4 @@ sig_sources.append(SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cu
 # sig_sources.append(SignalSrc("ggH_local_1", "ggH local 1", "/Users/dmitrykondratyev/root_files/mc/2017/updated/gluglu/gluglu_1.root", "dimuons/tree", "weight_over_lumi*(mu1_eta<0)", ROOT.kRed))
 # sig_sources.append(SignalSrc("ggH_local_2", "ggH local 2", "/Users/dmitrykondratyev/root_files/mc/2017/updated/gluglu/gluglu_1.root", "dimuons/tree", "weight_over_lumi*(mu1_eta>0)", ROOT.kBlue))
 
-make_resolution_plot(sig_sources, "resolution_ggH+VBF")
+make_resolution_plot(sig_sources, "resolution_test")
