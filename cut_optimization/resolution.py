@@ -152,13 +152,14 @@ def make_resolution_plot(sources, label):
     canvas_chi2.cd()
     for isrc, src in enumerate(sources):
         if not isrc:
-            src.graph_chi2.Draw("ape1")
+            src.graph_chi2.Draw("ape1l")
         else:
-            src.graph_chi2.Draw("pe1same")            
+            src.graph_chi2.Draw("pe1lsame")            
         src.graph_chi2.SetTitle("")
         src.graph_chi2.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.graph_chi2.GetYaxis().SetTitle("#chi^{2}/d.o.f")
         src.graph_chi2.GetYaxis().SetTitleOffset(1.22)
+        src.graph_chi2.GetXaxis().SetRangeUser(0, 2.4)
         src.graph_chi2.SetMinimum(0)
         src.graph_chi2.SetMaximum(3)
     legend.Draw()
