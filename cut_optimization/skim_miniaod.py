@@ -221,12 +221,12 @@ set_out_path(output_path)
 # WminusH 2017
 # WminusH 2018
 
-wminush_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/00000/"
-wminush_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/"
-loop_over_events(wminush_2018_1, output_path+"wminush_2018_1.root")
-loop_over_events(wminush_2018_2, output_path+"wminush_2018_2.root")
-write_weights_to_tree(output_path+"wminush_2018_1.root", lumi=0.0001164) 
-write_weights_to_tree(output_path+"wminush_2018_2.root", lumi=0.0001164)
+# wminush_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/00000/"
+# wminush_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/"
+# loop_over_events(wminush_2018_1, output_path+"wminush_2018_1.root")
+# loop_over_events(wminush_2018_2, output_path+"wminush_2018_2.root")
+# write_weights_to_tree(output_path+"wminush_2018_1.root", lumi=0.0001164) 
+# write_weights_to_tree(output_path+"wminush_2018_2.root", lumi=0.0001164)
 
 # ZH 2017
 # zh_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/"
@@ -246,9 +246,9 @@ write_weights_to_tree(output_path+"wminush_2018_2.root", lumi=0.0001164)
 
 # ttH 2017
 
-# ttH_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ttHToMuMu_M125_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/00000/"
-# loop_over_events(ttH_2017, output_path+"ttH_2017.root")
-# write_weights_to_tree(output_path+"ttH_2017.root", lumi=0.00011034496) 
+ttH_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ttHToMuMu_M125_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/00000/"
+loop_over_events(ttH_2017, output_path+"ttH_2017.root")
+write_weights_to_tree(output_path+"ttH_2017.root", lumi=0.00011034496) 
 
 # ttH 2018
 
