@@ -149,8 +149,11 @@ def make_resolution_plot(sources, label):
 
     canvas_chi2 = ROOT.TCanvas("c1","c1",800,800)
     canvas_chi2.cd()
-    for src in sources:
-        src.graph_chi2.Draw("plsame")
+    for isrc, src in enumerate(sources):
+        if not isrc:
+            src.graph_chi2.Draw("apl")
+        else:
+            src.graph_chi2.Draw("plsame")            
         src.graph_chi2.SetTitle("")
         src.graph_chi2.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.graph_chi2.GetYaxis().SetTitle("#chi^{2}/d.o.f")
