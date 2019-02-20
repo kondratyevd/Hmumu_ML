@@ -21,7 +21,7 @@ class SignalSrc(object):
         self.hist.SetMarkerStyle(20)
         self.hist.SetMarkerSize(0.8)
 
-        self.graph_chi2 = ROOT.TGraph()
+        self.graph_chi2 = ROOT.TGraphErrors()
         self.graph_chi2.SetName(name)
         self.graph_chi2.SetMarkerColor(color)
         self.graph_chi2.SetLineColor(color)
@@ -130,7 +130,8 @@ def make_resolution_plot(sources, label):
             fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass", 100, 110, 135)
             src.hist.SetBinContent(i, fit_output.width)
             src.hist.SetBinError(i, fit_output.width_err)
-            src.graph_chi2.SetPoint(i-1, i/10.0, fit_output.chi2)
+            src.graph_chi2.SetPoint(i-1, i/10.0-0.05, fit_output.chi2)
+            src.graph_chi2.SetPointError(i-1, 0.05, 0)            
         legend.AddEntry(src.hist, src.title, "pl")
     canvas = ROOT.TCanvas("c","c",800,800)
     canvas.cd()
@@ -151,9 +152,9 @@ def make_resolution_plot(sources, label):
     canvas_chi2.cd()
     for isrc, src in enumerate(sources):
         if not isrc:
-            src.graph_chi2.Draw("apl")
+            src.graph_chi2.Draw("ape1")
         else:
-            src.graph_chi2.Draw("plsame")            
+            src.graph_chi2.Draw("pe1same")            
         src.graph_chi2.SetTitle("")
         src.graph_chi2.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.graph_chi2.GetYaxis().SetTitle("#chi^{2}/d.o.f")
