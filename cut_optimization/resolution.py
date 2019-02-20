@@ -21,6 +21,14 @@ class SignalSrc(object):
         self.hist.SetMarkerStyle(20)
         self.hist.SetMarkerSize(0.8)
 
+        self.hist_chi2 = ROOT.TH1D("hist_chi2_"+name, title, 24, 0, 2.4)
+        self.hist_chi2.SetName(name)
+        self.hist_chi2.SetMarkerColor(color)
+        self.hist_chi2.SetLineColor(color)
+        self.hist_chi2.SetLineWidth(2)
+        self.hist_chi2.SetMarkerStyle(20)
+        self.hist_chi2.SetMarkerSize(0.8)
+
 class FitOutput(object):
     def __init__(self, mean, mean_err, width, width_err, chi2, frame):
         self.mean = mean
@@ -122,6 +130,7 @@ def make_resolution_plot(sources, label):
             fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass", 100, 110, 135)
             src.hist.SetBinContent(i, fit_output.width)
             src.hist.SetBinError(i, fit_output.width_err)
+            src.hist_chi2.SetBinContent(i, fit_output.chi2)
         legend.AddEntry(src.hist, src.title, "pl")
     canvas = ROOT.TCanvas("c","c",800,800)
     canvas.cd()
@@ -137,6 +146,21 @@ def make_resolution_plot(sources, label):
     canvas.SaveAs("plots/%s.png"%label)
     canvas.SaveAs("plots/%s.root"%label)
     canvas.Close()
+
+    canvas_chi2 = ROOT.TCanvas("c1","c1",800,800)
+    canvas_chi2.cd()
+    for src in sources:
+        src.hist_chi2.Draw("ple1same")
+        src.hist_chi2.SetTitle("")
+        src.hist_chi2.GetXaxis().SetTitle("max. |#eta| of two muons")
+        src.hist_chi2.GetYaxis().SetTitle("#chi^{2}/d.o.f")
+        src.hist_chi2.GetYaxis().SetTitleOffset(1.22)
+        src.hist_chi2.SetMinimum(0)
+        src.hist_chi2.SetMaximum(10)
+    legend.Draw()
+    canvas_chi2.SaveAs("plots/%s_chi2.png"%label)
+    canvas_chi2.SaveAs("plots/%s_chi2.root"%label)
+    canvas_chi2.Close()
 
 ggh_sources = []
 vbf_sources = []
