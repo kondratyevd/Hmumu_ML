@@ -240,23 +240,23 @@ set_out_path(output_path)
 # write_weights_to_tree(output_path+"wplush_2017_2.root", lumi=0.0001858)
 # write_weights_to_tree(output_path+"wplush_2017_3.root", lumi=0.0001858)
 
-# WplusH 2018
+# WplusH 2018 #
 
-wplush_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WplusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/00000/"
-wplush_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WplusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/110000/"
-loop_over_events(wplush_2018_1, output_path+"wplush_2018_1.root")
-loop_over_events(wplush_2018_2, output_path+"wplush_2018_2.root")
-write_weights_to_tree(output_path+"wplush_2018_1.root", lumi=0.0001858) 
-write_weights_to_tree(output_path+"wplush_2018_2.root", lumi=0.0001858)
+# wplush_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WplusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/00000/"
+# wplush_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WplusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/110000/"
+# loop_over_events(wplush_2018_1, output_path+"wplush_2018_1.root")
+# loop_over_events(wplush_2018_2, output_path+"wplush_2018_2.root")
+# write_weights_to_tree(output_path+"wplush_2018_1.root", lumi=0.0001858) 
+# write_weights_to_tree(output_path+"wplush_2018_2.root", lumi=0.0001858)
 
 # WminusH 2017
 
-# wminus_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WminusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/40000/"
-# wminus_2017_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WminusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/70000/"
-# loop_over_events(wminus_2017_1, output_path+"wminus_2017_1.root")
-# loop_over_events(wminus_2017_2, output_path+"wminus_2017_2.root")
-# write_weights_to_tree(output_path+"wminus_2017_1.root", lumi=0.0001164) 
-# write_weights_to_tree(output_path+"wminus_2017_2.root", lumi=0.0001164)
+wminus_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WminusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/40000/"
+wminus_2017_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WminusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/70000/"
+loop_over_events(wminus_2017_1, output_path+"wminus_2017_1.root")
+loop_over_events(wminus_2017_2, output_path+"wminus_2017_2.root")
+write_weights_to_tree(output_path+"wminus_2017_1.root", lumi=0.0001164) 
+write_weights_to_tree(output_path+"wminus_2017_2.root", lumi=0.0001164)
 
 # WminusH 2018 #
 
