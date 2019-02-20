@@ -130,7 +130,7 @@ def make_resolution_plot(sources, label):
             fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass", 100, 110, 135)
             src.hist.SetBinContent(i, fit_output.width)
             src.hist.SetBinError(i, fit_output.width_err)
-            src.graph_chi2.SetPoint(i-1, fit_output.chi2)
+            src.graph_chi2.SetPoint(i-1, i/10.0, fit_output.chi2)
         legend.AddEntry(src.hist, src.title, "pl")
     canvas = ROOT.TCanvas("c","c",800,800)
     canvas.cd()
@@ -150,7 +150,7 @@ def make_resolution_plot(sources, label):
     canvas_chi2 = ROOT.TCanvas("c1","c1",800,800)
     canvas_chi2.cd()
     for src in sources:
-        src.graph_chi2.Draw("ple1same")
+        src.graph_chi2.Draw("plsame")
         src.graph_chi2.SetTitle("")
         src.graph_chi2.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.graph_chi2.GetYaxis().SetTitle("#chi^{2}/d.o.f")
