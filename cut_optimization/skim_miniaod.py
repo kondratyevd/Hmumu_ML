@@ -206,27 +206,27 @@ set_out_path(output_path)
 
 # WplusH 2017
 
-wplus_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WplusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/00000/"
-wplus_2017_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WplusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/10000/"
-wplus_2017_3 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WplusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/30000/"
-loop_over_events(wplus_2017_1, output_path+"wplush_2017_1.root")
-loop_over_events(wplus_2017_2, output_path+"wplush_2017_2.root")
-loop_over_events(wplus_2017_3, output_path+"wplush_2017_3.root")
-write_weights_to_tree(output_path+"wplush_2017_1.root", lumi=0.0001858) 
-write_weights_to_tree(output_path+"wplush_2017_2.root", lumi=0.0001858)
-write_weights_to_tree(output_path+"wplush_2017_3.root", lumi=0.0001858)
+# wplus_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WplusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/00000/"
+# wplus_2017_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WplusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/10000/"
+# wplus_2017_3 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/WplusH_HToMuMu_WToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/30000/"
+# loop_over_events(wplus_2017_1, output_path+"wplush_2017_1.root")
+# loop_over_events(wplus_2017_2, output_path+"wplush_2017_2.root")
+# loop_over_events(wplus_2017_3, output_path+"wplush_2017_3.root")
+# write_weights_to_tree(output_path+"wplush_2017_1.root", lumi=0.0001858) 
+# write_weights_to_tree(output_path+"wplush_2017_2.root", lumi=0.0001858)
+# write_weights_to_tree(output_path+"wplush_2017_3.root", lumi=0.0001858)
 
 # WplusH 2018
 
 # WminusH 2017
 # WminusH 2018
 
-# wminush_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/00000/"
-# wminush_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/"
-# loop_over_events(wminush_2018_1, output_path+"wminush_2018_1.root")
-# loop_over_events(wminush_2018_2, output_path+"wminush_2018_2.root")
-# write_weights_to_tree(output_path+"wminush_2018_1.root", lumi=0.0001164) 
-# write_weights_to_tree(output_path+"wminush_2018_2.root", lumi=0.0001164)
+wminush_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/00000/"
+wminush_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/"
+loop_over_events(wminush_2018_1, output_path+"wminush_2018_1.root")
+loop_over_events(wminush_2018_2, output_path+"wminush_2018_2.root")
+write_weights_to_tree(output_path+"wminush_2018_1.root", lumi=0.0001164) 
+write_weights_to_tree(output_path+"wminush_2018_2.root", lumi=0.0001164)
 
 # ZH 2017
 # zh_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/ZH_HToMuMu_ZToAll_M125_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/"
