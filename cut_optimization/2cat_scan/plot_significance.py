@@ -1,5 +1,6 @@
 import ROOT
 ROOT.gStyle.SetOptStat(0)
+import argparse
 
 class SignPlot(object):
     def __init__(self, name, title, path, color):
