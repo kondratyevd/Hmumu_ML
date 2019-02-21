@@ -58,6 +58,7 @@ def loop_over_events(path, out_path):
     dimu_eta = array("f", [0])
     mu1_eta = array("f", [0])
     mu2_eta = array("f", [0])
+    GEN_wgt = array("f", [0])
     sumGenWeights = array("f", [0])
 
     tree.Branch('mass', mass, 'mass/F')
@@ -74,8 +75,8 @@ def loop_over_events(path, out_path):
         if filename.endswith(".root"):         
             events = Events(path+filename)
             print "Processing file: ", filename   
-            pos_wgts = 0
-            neg_wgts = 0         
+            # pos_wgts = 0
+            # neg_wgts = 0         
             for iev,event in enumerate(events):
                 mass[0] = -999
                 max_abs_eta_mu[0] = -999
@@ -84,18 +85,18 @@ def loop_over_events(path, out_path):
                 event.getByLabel(pfCandsLabel, pfCands)
                 event.getByLabel(genEvtInfoLabel,  genEvtInfo)
 
-                gen_wgt = genEvtInfo.product().weight()
+                GEN_wgt[0] = genEvtInfo.product().weight()
 
-                if gen_wgt > 0:
+                if GEN_wgt[0] > 0:
                     sumGenWeights[0] = sumGenWeights[0] + 1
-                    pos_wgts = pos_wgts+1
+                    # pos_wgts = pos_wgts+1
                 else:
                     sumGenWeights[0] = sumGenWeights[0] - 1
-                    neg_wgts = neg_wgts+1
+                    # neg_wgts = neg_wgts+1
 
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
-                    print "Positive weights: %i,    negative weights: %i"%(pos_wgts, neg_wgts)
+                    # print "Positive weights: %i,    negative weights: %i"%(pos_wgts, neg_wgts)
 
                 # if iev>1000:
                 #     break
@@ -160,7 +161,7 @@ def write_weights_to_tree(file_path, lumi):
 
     for i in range(tree.GetEntries()):
         tree.GetEntry(i)
-        weight_over_lumi[0] = lumi/nOriginalWeighted
+        weight_over_lumi[0] = tree.GetLeaf("GEN_wgt").GetValue()*lumi/nOriginalWeighted
         new_tree.Fill()
 
     new_tree.Write()
@@ -199,17 +200,17 @@ set_out_path(output_path)
 
 # ggH 2017 ##
 
-# ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
-# loop_over_events(ggh_2017, output_path+"ggH_2017.root")
-# write_weights_to_tree(output_path+"ggH_2017.root", lumi=0.009618) #ggH
+ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
+loop_over_events(ggh_2017, output_path+"ggH_2017.root")
+write_weights_to_tree(output_path+"ggH_2017.root", lumi=0.009618) #ggH
 
 # ggH 2018 #
 
-ggh_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/100000/"
+# ggh_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/100000/"
 # ggh_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/110000/"
 # ggh_2018_3 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/"
 # ggh_2018_4 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/"
-loop_over_events(ggh_2018_1, output_path+"ggh_2018_1.root")
+# loop_over_events(ggh_2018_1, output_path+"ggh_2018_1.root")
 # loop_over_events(ggh_2018_2, output_path+"ggh_2018_2.root")
 # loop_over_events(ggh_2018_3, output_path+"ggh_2018_3.root")
 # loop_over_events(ggh_2018_4, output_path+"ggh_2018_4.root")
