@@ -17,7 +17,7 @@ class SignPlot(object):
 
 
 parser = argparse.ArgumentParser(description='')
-parser.add_argument('-p', action='store', dest='process', default="ggh" help='Process')
+parser.add_argument('-p', action='store', dest='process', default="ggh", help='Process')
 args = parser.parse_args()
 
 
