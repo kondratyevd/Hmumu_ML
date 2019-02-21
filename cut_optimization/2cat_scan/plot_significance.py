@@ -22,9 +22,9 @@ parser.add_argument('-p', action='store', dest='process', default="ggh", help='P
 args = parser.parse_args()
 
 
-plot_2016 = SignPlot("plot_2016", "%s 2016"%process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%process, ROOT.kBlue)
-plot_2017 = SignPlot("plot_2017", "%s 2017"%process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%process, ROOT.kRed)
-plot_2018 = SignPlot("plot_2018", "%s 2018"%process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%process, ROOT.kGreen)
+plot_2016 = SignPlot("plot_2016", "%s 2016"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%args.process, ROOT.kBlue)
+plot_2017 = SignPlot("plot_2017", "%s 2017"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%args.process, ROOT.kRed)
+plot_2018 = SignPlot("plot_2018", "%s 2018"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%args.process, ROOT.kGreen)
 plots = [plot_2016, plot_2017, plot_2018]
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
@@ -44,5 +44,5 @@ for ip, p in enumerate(plots):
         p.graph.Draw("plsame")
     legend.AddEntry(p.graph, p.title, "pl")
 legend.Draw()
-canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s.png"%process)
-canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s.root"%process)
+canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s.png"%args.process)
+canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s.root"%args.process)
