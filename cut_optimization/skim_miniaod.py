@@ -73,7 +73,9 @@ def loop_over_events(path, out_path):
         # if filename.endswith("A68BB.root"):
         if filename.endswith(".root"):         
             events = Events(path+filename)
-            print "Processing file: ", filename            
+            print "Processing file: ", filename   
+            pos_wgts = 0
+            neg_wgts = 0         
             for iev,event in enumerate(events):
                 mass[0] = -999
                 max_abs_eta_mu[0] = -999
@@ -86,11 +88,14 @@ def loop_over_events(path, out_path):
 
                 if gen_wgt > 0:
                     sumGenWeights[0] = sumGenWeights[0] + 1
+                    pos_wgts = pos_wgts+1
                 else:
                     sumGenWeights[0] = sumGenWeights[0] - 1
+                    neg_wgts = neg_wgts+1
 
                 if (iev % 1000) is 0: 
                     print "Event # %i"%iev
+                    print "Positive weights: %i,    negative weights: %i"%(pos_wgts, neg_wgts)
 
                 # if iev>1000:
                 #     break
@@ -194,24 +199,24 @@ set_out_path(output_path)
 
 # ggH 2017 ##
 
-# ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
-# loop_over_events(ggh_2017, output_path+"ggH_2017.root")
-# write_weights_to_tree(output_path+"ggH_2017.root", lumi=0.009618) #ggH
+ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
+loop_over_events(ggh_2017, output_path+"ggH_2017.root")
+write_weights_to_tree(output_path+"ggH_2017.root", lumi=0.009618) #ggH
 
 # ggH 2018 #
 
 # ggh_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/100000/"
 # ggh_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/110000/"
-ggh_2018_3 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/"
-ggh_2018_4 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/"
+# ggh_2018_3 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/"
+# ggh_2018_4 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/"
 # loop_over_events(ggh_2018_1, output_path+"ggh_2018_1.root")
 # loop_over_events(ggh_2018_2, output_path+"ggh_2018_2.root")
-loop_over_events(ggh_2018_3, output_path+"ggh_2018_3.root")
-loop_over_events(ggh_2018_4, output_path+"ggh_2018_4.root")
-write_weights_to_tree(output_path+"ggh_2018_1.root", lumi=0.009618) 
-write_weights_to_tree(output_path+"ggh_2018_2.root", lumi=0.009618) 
-write_weights_to_tree(output_path+"ggh_2018_3.root", lumi=0.009618) 
-write_weights_to_tree(output_path+"ggh_2018_4.root", lumi=0.009618) 
+# loop_over_events(ggh_2018_3, output_path+"ggh_2018_3.root")
+# loop_over_events(ggh_2018_4, output_path+"ggh_2018_4.root")
+# write_weights_to_tree(output_path+"ggh_2018_1.root", lumi=0.009618) 
+# write_weights_to_tree(output_path+"ggh_2018_2.root", lumi=0.009618) 
+# write_weights_to_tree(output_path+"ggh_2018_3.root", lumi=0.009618) 
+# write_weights_to_tree(output_path+"ggh_2018_4.root", lumi=0.009618) 
 
 # VBF 2017 ##
 
