@@ -2,7 +2,6 @@ import ROOT
 ROOT.gStyle.SetOptStat(0)
 
 class SignPlot(object):
-
     def __init__(self, name, title, path, color):
         self.name = name
         self.title = title
@@ -17,9 +16,14 @@ class SignPlot(object):
         self.graph.SetMarkerSize(2)
 
 
-plot_2016 = SignPlot("plot_2016", "ggH 2016", "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/2016/", ROOT.kBlue)
-plot_2017 = SignPlot("plot_2017", "ggH 2017", "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/2017/", ROOT.kRed)
-plot_2018 = SignPlot("plot_2018", "ggH 2018", "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/2018/", ROOT.kGreen)
+parser = argparse.ArgumentParser(description='')
+parser.add_argument('-p', action='store', dest='process', default="ggh" help='Process')
+args = parser.parse_args()
+
+
+plot_2016 = SignPlot("plot_2016", "%s 2016"%process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%process, ROOT.kBlue)
+plot_2017 = SignPlot("plot_2017", "%s 2017"%process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%process, ROOT.kRed)
+plot_2018 = SignPlot("plot_2018", "%s 2018"%process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%process, ROOT.kGreen)
 plots = [plot_2016, plot_2017, plot_2018]
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
@@ -39,5 +43,5 @@ for ip, p in enumerate(plots):
         p.graph.Draw("plsame")
     legend.AddEntry(p.graph, p.title, "pl")
 legend.Draw()
-canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance.png")
-canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance.root")
+canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s.png"%process)
+canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s.root"%process)
