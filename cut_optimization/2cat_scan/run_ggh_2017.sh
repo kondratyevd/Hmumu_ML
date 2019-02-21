@@ -6,7 +6,7 @@ DATA_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 SIG_TREE="tree"
 DATA_TREE="dimuons/tree"
 LUMI=35866
-OUTPUT_PATH=output/2017/
+OUTPUT_PATH=output/ggh_2017/
 mkdir $OUTPUT_PATH
 python categorize.py --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH" --sig_tree "$SIG_TREE" --data_tree "$DATA_TREE" --lumi "$LUMI"
 cd $OUTPUT_PATH
