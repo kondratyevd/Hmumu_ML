@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set nonomatch
+
+echo ""
+echo "Job is running on `uname -a`"
+set processor = `sort /proc/cpuinfo | uniq | gawk -F: '(substr($1,1,10)=="model name"){print $2}'`
+set rate = `sort /proc/cpuinfo | uniq | gawk -F: '(substr($1,1,7)=="cpu MHz"){print substr($2,1,6)}'`
+echo "Processor info : " $processor $rate "MHz"
+set start = `date`
+echo "Job started on `date`"
+echo ""
+
+echo ------------------------------------------------------
+echo PBS: qsub is running on $PBS_O_HOST
+echo PBS: originating queue is $PBS_O_QUEUE
+echo PBS: executing queue is $PBS_QUEUE
+echo PBS: working directory is $PBS_O_WORKDIR
+echo PBS: execution mode is $PBS_ENVIRONMENT
+echo PBS: job identifier is $PBS_JOBID
+echo PBS: job name is $PBS_JOBNAME
+echo PBS: current home directory is $PBS_O_HOME
+echo ------------------------------------------------------
+
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+eval `scramv1 runtime -sh`
+
+python /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/skim_miniaod.py
+
+exit ${status}
