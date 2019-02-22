@@ -140,32 +140,36 @@ def loop_over_events(path, out_path):
 
 
 
-def write_weights_to_tree(file_path, xSec): 
-    tree = ROOT.TChain("tree")
-    tree.Add(file_path)
-    new_tree = tree.CloneTree(0)
-
-    metadata = ROOT.TChain("metadata")
-    metadata.Add(file_path)
-
-    for i in range(metadata.GetEntries()):
-        metadata.GetEntry(i)
-        nOriginalWeighted = metadata.GetLeaf("sumGenWeights").GetValue()
-
-
-    new_file = ROOT.TFile.Open(file_path, "RECREATE")
-    new_file.cd()
-
-    weight_over_lumi = array('f', [0])
-    newBranch = new_tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
-
-    for i in range(tree.GetEntries()):
-        tree.GetEntry(i)
-        weight_over_lumi[0] = tree.GetLeaf("GEN_wgt").GetValue()*xSec/nOriginalWeighted
-        new_tree.Fill()
-
-    new_tree.Write()
-    new_file.Close()
+def write_weights_to_tree(dir, label, xSec): 
+    totalOrigNumEvts = 0
+    for filename in os.listdir(dir):
+        if filename.startswith(label):
+            metadata = ROOT.TChain("metadata")
+            metadata.Add(dir+filename)
+    
+            for i in range(metadata.GetEntries()):
+                metadata.GetEntry(i)
+                totalOrigNumEvts = totalOrigNumEvts + metadata.GetLeaf("sumGenWeights").GetValue()
+    
+    for filename in os.listdir(dir):
+        if filename.startswith(label):
+            tree = ROOT.TChain("tree")
+            tree.Add(dir+filename)
+            new_tree = tree.CloneTree(0)
+        
+            new_file = ROOT.TFile.Open(dir+filename, "RECREATE")
+            new_file.cd()
+        
+            weight_over_lumi = array('f', [0])
+            newBranch = new_tree.Branch("weight_over_lumi", weight_over_lumi, "weight_over_lumi/F")
+        
+            for i in range(tree.GetEntries()):
+                tree.GetEntry(i)
+                weight_over_lumi[0] = tree.GetLeaf("GEN_wgt").GetValue()*xSec/totalOrigNumEvts
+                new_tree.Fill()
+        
+            new_tree.Write()
+            new_file.Close()
 
 
 
@@ -200,9 +204,9 @@ set_out_path(output_path)
 
 # ggH 2017 ##
 
-ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
-loop_over_events(ggh_2017, output_path+"ggH_2017.root")
-write_weights_to_tree(output_path+"ggH_2017.root", xSec=0.009618) #ggH
+# ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
+# loop_over_events(ggh_2017, output_path+"ggH_2017.root")
+# write_weights_to_tree(output_path+"ggH_2017.root", xSec=0.009618) #ggH
 
 # ggH 2018 #
 
@@ -221,12 +225,11 @@ write_weights_to_tree(output_path+"ggH_2017.root", xSec=0.009618) #ggH
 
 # VBF 2017 ##
 
-# vbf_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M125_13TeV_amcatnlo_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/00000/"
-# vbf_2017_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M125_13TeV_amcatnlo_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/"
-# loop_over_events(vbf_2017_1, output_path+"vbf_2017_1.root")
-# loop_over_events(vbf_2017_2, output_path+"vbf_2017_2.root")
-# write_weights_to_tree(output_path+"vbf_2017_1.root", xSec=0.0008208) 
-# write_weights_to_tree(output_path+"vbf_2017_2.root", xSec=0.0008208)
+vbf_2017_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M125_13TeV_amcatnlo_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/00000/"
+vbf_2017_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M125_13TeV_amcatnlo_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/"
+loop_over_events(vbf_2017_1, output_path+"vbf_2017_1.root")
+loop_over_events(vbf_2017_2, output_path+"vbf_2017_2.root")
+write_weights_to_tree(output_path, "vbf_2017_", xSec=0.0008208)
 
 # VBF 2018 ##
 
