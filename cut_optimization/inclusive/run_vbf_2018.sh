@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 CURRENT_LOCATION=$(pwd)
-SIG_INPUT_PATH="/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2018.root"
+SIG_INPUT_PATH="/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/vbf_2018.root"
 DATA_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 SIG_TREE="tree"
 DATA_TREE="dimuons/tree"
 LUMI=35866
-OUTPUT_PATH=output/2018/
+OUTPUT_PATH=output/vbf_2018/
 python categorize.py --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH" --sig_tree "$SIG_TREE" --data_tree "$DATA_TREE" --lumi "$LUMI"
 cd $OUTPUT_PATH
 for filename in *.txt; do
