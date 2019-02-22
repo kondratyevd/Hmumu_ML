@@ -271,8 +271,8 @@ wminush_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToA
 wminush_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/WminusH_HToMuMu_WToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/"
 loop_over_events(wminush_2018_1, output_path+"wminush_2018_1.root")
 loop_over_events(wminush_2018_2, output_path+"wminush_2018_2.root")
-write_weights_to_tree(output_path "wminush_2018_", xSec=0.0001164) 
-write_weights_to_tree(output_path "wminush_2018_", xSec=0.0001164)
+write_weights_to_tree(output_path, "wminush_2018_", xSec=0.0001164) 
+write_weights_to_tree(output_path, "wminush_2018_", xSec=0.0001164)
 
 # ZH 2017 ##
 
