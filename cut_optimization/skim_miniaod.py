@@ -90,7 +90,7 @@ def loop_over_events(path, out_path):
 
                 gen_wgt = genEvtInfo.product().weight()
 
-                if GEN_wgt[0] > 0:
+                if gen_wgt > 0:
                     sumGenWeights[0] = sumGenWeights[0] + 1
                     GEN_wgt[0] = 1
                     # pos_wgts = pos_wgts+1
