@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 CURRENT_LOCATION=$(pwd)
-SIG_INPUT_PATH="/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2018.root"
+SIG_INPUT_PATH="/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2018_1.root"
 DATA_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 SIG_TREE="tree"
 DATA_TREE="dimuons/tree"
