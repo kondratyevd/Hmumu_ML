@@ -210,16 +210,13 @@ set_out_path(output_path)
 
 # ggh_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/100000/"
 # ggh_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/110000/"
-ggh_2018_3 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/"
-ggh_2018_4 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/"
+# ggh_2018_3 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/"
+# ggh_2018_4 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/"
 # loop_over_events(ggh_2018_1, output_path+"ggh_2018_1.root")
 # loop_over_events(ggh_2018_2, output_path+"ggh_2018_2.root")
-loop_over_events(ggh_2018_3, output_path+"ggh_2018_3.root")
-loop_over_events(ggh_2018_4, output_path+"ggh_2018_4.root")
-# write_weights_to_tree(output_path, "ggh_2018_", xSec=0.009618) 
-# write_weights_to_tree(output_path, "ggh_2018_", xSec=0.009618) 
-# write_weights_to_tree(output_path, "ggh_2018_", xSec=0.009618) 
-# write_weights_to_tree(output_path, "ggh_2018_", xSec=0.009618) 
+# loop_over_events(ggh_2018_3, output_path+"ggh_2018_3.root")
+# loop_over_events(ggh_2018_4, output_path+"ggh_2018_4.root")
+write_weights_to_tree(output_path, "ggh_2018_", xSec=0.009618) 
 
 # # VBF 2017 ##
 
