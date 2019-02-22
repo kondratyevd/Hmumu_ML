@@ -88,13 +88,15 @@ def loop_over_events(path, out_path):
                 event.getByLabel(pfCandsLabel, pfCands)
                 event.getByLabel(genEvtInfoLabel,  genEvtInfo)
 
-                GEN_wgt[0] = genEvtInfo.product().weight()
+                gen_wgt = genEvtInfo.product().weight()
 
                 if GEN_wgt[0] > 0:
                     sumGenWeights[0] = sumGenWeights[0] + 1
+                    GEN_wgt[0] = 1
                     # pos_wgts = pos_wgts+1
                 else:
                     sumGenWeights[0] = sumGenWeights[0] - 1
+                    GEN_wgt[0] = -1
                     # neg_wgts = neg_wgts+1
 
                 if (iev % 1000) is 0: 
