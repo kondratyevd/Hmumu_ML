@@ -25,6 +25,10 @@ echo ------------------------------------------------------
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 eval `scramv1 runtime -sh`
 
-python /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/skim_miniaod.py
+CURRENT_LOCATION=$(pwd)
+cd ~/HiggsToMuMu/CMSSW_8_1_0/src/
+cmsenv
+cd $CURRENT_LOCATION
 
+python /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/skim_miniaod.py
 exit ${status}
