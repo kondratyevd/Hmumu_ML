@@ -99,8 +99,8 @@ def loop_over_events(path, out_path):
                     print "Event # %i"%iev
                     # print "Positive weights: %i,    negative weights: %i"%(pos_wgts, neg_wgts)
 
-                # if iev>1000:
-                #     break
+                if iev>1000:
+                    break
             
                 mu1 = None
                 mu2 = None
@@ -205,9 +205,9 @@ set_out_path(output_path)
 
 # ggH 2017 ##
 
-# ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
-# loop_over_events(ggh_2017, output_path+"ggh_2017.root")
-# write_weights_to_tree(output_path, "ggh_2017", xSec=0.009618) #ggH
+ggh_2017 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M125_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/"
+loop_over_events(ggh_2017, output_path+"ggh_2017.root")
+write_weights_to_tree(output_path, "ggh_2017", xSec=0.009618) #ggH
 
 # ggH 2018 #
 
