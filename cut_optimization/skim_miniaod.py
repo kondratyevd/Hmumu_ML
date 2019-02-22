@@ -79,6 +79,8 @@ def loop_over_events(path, out_path):
             # pos_wgts = 0
             # neg_wgts = 0         
             for iev,event in enumerate(events):
+                if iev>1000:
+                    break
                 mass[0] = -999
                 max_abs_eta_mu[0] = -999
                 event.getByLabel(jetLabel, jets)
@@ -99,8 +101,6 @@ def loop_over_events(path, out_path):
                     print "Event # %i"%iev
                     # print "Positive weights: %i,    negative weights: %i"%(pos_wgts, neg_wgts)
 
-                if iev>1000:
-                    break
             
                 mu1 = None
                 mu2 = None
