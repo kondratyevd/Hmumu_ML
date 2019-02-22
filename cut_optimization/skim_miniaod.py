@@ -145,13 +145,14 @@ def write_weights_to_tree(dir, label, xSec):
     totalOrigNumEvts = 0
     for filename in os.listdir(dir):
         if filename.startswith(label):
+            print filename
             metadata = ROOT.TChain("metadata")
             metadata.Add(dir+filename)
     
             for i in range(metadata.GetEntries()):
                 metadata.GetEntry(i)
                 totalOrigNumEvts = totalOrigNumEvts + metadata.GetLeaf("sumGenWeights").GetValue()
-    
+    print totalOrigNumEvts
     for filename in os.listdir(dir):
         if filename.startswith(label):
             tree = ROOT.TChain("tree")
