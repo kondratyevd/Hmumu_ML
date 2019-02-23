@@ -27,10 +27,10 @@ source /cvmfs/sft.cern.ch/lcg/external/gcc/4.9.1/x86_64-slc6-gcc48-opt/setup.sh
 source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.06.04/x86_64-slc6-gcc49-opt/root/bin/thisroot.sh
 eval `scramv1 runtime -sh`
 
-CURRENT_LOCATION=$(pwd)
-cd ~/HiggsToMuMu/CMSSW_8_1_0/src/
-cmsenv
-cd $CURRENT_LOCATION
+# CURRENT_LOCATION=$(pwd)
+# cd ~/HiggsToMuMu/CMSSW_8_1_0/src/
+# cmsenv
+# cd $CURRENT_LOCATION
 
 python /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/skim_miniaod.py
 exit ${status}
