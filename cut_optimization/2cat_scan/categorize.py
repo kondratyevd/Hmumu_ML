@@ -10,8 +10,9 @@ parser.add_argument('--sig_tree', action='store', dest='sig_tree', help='Tree na
 parser.add_argument('--data_tree', action='store', dest='data_tree', help='Tree name')
 parser.add_argument('--out_path', action='store', dest='output_path', help='Output path')
 parser.add_argument('--lumi', action='store', dest='lumi', help='Integrated luminosity')
+parser.add_argument('--nuis', action='store_false', dest='nuis', help='Nuisances')
 args = parser.parse_args()
 
 for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
-    create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path,  "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), args.lumi)
+    create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path,  "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), args.lumi, nuis=args.nuis)
