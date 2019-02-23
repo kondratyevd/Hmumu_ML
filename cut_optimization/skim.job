@@ -22,7 +22,7 @@ echo PBS: job name is $PBS_JOBNAME
 echo PBS: current home directory is $PBS_O_HOME
 echo ------------------------------------------------------
 
-source /cvmfs/cms.cern.ch/cmsset_default.sh
+# source /cvmfs/cms.cern.ch/cmsset_default.sh
 source /cvmfs/sft.cern.ch/lcg/external/gcc/4.8.4/x86_64-cc7-orig/setup.sh
 source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.16.00/x86_64-centos7-gcc48-opt/bin/thisroot.sh
 eval `scramv1 runtime -sh`
