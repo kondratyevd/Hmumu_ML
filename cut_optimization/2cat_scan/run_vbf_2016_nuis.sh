@@ -2,7 +2,7 @@
 
 CURRENT_LOCATION=$(pwd)
 # SIG_INPUT_PATH=../../output/Run_2018-12-19_14-25-02/Keras_multi/model_50_D2_25_D2_25_D2/root/
-SIG_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/H2Mu_VBF.root"
+SIG_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_VBF/H2Mu_VBF.root"
 DATA_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 SIG_TREE="dimuons/tree"
 DATA_TREE="dimuons/tree"
