@@ -14,7 +14,7 @@ class SignPlot(object):
         self.graph.SetMarkerColor(color)
         self.graph.SetLineWidth(2)
         self.graph.SetMarkerStyle(20)
-        self.graph.SetMarkerSize(2)
+        self.graph.SetMarkerSize(1)
 
 
 parser = argparse.ArgumentParser(description='')
@@ -56,6 +56,7 @@ for ip, p in enumerate(plots_nuis):
         for iev,  event in enumerate(tree):
             p.graph.SetPoint(i-1, i/10.0, event.limit)
         p.graph.SetLineStyle(2)
+        p.graph.SetMarkerStyle(21)
         p.graph.Draw("plsame")
     legend.AddEntry(p.graph, p.title, "pl")
 
