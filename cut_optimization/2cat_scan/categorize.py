@@ -10,7 +10,7 @@ parser.add_argument('--sig_tree', action='store', dest='sig_tree', help='Tree na
 parser.add_argument('--data_tree', action='store', dest='data_tree', help='Tree name')
 parser.add_argument('--out_path', action='store', dest='output_path', help='Output path')
 parser.add_argument('--lumi', action='store', dest='lumi', help='Integrated luminosity')
-parser.add_argument('--nuis', action='store_false', dest='nuis', help='Nuisances')
+parser.add_argument('--nuis', action='store_true', dest='nuis', help='Nuisances')
 args = parser.parse_args()
 
 for i in range(23):
