@@ -14,7 +14,7 @@ class SignPlot(object):
         self.graph.SetMarkerColor(color)
         self.graph.SetLineWidth(2)
         self.graph.SetMarkerStyle(20)
-        self.graph.SetMarkerSize(1)
+        self.graph.SetMarkerSize(1.5)
 
 
 parser = argparse.ArgumentParser(description='')
