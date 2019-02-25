@@ -84,7 +84,7 @@ def fit_in_eta_bin(src, eta_lo, eta_hi, fit_func, var_name, nMassBins, massMin, 
     Import(w, var)
     
     ROOT.gROOT.ProcessLine(".L RooDCBShape.cxx")
-    w.factory("RooDCBShape::dcb(%s, mean[125,120,130], sigma[2,0,20], alphaL[2,0,25] , alphaR[2,0,25], nL[1.5,0,25], nR[1.5,0,25])"%var_name)
+    w.factory("RooDCBShape::dcb(%s, mean[125,120,130], sigma[2,0,5], alphaL[2,0,25] , alphaR[2,0,25], nL[1.5,0,25], nR[1.5,0,25])"%var_name)
     smodel = w.pdf("dcb")
     
     signal_ds = ROOT.RooDataSet("signal_ds_"+src.name,"signal_ds_"+src.name, signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, weight_over_lumi), "(%s)*(%s)"%(eta_cut,src.cut))
@@ -168,7 +168,7 @@ def make_resolution_plot(sources, label):
     canvas_chi2.Close()
 
 source = SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kOrange-3)
-fit_output = fit_in_eta_bin(source, 2.3, 2.4, "DCB", "mass", 50, 110, 135)
+fit_output = fit_in_eta_bin(source, 2.3, 2.4, "DCB", "mass", 100, 110, 135)
 print "Chi2/d.o.f = ", fit_output.chi2
 # sources_2016 = []
 # sources_2016.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlack))
