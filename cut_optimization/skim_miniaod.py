@@ -16,7 +16,6 @@ ROOT.FWLiteEnabler.enable()
 # load FWlite python libraries
 from DataFormats.FWLite import Handle, Events
 
-NEVTS = 0
 
 def deltaR(eta1,phi1,eta2,phi2):
     dEta = eta1 - eta2
@@ -72,6 +71,7 @@ def loop_over_events(path, out_path):
     metadata.Branch('sumGenWeights', sumGenWeights, 'sumGenWeights/F')
 
     print  "Processing files from ", path
+    processedEvts = 0
     for filename in os.listdir(path):
         # if filename.endswith("A68BB.root"):
         if filename.endswith(".root"):         
@@ -79,10 +79,8 @@ def loop_over_events(path, out_path):
             print "Processing file: ", filename   
 
             for iev,event in enumerate(events):
-                # if iev>1000:
-                #     break
-                NEVTS=NEVTS+1
-                if NEVTS>250000:
+                processedEvts=processedEvts+1
+                if processedEvts>250000:
                     break
                 mass[0] = -999
                 max_abs_eta_mu[0] = -999
@@ -133,7 +131,7 @@ def loop_over_events(path, out_path):
 
                 tree.Fill()
     metadata.Fill()                    
-
+    print "Processed %i events in total"%processedEvts
     out_file = ROOT.TFile(out_path, "RECREATE")
     out_file.cd()
     metadata.Write()
@@ -220,7 +218,6 @@ ggh_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneC
 # write_weights_to_tree(output_path, "ggh_2018_", xSec=0.009618) 
 
 loop_over_events(ggh_2018_1, output_path+"ggh_2018_test_1.root")
-loop_over_events(ggh_2018_2, output_path+"ggh_2018_test_2.root")
 write_weights_to_tree(output_path, "ggh_2018_test_", xSec=0.009618) 
 
 
