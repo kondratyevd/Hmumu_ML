@@ -205,10 +205,16 @@ set_out_path(output_path)
 # loop_over_events(ggh_2017, output_path+"ggh_2017.root")
 # write_weights_to_tree(output_path, "ggh_2017", xSec=0.009618) #ggH
 
+ggh_2017_psweights_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000"
+ggh_2017_psweights_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/120000"
+loop_over_events(ggh_2017_psweights_1, output_path+"ggh_2017_psweights_1.root")
+loop_over_events(ggh_2017_psweights_2, output_path+"ggh_2017_psweights_2.root")
+write_weights_to_tree(output_path, "ggh_2017_psweights_", xSec=0.0008208)
+
 # # ggH 2018 #
 
-ggh_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/100000/"
-ggh_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/110000/"
+# ggh_2018_1 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/100000/"
+# ggh_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/110000/"
 # ggh_2018_3 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/"
 # ggh_2018_4 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneCP5_PSweights_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/"
 # loop_over_events(ggh_2018_1, output_path+"ggh_2018_1.root")
@@ -217,8 +223,8 @@ ggh_2018_2 = "/mnt/hadoop/store/mc/RunIIAutumn18MiniAOD/GluGluHToMuMu_M125_TuneC
 # loop_over_events(ggh_2018_4, output_path+"ggh_2018_4.root")
 # write_weights_to_tree(output_path, "ggh_2018_", xSec=0.009618) 
 
-loop_over_events(ggh_2018_1, output_path+"ggh_2018_test_1.root")
-write_weights_to_tree(output_path, "ggh_2018_test_", xSec=0.009618) 
+# loop_over_events(ggh_2018_1, output_path+"ggh_2018_test_1.root")
+# write_weights_to_tree(output_path, "ggh_2018_test_", xSec=0.009618) 
 
 
 # # VBF 2017 ##
