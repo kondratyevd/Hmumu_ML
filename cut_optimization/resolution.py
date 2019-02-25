@@ -168,7 +168,7 @@ def make_resolution_plot(sources, label):
     canvas_chi2.Close()
 
 source = SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kOrange-3)
-fit_output = fit_in_eta_bin(source, 2.3, 2.4, "DCB", "mass", 100, 110, 135)
+fit_output = fit_in_eta_bin(source, 2.3, 2.4, "DCB", "mass", 101, 110, 135)
 print "Chi2/d.o.f = ", fit_output.chi2
 # sources_2016 = []
 # sources_2016.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlack))
