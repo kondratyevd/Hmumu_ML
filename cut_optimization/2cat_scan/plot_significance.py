@@ -34,7 +34,7 @@ plot_2016_nuis = SignPlot("plot_2016", "%s 2016 w/ nuis."%args.process, "/home/d
 # plot_2017_nuis = SignPlot("plot_2017", "%s 2017 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kRed)
 # plot_2018_nuis = SignPlot("plot_2018", "%s 2018 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_nuis/"%args.process, ROOT.kGreen)
 # plot_2018_test_nuis = SignPlot("plot_2018_test_nuis", "%s 2018 w/ nuis. (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test_nuis/"%args.process, ROOT.kBlack)
-# plots_nuis = [plot_2016_nuis, plot_2017_nuis, plot_2018_nuis]
+plots_nuis = [plot_2016_nuis]
 
 # plot_2017_nuis_0p1 = SignPlot("plot_2017", "%s 2017 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kBlack)
 # plot_2017_nuis_0p01 = SignPlot("plot_2017", "%s 2017 w/ 0.1%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis_0p001/"%args.process, ROOT.kOrange)
