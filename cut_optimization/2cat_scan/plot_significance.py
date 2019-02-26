@@ -36,7 +36,7 @@ plots = [plot_2017]
 # plots_nuis = [plot_2016_nuis, plot_2017_nuis, plot_2018_nuis]
 
 plot_2017_nuis_0p1 = SignPlot("plot_2017", "%s 2017 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kBlack)
-plot_2017_nuis_0p01 = SignPlot("plot_2017", "%s 2017 w/ 1%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis_0p01/"%args.process, ROOT.kOrange)
+plot_2017_nuis_0p01 = SignPlot("plot_2017", "%s 2017 w/ 0.1%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis_0p001/"%args.process, ROOT.kOrange)
 
 plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_0p01]
 
