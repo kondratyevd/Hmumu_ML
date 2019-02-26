@@ -22,17 +22,23 @@ parser.add_argument('-p', action='store', dest='process', default="ggh", help='P
 args = parser.parse_args()
 
 
-plot_2016 = SignPlot("plot_2016", "%s 2016"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%args.process, ROOT.kBlue)
+# plot_2016 = SignPlot("plot_2016", "%s 2016"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%args.process, ROOT.kBlue)
 plot_2017 = SignPlot("plot_2017", "%s 2017"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%args.process, ROOT.kRed)
-plot_2018 = SignPlot("plot_2018", "%s 2018"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%args.process, ROOT.kGreen)
-plot_2018_test = SignPlot("plot_2018_test", "%s 2018 (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test/"%args.process, ROOT.kBlack)
-plots = [plot_2016, plot_2017, plot_2018, plot_2018_test]
+# plot_2018 = SignPlot("plot_2018", "%s 2018"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%args.process, ROOT.kGreen)
+# plot_2018_test = SignPlot("plot_2018_test", "%s 2018 (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test/"%args.process, ROOT.kBlack)
+# plots = [plot_2016, plot_2017, plot_2018]
+plots = [plot_2017]
 
-plot_2016_nuis = SignPlot("plot_2016", "%s 2016 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016_nuis/"%args.process, ROOT.kBlue)
-plot_2017_nuis = SignPlot("plot_2017", "%s 2017 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kRed)
-plot_2018_nuis = SignPlot("plot_2018", "%s 2018 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_nuis/"%args.process, ROOT.kGreen)
-plot_2018_test_nuis = SignPlot("plot_2018_test_nuis", "%s 2018 w/ nuis. (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test_nuis/"%args.process, ROOT.kBlack)
-plots_nuis = [plot_2016_nuis, plot_2017_nuis, plot_2018_nuis, plot_2018_test_nuis]
+# plot_2016_nuis = SignPlot("plot_2016", "%s 2016 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016_nuis/"%args.process, ROOT.kBlue)
+# plot_2017_nuis = SignPlot("plot_2017", "%s 2017 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kRed)
+# plot_2018_nuis = SignPlot("plot_2018", "%s 2018 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_nuis/"%args.process, ROOT.kGreen)
+# plot_2018_test_nuis = SignPlot("plot_2018_test_nuis", "%s 2018 w/ nuis. (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test_nuis/"%args.process, ROOT.kBlack)
+# plots_nuis = [plot_2016_nuis, plot_2017_nuis, plot_2018_nuis]
+
+plot_2017_nuis_0p1 = SignPlot("plot_2017", "%s 2017 10% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kBlack)
+plot_2017_nuis_0p01 = SignPlot("plot_2017", "%s 2017 w/ 1% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis_0p01/"%args.process, ROOT.kOrange)
+
+plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_0p01]
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
@@ -63,5 +69,5 @@ for ip, p in enumerate(plots_nuis):
     legend.AddEntry(p.graph, p.title, "pl")
 
 legend.Draw()
-canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_test.png"%args.process)
-canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_test.root"%args.process)
+canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test.png"%args.process)
+canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test.root"%args.process)
