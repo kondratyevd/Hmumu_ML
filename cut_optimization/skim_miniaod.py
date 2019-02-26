@@ -80,8 +80,8 @@ def loop_over_events(path, out_path):
 
             for iev,event in enumerate(events):
                 processedEvts=processedEvts+1
-                if processedEvts>250000:
-                    break
+                # if processedEvts>250000:
+                #     break
                 mass[0] = -999
                 max_abs_eta_mu[0] = -999
                 event.getByLabel(jetLabel, jets)
