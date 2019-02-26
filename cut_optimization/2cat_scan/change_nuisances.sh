@@ -8,7 +8,7 @@ cp $SOURCE_DIR/* $TARGET_DIR
 
 cd $TARGET_DIR
 for filename in *.txt; do
-	sed -i 's/param    0    1./param    0    0.1/g' $filename.txt
+	sed -i 's/param    0    1./param    0    0.1/g' $filename
 done
 
 cd $CURRENT_LOCATION
