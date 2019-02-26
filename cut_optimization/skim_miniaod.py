@@ -235,10 +235,10 @@ set_out_path(output_path)
 # loop_over_events(vbf_2017_2, output_path+"vbf_2017_2.root")
 # write_weights_to_tree(output_path, "vbf_2017_", xSec=0.0008208)
 
-vbf_2017_psweights_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/120000/"
+# vbf_2017_psweights_1 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/120000/"
 vbf_2017_psweights_2 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/280000/"
 vbf_2017_psweights_3 = "/mnt/hadoop/store/mc/RunIIFall17MiniAODv2/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/"
-loop_over_events(vbf_2017_psweights_1, output_path+"vbf_2017_psweights_1.root")
+# loop_over_events(vbf_2017_psweights_1, output_path+"vbf_2017_psweights_1.root")
 loop_over_events(vbf_2017_psweights_2, output_path+"vbf_2017_psweights_2.root")
 loop_over_events(vbf_2017_psweights_3, output_path+"vbf_2017_psweights_3.root")
 write_weights_to_tree(output_path, "vbf_2017_psweights_", xSec=0.0008208) 
