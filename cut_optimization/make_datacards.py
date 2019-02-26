@@ -97,7 +97,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut)
     w.factory("mu_res_beta [0, 0, 0]")
     w.factory("mu_scale_beta [0, 0, 0]")
 
-    w.factory("mu_res_unc [0.1, 0.1, 0.1]")
+    w.factory("mu_res_unc [0.01, 0.01, 0.01]")
     w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]")
 
     w.var("mu_res_unc").setConstant(True)
