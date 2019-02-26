@@ -94,18 +94,14 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut)
     w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
     w.factory("cat%i_mixGG1 [0.5, 0.0, 1.0]"%cat_number)
 
-    # w.factory("cat%i_mu_res_beta [0, 0, 0]"%cat_number)
-    # w.factory("cat%i_mu_scale_beta [0, 0, 0]"%cat_number)
-
-    # w.factory("mu_res_beta [0, 0, 0]")
     w.factory("mu_res_beta [0, 0, 0]")
     w.factory("mu_scale_beta [0, 0, 0]")
 
-    w.factory("mu_res_unc [0.1, 0.1, 0.1]"%cat_number)
-    w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]"%cat_number)
+    w.factory("mu_res_unc [0.1, 0.1, 0.1]")
+    w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]")
 
-    w.var("mu_res_unc"%cat_number).setConstant(True)
-    w.var("mu_scale_unc"%cat_number).setConstant(True)
+    w.var("mu_res_unc").setConstant(True)
+    w.var("mu_scale_unc").setConstant(True)
 
     mixGG = w.var("cat%i_mixGG"%cat_number)
     mixGG1 = w.var("cat%i_mixGG1"%cat_number)
