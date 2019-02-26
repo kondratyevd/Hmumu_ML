@@ -101,28 +101,28 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut)
     w.factory("mu_res_beta [0, 0, 0]")
     w.factory("mu_scale_beta [0, 0, 0]")
 
-    w.factory("cat%i_mu_res_unc [0.1, 0.1, 0.1]"%cat_number)
-    w.factory("cat%i_mu_scale_unc [0.0005, 0.0005, 0.0005]"%cat_number)
+    w.factory("mu_res_unc [0.1, 0.1, 0.1]"%cat_number)
+    w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]"%cat_number)
 
-    w.var("cat%i_mu_res_unc"%cat_number).setConstant(True)
-    w.var("cat%i_mu_scale_unc"%cat_number).setConstant(True)
+    w.var("mu_res_unc"%cat_number).setConstant(True)
+    w.var("mu_scale_unc"%cat_number).setConstant(True)
 
     mixGG = w.var("cat%i_mixGG"%cat_number)
     mixGG1 = w.var("cat%i_mixGG1"%cat_number)
 
-    w.factory("EXPR::cat%i_mean1_times_nuis('cat%i_mean1*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean1[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean2_times_nuis('cat%i_mean2*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean2[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean3_times_nuis('cat%i_mean3*(1 + cat%i_mu_scale_unc*mu_scale_beta)',{cat%i_mean3[125.0, 120., 130.],cat%i_mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_mean1_times_nuis('cat%i_mean1*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean1[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_mean2_times_nuis('cat%i_mean2*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean2[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_mean3_times_nuis('cat%i_mean3*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean3[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
 
     w.factory("expr::cat%i_deltaM21('cat%i_mean2-cat%i_mean1',{cat%i_mean2, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
     w.factory("expr::cat%i_deltaM31('cat%i_mean3-cat%i_mean1',{cat%i_mean3, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
 
-    w.factory("EXPR::cat%i_mean2_final('cat%i_mean2_times_nuis + cat%i_mu_res_unc*mu_res_beta*cat%i_deltaM21',{cat%i_mean2_times_nuis, cat%i_mu_res_unc, mu_res_beta, cat%i_deltaM21})"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean3_final('cat%i_mean3_times_nuis + cat%i_mu_res_unc*mu_res_beta*cat%i_deltaM31',{cat%i_mean3_times_nuis, cat%i_mu_res_unc, mu_res_beta, cat%i_deltaM31})"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_mean2_final('cat%i_mean2_times_nuis + mu_res_unc*mu_res_beta*cat%i_deltaM21',{cat%i_mean2_times_nuis, mu_res_unc, mu_res_beta, cat%i_deltaM21})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_mean3_final('cat%i_mean3_times_nuis + mu_res_unc*mu_res_beta*cat%i_deltaM31',{cat%i_mean3_times_nuis, mu_res_unc, mu_res_beta, cat%i_deltaM31})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
 
-    w.factory("EXPR::cat%i_width1_times_nuis('cat%i_width1*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width1[1.0, 0.5, 5.0],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + cat%i_mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],cat%i_mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_width1_times_nuis('cat%i_width1*(1 + mu_res_unc*mu_res_beta)',{cat%i_width1[1.0, 0.5, 5.0],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
 
     w.factory("Gaussian::cat%i_gaus1(mass, cat%i_mean1_times_nuis, cat%i_width1_times_nuis)"%(cat_number, cat_number, cat_number))
     w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_final, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
@@ -150,6 +150,9 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut)
         par_var.setConstant(True)
     w.var("mu_res_beta").setRange(-5, 5)
     w.var("mu_scale_beta").setRange(-5, 5)
+    w.var("mu_res_beta").setVal(0)
+    w.var("mu_scale_beta").setVal(0)
+    
     Import(w, smodel)
     return signal_rate
 
