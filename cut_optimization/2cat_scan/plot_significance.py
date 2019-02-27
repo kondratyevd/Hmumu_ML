@@ -56,6 +56,10 @@ for ip, p in enumerate(plots):
             p.graph.SetPoint(i-1, i/10.0, event.limit)
     if not ip:
         p.graph.Draw("apl")
+        p.graph.GetXaxis().SetRangeUser(0, 2.4)
+        p.graph.GetXaxis().SetTitle("Rapidity cut")
+        p.graph.GetYaxis().SetTitle("Significance")
+        p.graph.GetYaxis().SetTitleOffset(1.35)
     else:
         p.graph.Draw("plsame")
     legend.AddEntry(p.graph, p.title, "pl")
