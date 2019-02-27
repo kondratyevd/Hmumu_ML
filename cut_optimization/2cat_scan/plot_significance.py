@@ -42,6 +42,7 @@ plot_2017_nuis = SignPlot("plot_2017", "%s 2017 w/ nuis."%args.process, "/home/d
 
 # plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_0p01]
 
+plots_nuis = []
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
 
