@@ -40,10 +40,10 @@ plot_2017_nuis_0p02 = SignPlot("plot_2017_psweights_0p02", "%s 2017 2%% nuis."%a
 plot_2017_nuis_0p05 = SignPlot("plot_2017_psweights_0p05", "%s 2017 5%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p05/"%args.process, ROOT.kOrange)
 plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 2017 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kOrange)
 
-plot_2017_nuis_0p01.SetMarkerStyle(21)
-plot_2017_nuis_0p02.SetMarkerStyle(22)
-plot_2017_nuis_0p05.SetMarkerStyle(23)
-plot_2017_nuis_0p1.SetMarkerStyle(24)
+plot_2017_nuis_0p01.graph.SetMarkerStyle(21)
+plot_2017_nuis_0p02.graph.SetMarkerStyle(22)
+plot_2017_nuis_0p05.graph.SetMarkerStyle(23)
+plot_2017_nuis_0p1.graph.SetMarkerStyle(24)
 plots_nuis = [plot_2017_nuis_0p01, plot_2017_nuis_0p02, plot_2017_nuis_0p05, plot_2017_nuis_0p1]
 # plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_0p01]
 
