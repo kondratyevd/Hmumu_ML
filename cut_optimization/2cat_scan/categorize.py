@@ -11,7 +11,7 @@ parser.add_argument('--data_tree', action='store', dest='data_tree', help='Tree 
 parser.add_argument('--out_path', action='store', dest='output_path', help='Output path')
 parser.add_argument('--lumi', action='store', dest='lumi', help='Integrated luminosity')
 parser.add_argument('--nuis', action='store_true', dest='nuis', help='Nuisances')
-parser.add_argument('--nuis_val', action='store_const', default=0.1, type=float, dest='nuis_val', help='Resolution uncertainty')
+parser.add_argument('--nuis_val', action='store_const', type=float, dest='nuis_val', help='Resolution uncertainty')
 args = parser.parse_args()
 
 for i in range(23):
