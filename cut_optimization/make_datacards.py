@@ -74,7 +74,7 @@ def add_sig_model(w, cat_number, input_path, sig_tree, lumi, cut):
     Import(w, smodel)
     return signal_rate
 
-def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut):
+def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut, nuis_val):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
@@ -97,7 +97,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut)
     w.factory("mu_res_beta [0, 0, 0]")
     w.factory("mu_scale_beta [0, 0, 0]")
 
-    w.factory("mu_res_unc [0.01, 0.01, 0.01]")
+    w.factory("mu_res_unc [%f, %f, %f]"%(nuis_val, nuis_val, nuis_val))
     w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]")
 
     w.var("mu_res_unc").setConstant(True)
@@ -179,7 +179,7 @@ def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     return bkg_rate
 
 
-def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tree, output_path, filename, lumi, statUnc=False, nuis=False):
+def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tree, output_path, filename, lumi, statUnc=False, nuis=False, nuis_val):
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -206,7 +206,7 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
         cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
         
         if nuis:
-            sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut)    
+            sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, nuis_val)    
         else:
             sig_rate = add_sig_model(w, i, sig_input_path, sig_tree, lumi, cut) 
 
@@ -240,13 +240,13 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n"
 
 
-def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, name, workspace_filename, lumi, statUnc=False, nuis=False): 
+def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, name, workspace_filename, lumi, statUnc=False, nuis=False, nuis_val=0.1): 
     try:
         os.makedirs(out_path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, workspace_filename, lumi, statUnc=statUnc, nuis=nuis)
+    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, workspace_filename, lumi, statUnc=statUnc, nuis=nuis, nuis_val=nuis_val)
     out_file = open(out_path+name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")

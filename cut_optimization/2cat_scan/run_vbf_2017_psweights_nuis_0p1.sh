@@ -6,9 +6,9 @@ DATA_INPUT_PATH="/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 SIG_TREE="tree"
 DATA_TREE="dimuons/tree"
 LUMI=35866
-OUTPUT_PATH=output/vbf_2017_psweights_nuis_0p01/
+OUTPUT_PATH=output/vbf_2017_psweights_nuis_0p1/
 mkdir $OUTPUT_PATH
-python categorize.py --nuis --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH" --sig_tree "$SIG_TREE" --data_tree "$DATA_TREE" --lumi "$LUMI"
+python categorize.py --nuis --nuis_val 0.1 --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH" --sig_tree "$SIG_TREE" --data_tree "$DATA_TREE" --lumi "$LUMI"
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
