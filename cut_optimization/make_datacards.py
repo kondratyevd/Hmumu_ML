@@ -179,7 +179,7 @@ def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     return bkg_rate
 
 
-def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tree, output_path, filename, lumi, statUnc=False, nuis=False, nuis_val):
+def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tree, output_path, filename, lumi, statUnc=False, nuis=False, nuis_val=0.1):
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
