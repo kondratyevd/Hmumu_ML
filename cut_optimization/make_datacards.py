@@ -173,7 +173,7 @@ def add_sig_model_dcb(w, cat_number, input_path, sig_tree, lumi, cut):
 
     ROOT.gROOT.ProcessLine(".L /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape.cxx")
     w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean[125,120,130], cat%i_sigma[2,0,5], cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
-    smodel = w.pdf("dcb")
+    smodel = w.pdf("cat%i_ggh"%cat_number)
     w.Print()
     signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
