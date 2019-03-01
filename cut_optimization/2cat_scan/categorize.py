@@ -14,6 +14,6 @@ parser.add_argument('--nuis', action='store_true', dest='nuis', help='Nuisances'
 parser.add_argument('--nuis_val', action='store', dest='nuis_val', help='Resolution uncertainty')
 args = parser.parse_args()
 
-for i in range(16, 23):
+for i in range(15, 23):
     bins = [0, (i+1)/10.0, 2.4]
     create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path,  "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), args.lumi, nuis=args.nuis, nuis_val=args.nuis_val)
