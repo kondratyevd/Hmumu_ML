@@ -40,13 +40,15 @@ plots = [plot_2017_psweights]
 # plot_2017_nuis_0p05 = SignPlot("plot_2017_psweights_0p05", "%s 2017 5%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p05/"%args.process, ROOT.kOrange)
 plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 2017 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kOrange)
 plot_2017_nuis_0 = SignPlot("plot_2017_psweights_0", "%s 2017 only scale nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0/"%args.process, ROOT.kOrange)
+plot_2017_nuis_onlyinnermost = SignPlot("plot_2017_psweights_onlyinnermost", "%s 2017 resolution nuis.\nonly for innermost Gaussian"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_onlyinnermost/"%args.process, ROOT.kOrange)
 # plot_2017_nuis_0p01.graph.SetMarkerStyle(21)
 # plot_2017_nuis_0p02.graph.SetMarkerStyle(22)
 # plot_2017_nuis_0p05.graph.SetMarkerStyle(23)
 plot_2017_nuis_0p1.graph.SetMarkerStyle(24)
-plot_2017_nuis_0p1.graph.SetMarkerStyle(23)
+plot_2017_nuis_0.graph.SetMarkerStyle(23)
+plot_2017_nuis_onlyinnermost.SetMarkerStyle(22)
 # plots_nuis = [plot_2017_nuis_0p01, plot_2017_nuis_0p02, plot_2017_nuis_0p05, plot_2017_nuis_0p1]
-plots_nuis = [plot_2017_nuis_0]
+plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost]
 
 # plots_nuis = []
 canvas = ROOT.TCanvas("c", "c", 800, 800)
@@ -82,5 +84,5 @@ for ip, p in enumerate(plots_nuis):
     legend.AddEntry(p.graph, p.title, "pl")
 
 legend.Draw()
-canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_1.png"%args.process)
-canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_1.root"%args.process)
+canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_2.png"%args.process)
+canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_2.root"%args.process)
