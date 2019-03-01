@@ -15,6 +15,6 @@ parser.add_argument('--nuis_val', action='store', dest='nuis_val', help='Resolut
 parser.add_argument('--smodel', action='store', dest='smodel', help='Signal model')
 args = parser.parse_args()
 
-for i in range(2):
+for i in range(23):
     bins = [0, (i+1)/10.0, 2.4]
     create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path,  "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), args.lumi, nuis=args.nuis, nuis_val=args.nuis_val, smodel=args.smodel)
