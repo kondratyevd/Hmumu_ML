@@ -149,7 +149,7 @@ def make_resolution_plot(sources, label):
     canvas.cd()
     for src in sources:
         src.hist.Draw("pe2same")
-        src.hist_copy.Draw("pe0same")
+        # src.hist_copy.Draw("pe0same")
         src.hist.SetTitle("")
         src.hist.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.hist.GetYaxis().SetTitle("width, GeV")
