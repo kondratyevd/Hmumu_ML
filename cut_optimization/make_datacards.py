@@ -154,6 +154,37 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut,
     Import(w, smodel)
     return signal_rate
 
+def add_sig_model_dcb(w, cat_number, input_path, sig_tree, lumi, cut):
+    var = w.var("mass")
+    var.setBins(5000)
+    max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
+    mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
+    mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
+    signal_tree = ROOT.TChain(sig_tree)
+    signal_tree.Add(input_path)  
+    print "Loaded tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+    signal_hist_name = "signal_%i"%cat_number
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
+    dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
+    dummy.cd()
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    dummy.Close()
+    signal_rate = signal_hist.Integral()
+
+    ROOT.gROOT.ProcessLine(".L RooDCBShape.cxx")
+    w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean[125,120,130], cat%i_sigma[2,0,5], cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
+    smodel = w.pdf("dcb")
+    w.Print()
+    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta), cut)
+    res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+    res.Print()
+    sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
+    for par in sigParamList:
+        par_var = w.var("cat%s_%s"%(cat_number,par))
+        par_var.setConstant(True)
+    Import(w, smodel)
+    return signal_rate
+
 def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     data = add_data(w, cat_number, input_path, data_tree, cut)
     var = w.var("mass")
@@ -181,7 +212,7 @@ def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     return bkg_rate
 
 
-def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tree, output_path, filename, lumi, statUnc=False, nuis=False, nuis_val=0.1):
+def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tree, output_path, filename, lumi, statUnc=False, nuis=False, nuis_val=0.1, smodel='3gaus'):
     nCat = len(bins)-1
     cat_names = []
     combine_import = ""
@@ -207,11 +238,13 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
 
         cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
         
-        if nuis:
-            sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, nuis_val)    
-        else:
-            sig_rate = add_sig_model(w, i, sig_input_path, sig_tree, lumi, cut) 
-
+        if '3gaus' in smodel:
+            if nuis:
+                sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, nuis_val)    
+            else:
+                sig_rate = add_sig_model(w, i, sig_input_path, sig_tree, lumi, cut) 
+        elif 'dcb' in smodel:
+            sig_rate = add_sig_model_dcb(w, i, sig_input_path, sig_tree, lumi, cut) 
         bkg_rate = add_bkg_model(w, i, data_input_path, data_tree, cut)
 
         combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
@@ -242,13 +275,13 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n"
 
 
-def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, name, workspace_filename, lumi, statUnc=False, nuis=False, nuis_val=0.1): 
+def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, name, workspace_filename, lumi, statUnc=False, nuis=False, nuis_val=0.1, smodel='3gaus'): 
     try:
         os.makedirs(out_path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, workspace_filename, lumi, statUnc=statUnc, nuis=nuis, nuis_val=nuis_val)
+    import_str, bins_obs, cat_strings, unc_str = make_eta_categories(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, workspace_filename, lumi, statUnc=statUnc, nuis=nuis, nuis_val=nuis_val, smodel=smodel)
     out_file = open(out_path+name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
