@@ -46,7 +46,7 @@ plot_2017_nuis_onlyinnermost = SignPlot("plot_2017_psweights_onlyinnermost", "%s
 # plot_2017_nuis_0p05.graph.SetMarkerStyle(23)
 plot_2017_nuis_0p1.graph.SetMarkerStyle(24)
 plot_2017_nuis_0.graph.SetMarkerStyle(23)
-plot_2017_nuis_onlyinnermost.SetMarkerStyle(22)
+plot_2017_nuis_onlyinnermost.graph.SetMarkerStyle(22)
 # plots_nuis = [plot_2017_nuis_0p01, plot_2017_nuis_0p02, plot_2017_nuis_0p05, plot_2017_nuis_0p1]
 plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost]
 
