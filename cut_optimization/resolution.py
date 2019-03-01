@@ -17,9 +17,19 @@ class SignalSrc(object):
         self.hist.SetName(name)
         self.hist.SetMarkerColor(color)
         self.hist.SetLineColor(color)
+        self.hist.SetFillColor(color)
         self.hist.SetLineWidth(2)
         self.hist.SetMarkerStyle(20)
         self.hist.SetMarkerSize(0.8)
+
+        self.hist_copy = ROOT.TH1D("hist_copy_"+name, title, 24, 0, 2.4)
+        self.hist_copy.SetName(name)
+        self.hist_copy.SetMarkerColor(color)
+        self.hist_copy.SetLineColor(color)
+        self.hist_copy.SetFillColor(color)
+        self.hist_copy.SetLineWidth(2)
+        self.hist_copy.SetMarkerStyle(20)
+        self.hist_copy.SetMarkerSize(0.8)
 
         self.graph_chi2 = ROOT.TGraphErrors()
         self.graph_chi2.SetName(name)
@@ -129,14 +139,16 @@ def make_resolution_plot(sources, label):
             eta_hi = i/10.0
             fit_output = fit_in_eta_bin(src, eta_lo, eta_hi, "DCB", "mass", 100, 110, 135)
             src.hist.SetBinContent(i, fit_output.width)
+            src.hist_copy.SetBinContent(i, fit_output.width)
             src.hist.SetBinError(i, fit_output.width_err)
             src.graph_chi2.SetPoint(i-1, i/10.0-0.05, fit_output.chi2)
             src.graph_chi2.SetPointError(i-1, 0.05, 0)            
-        legend.AddEntry(src.hist, src.title, "pl")
+        legend.AddEntry(src.hist, src.title, "pfl")
     canvas = ROOT.TCanvas("c","c",800,800)
     canvas.cd()
     for src in sources:
-        src.hist.Draw("ple1same")
+        src.hist.Draw("ple2same")
+        src.hist_copy.Draw("ple0same")
         src.hist.SetTitle("")
         src.hist.GetXaxis().SetTitle("max. |#eta| of two muons")
         src.hist.GetYaxis().SetTitle("width, GeV")
@@ -176,14 +188,14 @@ def make_resolution_plot(sources, label):
 # sources_2016.append(SignalSrc("vbf_2016", "VBF 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_VBF/*root", "dimuons/tree", "1", ROOT.kBlue))
 # make_resolution_plot(sources_2016, "resolution_2016")
 
-sources_2017 = []
-sources_2017.append(SignalSrc("ggH_2017", "ggH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2017.root", "tree", "1", ROOT.kBlack))
-sources_2017.append(SignalSrc("vbf_2017", "VBF 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/vbf_2017.root", "tree", "1", ROOT.kBlue))
-sources_2017.append(SignalSrc("wplush_2017", "W+H 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wplush_2017.root", "tree", "1", ROOT.kViolet))
-sources_2017.append(SignalSrc("wminush_2017", "W-H 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wminush_2017.root", "tree", "1", ROOT.kGreen))
-sources_2017.append(SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kOrange-3))
-sources_2017.append(SignalSrc("tth_2017", "ttH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2017.root", "tree", "1", ROOT.kRed))
-make_resolution_plot(sources_2017, "resolution_2017")
+# sources_2017 = []
+# sources_2017.append(SignalSrc("ggH_2017", "ggH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2017.root", "tree", "1", ROOT.kBlack))
+# sources_2017.append(SignalSrc("vbf_2017", "VBF 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/vbf_2017.root", "tree", "1", ROOT.kBlue))
+# sources_2017.append(SignalSrc("wplush_2017", "W+H 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wplush_2017.root", "tree", "1", ROOT.kViolet))
+# sources_2017.append(SignalSrc("wminush_2017", "W-H 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wminush_2017.root", "tree", "1", ROOT.kGreen))
+# sources_2017.append(SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kOrange-3))
+# sources_2017.append(SignalSrc("tth_2017", "ttH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2017.root", "tree", "1", ROOT.kRed))
+# make_resolution_plot(sources_2017, "resolution_2017")
 
 # sources_2018 = []
 # sources_2018.append(SignalSrc("ggH_2018", "ggH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2018.root", "tree", "1", ROOT.kBlack))
@@ -194,11 +206,11 @@ make_resolution_plot(sources_2017, "resolution_2017")
 # sources_2018.append(SignalSrc("tth_2018", "ttH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2018.root", "tree", "1", ROOT.kRed))
 # make_resolution_plot(sources_2018, "resolution_2018")
 
-# sources_ggh = []
-# sources_ggh.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlack))
-# sources_ggh.append(SignalSrc("ggH_2017", "ggH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2017.root", "tree", "1", ROOT.kRed))
-# sources_ggh.append(SignalSrc("ggH_2018", "ggH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2018.root", "tree", "1", ROOT.kBlue))
-# make_resolution_plot(sources_ggh, "resolution_ggh")
+sources_ggh = []
+sources_ggh.append(SignalSrc("ggH_2016", "ggH 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_gg/*root", "dimuons/tree", "1", ROOT.kBlack))
+sources_ggh.append(SignalSrc("ggH_2017", "ggH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2017_psweights.root", "tree", "1", ROOT.kRed))
+sources_ggh.append(SignalSrc("ggH_2018", "ggH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2018.root", "tree", "1", ROOT.kBlue))
+make_resolution_plot(sources_ggh, "resolution_ggh")
 
 # sources_vbf = []
 # sources_vbf.append(SignalSrc("vbf_2016", "VBF 2016", "/mnt/hadoop/store/user/dkondrat/skim/2016/H2Mu_VBF/*root", "dimuons/tree", "1", ROOT.kBlack))
@@ -216,10 +228,10 @@ make_resolution_plot(sources_2017, "resolution_2017")
 # sources_wminush.append(SignalSrc("wminush_2018", "W-H 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wminush_2018.root", "tree", "1", ROOT.kBlue))
 # make_resolution_plot(sources_wminush, "resolution_wminush")
 
-sources_zh = []
-sources_zh.append(SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kRed))
-sources_zh.append(SignalSrc("zh_2018", "ZH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2018.root", "tree", "1", ROOT.kBlue))
-make_resolution_plot(sources_zh, "resolution_zh")
+# sources_zh = []
+# sources_zh.append(SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kRed))
+# sources_zh.append(SignalSrc("zh_2018", "ZH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2018.root", "tree", "1", ROOT.kBlue))
+# make_resolution_plot(sources_zh, "resolution_zh")
 
 # sources_tth = []
 # sources_tth.append(SignalSrc("tth_2017", "ttH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2017.root", "tree", "1", ROOT.kRed))
