@@ -26,7 +26,7 @@ class SignalSrc(object):
         self.hist_copy.SetName(name)
         self.hist_copy.SetMarkerColor(color)
         self.hist_copy.SetLineColor(color)
-        self.hist_copy.SetFillColor(color)
+        # self.hist_copy.SetFillColor(color)
         self.hist_copy.SetLineWidth(2)
         self.hist_copy.SetMarkerStyle(20)
         self.hist_copy.SetMarkerSize(0.8)
