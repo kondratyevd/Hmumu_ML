@@ -19,7 +19,7 @@ class SignalSrc(object):
         self.hist.SetLineColor(color)
         r = g = b = array("f", [0])
         color_i = ROOT.gROOT.GetColor(color)
-        color_i.GetRGB(r[0],g[0],b[0])
+        color_i.GetRGB(r,g,b)
         color_tr = ROOT.TColor(2000, r[0], g[0], b[0], " ", 0.5)
         self.hist.SetFillColor(color_tr)
         self.hist.SetLineWidth(2)
