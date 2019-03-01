@@ -185,6 +185,54 @@ def add_sig_model_dcb(w, cat_number, input_path, sig_tree, lumi, cut):
     Import(w, smodel)
     return signal_rate
 
+def add_sig_model_dcb_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut, nuis_val):
+    var = w.var("mass")
+    var.setBins(5000)
+    max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
+    mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
+    mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
+    signal_tree = ROOT.TChain(sig_tree)
+    signal_tree.Add(input_path)  
+    print "Loaded tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+    signal_hist_name = "signal_%i"%cat_number
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
+    dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
+    dummy.cd()
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    dummy.Close()
+    signal_rate = signal_hist.Integral()
+
+  
+    w.factory("mu_res_beta [0, 0, 0]")
+    w.factory("mu_scale_beta [0, 0, 0]")
+
+    w.factory("mu_res_unc [%s, %s, %s]"%(nuis_val, nuis_val, nuis_val))
+    w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]")
+
+    w.var("mu_res_unc").setConstant(True)
+    w.var("mu_scale_unc").setConstant(True)
+    w.factory("EXPR::cat%i_mean_times_nuis('cat%i_mean*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_sigma_times_nuis('cat%i_sigma*(1 + mu_res_unc*mu_res_beta)',{cat%i_sigma[2.0, 0., 5.0],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+
+    ROOT.gROOT.ProcessLine(".L /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape.cxx")
+    w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean_times_nuis, cat%i_sigma_times_nuis, cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
+    smodel = w.pdf("cat%i_ggh"%cat_number)
+    w.Print()
+    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta), cut)
+    res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+    res.Print()
+    sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
+    for par in sigParamList:
+        par_var = w.var("cat%s_%s"%(cat_number,par))
+        par_var.setConstant(True)
+
+    w.var("mu_res_beta").setRange(-5, 5)
+    w.var("mu_scale_beta").setRange(-5, 5)
+    w.var("mu_res_beta").setVal(0)
+    w.var("mu_scale_beta").setVal(0)    
+    Import(w, smodel)
+    return signal_rate
+
 def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     data = add_data(w, cat_number, input_path, data_tree, cut)
     var = w.var("mass")
@@ -244,7 +292,11 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
             else:
                 sig_rate = add_sig_model(w, i, sig_input_path, sig_tree, lumi, cut) 
         elif 'dcb' in smodel:
-            sig_rate = add_sig_model_dcb(w, i, sig_input_path, sig_tree, lumi, cut) 
+            if nuis:
+                sig_rate = add_sig_model_dcb_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, nuis_val)    
+            else:
+                sig_rate = add_sig_model_dcb(w, i, sig_input_path, sig_tree, lumi, cut) 
+
         bkg_rate = add_bkg_model(w, i, data_input_path, data_tree, cut)
 
         combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
