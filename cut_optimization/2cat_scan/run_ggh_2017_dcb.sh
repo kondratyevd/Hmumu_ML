@@ -8,7 +8,7 @@ DATA_TREE="dimuons/tree"
 LUMI=35866
 OUTPUT_PATH=output/ggh_2017_dcb/
 mkdir $OUTPUT_PATH
-python categorize.py --smodel dcb --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH" --sig_tree "$SIG_TREE" --data_tree "$DATA_T$
+python categorize.py --smodel dcb --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH" --sig_tree "$SIG_TREE" --data_tree "$DATA_TREE" --lumi "$LUMI"
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output.
