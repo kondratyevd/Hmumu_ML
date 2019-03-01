@@ -18,7 +18,8 @@ class SignalSrc(object):
         self.hist.SetMarkerColor(color)
         self.hist.SetLineColor(color)
         r = g = b = 0
-        color.GetRGB(r,g,b)
+        color_i = ROOT.gROOT.GetColor(color)
+        color_i.GetRGB(r,g,b)
         color_tr = ROOT.TColor(2000, r, g, b, " ", 0.5)
         self.hist.SetFillColor(color_tr)
         self.hist.SetLineWidth(2)
