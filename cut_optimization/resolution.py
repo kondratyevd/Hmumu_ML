@@ -17,11 +17,7 @@ class SignalSrc(object):
         self.hist.SetName(name)
         self.hist.SetMarkerColor(color)
         self.hist.SetLineColor(color)
-        # ci = 1182
-        color_i = ROOT.gROOT.GetColor(color)
-        # color_tr = ROOT.TColor(ci, color_i.GetRed(), color_i.GetGreen(), color_i.GetBlue(), " ", 0.5)
-        color_i.SetAlpha(0.5)
-        self.hist.SetFillColor(color_i)
+        self.hist.SetFillColor(color)
         self.hist.SetLineWidth(2)
         self.hist.SetMarkerStyle(20)
         self.hist.SetMarkerSize(0.8)
