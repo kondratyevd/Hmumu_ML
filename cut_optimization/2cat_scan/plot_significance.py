@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 plot_2016 = SignPlot("plot_2016", "%s 2016"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%args.process, ROOT.kBlue)
 plot_2017 = SignPlot("plot_2017", "%s 2017"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%args.process, ROOT.kRed)
-plot_2017_psweights = SignPlot("plot_2017_psweights", "%s 2017 PSweights"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights/"%args.process, ROOT.kOrange)
+plot_2017_psweights = SignPlot("plot_2017_psweights", "%s 2017 no nuisances"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights/"%args.process, ROOT.kOrange)
 plot_2018 = SignPlot("plot_2018", "%s 2018"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%args.process, ROOT.kGreen)
 # plot_2018_test = SignPlot("plot_2018_test", "%s 2018 (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test/"%args.process, ROOT.kBlack)
 # plots = [plot_2016, plot_2017_psweights, plot_2018]
@@ -46,7 +46,7 @@ plot_2017_nuis_0 = SignPlot("plot_2017_psweights_0", "%s 2017 only scale nuis."%
 plot_2017_nuis_0p1.graph.SetMarkerStyle(24)
 plot_2017_nuis_0p1.graph.SetMarkerStyle(23)
 # plots_nuis = [plot_2017_nuis_0p01, plot_2017_nuis_0p02, plot_2017_nuis_0p05, plot_2017_nuis_0p1]
-plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_0]
+plots_nuis = [plot_2017_nuis_0]
 
 # plots_nuis = []
 canvas = ROOT.TCanvas("c", "c", 800, 800)
