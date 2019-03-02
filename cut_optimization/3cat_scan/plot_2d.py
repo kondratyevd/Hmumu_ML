@@ -14,7 +14,7 @@ hist2d = ROOT.TH2D("eta_categories", "", 23, 0.05, 2.35, 23, 0.05, 2.35)
 for i in range(23):
     for j in range(i):
 #        print j+1, i+1
-        combine_filename = "higgsCombine_3cat_%i_%i_.Significance.mH120.root"%(j+1, i+1)
+        combine_filename = "higgsCombine_3cat_%i_%i.Significance.mH120.root"%(j+1, i+1)
         tree = ROOT.TChain("limit")
         tree.Add(combine_filename)
         for event in tree:
