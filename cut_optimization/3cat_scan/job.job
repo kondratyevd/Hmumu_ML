@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+. run_2017_dcb_nuis.sh
