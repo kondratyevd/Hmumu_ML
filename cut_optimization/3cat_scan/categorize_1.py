@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 args = parser.parse_args()
 
-for i in range(10):
+for i in range(7, 10):
     for j in range(i):
         bins = [0.0, (j+1)/10.0, (i+1)/10.0, 2.4]
         create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path, "datacard_3cat_%i_%i"%(j+1, i+1), "workspace_3cat_%i_%i"%(j+1, i+1), args.lumi, nuis=args.nuis, nuis_val=args.nuis_val)
