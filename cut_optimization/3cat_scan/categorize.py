@@ -12,6 +12,7 @@ parser.add_argument('--out_path', action='store', dest='output_path', help='Outp
 parser.add_argument('--lumi', action='store', dest='lumi', help='Integrated luminosity')
 parser.add_argument('--nuis', action='store_true', dest='nuis', help='Nuisances')
 parser.add_argument('--nuis_val', action='store', dest='nuis_val', help='Resolution uncertainty')
+parser.add_argument('--smodel', action='store', dest='smodel', help='Signal model')
 args = parser.parse_args()
 
 args = parser.parse_args()
@@ -19,4 +20,4 @@ args = parser.parse_args()
 for i in range(11, 24):
     for j in range(i):
         bins = [0.0, (j+1)/10.0, (i+1)/10.0, 2.4]
-        create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path, "datacard_3cat_%i_%i"%(j+1, i+1), "workspace_3cat_%i_%i"%(j+1, i+1), args.lumi, nuis=args.nuis, nuis_val=args.nuis_val)
+        create_datacard(bins, args.sig_input_path, args.sig_tree, args.data_input_path, args.data_tree, args.output_path, "datacard_3cat_%i_%i"%(j+1, i+1), "workspace_3cat_%i_%i"%(j+1, i+1), args.lumi, nuis=args.nuis, nuis_val=args.nuis_val, smodel=args.smodel)
