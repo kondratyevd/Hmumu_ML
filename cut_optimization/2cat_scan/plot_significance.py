@@ -24,11 +24,12 @@ args = parser.parse_args()
 
 plot_2016 = SignPlot("plot_2016", "%s 2016"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%args.process, ROOT.kBlue)
 plot_2017 = SignPlot("plot_2017", "%s 2017"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%args.process, ROOT.kRed)
-plot_2017_psweights = SignPlot("plot_2017_psweights", "%s 2017 no nuisances"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights/"%args.process, ROOT.kOrange)
+plot_2017_psweights = SignPlot("plot_2017_psweights", "%s 2017 3Gaus"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights/"%args.process, ROOT.kOrange)
+plot_2017_dcb = SignPlot("plot_2017_dcb", "%s 2017 DCB"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb/"%args.process, ROOT.kRed)
 plot_2018 = SignPlot("plot_2018", "%s 2018"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%args.process, ROOT.kGreen)
 # plot_2018_test = SignPlot("plot_2018_test", "%s 2018 (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test/"%args.process, ROOT.kBlack)
 # plots = [plot_2016, plot_2017_psweights, plot_2018]
-plots = [plot_2017_psweights]
+plots = [plot_2017_psweights, plot_2017_dcb]
 
 # plot_2016_nuis = SignPlot("plot_2016", "%s 2016 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016_nuis/"%args.process, ROOT.kBlue)
 # plot_2017_nuis = SignPlot("plot_2017", "%s 2017 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kRed)
@@ -41,6 +42,8 @@ plots = [plot_2017_psweights]
 plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 2017 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kOrange)
 plot_2017_nuis_0 = SignPlot("plot_2017_psweights_0", "%s 2017 only scale nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0/"%args.process, ROOT.kOrange)
 plot_2017_nuis_onlyinnermost = SignPlot("plot_2017_psweights_onlyinnermost", "%s 2017 resolution nuis.\nonly for innermost Gaussian"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_onlyinnermost/"%args.process, ROOT.kOrange)
+plot_2017_dcb_nuis = SignPlot("plot_2017_dcb_nuis", "%s 2017 DCB 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb_nuis/"%args.process, ROOT.kRed)
+
 # plot_2017_nuis_0p01.graph.SetMarkerStyle(21)
 # plot_2017_nuis_0p02.graph.SetMarkerStyle(22)
 # plot_2017_nuis_0p05.graph.SetMarkerStyle(23)
@@ -48,7 +51,7 @@ plot_2017_nuis_0p1.graph.SetMarkerStyle(24)
 plot_2017_nuis_0.graph.SetMarkerStyle(23)
 plot_2017_nuis_onlyinnermost.graph.SetMarkerStyle(22)
 # plots_nuis = [plot_2017_nuis_0p01, plot_2017_nuis_0p02, plot_2017_nuis_0p05, plot_2017_nuis_0p1]
-plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost]
+plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost, plot_2017_dcb_nuis]
 
 # plots_nuis = []
 canvas = ROOT.TCanvas("c", "c", 800, 800)
@@ -84,5 +87,5 @@ for ip, p in enumerate(plots_nuis):
     legend.AddEntry(p.graph, p.title, "pl")
 
 legend.Draw()
-canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_2.png"%args.process)
-canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_2.root"%args.process)
+canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_3.png"%args.process)
+canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_3.root"%args.process)
