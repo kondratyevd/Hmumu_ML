@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+cd /home/dkondra/Hmumu_analysis
+. setup.sh
+cd /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/3cat_scan
 root -l -q load.C
 CURRENT_LOCATION=$(pwd)
 SIG_INPUT_PATH="/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2017_psweights.root"
