@@ -286,7 +286,7 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
         cat_names.append(name)
 
         cut = "((max_abs_eta_mu>%.5f)&(max_abs_eta_mu<%.5f))"%(eta_min, eta_max)
-        
+        print "Applying cut: ", cut
         if '3gaus' in smodel:
             if nuis:
                 sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, nuis_val)    
@@ -329,6 +329,9 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
 
 
 def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_path, name, workspace_filename, lumi, statUnc=False, nuis=False, nuis_val=0.1, smodel='3gaus'): 
+    print "="*30
+    print "Producing datacard for bins ", bins
+    print "="*30
     try:
         os.makedirs(out_path)
     except OSError as e:
@@ -353,4 +356,4 @@ def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_pa
         out_file.write("mu_scale_beta    param    0    1.\n")
     out_file.close()
 
-    print "Created datacard for bins ", bins
+    
