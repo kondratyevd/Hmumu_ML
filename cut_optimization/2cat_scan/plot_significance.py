@@ -39,7 +39,7 @@ plots = [plot_2017_psweights, plot_2017_dcb]
 # plot_2017_nuis_0p01 = SignPlot("plot_2017_psweights_0p01", "%s 2017 1%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p01/"%args.process, ROOT.kOrange)
 # plot_2017_nuis_0p02 = SignPlot("plot_2017_psweights_0p02", "%s 2017 2%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p02/"%args.process, ROOT.kOrange)
 # plot_2017_nuis_0p05 = SignPlot("plot_2017_psweights_0p05", "%s 2017 5%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p05/"%args.process, ROOT.kOrange)
-plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 2017 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kOrange)
+plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 2017 3Gaus 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kOrange)
 plot_2017_nuis_0 = SignPlot("plot_2017_psweights_0", "%s 2017 only scale nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0/"%args.process, ROOT.kOrange)
 plot_2017_nuis_onlyinnermost = SignPlot("plot_2017_psweights_onlyinnermost", "%s 2017 resolution nuis.\nonly for innermost Gaussian"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_onlyinnermost/"%args.process, ROOT.kOrange)
 plot_2017_dcb_nuis = SignPlot("plot_2017_dcb_nuis", "%s 2017 DCB 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb_nuis/"%args.process, ROOT.kRed)
@@ -79,8 +79,6 @@ for ip, p in enumerate(plots_nuis):
     for i in range(1, 24):
         tree = ROOT.TChain("limit")
         tree.Add(p.path+"higgsCombine_2cat_%i.Significance.mH120.root"%i)
-        if not tree:
-            continue
         for iev,  event in enumerate(tree):
             p.graph.SetPoint(i-1, i/10.0, event.limit)
         p.graph.SetLineStyle(2)
