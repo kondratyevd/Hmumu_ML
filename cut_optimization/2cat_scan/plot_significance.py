@@ -79,6 +79,8 @@ for ip, p in enumerate(plots_nuis):
     for i in range(1, 24):
         tree = ROOT.TChain("limit")
         tree.Add(p.path+"higgsCombine_2cat_%i.Significance.mH120.root"%i)
+        if not tree:
+            continue
         for iev,  event in enumerate(tree):
             p.graph.SetPoint(i-1, i/10.0, event.limit)
         p.graph.SetLineStyle(2)
