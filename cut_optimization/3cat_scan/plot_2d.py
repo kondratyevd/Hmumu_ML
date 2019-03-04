@@ -5,7 +5,6 @@ ROOT.gStyle.SetOptStat(0)
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--label', action='store', dest='label', help='', default='ggh_2017_psweights')
 args = parser.parse_args()
-# label = ggh_2017_psweights
 label = args.label
 filedir = 'output/%s/'%label
 
@@ -16,10 +15,13 @@ for i in range(23):
 #        print j+1, i+1
         combine_filename = "higgsCombine_3cat_%i_%i.Significance.mH120.root"%(j+1, i+1)
         tree = ROOT.TChain("limit")
-        tree.Add(filedir+combine_filename)
-        for event in tree:
-            significance = event.limit
-        hist2d.Fill((j+1)/10.0, (i+1)/10.0, significance)
+        try:
+        	tree.Add(filedir+combine_filename)
+        	for event in tree:
+            	significance = event.limit
+        	hist2d.Fill((j+1)/10.0, (i+1)/10.0, significance)
+        except:
+        	pass
 
 canv = ROOT.TCanvas("c", "c", 800, 800)
 canv.cd()
