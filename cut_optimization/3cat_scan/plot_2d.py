@@ -16,12 +16,12 @@ for i in range(23):
         combine_filename = "higgsCombine_3cat_%i_%i.Significance.mH120.root"%(j+1, i+1)
         tree = ROOT.TChain("limit")
         try:
-        	tree.Add(filedir+combine_filename)
-        	for event in tree:
-            	significance = event.limit
-        	hist2d.Fill((j+1)/10.0, (i+1)/10.0, significance)
+            tree.Add(filedir+combine_filename)
+            for event in tree:
+                significance = event.limit
+            hist2d.Fill((j+1)/10.0, (i+1)/10.0, significance)
         except:
-        	pass
+            pass
 
 canv = ROOT.TCanvas("c", "c", 800, 800)
 canv.cd()
