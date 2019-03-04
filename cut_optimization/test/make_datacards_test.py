@@ -170,7 +170,7 @@ def add_sig_model_dcb(w, cat_number, input_path, sig_tree, lumi, cut):
     dummy.Close()
     signal_rate = signal_hist.Integral()
 
-    ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
+    ROOT.gSystem.Load("RooDCBShape_cxx.so")
     w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean[125,120,130], cat%i_sigma[2,0,5], cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
     smodel = w.pdf("cat%i_ggh"%cat_number)
     w.Print()
@@ -213,7 +213,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_number, input_path, sig_tree, lumi, 
     w.factory("EXPR::cat%i_mean_times_nuis('cat%i_mean*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
     w.factory("EXPR::cat%i_sigma_times_nuis('cat%i_sigma*(1 + mu_res_unc*mu_res_beta)',{cat%i_sigma[2.0, 0., 5.0],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
 
-    ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
+    ROOT.gSystem.Load("RooDCBShape_cxx.so")
     w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean_times_nuis, cat%i_sigma_times_nuis, cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
     smodel = w.pdf("cat%i_ggh"%cat_number)
     w.Print()
