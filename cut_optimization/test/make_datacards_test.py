@@ -350,8 +350,8 @@ signal_input = "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_s
 data_input = "/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 
 bins = [0, 0.1, 2.4]
-create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "",  "datacard_3Gaus", "workspace_3Gaus", 35866, nuis=False, smodel='3gaus')
-create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "",  "datacard_3Gaus_nuis", "workspace_3Gaus_nuis", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
+create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus", "workspace_3Gaus", 35866, nuis=False, smodel='3gaus')
+create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis", "workspace_3Gaus_nuis", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
 
-create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "",  "datacard_DCB", "workspace_DCB", 35866, nuis=False, smodel='dcb')
-create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "",  "datacard_DCB_nuis", "workspace_DCB_nuis", 35866, nuis=True, nuis_val=0.1, smodel='dcb')
+create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_DCB", "workspace_DCB", 35866, nuis=False, smodel='dcb')
+create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_DCB_nuis", "workspace_DCB_nuis", 35866, nuis=True, nuis_val=0.1, smodel='dcb')
