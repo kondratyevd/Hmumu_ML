@@ -346,7 +346,7 @@ def create_datacard(bins, sig_in_path, sig_tree, data_in_path, data_tree, out_pa
     out_file.close()
 
 
-signal_input = "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2017_psweights.root"
+signal_input = "/depot/cms/users/dkondra/ggh_2017_psweights.root"
 data_input = "/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 
 bins = [0, 0.1, 2.4]
