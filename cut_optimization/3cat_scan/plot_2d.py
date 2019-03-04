@@ -25,6 +25,8 @@ for i in range(23):
 
 canv = ROOT.TCanvas("c", "c", 800, 800)
 canv.cd()
+hist2d.GetXaxis().SetTitle("First cut")
+hist2d.GetYaxis().SetTitle("Second cut")
 hist2d.Draw("colz")
 canv.Print("significance_%s.png"%label)
 canv.SaveAs("significance_%s.root"%label)        
