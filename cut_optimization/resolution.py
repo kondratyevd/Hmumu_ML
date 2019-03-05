@@ -222,20 +222,23 @@ def make_resolution_plot(sources, label):
 sources_wplush = []
 sources_wplush.append(SignalSrc("wplush_2017", "W+H 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wplush_2017.root", "tree", "1", ROOT.kRed))
 sources_wplush.append(SignalSrc("wplush_2018", "W+H 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wplush_2018.root", "tree", "1", ROOT.kBlue))
-make_resolution_plot(sources_wplush, "resolution_wplush")
+# make_resolution_plot(sources_wplush, "resolution_wplush")
 
 sources_wminush = []
-sources_wminush.append(SignalSrc("wminush_2017", "W-H 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wminush_2017.root", "tree", "1", ROOT.kRed))
-sources_wminush.append(SignalSrc("wminush_2018", "W-H 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wminush_2018.root", "tree", "1", ROOT.kBlue))
-make_resolution_plot(sources_wminush, "resolution_wminush")
+sources_wminush.append(SignalSrc("wminush_2017", "W-H 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wminush_2017.root", "tree", "1", ROOT.kOrange-3))
+sources_wminush.append(SignalSrc("wminush_2018", "W-H 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/wminush_2018.root", "tree", "1", ROOT.kViolet))
+# make_resolution_plot(sources_wminush, "resolution_wminush")
 
-sources_zh = []
-sources_zh.append(SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kRed))
-sources_zh.append(SignalSrc("zh_2018", "ZH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2018.root", "tree", "1", ROOT.kBlue))
-make_resolution_plot(sources_zh, "resolution_zh")
+sources_wh = sources_wplush+sources_wminush
+make_resolution_plot(sources_wh, "resolution_wh")
 
-sources_tth = []
-sources_tth.append(SignalSrc("tth_2017", "ttH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2017.root", "tree", "1", ROOT.kRed))
-sources_tth.append(SignalSrc("tth_2018", "ttH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2018.root", "tree", "1", ROOT.kBlue))
-make_resolution_plot(sources_tth, "resolution_tth")
+# sources_zh = []
+# sources_zh.append(SignalSrc("zh_2017", "ZH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2017.root", "tree", "1", ROOT.kRed))
+# sources_zh.append(SignalSrc("zh_2018", "ZH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/zh_2018.root", "tree", "1", ROOT.kBlue))
+# make_resolution_plot(sources_zh, "resolution_zh")
+
+# sources_tth = []
+# sources_tth.append(SignalSrc("tth_2017", "ttH 2017", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2017.root", "tree", "1", ROOT.kRed))
+# sources_tth.append(SignalSrc("tth_2018", "ttH 2018", "~/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/tth_2018.root", "tree", "1", ROOT.kBlue))
+# make_resolution_plot(sources_tth, "resolution_tth")
 
