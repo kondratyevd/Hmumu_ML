@@ -24,26 +24,26 @@ args = parser.parse_args()
 
 plot_2016 = SignPlot("plot_2016", "%s 2016"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%args.process, ROOT.kBlue)
 plot_2017 = SignPlot("plot_2017", "%s 2017"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%args.process, ROOT.kRed)
-plot_2017_psweights = SignPlot("plot_2017_psweights", "%s 2017 3Gaus"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights/"%args.process, ROOT.kOrange)
-plot_2017_dcb = SignPlot("plot_2017_dcb", "%s 2017 DCB"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb/"%args.process, ROOT.kRed)
+plot_2017_psweights = SignPlot("plot_2017_psweights", "%s 3Gaus"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights/"%args.process, ROOT.kBlack)
+plot_2017_dcb = SignPlot("plot_2017_dcb", "%s DCB"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb/"%args.process, ROOT.kRed)
 plot_2018 = SignPlot("plot_2018", "%s 2018"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%args.process, ROOT.kGreen)
 # plot_2018_test = SignPlot("plot_2018_test", "%s 2018 (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test/"%args.process, ROOT.kBlack)
 # plots = [plot_2016, plot_2017_psweights, plot_2018]
 plots = [plot_2017_psweights, plot_2017_dcb]
-
+# plots = [plot_2017_psweights]
 # plot_2016_nuis = SignPlot("plot_2016", "%s 2016 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016_nuis/"%args.process, ROOT.kBlue)
 # plot_2017_nuis = SignPlot("plot_2017", "%s 2017 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kRed)
 # plot_2018_nuis = SignPlot("plot_2018", "%s 2018 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_nuis/"%args.process, ROOT.kGreen)
 # plot_2018_test_nuis = SignPlot("plot_2018_test_nuis", "%s 2018 w/ nuis. (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test_nuis/"%args.process, ROOT.kBlack)
 
-# plot_2017_nuis_0p01 = SignPlot("plot_2017_psweights_0p01", "%s 2017 1%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p01/"%args.process, ROOT.kOrange)
-# plot_2017_nuis_0p02 = SignPlot("plot_2017_psweights_0p02", "%s 2017 2%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p02/"%args.process, ROOT.kOrange)
-# plot_2017_nuis_0p05 = SignPlot("plot_2017_psweights_0p05", "%s 2017 5%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p05/"%args.process, ROOT.kOrange)
-plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 2017 3Gaus 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kOrange)
-plot_2017_nuis_0 = SignPlot("plot_2017_psweights_0", "%s 2017 only scale nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0/"%args.process, ROOT.kOrange)
-plot_2017_nuis_onlyinnermost = SignPlot("plot_2017_psweights_onlyinnermost", "%s 2017 resolution nuis.\nonly for innermost Gaussian"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_onlyinnermost/"%args.process, ROOT.kOrange)
-plot_2017_dcb_nuis = SignPlot("plot_2017_dcb_nuis", "%s 2017 DCB 10%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb_nuis/"%args.process, ROOT.kRed)
-plot_2017_dcb_nuis_0 = SignPlot("plot_2017_dcb_nuis_0", "%s 2017 DCB only scale nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0_dcb/"%args.process, ROOT.kRed)
+# plot_2017_nuis_0p01 = SignPlot("plot_2017_psweights_0p01", "%s 2017 1%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p01/"%args.process, ROOT.kBlack)
+# plot_2017_nuis_0p02 = SignPlot("plot_2017_psweights_0p02", "%s 2017 2%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p02/"%args.process, ROOT.kBlack)
+# plot_2017_nuis_0p05 = SignPlot("plot_2017_psweights_0p05", "%s 2017 5%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p05/"%args.process, ROOT.kBlack)
+plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 3Gaus scale & res. unc."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kBlack)
+plot_2017_nuis_0 = SignPlot("plot_2017_psweights_0", "%s 3Gaus only scale unc."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0/"%args.process, ROOT.kBlack)
+plot_2017_nuis_onlyinnermost = SignPlot("plot_2017_psweights_onlyinnermost", "%s 2017 resolution nuis.\nonly for innermost Gaussian"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_onlyinnermost/"%args.process, ROOT.kBlack)
+plot_2017_dcb_nuis = SignPlot("plot_2017_dcb_nuis", "%s DCB scale & res. unc."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb_nuis/"%args.process, ROOT.kRed)
+plot_2017_dcb_nuis_0 = SignPlot("plot_2017_dcb_nuis_0", "%s DCB only scale unc."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0_dcb/"%args.process, ROOT.kRed)
 # plot_2017_nuis_0p01.graph.SetMarkerStyle(21)
 # plot_2017_nuis_0p02.graph.SetMarkerStyle(22)
 # plot_2017_nuis_0p05.graph.SetMarkerStyle(23)
@@ -52,7 +52,8 @@ plot_2017_nuis_0.graph.SetMarkerStyle(23)
 plot_2017_dcb_nuis_0.graph.SetMarkerStyle(21)
 plot_2017_nuis_onlyinnermost.graph.SetMarkerStyle(22)
 # plots_nuis = [plot_2017_nuis_0p01, plot_2017_nuis_0p02, plot_2017_nuis_0p05, plot_2017_nuis_0p1]
-plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost, plot_2017_dcb_nuis, plot_2017_dcb_nuis_0, plot_2017_nuis_0]
+# plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost, plot_2017_dcb_nuis, plot_2017_dcb_nuis_0, plot_2017_nuis_0]
+plots_nuis = [plot_2017_nuis_0p1, plot_2017_dcb_nuis, plot_2017_dcb_nuis_0, plot_2017_nuis_0]
 
 # plots_nuis = []
 canvas = ROOT.TCanvas("c", "c", 800, 800)
