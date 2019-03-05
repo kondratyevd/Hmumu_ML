@@ -49,10 +49,10 @@ plot_2017_dcb_nuis_0 = SignPlot("plot_2017_dcb_nuis", "%s 2017 DCB only scale nu
 # plot_2017_nuis_0p05.graph.SetMarkerStyle(23)
 plot_2017_nuis_0p1.graph.SetMarkerStyle(24)
 plot_2017_nuis_0.graph.SetMarkerStyle(23)
-plot_2017_dcb_nuis_0.graph.SetMarkerStyle(23)
+plot_2017_dcb_nuis_0.graph.SetMarkerStyle(21)
 plot_2017_nuis_onlyinnermost.graph.SetMarkerStyle(22)
 # plots_nuis = [plot_2017_nuis_0p01, plot_2017_nuis_0p02, plot_2017_nuis_0p05, plot_2017_nuis_0p1]
-plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost, plot_2017_dcb_nuis, plot_2017_dcb_nuis_0]
+plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost, plot_2017_dcb_nuis, plot_2017_dcb_nuis_0, plot_2017_nuis_0]
 
 # plots_nuis = []
 canvas = ROOT.TCanvas("c", "c", 800, 800)
