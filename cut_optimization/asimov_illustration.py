@@ -158,7 +158,8 @@ def plot_initial_shapes(eta_min, eta_max):
     data_tree.Draw("mass>>data_initial_full", cuts)  
     data_tree.Draw("mass>>data_initial", "(mass<120||mass>130)&%s"%cuts)
     data_hist.Sumw2()
-    data_hist.Scale(1/data_hist_full.Integral())
+    # data_hist.Scale(1/data_hist_full.Integral())
+    data_hist.Scale(1/data_hist.Integral())
     data_hist.SetLineWidth(3)
     data_hist.SetMarkerStyle(20)
     data_hist.SetMarkerSize(1)
@@ -190,7 +191,7 @@ def plot_fits(eta_min, eta_max):
 
 
 def make_asimov_dataset(w):
-    nbins = 500
+    nbins = 100
     xmin = 110.
     xmax = 135.
     binwidth = (xmax-xmin)/float(nbins)
