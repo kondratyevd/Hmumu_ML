@@ -10,7 +10,7 @@ data_input = "/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 data_tree_name = "dimuons/tree"
 
 def create_workspace():
-    var = ROOT.RooRealVar("mass","Dilepton mass",110,135)     
+    var = ROOT.RooRealVar("mass","",110,135)     
     var.setBins(100)
     var.setRange("window",120,130)
     var.setRange("full",110,135)
