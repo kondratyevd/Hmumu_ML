@@ -14,12 +14,15 @@ def plot_initial_shapes(eta_min, eta_max):
     sig_hist = ROOT.TH1D("signal", "", 20, 110, 135)
     sig_tree.Draw("mass>>signal", cuts)
     sig_hist.Scale(1/sig_hist.Integral())
+    sig_hist.SetLineWidth(3)
 
     data_tree = ROOT.TChain(data_tree_name)
     data_tree.Add(data_input)
     data_hist = ROOT.TH1D("data", "", 20, 110, 135)    
     data_tree.Draw("mass>>data", cuts)
     data_hist.Scale(1/data_hist.Integral())
+    data_hist.SetLineWidth(3)
+
 
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
