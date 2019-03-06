@@ -129,7 +129,7 @@ def plot_initial_shapes(eta_min, eta_max):
     data_hist.Draw('histsame')
     canvas.SaveAs('plots/asimov/initial_shapes.png')
 
-def plot_fits(eta_min, eta_max)
+def plot_fits(eta_min, eta_max):
     cut = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
 
     w = create_workspace()
@@ -147,4 +147,5 @@ def plot_fits(eta_min, eta_max)
     canvas.SaveAs('plots/asimov/fit.png')
 
 
-plot_initial_shapes(0, 0.1)
+# plot_initial_shapes(0, 0.1)
+plot_fits(0, 0.1)
