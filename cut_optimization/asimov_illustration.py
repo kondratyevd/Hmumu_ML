@@ -72,7 +72,7 @@ def add_sig_model_dcb(w, cat_number, input_path, sig_tree, cut):
     signal_tree.Add(input_path)  
     print "Loaded tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     signal_hist_name = "signal_%i"%cat_number
-    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 100, 110, 150)
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("mass>>%s"%(signal_hist_name), cut)
@@ -103,7 +103,7 @@ def add_data(w, cat_number, input_path, data_tree, cut):
     data_tree.Add(input_path)  
     print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
     data_hist_name = "data_%i"%cat_number
-    data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 100, 110, 135)
+    data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 135)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     data_tree.Draw("mass>>%s"%(data_hist_name), cut)
