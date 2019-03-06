@@ -163,7 +163,7 @@ canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
 frame.Draw("same")
 sig_hist.Draw('histsame')
-data_hist.Draw('histple')
+data_hist.Draw('plesame')
 
 canvas.SaveAs('plots/asimov/fit.png')
 
