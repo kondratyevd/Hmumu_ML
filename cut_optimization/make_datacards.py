@@ -289,12 +289,12 @@ def make_eta_categories(bins, sig_input_path, sig_tree, data_input_path, data_tr
         print "Applying cut: ", cut
         if '3gaus' in smodel:
             if nuis:
-                sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, res_unc_val)    
+                sig_rate = add_sig_model_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, res_unc_val, scale_unc_val)    
             else:
                 sig_rate = add_sig_model(w, i, sig_input_path, sig_tree, lumi, cut) 
         elif 'dcb' in smodel:
             if nuis:
-                sig_rate = add_sig_model_dcb_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, res_unc_val)    
+                sig_rate = add_sig_model_dcb_with_nuisances(w, i, sig_input_path, sig_tree, lumi, cut, res_unc_val, scale_unc_val)    
             else:
                 sig_rate = add_sig_model_dcb(w, i, sig_input_path, sig_tree, lumi, cut) 
 
