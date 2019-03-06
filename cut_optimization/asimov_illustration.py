@@ -1,4 +1,8 @@
 import ROOT
+from math import sqrt
+import os, sys, errno
+Import = getattr(ROOT.RooWorkspace, 'import')
+ROOT.gStyle.SetOptStat(0)
 
 signal_input = "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/miniaod_skim/ggh_2017_psweights.root"
 sig_tree_name = "tree"
