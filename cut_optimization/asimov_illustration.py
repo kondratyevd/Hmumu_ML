@@ -62,6 +62,37 @@ def add_sig_model_3gaus(w, cat_number, input_path, sig_tree, cut):
     Import(w, smodel)
     return signal_rate
 
+def add_sig_model_dcb(w, cat_number, input_path, sig_tree, cut):
+    var = w.var("mass")
+    # var.setBins(5000)
+    max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
+    mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
+    mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
+    signal_tree = ROOT.TChain(sig_tree)
+    signal_tree.Add(input_path)  
+    print "Loaded tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+    signal_hist_name = "signal_%i"%cat_number
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
+    dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
+    dummy.cd()
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), cut)
+    dummy.Close()
+    signal_rate = signal_hist.Integral()
+
+    ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
+    w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean[125,120,130], cat%i_sigma[2,0,5], cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
+    smodel = w.pdf("cat%i_ggh"%cat_number)
+    w.Print()
+    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta), cut)
+    res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+    res.Print()
+    sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
+    for par in sigParamList:
+        par_var = w.var("cat%s_%s"%(cat_number,par))
+        par_var.setConstant(True)
+    Import(w, smodel)
+    return signal_rate
+
 def add_data(w, cat_number, input_path, data_tree, cut):
     var = w.var("mass")
     var.setBins(5000)
@@ -143,7 +174,7 @@ def plot_fits(eta_min, eta_max):
     cut = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
 
     w = create_workspace()
-    sig_rate = add_sig_model_3gaus(w, 0, signal_input, sig_tree_name, cut) 
+    sig_rate = add_sig_model_dcb(w, 0, signal_input, sig_tree_name, cut) 
     bkg_rate = add_bkg_model(w, 0, data_input, data_tree_name, cut)
     var = w.var('mass')
     frame = var.frame(ROOT.RooFit.Bins(20))
@@ -159,7 +190,7 @@ def plot_fits(eta_min, eta_max):
 
 
 def make_asimov_dataset(w):
-    nbins = 1000
+    nbins = 500
     xmin = 110.
     xmax = 135.
     binwidth = (xmax-xmin)/float(nbins)
@@ -178,7 +209,8 @@ def make_asimov_dataset(w):
         bkg = w.pdf('cat0_bkg')
         sig_hist_new.SetBinContent(i+1, sig.getVal())
         bkg_hist_new.SetBinContent(i+1, bkg.getVal())
-
+    sig_hist_new.Scale(1/sig_hist_new.Integral())
+    bkg_hist_new.Scale(1/bkg_hist_new.Integral())
     return sig_hist_new, bkg_hist_new
 
 
