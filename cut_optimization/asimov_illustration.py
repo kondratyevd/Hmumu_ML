@@ -10,10 +10,10 @@ data_input = "/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 data_tree_name = "dimuons/tree"
 
 def create_workspace():
-    var = ROOT.RooRealVar("mass","Dilepton mass",110,150)     
+    var = ROOT.RooRealVar("mass","Dilepton mass",110,135)     
     var.setBins(100)
     var.setRange("window",120,130)
-    var.setRange("full",110,150)
+    var.setRange("full",110,135)
     w = ROOT.RooWorkspace("w", False)
     Import(w, var)
     return w
@@ -28,7 +28,7 @@ def add_sig_model_3gaus(w, cat_number, input_path, sig_tree, cut):
     signal_tree.Add(input_path)  
     print "Loaded tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     signal_hist_name = "signal_%i"%cat_number
-    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 135)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("mass>>%s"%(signal_hist_name), cut)
@@ -72,7 +72,7 @@ def add_data(w, cat_number, input_path, data_tree, cut):
     data_tree.Add(input_path)  
     print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
     data_hist_name = "data_%i"%cat_number
-    data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 150)
+    data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 135)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     data_tree.Draw("mass>>%s"%(data_hist_name), cut)
@@ -87,7 +87,7 @@ def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     var = w.var("mass")
     # var.setBins(5000)
     var.setRange("left",110,120+0.1)
-    var.setRange("right",130-0.1,150)
+    var.setRange("right",130-0.1,135)
     # data = w.data("cat%i_data"%cat_number)
     w.factory("cat%i_a1 [1.66, 0.7, 2.1]"%cat_number)
     w.factory("cat%i_a2 [0.39, 0.30, 0.62]"%cat_number)
@@ -115,7 +115,7 @@ def plot_initial_shapes(eta_min, eta_max):
 
     sig_tree = ROOT.TChain(sig_tree_name)
     sig_tree.Add(signal_input)
-    sig_hist = ROOT.TH1D("signal", "", 20, 110, 135)
+    sig_hist = ROOT.TH1D("signal_initial", "", 20, 110, 135)
     sig_tree.Draw("mass>>signal", cuts)
     sig_hist.Scale(1/sig_hist.Integral())
     sig_hist.SetLineWidth(3)
@@ -123,7 +123,7 @@ def plot_initial_shapes(eta_min, eta_max):
     data_tree = ROOT.TChain(data_tree_name)
     data_tree.Add(data_input)
     data_hist = ROOT.TH1D("data", "", 20, 110, 135)    
-    data_tree.Draw("mass>>data", cuts)
+    data_tree.Draw("mass>>data_initial", cuts)
     data_hist.Scale(1/data_hist.Integral())
     data_hist.SetLineWidth(3)
 
