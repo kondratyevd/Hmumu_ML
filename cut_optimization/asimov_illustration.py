@@ -33,7 +33,7 @@ def add_sig_model_3gaus(w, cat_number, input_path, sig_tree, cut):
     dummy.cd()
     signal_tree.Draw("mass>>%s"%(signal_hist_name), cut)
     dummy.Close()
-    signal_hist.Scale(1/signal_hist)
+    signal_hist.Scale(1/signal_hist.Integral())
     signal_rate = 1
     # signal_rate = signal_hist.Integral()
     # print signal_rate
