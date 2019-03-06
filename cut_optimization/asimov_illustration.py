@@ -158,8 +158,9 @@ frame = plot_fits(0, 0.1)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
-sig_hist.Draw('hist')
-data_hist.Draw('histsame')
 frame.Draw("same")
+sig_hist.Draw('histsame')
+data_hist.Draw('histsame')
+
 canvas.SaveAs('plots/asimov/fit.png')
 
