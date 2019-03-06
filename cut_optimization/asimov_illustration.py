@@ -198,6 +198,6 @@ canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
 # frame.Draw("same")
 sig_hist_new.Draw('histsame')
-data_hist_new.Draw('histsame')
+bkg_hist_new.Draw('histsame')
 canvas.SaveAs('plots/asimov/asimov_ds.png')
 
