@@ -127,11 +127,12 @@ def plot_initial_shapes(eta_min, eta_max):
     data_hist.Scale(1/data_hist.Integral())
     data_hist.SetLineWidth(3)
 
-    canvas = ROOT.TCanvas("c", "c", 800, 800)
-    canvas.cd()
-    sig_hist.Draw('hist')
-    data_hist.Draw('histsame')
-    canvas.SaveAs('plots/asimov/initial_shapes.png')
+    # canvas = ROOT.TCanvas("c", "c", 800, 800)
+    # canvas.cd()
+    # sig_hist.Draw('hist')
+    # data_hist.Draw('histsame')
+    # canvas.SaveAs('plots/asimov/initial_shapes.png')
+    return sig_hist, data_hist
 
 def plot_fits(eta_min, eta_max):
     cut = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
@@ -143,13 +144,22 @@ def plot_fits(eta_min, eta_max):
     frame = var.frame(ROOT.RooFit.Bins(20))
     smodel = w.pdf('cat0_ggh')
     bmodel = w.pdf('cat0_bkg')
-    smodel.plotOn(frame, ROOT.RooFit.Range("window"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
-    bmodel.plotOn(frame, ROOT.RooFit.Range("window"), ROOT.RooFit.Name("bkg"),ROOT.RooFit.LineColor(ROOT.kRed))
-    canvas = ROOT.TCanvas("c", "c", 800, 800)
-    canvas.cd()
-    frame.Draw()
-    canvas.SaveAs('plots/asimov/fit.png')
+    smodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
+    bmodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("bkg"),ROOT.RooFit.LineColor(ROOT.kRed))
+    # canvas = ROOT.TCanvas("c", "c", 800, 800)
+    # canvas.cd()
+    # frame.Draw()
+    # canvas.SaveAs('plots/asimov/fit.png')
+    return frame
 
 
-# plot_initial_shapes(0, 0.1)
-plot_fits(0, 0.1)
+sig_hist, data_hist = plot_initial_shapes(0, 0.1)
+frame = plot_fits(0, 0.1)
+
+canvas = ROOT.TCanvas("c", "c", 800, 800)
+canvas.cd()
+sig_hist.Draw('hist')
+data_hist.Draw('histsame')
+frame.Draw("same")
+canvas.SaveAs('plots/asimov/fit.png')
+
