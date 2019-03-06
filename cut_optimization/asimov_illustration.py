@@ -158,30 +158,45 @@ def plot_fits(eta_min, eta_max):
 
 
 def make_asimov_dataset(w):
-    nbins = 10
+    nbins = 1000
     xmin = 110.
     xmax = 135.
     binwidth = (xmax-xmin)/float(nbins)
+    sig_hist_new = ROOT.TH1D("signal_new", "", nbins, xmin, xmax)
+    bkg_hist_new = ROOT.TH1D("bkg_new", "", nbins, xmin, xmax)
+    sig_hist_new.SetLineWidth(3)
+    sig_hist_new.SetLineColor(ROOT.kBlack)
+    bkg_hist_new.SetLineWidth(3)
+    bkg_hist_new.SetLineColor(ROOT.kBlack)
+
     var = w.var('mass')
     for i in range(nbins):
         x = xmin+(i+0.5)*binwidth
         var.setVal(x)
         sig = w.pdf('cat0_ggh')
         bkg = w.pdf('cat0_bkg')
-        print sig.getVal()
-        print bkg.getVal()
+        sig_hist_new.SetBinContent(i+1, sig.getVal())
+        bkg_hist_new.SetBinContent(i+1, bkg.getVal())
+
+    return sig_hist_new, bkg_hist_new
 
 
 
 sig_hist, data_hist = plot_initial_shapes(0, 0.1)
 w, frame = plot_fits(0, 0.1)
-make_asimov_dataset(w)
+sig_hist_new, bkg_hist_new = make_asimov_dataset(w)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
 frame.Draw("same")
 sig_hist.Draw('histsame')
 data_hist.Draw('plesame')
-
 canvas.SaveAs('plots/asimov/fit.png')
+
+canvas = ROOT.TCanvas("c", "c", 800, 800)
+canvas.cd()
+# frame.Draw("same")
+sig_hist_new.Draw('histsame')
+data_hist_new.Draw('histsame')
+canvas.SaveAs('plots/asimov/asimov_ds.png')
 
