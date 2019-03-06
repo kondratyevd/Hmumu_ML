@@ -178,7 +178,7 @@ def plot_fits(eta_min, eta_max):
     sig_rate = add_sig_model_dcb(w, 0, signal_input, sig_tree_name, cut) 
     bkg_rate = add_bkg_model(w, 0, data_input, data_tree_name, cut)
     var = w.var('mass')
-    frame = var.frame(ROOT.RooFit.Bins(20))
+    frame = var.frame(ROOT.RooFit.Bins(100))
     smodel = w.pdf('cat0_ggh')
     bmodel = w.pdf('cat0_bkg')
     smodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
@@ -191,7 +191,7 @@ def plot_fits(eta_min, eta_max):
 
 
 def make_asimov_dataset(w):
-    nbins = 100
+    nbins = 200
     xmin = 110.
     xmax = 135.
     binwidth = (xmax-xmin)/float(nbins)
