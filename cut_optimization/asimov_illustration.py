@@ -95,7 +95,7 @@ def add_sig_model_dcb(w, cat_number, input_path, sig_tree, cut):
 
 def add_data(w, cat_number, input_path, data_tree, cut):
     var = w.var("mass")
-    var.setBins(5000)
+    # var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4) 
