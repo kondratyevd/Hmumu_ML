@@ -222,6 +222,13 @@ sig_hist_new, bkg_hist_new = make_asimov_dataset(w)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
+# frame.Draw("same")
+sig_hist.Draw('hist')
+data_hist.Draw('plesame')
+canvas.SaveAs('plots/asimov/initial_shapes.png')
+
+canvas = ROOT.TCanvas("c", "c", 800, 800)
+canvas.cd()
 frame.Draw("same")
 sig_hist.Draw('histsame')
 data_hist.Draw('plesame')
