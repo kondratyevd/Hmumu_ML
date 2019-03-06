@@ -115,15 +115,15 @@ def plot_initial_shapes(eta_min, eta_max):
 
     sig_tree = ROOT.TChain(sig_tree_name)
     sig_tree.Add(signal_input)
-    sig_hist = ROOT.TH1D("signal_initial", "", 20, 110, 135)
+    sig_hist = ROOT.TH1D("signal_initial", "", 100, 110, 135)
     sig_tree.Draw("mass>>signal_initial", cuts)
     sig_hist.Scale(1/sig_hist.Integral())
     sig_hist.SetLineWidth(3)
 
     data_tree = ROOT.TChain(data_tree_name)
     data_tree.Add(data_input)
-    data_hist = ROOT.TH1D("data_initial", "", 20, 110, 135)    
-    data_hist_full = ROOT.TH1D("data_initial_full", "", 20, 110, 135)  
+    data_hist = ROOT.TH1D("data_initial", "", 100, 110, 135)    
+    data_hist_full = ROOT.TH1D("data_initial_full", "", 100, 110, 135)  
     data_tree.Draw("mass>>data_initial_full", cuts)  
     data_tree.Draw("mass>>data_initial", "(mass<120||mass>130)&%s"%cuts)
     data_hist.Sumw2()
