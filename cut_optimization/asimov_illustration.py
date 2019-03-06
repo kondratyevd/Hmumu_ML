@@ -7,7 +7,7 @@ data_tree_name = "dimuons/tree"
 
 def plot_initial_shapes(eta_min, eta_max):
 
-    cuts = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"
+    cuts = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
 
     sig_tree = ROOT.TChain(sig_tree_name)
     sig_tree.Add(signal_input)
