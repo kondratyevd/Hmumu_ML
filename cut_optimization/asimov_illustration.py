@@ -129,6 +129,7 @@ def plot_initial_shapes(eta_min, eta_max):
     data_hist.SetLineWidth(3)
     data_hist.SetMarkerStyle(20)
     data_hist.SetMarkerSize(2)
+    data_hist.SetMarkerColor(ROOT.kBlue)
 
     # canvas = ROOT.TCanvas("c", "c", 800, 800)
     # canvas.cd()
@@ -153,11 +154,28 @@ def plot_fits(eta_min, eta_max):
     # canvas.cd()
     # frame.Draw()
     # canvas.SaveAs('plots/asimov/fit.png')
-    return frame
+    return w, frame
+
+
+def make_asimov_dataset(w):
+    nbins = 10
+    xmin = 110.
+    xmax = 135.
+    binwidth = (xmax-xmin)/float(nbins)
+    var = w.var('mass')
+    for i in range(nbins):
+        x = xmin+(i+0.5)*binwidth
+        var.setVal(x)
+        sig = w.pdf('cat0_ggh')
+        bkg = w.pdf('cat0_bkg')
+        print sig.getVal()
+        print bkg.getVal()
+
 
 
 sig_hist, data_hist = plot_initial_shapes(0, 0.1)
-frame = plot_fits(0, 0.1)
+w, frame = plot_fits(0, 0.1)
+make_asimov_dataset(w)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
