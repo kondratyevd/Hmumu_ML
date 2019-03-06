@@ -124,8 +124,11 @@ def plot_initial_shapes(eta_min, eta_max):
     data_tree.Add(data_input)
     data_hist = ROOT.TH1D("data_initial", "", 20, 110, 135)    
     data_tree.Draw("mass>>data_initial", "(mass<120||mass>130)&%s"%cuts)
+    data_hist.Sumw2()
     data_hist.Scale(1/data_hist.Integral())
     data_hist.SetLineWidth(3)
+    data_hist.SetMarkerStyle(20)
+    data_hist.SetMarkerSize(2)
 
     # canvas = ROOT.TCanvas("c", "c", 800, 800)
     # canvas.cd()
