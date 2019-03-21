@@ -356,7 +356,7 @@ data_input = "/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 bins = [0, 1, 2.4]
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus", "workspace_3Gaus", 35866, nuis=False, smodel='3gaus')
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis", "workspace_3Gaus_nuis", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
-create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis_new", "workspace_3Gaus_nuis", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
+create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis_new", "workspace_3Gaus_nuis_new", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis10", "workspace_3Gaus_nuis10", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
 
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_DCB", "workspace_DCB", 35866, nuis=False, smodel='dcb')
