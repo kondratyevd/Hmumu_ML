@@ -134,11 +134,10 @@ def add_sig_model_3gaus_with_nuisances(w, cat_number, input_path, sig_tree, lumi
     gaus1 = w.pdf('cat%i_gaus1'%(cat_number))
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
-    # gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mixGG)
-    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mixGG1)
+    gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mixGG)
+    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mixGG1)
 
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kTRUE)
-    # RooAddPdf (const char *name, const char *title, const RooArgList &pdfList, const RooArgList &coefList, Bool_t recursiveFraction=kFALSE)
+    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kTRUE)
 
     # Import(w,smodel)
     w.Print()
@@ -356,7 +355,7 @@ data_input = "/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 bins = [0, 1, 2.4]
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus", "workspace_3Gaus", 35866, nuis=False, smodel='3gaus')
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis", "workspace_3Gaus_nuis", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
-create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis_new", "workspace_3Gaus_nuis_new", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
+create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis_old", "workspace_3Gaus_nuis_old", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis10", "workspace_3Gaus_nuis10", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
 
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_DCB", "workspace_DCB", 35866, nuis=False, smodel='dcb')
