@@ -116,16 +116,16 @@ def add_sig_model_3gaus_with_nuisances(w, cat_number, input_path, sig_tree, lumi
     w.factory("EXPR::cat%i_mean3_final('cat%i_mean3_times_nuis + mu_res_unc*mu_res_beta*cat%i_deltaM31',{cat%i_mean3_times_nuis, mu_res_unc, mu_res_beta, cat%i_deltaM31})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
 
     w.factory("EXPR::cat%i_width1_times_nuis('cat%i_width1*(1 + mu_res_unc*mu_res_beta)',{cat%i_width1[1.0, 0.5, 5.0],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
-    # w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
-    # w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
 
     w.factory("Gaussian::cat%i_gaus1(mass, cat%i_mean1_times_nuis, cat%i_width1_times_nuis)"%(cat_number, cat_number, cat_number))
-    # w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_final, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
-    # w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_final, cat%i_width3_times_nuis)"%(cat_number, cat_number, cat_number))
+    w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_final, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
+    w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_final, cat%i_width3_times_nuis)"%(cat_number, cat_number, cat_number))
 
  
-    w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_times_nuis, cat%i_width2[5.0, 2.0, 10])"%(cat_number, cat_number, cat_number))
-    w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_times_nuis, cat%i_width3[5.0, 1.0, 10])"%(cat_number, cat_number, cat_number))
+    # w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_times_nuis, cat%i_width2[5.0, 2.0, 10])"%(cat_number, cat_number, cat_number))
+    # w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_times_nuis, cat%i_width3[5.0, 1.0, 10])"%(cat_number, cat_number, cat_number))
 
     # w.factory("Gaussian::cat%i_gaus1(mass, cat%i_mean1[125.,120.,130.], cat%i_width1_times_nuis)"%(cat_number, cat_number, cat_number))
     # w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2[125.,120.,130.], cat%i_width2[5.,2.,10.])"%(cat_number, cat_number, cat_number))
@@ -134,8 +134,12 @@ def add_sig_model_3gaus_with_nuisances(w, cat_number, input_path, sig_tree, lumi
     gaus1 = w.pdf('cat%i_gaus1'%(cat_number))
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
-    gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mixGG)
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mixGG1)
+    # gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mixGG)
+    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mixGG1)
+
+    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kTrue)
+    # RooAddPdf (const char *name, const char *title, const RooArgList &pdfList, const RooArgList &coefList, Bool_t recursiveFraction=kFALSE)
+
     # Import(w,smodel)
     w.Print()
     signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta), cut)
@@ -352,7 +356,8 @@ data_input = "/mnt/hadoop/store/user/dkondrat/skim/2016/SingleMu_2016/*root"
 bins = [0, 1, 2.4]
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus", "workspace_3Gaus", 35866, nuis=False, smodel='3gaus')
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis", "workspace_3Gaus_nuis", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
-create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis10", "workspace_3Gaus_nuis10", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
+create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis_new", "workspace_3Gaus_nuis", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
+# create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_3Gaus_nuis10", "workspace_3Gaus_nuis10", 35866, nuis=True, nuis_val=0.1, smodel='3gaus')
 
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_DCB", "workspace_DCB", 35866, nuis=False, smodel='dcb')
 # create_datacard(bins, signal_input, "tree", data_input, "dimuons/tree", "./",  "datacard_DCB_nuis", "workspace_DCB_nuis", 35866, nuis=True, nuis_val=0.1, smodel='dcb')
