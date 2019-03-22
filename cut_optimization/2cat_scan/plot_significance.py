@@ -25,12 +25,14 @@ args = parser.parse_args()
 plot_2016 = SignPlot("plot_2016", "%s 3Gaus 2016"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016/"%args.process, ROOT.kBlue)
 plot_2017 = SignPlot("plot_2017", "%s 2017"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017/"%args.process, ROOT.kRed)
 plot_2017_psweights = SignPlot("plot_2017_psweights", "%s 3Gaus 2017"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights/"%args.process, ROOT.kBlack)
+plot_2017_psweights_new_true = SignPlot("plot_2017_psweights_new_true", "%s 3Gaus 2017 TRUE"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_new_true/"%args.process, ROOT.kGreen)
+plot_2017_psweights_new_false = SignPlot("plot_2017_psweights_new_false", "%s 3Gaus 2017 FALSE"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_new_false/"%args.process, ROOT.kOrange)
 plot_2017_dcb = SignPlot("plot_2017_dcb", "%s DCB"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_dcb/"%args.process, ROOT.kRed)
 plot_2018 = SignPlot("plot_2018", "%s 3Gaus 2018"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018/"%args.process, ROOT.kGreen)
 # plot_2018_test = SignPlot("plot_2018_test", "%s 2018 (250k evts)"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2018_test/"%args.process, ROOT.kBlack)
 # plots = [plot_2016, plot_2017_psweights, plot_2018]
 # plots = [plot_2017_psweights, plot_2017_dcb, plot_2016, plot_2018]
-plots = [plot_2017_psweights, plot_2017_dcb]
+plots = [plot_2017_psweights, plot_2017_dcb, plot_2017_psweights_new_true , plot_2017_psweights_new_false]
 # plots = [plot_2017_psweights]
 # plot_2016_nuis = SignPlot("plot_2016", "%s 2016 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2016_nuis/"%args.process, ROOT.kBlue)
 # plot_2017_nuis = SignPlot("plot_2017", "%s 2017 w/ nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_nuis/"%args.process, ROOT.kRed)
@@ -42,7 +44,7 @@ plots = [plot_2017_psweights, plot_2017_dcb]
 # plot_2017_nuis_0p05 = SignPlot("plot_2017_psweights_0p05", "%s 2017 5%% nuis."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p05/"%args.process, ROOT.kBlack)
 plot_2017_nuis_0p1 = SignPlot("plot_2017_psweights_0p1", "%s 3Gaus scale & res. unc."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1/"%args.process, ROOT.kBlack)
 plot_2017_nuis_0p1_new = SignPlot("plot_2017_psweights_0p1_new", "%s 3Gaus new"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1_new/"%args.process, ROOT.kGreen)
-plot_2017_nuis_0p1_old = SignPlot("plot_2017_psweights_0p1_old", "%s 3Gaus old"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1_old/"%args.process, ROOT.kOrange)
+# plot_2017_nuis_0p1_old = SignPlot("plot_2017_psweights_0p1_old", "%s 3Gaus old"%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0p1_old/"%args.process, ROOT.kOrange)
 plot_2017_nuis_0 = SignPlot("plot_2017_psweights_0", "%s 3Gaus only scale unc."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_nuis_0/"%args.process, ROOT.kBlack)
 plot_2017_onlyres = SignPlot("plot_2017_psweights_onlyres", "%s 3Gaus only res. unc."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_onlyres/"%args.process, ROOT.kBlack)
 plot_2017_nuis_onlyinnermost = SignPlot("plot_2017_psweights_onlyinnermost", "%s 3Gaus res. unc. only for innermost Gaus."%args.process, "/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/output/%s_2017_psweights_onlyinnermost/"%args.process, ROOT.kBlack)
@@ -64,7 +66,7 @@ plot_2017_onlyres_dcb.graph.SetMarkerStyle(22)
 # plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_onlyinnermost, plot_2017_dcb_nuis, plot_2017_dcb_nuis_0, plot_2017_nuis_0]
 # plots_nuis = [plot_2017_nuis_0p1, plot_2017_dcb_nuis, plot_2017_dcb_nuis_0, plot_2017_nuis_0]
 # plots_nuis = [plot_2017_nuis_0, plot_2017_onlyres, plot_2017_nuis_0p1, plot_2017_dcb_nuis_0, plot_2017_onlyres_dcb, plot_2017_dcb_nuis, plot_2017_nuis_onlyinnermost]
-plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_0p1_new, plot_2017_nuis_0p1_old, plot_2017_dcb_nuis]
+plots_nuis = [plot_2017_nuis_0p1, plot_2017_nuis_0p1_new, plot_2017_dcb_nuis]
 # plots_nuis = []
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
@@ -99,5 +101,5 @@ for ip, p in enumerate(plots_nuis):
     legend.AddEntry(p.graph, p.title, "pl")
 
 legend.Draw()
-canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_4.png"%args.process)
-canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_4.root"%args.process)
+canvas.Print("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_5.png"%args.process)
+canvas.SaveAs("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/2cat_scan/significance_%s_nuis_test_5.root"%args.process)
