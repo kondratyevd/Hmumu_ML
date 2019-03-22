@@ -135,9 +135,9 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut,
     gaus1 = w.pdf('cat%i_gaus1'%(cat_number))
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
-    gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mixGG)
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mixGG1)
-    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kTRUE)
+    # gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mixGG)
+    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mixGG1)
+    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kTRUE)
 
     # Import(w,smodel)
     w.Print()
