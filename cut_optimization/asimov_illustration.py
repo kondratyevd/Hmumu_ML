@@ -85,8 +85,8 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
     w.factory("cat%i_mixGG1 [0.5, 0.0, 1.0]"%cat_number)
 
-    w.factory("mu_res_beta [%f, %f, %f]"%(beta_res,beta_res,beta_res))
-    w.factory("mu_scale_beta [%f, %f, %f]"%(beta_scale, beta_scale, beta_scale))
+    w.factory("mu_res_beta [0, 0, 0]")
+    w.factory("mu_scale_beta [0, 0, 0]")
 
     w.factory("mu_res_unc [0.1, 0.1, 0.1]")
     w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]")
@@ -131,6 +131,7 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     for par in sigParamList:
         par_var = w.var("cat%s_%s"%(cat_number,par))
         par_var.setConstant(True)
+    w.var("mu_res_beta").setVal(beta_res)
     Import(w, smodel)
     return signal_rate
 
