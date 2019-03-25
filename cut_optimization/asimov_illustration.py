@@ -120,7 +120,7 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
 
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kFALSE)
+    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kTRUE)
 
     # Import(w,smodel)
     w.Print()
@@ -321,8 +321,8 @@ def make_asimov_dataset(w):
     return sig_hist_new, bkg_hist_new
 
 
-sig_hist, data_hist = plot_initial_shapes(0, 2.4)
-frame, frame_nuis_pos, frame_nuis_neg = plot_fits_nuis(0, 2.4)
+sig_hist, data_hist = plot_initial_shapes(0, 0.1)
+frame, frame_nuis_pos, frame_nuis_neg = plot_fits_nuis(0, 0.1)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
