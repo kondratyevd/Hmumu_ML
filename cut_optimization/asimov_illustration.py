@@ -321,8 +321,8 @@ def make_asimov_dataset(w):
     return sig_hist_new, bkg_hist_new
 
 
-sig_hist, data_hist = plot_initial_shapes(2.3, 2.4)
-frame, frame_nuis_pos, frame_nuis_neg = plot_fits_nuis(2.3, 2.4)
+sig_hist, data_hist = plot_initial_shapes(0, 2.4)
+frame, frame_nuis_pos, frame_nuis_neg = plot_fits_nuis(0, 2.4)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
