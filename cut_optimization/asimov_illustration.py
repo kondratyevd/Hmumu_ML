@@ -131,6 +131,7 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     # for par in sigParamList:
     #     par_var = w.var("cat%s_%s"%(cat_number,par))
     #     par_var.setConstant(True)
+    w.var("mu_res_beta").setRange(-5, 5)
     w.var("mu_res_beta").setVal(beta_res)
     Import(w, smodel)
     return signal_rate
