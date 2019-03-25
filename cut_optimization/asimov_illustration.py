@@ -272,14 +272,14 @@ def plot_fits_nuis(eta_min, eta_max):
     smodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
 
     w_nuis_up = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_up, 0, signal_input, sig_tree_name, cut, 0, 10) 
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_up, 0, signal_input, sig_tree_name, cut, 0, 100) 
     # var_up = w_nuis_up.var('mass')
     # frame_nuis_up = var_up.frame(ROOT.RooFit.Bins(100))
     smodel_up = w_nuis_up.pdf('cat0_ggh')
     smodel_up.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_up"),ROOT.RooFit.LineColor(ROOT.kGreen))
 
     w_nuis_down = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_down, 0, signal_input, sig_tree_name, cut, 0, -10) 
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_down, 0, signal_input, sig_tree_name, cut, 0, -5) 
     # var_down = w_nuis_down.var('mass')
     # frame_nuis_down = var_down.frame(ROOT.RooFit.Bins(100))
     smodel_down = w_nuis_down.pdf('cat0_ggh')
