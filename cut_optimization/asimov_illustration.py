@@ -127,10 +127,10 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
-    sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mixGG", "mixGG1"]
-    for par in sigParamList:
-        par_var = w.var("cat%s_%s"%(cat_number,par))
-        par_var.setConstant(True)
+    # sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mixGG", "mixGG1"]
+    # for par in sigParamList:
+    #     par_var = w.var("cat%s_%s"%(cat_number,par))
+    #     par_var.setConstant(True)
     w.var("mu_res_beta").setVal(beta_res)
     Import(w, smodel)
     return signal_rate
@@ -273,14 +273,14 @@ def plot_fits_nuis(eta_min, eta_max):
     smodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
 
     w_nuis_up = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_up, 0, signal_input, sig_tree_name, cut, 0, 10) 
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_up, 0, signal_input, sig_tree_name, cut, 0, 1) 
     # var_up = w_nuis_up.var('mass')
     # frame_nuis_up = var_up.frame(ROOT.RooFit.Bins(100))
     smodel_up = w_nuis_up.pdf('cat0_ggh')
     smodel_up.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_up"),ROOT.RooFit.LineColor(ROOT.kGreen))
 
     w_nuis_down = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_down, 0, signal_input, sig_tree_name, cut, 0, -5) 
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_down, 0, signal_input, sig_tree_name, cut, 0, -1) 
     # var_down = w_nuis_down.var('mass')
     # frame_nuis_down = var_down.frame(ROOT.RooFit.Bins(100))
     smodel_down = w_nuis_down.pdf('cat0_ggh')
