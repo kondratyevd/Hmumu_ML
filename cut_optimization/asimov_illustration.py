@@ -120,7 +120,7 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
 
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kTRUE)
+    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kFALSE)
 
     # Import(w,smodel)
     w.Print()
@@ -328,7 +328,7 @@ sig_hist.Draw('histsame')
 # data_hist.Draw('plesame')
 # frame_nuis_up.Draw("same")
 # frame_nuis_down.Draw("same")
-canvas.SaveAs('plots/asimov/nuis_test.png')
+canvas.SaveAs('plots/asimov/nuis_test_false.png')
 
 # sig_hist, data_hist = plot_initial_shapes(0, 0.1)
 # w, frame = plot_fits(0, 0.1)
