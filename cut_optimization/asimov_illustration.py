@@ -266,35 +266,26 @@ def plot_fits_nuis(eta_min, eta_max):
 
     w = create_workspace()
     sig_rate = add_sig_model_3gaus(w, 0, signal_input, sig_tree_name, cut) 
-    bkg_rate = add_bkg_model(w, 0, data_input, data_tree_name, cut)
     var = w.var('mass')
     frame = var.frame(ROOT.RooFit.Bins(100))
     smodel = w.pdf('cat0_ggh')
-    bmodel = w.pdf('cat0_bkg')
     smodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
-    # bmodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("bkg"),ROOT.RooFit.LineColor(ROOT.kRed))
 
-    w_nuis_pos = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_pos, 0, signal_input, sig_tree_name, cut, 0, 1) 
-    bkg_rate = add_bkg_model(w_nuis_pos, 0, data_input, data_tree_name, cut)
-    var = w_nuis_pos.var('mass')
-    frame_nuis_pos = var.frame(ROOT.RooFit.Bins(100))
-    smodel = w_nuis_pos.pdf('cat0_ggh')
-    bmodel = w_nuis_pos.pdf('cat0_bkg')
-    smodel.plotOn(frame_nuis_pos, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_pos"),ROOT.RooFit.LineColor(ROOT.kGreen))
-    # bmodel.plotOn(frame_nuis_pos, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("bkg"),ROOT.RooFit.LineColor(ROOT.kGreen))
+    w_nuis_up = create_workspace()
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_up, 0, signal_input, sig_tree_name, cut, 0, 1) 
+    # var_up = w_nuis_up.var('mass')
+    # frame_nuis_up = var_up.frame(ROOT.RooFit.Bins(100))
+    smodel_up = w_nuis_up.pdf('cat0_ggh')
+    smodel_up.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_up"),ROOT.RooFit.LineColor(ROOT.kGreen))
 
-    w_nuis_neg = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_neg, 0, signal_input, sig_tree_name, cut, 0, -1) 
-    bkg_rate = add_bkg_model(w_nuis_neg, 0, data_input, data_tree_name, cut)
-    var = w_nuis_neg.var('mass')
-    frame_nuis_neg = var.frame(ROOT.RooFit.Bins(100))
-    smodel = w_nuis_neg.pdf('cat0_ggh')
-    bmodel = w_nuis_neg.pdf('cat0_bkg')
-    smodel.plotOn(frame_nuis_neg, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_neg"),ROOT.RooFit.LineColor(ROOT.kBlue))
-    # bmodel.plotOn(frame_nuis_neg, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("bkg"),ROOT.RooFit.LineColor(ROOT.kBlue))
+    w_nuis_down = create_workspace()
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_down, 0, signal_input, sig_tree_name, cut, 0, -1) 
+    # var_down = w_nuis_down.var('mass')
+    # frame_nuis_down = var_down.frame(ROOT.RooFit.Bins(100))
+    smodel_down = w_nuis_down.pdf('cat0_ggh')
+    smodel_down.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_down"),ROOT.RooFit.LineColor(ROOT.kBlue))
 
-    return frame, frame_nuis_pos, frame_nuis_neg
+    return frame#, frame_nuis_up, frame_nuis_down
 
 def make_asimov_dataset(w):
     nbins = 200
@@ -322,7 +313,8 @@ def make_asimov_dataset(w):
 
 
 sig_hist, data_hist = plot_initial_shapes(0, 0.1)
-frame, frame_nuis_pos, frame_nuis_neg = plot_fits_nuis(0, 0.1)
+# frame, frame_nuis_up, frame_nuis_down = plot_fits_nuis(0, 0.1)
+frame = plot_fits_nuis(0, 0.1)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
@@ -332,8 +324,8 @@ frame.GetYaxis().SetLabelSize(0)
 frame.SetTitle("")
 sig_hist.Draw('histsame')
 # data_hist.Draw('plesame')
-frame_nuis_pos.Draw("same")
-frame_nuis_neg.Draw("same")
+# frame_nuis_up.Draw("same")
+# frame_nuis_down.Draw("same")
 canvas.SaveAs('plots/asimov/nuis_test.png')
 
 # sig_hist, data_hist = plot_initial_shapes(0, 0.1)
