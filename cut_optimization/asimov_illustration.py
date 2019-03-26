@@ -267,7 +267,7 @@ def plot_fits_nuis(eta_min, eta_max):
     cut = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
 
     w = create_workspace()
-    sig_rate = add_sig_model_3gaus(w, 0, signal_input, sig_tree_name, cut, 0, 0, ROOT.kTRUE) 
+    sig_rate = add_sig_model_3gaus_nuis(w, 0, signal_input, sig_tree_name, cut, 0, 0, ROOT.kTRUE) 
     var = w.var('mass')
     frame = var.frame(ROOT.RooFit.Bins(100))
     smodel = w.pdf('cat0_ggh')
