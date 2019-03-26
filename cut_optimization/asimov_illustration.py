@@ -82,36 +82,34 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     # signal_rate = signal_hist.Integral()
     # print signal_rate
 
-    w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
-    w.factory("cat%i_mixGG1 [0.5, 0.0, 1.0]"%cat_number)
+    w.factory("cat%i_mean1 [125., 120., 130.]"%cat_number)
+    w.factory("cat%i_mean2 [125., 120., 130.]"%cat_number)
+    w.factory("cat%i_mean3 [125., 120., 130.]"%cat_number)
 
     w.factory("mu_res_beta [0, 0, 0]")
-    w.factory("mu_scale_beta [0, 0, 0]")
-
     w.factory("mu_res_unc [0.1, 0.1, 0.1]")
-    w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]")
-
     w.var("mu_res_unc").setConstant(True)
-    w.var("mu_scale_unc").setConstant(True)
-
-    mixGG = w.var("cat%i_mixGG"%cat_number)
-    mixGG1 = w.var("cat%i_mixGG1"%cat_number)
-
-    w.factory("EXPR::cat%i_mean1_times_nuis('cat%i_mean1*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean1[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean2_times_nuis('cat%i_mean2*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean2[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean3_times_nuis('cat%i_mean3*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean3[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
-
-    w.factory("expr::cat%i_deltaM21('cat%i_mean2-cat%i_mean1',{cat%i_mean2, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("expr::cat%i_deltaM31('cat%i_mean3-cat%i_mean1',{cat%i_mean3, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-
-    w.factory("EXPR::cat%i_mean2_final('cat%i_mean2_times_nuis + mu_res_unc*mu_res_beta*cat%i_deltaM21',{cat%i_mean2_times_nuis, mu_res_unc, mu_res_beta, cat%i_deltaM21})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
-    w.factory("EXPR::cat%i_mean3_final('cat%i_mean3_times_nuis + mu_res_unc*mu_res_beta*cat%i_deltaM31',{cat%i_mean3_times_nuis, mu_res_unc, mu_res_beta, cat%i_deltaM31})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
 
     w.factory("EXPR::cat%i_width1_times_nuis('cat%i_width1*(1 + mu_res_unc*mu_res_beta)',{cat%i_width1[1.0, 0.5, 5.0],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
     w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
     w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
 
-    w.factory("Gaussian::cat%i_gaus1(mass, cat%i_mean1_times_nuis, cat%i_width1_times_nuis)"%(cat_number, cat_number, cat_number))
+
+    w.factory("expr::cat%i_deltaM21('cat%i_mean2-cat%i_mean1',{cat%i_mean2, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    w.factory("expr::cat%i_deltaM31('cat%i_mean3-cat%i_mean1',{cat%i_mean3, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+
+    w.factory("EXPR::cat%i_mean2_final('cat%i_mean2 + mu_res_unc*mu_res_beta*cat%i_deltaM21',{cat%i_mean2, mu_res_unc, mu_res_beta, cat%i_deltaM21})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    w.factory("EXPR::cat%i_mean3_final('cat%i_mean3 + mu_res_unc*mu_res_beta*cat%i_deltaM31',{cat%i_mean3, mu_res_unc, mu_res_beta, cat%i_deltaM31})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+
+
+
+    w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
+    w.factory("cat%i_mixGG1 [0.5, 0.0, 1.0]"%cat_number)
+
+    mixGG1 = w.var("cat%i_mixGG1"%cat_number)
+    mixGG2 = w.var("cat%i_mixGG2"%cat_number)
+
+    w.factory("Gaussian::cat%i_gaus1(mass, cat%i_mean1, cat%i_width1_times_nuis)"%(cat_number, cat_number, cat_number))
     w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_final, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
     w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_final, cat%i_width3_times_nuis)"%(cat_number, cat_number, cat_number))
 
@@ -120,7 +118,48 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
 
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kFALSE)
+    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG1, mixGG2), ROOT.kFALSE)
+
+
+    # w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
+    # w.factory("cat%i_mixGG1 [0.5, 0.0, 1.0]"%cat_number)
+
+    # w.factory("mu_res_beta [0, 0, 0]")
+    # w.factory("mu_scale_beta [0, 0, 0]")
+
+    # w.factory("mu_res_unc [0.1, 0.1, 0.1]")
+    # w.factory("mu_scale_unc [0.0005, 0.0005, 0.0005]")
+
+    # w.var("mu_res_unc").setConstant(True)
+    # w.var("mu_scale_unc").setConstant(True)
+
+    # mixGG = w.var("cat%i_mixGG"%cat_number)
+    # mixGG1 = w.var("cat%i_mixGG1"%cat_number)
+
+    # w.factory("EXPR::cat%i_mean1_times_nuis('cat%i_mean1*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean1[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_mean2_times_nuis('cat%i_mean2*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean2[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_mean3_times_nuis('cat%i_mean3*(1 + mu_scale_unc*mu_scale_beta)',{cat%i_mean3[125.0, 120., 130.],mu_scale_unc,mu_scale_beta})"%(cat_number,cat_number,cat_number))
+
+    # w.factory("expr::cat%i_deltaM21('cat%i_mean2-cat%i_mean1',{cat%i_mean2, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("expr::cat%i_deltaM31('cat%i_mean3-cat%i_mean1',{cat%i_mean3, cat%i_mean1})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+
+    # w.factory("EXPR::cat%i_mean2_final('cat%i_mean2_times_nuis + mu_res_unc*mu_res_beta*cat%i_deltaM21',{cat%i_mean2_times_nuis, mu_res_unc, mu_res_beta, cat%i_deltaM21})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_mean3_final('cat%i_mean3_times_nuis + mu_res_unc*mu_res_beta*cat%i_deltaM31',{cat%i_mean3_times_nuis, mu_res_unc, mu_res_beta, cat%i_deltaM31})"%(cat_number,cat_number,cat_number,cat_number,cat_number))
+
+    # w.factory("EXPR::cat%i_width1_times_nuis('cat%i_width1*(1 + mu_res_unc*mu_res_beta)',{cat%i_width1[1.0, 0.5, 5.0],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_width2_times_nuis('cat%i_width2*(1 + mu_res_unc*mu_res_beta)',{cat%i_width2[5.0, 2.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+    # w.factory("EXPR::cat%i_width3_times_nuis('cat%i_width3*(1 + mu_res_unc*mu_res_beta)',{cat%i_width3[5.0, 1.0, 10.],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
+
+    # w.factory("Gaussian::cat%i_gaus1(mass, cat%i_mean1_times_nuis, cat%i_width1_times_nuis)"%(cat_number, cat_number, cat_number))
+    # w.factory("Gaussian::cat%i_gaus2(mass, cat%i_mean2_final, cat%i_width2_times_nuis)"%(cat_number, cat_number, cat_number))
+    # w.factory("Gaussian::cat%i_gaus3(mass, cat%i_mean3_final, cat%i_width3_times_nuis)"%(cat_number, cat_number, cat_number))
+
+
+    # gaus1 = w.pdf('cat%i_gaus1'%(cat_number))
+    # gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
+    # gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
+
+    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mixGG, mixGG1), ROOT.kFALSE)
 
     # Import(w,smodel)
     w.Print()
