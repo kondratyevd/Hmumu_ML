@@ -82,7 +82,7 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     # signal_rate = signal_hist.Integral()
     # print signal_rate
 
-    w.factory("cat%i_mixGG [0.4, 0.0, 1.0]"%cat_number)
+    w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
     w.factory("cat%i_mixGG1 [0, 0.0, 1.0]"%cat_number)
 
     w.factory("mu_res_beta [0, 0, 0]")
@@ -267,14 +267,14 @@ def plot_fits_nuis(eta_min, eta_max):
     cut = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
 
     w = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w, 0, signal_input, sig_tree_name, cut, 0, 0, ROOT.kTRUE) 
+    sig_rate = add_sig_model_3gaus_nuis(w, 0, signal_input, sig_tree_name, cut, 0, 1, ROOT.kTRUE) 
     var = w.var('mass')
     frame = var.frame(ROOT.RooFit.Bins(100))
     smodel = w.pdf('cat0_ggh')
     smodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
 
     w_nuis_false = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_false, 0, signal_input, sig_tree_name, cut, 0, 0, ROOT.kFALSE) 
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_false, 0, signal_input, sig_tree_name, cut, 0, 1, ROOT.kFALSE) 
     smodel_false = w_nuis_false.pdf('cat0_ggh')
     smodel_false.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_false"),ROOT.RooFit.LineColor(ROOT.kBlue))
 
