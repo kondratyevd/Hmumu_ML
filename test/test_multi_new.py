@@ -22,23 +22,23 @@ c.add_data('SingleMu_2016B'		, path+'/SingleMu_2016B/'	, 5788)
 # c.add_data('SingleMu_2016H_1'	, path+'/SingleMu_2016H_1/'	, 8392)
 # c.add_data('SingleMu_2016H_2'	, path+'/SingleMu_2016H_2/'	, 214)
 
-# c.add_category('H2Mu_gg', True)
-# c.add_dir_to_category('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618, 'H2Mu_gg')
+c.add_category('H2Mu_gg', True)
+c.add_dir_to_category('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618, 'H2Mu_gg')
 
-# c.add_category('H2Mu_VBF', True)
-# c.add_dir_to_category('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208, 'H2Mu_VBF')
+c.add_category('H2Mu_VBF', True)
+c.add_dir_to_category('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208, 'H2Mu_VBF')
 
-# c.add_category('ZJets_aMC', False)
-# c.add_dir_to_category('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4, 'ZJets_aMC')
+c.add_category('ZJets_aMC', False)
+c.add_dir_to_category('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4, 'ZJets_aMC')
 
-# c.add_category('tt_ll_POW', False)
-# c.add_dir_to_category('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656, 'tt_ll_POW')
+c.add_category('tt_ll_POW', False)
+c.add_dir_to_category('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656, 'tt_ll_POW')
 
-c.add_signal_dir('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618)
-c.add_signal_dir('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208)
+# c.add_signal_dir('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618)
+# c.add_signal_dir('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208)
 
-c.add_background_dir('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4)
-c.add_background_dir('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656)
+# c.add_background_dir('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4)
+# c.add_background_dir('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656)
 
 # c.add_signal_file('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/tuple_1.root', 0.009618)
 # c.add_signal_file('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/tuple_1.root', 0.0008208)
@@ -170,14 +170,14 @@ c.add_data_spectator('jets.phi',			2)
 c.add_data_spectator('nJets',				1)
 
 c.weigh_by_event(True)
-c.add_package("TMVA")
+# c.add_package("TMVA")
 # c.add_transf("N,G,P")
-c.add_method("BDTG_UF_v1")
-# c.add_package("Keras_multi")
+# c.add_method("BDTG_UF_v1")
+c.add_package("Keras_multi")
 # c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
 # c.add_method("model_50_D1_25_D1") # Dropout 0.1
-# c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
+c.add_method("model_50_D2_25_D2_25_D2") # Dropout 0.2
 # c.add_method("model_50_25_25") # no dropout
 # c.add_method("andrea_model_3") # Andrea's model #3
 
