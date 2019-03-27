@@ -82,7 +82,7 @@ def add_sig_model_3gaus_nuis(w, cat_number, input_path, sig_tree, cut, beta_scal
     # signal_rate = signal_hist.Integral()
     # print signal_rate
 
-    w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
+    w.factory("cat%i_mixGG [0.1, 0.0, 1.0]"%cat_number)
     w.factory("cat%i_mixGG1 [0, 0.0, 1.0]"%cat_number)
 
     w.factory("mu_res_beta [0, 0, 0]")
