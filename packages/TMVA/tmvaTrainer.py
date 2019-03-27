@@ -169,7 +169,7 @@ class TMVATrainer(object):
 		muon2_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(1)
 		muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
 		nMuons = tree.FindBranch("nMuons").FindLeaf("nMuons").GetValue()
-		nMuonPairs = tree.FindBranch("nMuonPairs").FindLeaf("nMuonPairs").GetValue()
+		nMuonPairs = tree.FindBranch("nMuPairs").FindLeaf("nMuPairs").GetValue()
 
 		if year is "2016":
 
