@@ -267,14 +267,14 @@ def plot_fits_nuis(eta_min, eta_max):
     cut = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
 
     w = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w, 0, signal_input, sig_tree_name, cut, 0, 1, ROOT.kTRUE) 
+    sig_rate = add_sig_model_3gaus_nuis(w, 0, signal_input, sig_tree_name, cut, 0, -1, ROOT.kTRUE) 
     var = w.var('mass')
     frame = var.frame(ROOT.RooFit.Bins(100))
     smodel = w.pdf('cat0_ggh')
     smodel.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal"),ROOT.RooFit.LineColor(ROOT.kRed))
 
     w_nuis_false = create_workspace()
-    sig_rate = add_sig_model_3gaus_nuis(w_nuis_false, 0, signal_input, sig_tree_name, cut, 0, 1, ROOT.kFALSE) 
+    sig_rate = add_sig_model_3gaus_nuis(w_nuis_false, 0, signal_input, sig_tree_name, cut, 0, -1, ROOT.kFALSE) 
     smodel_false = w_nuis_false.pdf('cat0_ggh')
     smodel_false.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("signal_false"),ROOT.RooFit.LineColor(ROOT.kBlue))
 
