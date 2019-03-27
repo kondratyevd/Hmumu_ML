@@ -2,7 +2,7 @@
 #ifndef PT_CORR_ROCH
 #define PT_CORR_ROCH
 
-#include "UfHMuMuCode/RochCor/interface/RoccoR.h"
+#include "Ntupliser/RochCor/interface/RoccoR.h"
 #include <math.h>
 #include "TLorentzVector.h"
 #include "TRandom.h"

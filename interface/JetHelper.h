@@ -2,10 +2,10 @@
 #ifndef JET_HELPER
 #define JET_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/JetInfo.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/MuonInfo.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/EleInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/JetInfo.h"
+#include "Ntupliser/DiMuons/interface/MuonInfo.h"
+#include "Ntupliser/DiMuons/interface/EleInfo.h"
 
 void FillJetInfos( JetInfos& _jetInfos, int& _nJetsFwd,
 		   int& _nBLoose, int& _nBMed, int& _nBTight,

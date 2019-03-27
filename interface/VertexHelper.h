@@ -2,8 +2,8 @@
 #ifndef VERTEX_HELPER
 #define VERTEX_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/VertexInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/VertexInfo.h"
 
 void FillVertexInfos( VertexInfos& _vertexInfos, int& _nVertices,
                       const reco::VertexCollection verticesSelected,

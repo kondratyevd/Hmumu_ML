@@ -2,9 +2,9 @@
 #ifndef MU_PAIR_HELPER
 #define MU_PAIR_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/MuPairInfo.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/MuonInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/MuPairInfo.h"
+#include "Ntupliser/DiMuons/interface/MuonInfo.h"
 
 typedef struct {
   TLorentzVector nom;

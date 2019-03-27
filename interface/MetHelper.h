@@ -2,8 +2,8 @@
 #ifndef MET_HELPER
 #define MET_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/MetInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/MetInfo.h"
 
 
 void FillMetInfo( MetInfo& _metInfo,

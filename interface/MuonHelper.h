@@ -2,10 +2,18 @@
 #ifndef MUON_HELPER
 #define MUON_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/MuonInfo.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/PtCorrKalman.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/PtCorrRoch.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/MuonInfo.h"
+#include "Ntupliser/DiMuons/interface/PtCorrKalman.h"
+#include "Ntupliser/DiMuons/interface/PtCorrRoch.h"
+#include "Ntupliser/DiMuons/interface/KinematicFitMuonCorrections.h"
+#include "Ntupliser/DiMuons/interface/GenMuonInfo.h"
+#include "Ntupliser/DiMuons/interface/LepMVA.h"
+
+// Classes for json handling
+#include "boost/property_tree/ptree.hpp"
+#include "boost/property_tree/json_parser.hpp"
+#include <iomanip> // setprecision
 
 void FillMuonInfos( MuonInfos& _muonInfos, 
 		    const pat::MuonCollection muonsSelected,
@@ -17,20 +25,27 @@ void FillMuonInfos( MuonInfos& _muonInfos,
 		    const std::vector<std::string> _trigNames, const double _muon_trig_dR,
 		    const bool _muon_use_pfIso, const double _muon_iso_dR, const bool _isData,
 		    KalmanMuonCalibrator& _KaMu_calib, const bool _doSys_KaMu,
-		    const RoccoR _Roch_calib, const bool _doSys_Roch,
-		    const edm::Handle < reco::GenParticleCollection >& genPartons );
+		    const RoccoR _Roch_calib, const bool _doSys_Roch, const GenMuonInfos _genMuonInfos,
+		    LepMVAVars & _lepVars_mu, std::shared_ptr<TMVA::Reader> & _lepMVA_mu,
+		    const double _rho, const edm::Handle<pat::JetCollection>& jets,
+		    const edm::Handle<pat::PackedCandidateCollection> pfCands,
+		    EffectiveAreas muEffArea );
 
 pat::MuonCollection SelectMuons( const edm::Handle<pat::MuonCollection>& muons,
 				 const reco::Vertex primaryVertex, const std::string _muon_ID,
 				 const double _muon_pT_min, const double _muon_eta_max, const double _muon_trig_dR,
-				 const bool _muon_use_pfIso, const double _muon_iso_dR, const double _muon_iso_max );
+				 const bool _muon_use_pfIso, const double _muon_iso_dR, const double _muon_iso_max,
+				 const double _rho, EffectiveAreas muEffArea );
 
 bool MuonIsLoose ( const pat::Muon muon );
 bool MuonIsMedium( const pat::Muon muon );
 bool MuonIsTight ( const pat::Muon muon, const reco::Vertex primaryVertex );
 
-double MuonCalcRelIsoPF ( const pat::Muon muon, const double _muon_iso_dR );
+double MuonCalcRelIsoPF ( const pat::Muon muon, const double _muon_iso_dR, const double rho,
+			  EffectiveAreas muEffArea, const std::string type );
 double MuonCalcRelIsoTrk( const pat::Muon muon, const double _muon_iso_dR );
+double MuonCalcMiniIso  ( const pat::Muon muon, const edm::Handle<pat::PackedCandidateCollection> pfCands,
+			  const double rho, EffectiveAreas muEffArea, const bool charged );
 double MuonCalcTrigEff  ( const pat::Muon muon, const int _nPV, const std::string _trigName );
 
 bool IsHltMatched( const pat::Muon& mu, const edm::Event& iEvent, const edm::EventSetup& iSetup,
@@ -44,6 +59,11 @@ void CalcTrigEff( float& _muon_eff, float& _muon_eff_up, float& _muon_eff_down,
 float CalcL1TPhi( const float mu_pt, const float mu_eta, float mu_phi, const int mu_charge );
 bool SameSector( float phi1, float phi2 );
 float CalcDPhi( const float phi1, const float phi2 );
+
+void CalcMuIDIsoEff( float& _ID_eff, float& _ID_eff_up, float& _ID_eff_down, std::string _id_wp_num, std::string _id_wp_den,
+                     float& _Iso_eff, float& _Iso_eff_up, float& _Iso_eff_down, std::string _iso_wp_num, std::string _iso_wp_den,
+                     const boost::property_tree::ptree _iso_json, const boost::property_tree::ptree _id_json, 
+                     const MuonInfos _muonInfos );
 
 void CalcMuIDIsoEff( float& _ID_eff, float& _ID_eff_up, float& _ID_eff_down,
                      float& _Iso_eff, float& _Iso_eff_up, float& _Iso_eff_down,

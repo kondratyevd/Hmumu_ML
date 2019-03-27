@@ -2,8 +2,8 @@
 #ifndef GENPART_HELPER
 #define GENPART_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/GenPartInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/GenPartInfo.h"
 
 void FillGenPartInfo( GenPartInfo& _genPartInfo,
 		      const reco::Candidate& genPart );

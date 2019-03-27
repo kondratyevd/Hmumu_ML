@@ -2,8 +2,8 @@
 #ifndef TAU_HELPER
 #define TAU_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/TauInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/TauInfo.h"
 
 void FillTauInfos( TauInfos& _tauInfos, 
 		   const pat::TauCollection tausSelected,

@@ -2,9 +2,9 @@
 #ifndef GEN_MU_PAIR_HELPER
 #define GEN_MU_PAIR_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/GenMuPairInfo.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/GenMuonInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/GenMuPairInfo.h"
+#include "Ntupliser/DiMuons/interface/GenMuonInfo.h"
 
 void FillGenMuPairInfos( GenMuPairInfos& _genPairInfos, const GenMuonInfos _muonInfos );
 

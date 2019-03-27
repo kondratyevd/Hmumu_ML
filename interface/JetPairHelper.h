@@ -2,9 +2,9 @@
 #ifndef JET_PAIR_HELPER
 #define JET_PAIR_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/JetPairInfo.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/JetInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/JetPairInfo.h"
+#include "Ntupliser/DiMuons/interface/JetInfo.h"
 
 void FillJetPairInfos( JetPairInfos& _pairInfos, const JetInfos _jetInfos );
 

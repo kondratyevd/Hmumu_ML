@@ -2,8 +2,8 @@
 #ifndef GENJET_HELPER
 #define GENJET_HELPER
 
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/CommonIncludes.h"
-#include "UfHMuMuCode/UFDiMuonsAnalyzer/interface/GenJetInfo.h"
+#include "Ntupliser/DiMuons/interface/CommonIncludes.h"
+#include "Ntupliser/DiMuons/interface/GenJetInfo.h"
 
 void FillGenJetInfos( GenJetInfos& _genJetInfos, 
 		      const edm::Handle < reco::GenJetCollection >& genJets, 
