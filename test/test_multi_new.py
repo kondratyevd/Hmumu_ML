@@ -3,10 +3,10 @@ sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 from src.classifier import Framework
 
 c = Framework()
-comment = "Multiclassification: 4 classes, V2, +2016 data, jet variable initialization: -5"	
+# comment = "Multiclassification: 4 classes, V2, +2016 data, jet variable initialization: -5"	
 				# change this line for each run
-c.add_comment(comment)
-print comment
+# c.add_comment(comment)
+# print comment
 treePath = 'dimuons/tree'
 
 # path = '/tmp/Hmumu_ntuples/updated/'
@@ -34,11 +34,17 @@ c.add_data('SingleMu_2016B'		, path+'/SingleMu_2016B/'	, 5788)
 # c.add_category('tt_ll_POW', False)
 # c.add_dir_to_category('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656, 'tt_ll_POW')
 
-c.add_signal_dir('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618)
-c.add_signal_dir('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208)
+# c.add_signal_dir('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618)
+# c.add_signal_dir('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208)
 
-c.add_background_dir('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4)
-c.add_background_dir('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656)
+# c.add_background_dir('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4)
+# c.add_background_dir('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656)
+
+c.add_signal_file('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/tuple_1.root', 0.009618)
+c.add_signal_file('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/tuple_1.root', 0.0008208)
+
+c.add_background_file('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/tuple_1.root', 5765.4)
+c.add_background_file('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/tuple_1.root', 85.656)
 
 c.set_tree_path(treePath)
 
