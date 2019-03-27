@@ -89,7 +89,8 @@ class Framework(object):
 		with open("output/CURRENT_RUN_ID", "r") as IDfile:
 			self.RunID=IDfile.read()
 
-		self.outPath = 'output/'+self.RunID
+		# self.outPath = 'output/'+self.RunID
+		self.outPath = '/tmp/dkondrat/ML_output/'+self.RunID
 		self.create_dir(self.outPath)
 
 		print "Run ID:	%s"%self.RunID
