@@ -168,7 +168,9 @@ class TMVATrainer(object):
 		muon1_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(0)
 		muon2_ID = tree.FindBranch("muons.isMediumID").FindLeaf("isMediumID").GetValue(1)
 		muPair_mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
-		
+		nMuons = tree.FindBranch("nMuons").FindLeaf("nMuons").GetValue()
+		nMuonPairs = tree.FindBranch("nMuonPairs").FindLeaf("nMuonPairs").GetValue()
+
 		if year is "2016":
 
 			flag = 			((muPair_mass>113.8)&
@@ -187,7 +189,7 @@ class TMVATrainer(object):
 
 		elif year is "2017":
 
-			flag = 			((muPair_mass>110)&
+			flag = 			((nMuons>=2)&(nMuonPairs>=1)&(muPair_mass>110)&
 							(muPair_mass<150)&
 							(muon1_ID>0)&
 							(muon2_ID>0)&
