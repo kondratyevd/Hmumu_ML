@@ -146,10 +146,10 @@ class Framework(object):
 		else:
 			self.bkg_categories.append(name)
 
-	def add_dir_to_category(self, name, path, xSec, category):
+	def add_dir_to_category(self, name, path, xSec, category, isDir=True):
 		if category in self.signal_categories+self.bkg_categories: 
 			print "Adding directory %s with xSec=%f as %s"%(path, xSec, category)
-			file = self.File(self, name, path, xSec, True)
+			file = self.File(self, name, path, xSec, isDir)
 			file.category = category
 			self.files.append(file)
 			
