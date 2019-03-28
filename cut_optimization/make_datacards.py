@@ -92,7 +92,7 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, sig_tree, lumi, cut,
     print signal_rate
 
     w.factory("cat%i_mixGG [0.5, 0.0, 1.0]"%cat_number)
-    w.factory("cat%i_mixGG1 [0.5, 0.0, 1.0]"%cat_number)
+    w.factory("cat%i_mixGG1 [0., 0.0, 1.0]"%cat_number)
 
     w.factory("mu_res_beta [0, 0, 0]")
     w.factory("mu_scale_beta [0, 0, 0]")
