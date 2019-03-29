@@ -55,7 +55,7 @@ class KerasMultiTrainer(object):
     def convert_to_pandas(self):
         for file in self.framework.files + self.framework.data_files:
             for filename in os.listdir(file.path):
-                if filename.endswith("_1.root"): 
+                if filename.endswith(".root"): 
                     with uproot.open(file.path+filename) as f: 
                         uproot_tree = f[self.framework.treePath]
                         single_file_df = pandas.DataFrame()
