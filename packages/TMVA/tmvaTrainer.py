@@ -128,7 +128,7 @@ class TMVATrainer(object):
 
 
 	def load_variables(self):
-		self.dataloader.AddSpectator('muPairs.mass_Roch', 'Dimuon mass (Roch.)', 'GeV', 'F')
+		self.dataloader.AddSpectator('muPairs.mass_Roch', 'Dimuon mass (Roch.)', 'GeV', 110., 150.)
 		for var in self.framework.variable_list:
 			if 'muons.pt[0]/muPairs.pt' in var.name:
 				self.dataloader.AddVariable('jets.phi', 'mu1_pt/mass', '', 'F') # very random!
