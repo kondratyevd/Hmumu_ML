@@ -16,6 +16,10 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import matplotlib.pyplot as plt
 ROOT.gStyle.SetOptStat(0)
 
+DY_label = "ZJets_aMC"
+tt_label = "tt_ll_POW"
+
+
 class KerasMultiTrainer(object):
     def __init__(self, framework, package):
         self.framework = framework
@@ -289,8 +293,8 @@ class KerasMultiTrainer(object):
                 max_abs_eta_mu["Data"][0]   = row["max_abs_eta_mu"]
                 min_abs_eta_mu["Data"][0]   = row["min_abs_eta_mu"]
                 weight["Data"][0]           = 1
-                DY_prediction["Data"][0]    = row["pred_ZJets_MG_%s"%(method_name)]
-                ttbar_prediction["Data"][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
+                DY_prediction["Data"][0]    = row["pred_%s_%s"%(DY_label, method_name)]
+                ttbar_prediction["Data"][0] = row["pred_%s_%s"%(tt_label, method_name)]
                 ggH_prediction["Data"][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
                 VBF_prediction["Data"][0]   = row["pred_H2Mu_VBF_%s"%(method_name)] 
                 nJets["Data"][0]            = row["nJets"] 
@@ -305,8 +309,8 @@ class KerasMultiTrainer(object):
                         max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
                         min_abs_eta_mu[category][0]   = row["min_abs_eta_mu"]
                         weight[category][0]           = row["weight"]
-                        DY_prediction[category][0]    = row["pred_ZJets_MG_%s"%(method_name)]
-                        ttbar_prediction[category][0] = row["pred_tt_ll_AMC_%s"%(method_name)]
+                        DY_prediction[category][0]    = row["pred_%s_%s"%(DY_label, method_name)]
+                        ttbar_prediction[category][0] = row["pred_%s_%s"%(tt_label, method_name)]
                         ggH_prediction[category][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
                         VBF_prediction[category][0]   = row["pred_H2Mu_VBF_%s"%(method_name)]  
                         nJets[category][0]            = row["nJets"]
