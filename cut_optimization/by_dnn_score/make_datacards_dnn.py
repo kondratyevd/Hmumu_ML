@@ -82,9 +82,9 @@ def add_sig_model(w, cat_number, input_path, cut):
     gaus1 = w.pdf('cat%i_gaus1'%(cat_number))
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
+    smodel = ROOT.RooAddPdf('cat%i_sig'%cat_number, 'cat%i_sig'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
     # gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mix1)
-    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mix2)
+    # smodel = ROOT.RooAddPdf('cat%i_sig'%cat_number, 'cat%i_sig'%cat_number, gaus3, gaus12, mix2)
     # Import(w,smodel)
     w.Print()
     signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
@@ -177,8 +177,8 @@ def add_sig_model_with_nuisances(w, cat_number, input_path, cut, res_unc_val, sc
     gaus2 = w.pdf('cat%i_gaus2'%(cat_number))
     gaus3 = w.pdf('cat%i_gaus3'%(cat_number))
     # gaus12 = ROOT.RooAddPdf('cat%i_gaus12'%(cat_number), 'cat%i_gaus12'%(cat_number), gaus1, gaus2, mix1)
-    # smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, gaus3, gaus12, mix2)
-    smodel = ROOT.RooAddPdf('cat%i_ggh'%cat_number, 'cat%i_ggh'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
+    # smodel = ROOT.RooAddPdf('cat%i_sig'%cat_number, 'cat%i_sig'%cat_number, gaus3, gaus12, mix2)
+    smodel = ROOT.RooAddPdf('cat%i_sig'%cat_number, 'cat%i_sig'%cat_number, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
     # Import(w,smodel)
     w.Print()
@@ -234,8 +234,8 @@ def add_sig_model_dcb(w, cat_number, input_path, cut):
 
     # ROOT.gROOT.ProcessLine(".L /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape.cxx")
     ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
-    w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean[125,120,130], cat%i_sigma[2,0,5], cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
-    smodel = w.pdf("cat%i_ggh"%cat_number)
+    w.factory("RooDCBShape::cat%i_sig(mass, cat%i_mean[125,120,130], cat%i_sigma[2,0,5], cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
+    smodel = w.pdf("cat%i_sig"%cat_number)
     w.Print()
     signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
@@ -295,8 +295,8 @@ def add_sig_model_dcb_with_nuisances(w, cat_number, input_path, cut, res_unc_val
     w.factory("EXPR::cat%i_sigma_times_nuis('cat%i_sigma*(1 + mu_res_unc*mu_res_beta)',{cat%i_sigma[2.0, 0., 5.0],mu_res_unc, mu_res_beta})"%(cat_number,cat_number,cat_number))
 
     ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
-    w.factory("RooDCBShape::cat%i_ggh(mass, cat%i_mean_times_nuis, cat%i_sigma_times_nuis, cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
-    smodel = w.pdf("cat%i_ggh"%cat_number)
+    w.factory("RooDCBShape::cat%i_sig(mass, cat%i_mean_times_nuis, cat%i_sigma_times_nuis, cat%i_alphaL[2,0,25] , cat%i_alphaR[2,0,25], cat%i_nL[1.5,0,25], cat%i_nR[1.5,0,25])"%(cat_number,cat_number,cat_number,cat_number,cat_number,cat_number,cat_number))
+    smodel = w.pdf("cat%i_sig"%cat_number)
     w.Print()
     signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
@@ -380,14 +380,14 @@ def make_dnn_categories(score, bins, sig_input_path, data_input_path, data_tree,
         bkg_rate = add_bkg_model(w, i, data_input_path, data_tree, cut)
 
         combine_import = combine_import+"shapes cat%i_bkg  cat%i %s.root w:cat%i_bkg\n"%(i,i,filename,i)
-        combine_import = combine_import+"shapes cat%i_ggh  cat%i %s.root w:cat%i_ggh\n"%(i,i,filename,i)
+        combine_import = combine_import+"shapes cat%i_sig  cat%i %s.root w:cat%i_sig\n"%(i,i,filename,i)
         combine_import = combine_import+"shapes data_obs  cat%i %s.root w:cat%i_data\n"%(i,filename,i)
 
         combine_bins = combine_bins+name+" "
         combine_obs = combine_obs+"-1   "
 
         combine_bins_str = combine_bins_str+ "{:14s}{:14s}".format(name,name)
-        combine_proc_str = combine_proc_str+ "cat%i_ggh      cat%i_bkg      "%(i,i)
+        combine_proc_str = combine_proc_str+ "cat%i_sig      cat%i_bkg      "%(i,i)
         combine_ipro_str = combine_ipro_str+ "0             1             "
         combine_rate_str = combine_rate_str+ "{:<14f}{:<14f}".format(sig_rate, bkg_rate)
         if statUnc:
