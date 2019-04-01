@@ -71,7 +71,7 @@ class TMVAApplicator(object):
 					tree.SetBranchAddress(tree.FindBranch(var.name).GetName(), self.branches[var.name])
 
 				
-			for i in range(100):
+			for i in range(tree.GetEntries()):
 				tree.GetEntry(i)
 				for var in self.framework.variable_list:
 
