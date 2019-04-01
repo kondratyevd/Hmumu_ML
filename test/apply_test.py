@@ -21,7 +21,7 @@ gInterpreter.ProcessLine('#include "interface/GenJetInfo.h"')
 c = Framework()
 treePath = 'dimuons/tree'
 
-c.add_data_to_evaluate('SingleMu2017B', '/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017B/190327_172730/0000/*')
+c.add_data_to_evaluate('SingleMu2017B', '/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017B/190327_172730/0000/*root')
 
 c.set_tree_path(treePath)
 
