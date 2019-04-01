@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+echo "Running..."
 CURRENT_LOCATION=$(pwd)
 SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-03-29_10-49-20/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
 DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-03-29_10-49-20/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
