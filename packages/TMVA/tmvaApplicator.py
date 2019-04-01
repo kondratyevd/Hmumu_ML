@@ -112,7 +112,7 @@ class TMVAApplicator(object):
 							else:
 								self.branches[var.name][0] = var.replacement 
 
-				flag, SF = self.eventInfo(tree, self.framework.year)
+				flag, SF = self.eventInfo(tree, self.framework.year, file.isData)
 				
 				if flag:
 					MVA[0] = self.reader.EvaluateMVA('BDTG_UF_v1')
@@ -136,7 +136,7 @@ class TMVAApplicator(object):
 
 
 
-	def eventInfo(self, tree, year):
+	def eventInfo(self, tree, year, isData):
 		muon1_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(0)
 		muon2_pt = tree.FindBranch("muons.pt").FindLeaf("pt").GetValue(1)
 		muon1_hlt2 = tree.FindBranch("muons.isHltMatched").FindLeaf("isHltMatched").GetValue(2)
@@ -162,7 +162,10 @@ class TMVAApplicator(object):
 							or
 								( muon2_pt > 26 & (muon2_hlt2>0 or muon2_hlt3>0) )
 							))
-			SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
+			if isData:
+				SF = 1
+			else:
+				SF = (0.5*(tree.IsoMu_SF_3 + tree.IsoMu_SF_4)*0.5*(tree.MuID_SF_3 + tree.MuID_SF_4)*0.5*(tree.MuIso_SF_3 + tree.MuIso_SF_4))
 
 
 		elif year is "2017":
@@ -174,6 +177,9 @@ class TMVAApplicator(object):
 							(muon1_pt>30)&
 							(muon2_pt>20)
 							)
-			SF = (tree.IsoMu_SF_3 * tree.MuID_SF_3 * tree.MuIso_SF_3 ) 
+			if isData:
+				SF = 1
+			else:
+				SF = (tree.IsoMu_SF_3 * tree.MuID_SF_3 * tree.MuIso_SF_3 ) 
 
 		return flag, SF			
