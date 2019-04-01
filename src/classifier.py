@@ -26,6 +26,7 @@ class Framework(object):
 		self.file_list_b = []
 		self.dir_list_s = []
 		self.dir_list_b = []
+		self.files_to_evaluate = []
 		self.variable_list = []
 		self.spectator_list = []
 		self.data_spectator_list = []
@@ -160,6 +161,21 @@ class Framework(object):
 		file.category = "Data"
 		self.data_files.append(file)
 		self.lumi += lumi
+
+	def add_mc_to_evaluate(self, name, path, xSec):
+		print "Adding %s to evaluate MVA score ..."%(path)
+		file = self.File(self, name, path, xSec, False, isData=False)
+		self.files_to_evaluate.append(file)
+
+	def add_data_to_evaluate(self, name, path):
+		print "Adding %s to evaluate MVA score ..."%(path)
+		file = self.File(self, name, path, 1, False, isData=True)
+		self.files_to_evaluate.append(file)
+
+	def setApplication(self,outPath, xmlPath):
+		self.evalOutPath = outPath
+		self.evalXmlPath = xmlPath
+		self.create_dir(outPath)
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
