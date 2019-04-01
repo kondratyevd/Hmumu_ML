@@ -19,4 +19,4 @@ args = parser.parse_args()
 score = "(ggH_prediction+VBF_prediction)"
 bins = [0,  0.4,  0.7, 1]    
 
-create_datacard_dnn(score, bins, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_2cat_%i"%(i+1), "workspace_2cat_%i"%(i+1), nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+create_datacard_dnn(score, bins, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_test", "workspace_test", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
