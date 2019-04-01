@@ -8,7 +8,7 @@ DATA_TREE="tree_Data"
 # LUMI=35866
 OUTPUT_PATH=output/test/
 mkdir $OUTPUT_PATH
-python categorize.py --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE"
+python categorize.py --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE"
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
