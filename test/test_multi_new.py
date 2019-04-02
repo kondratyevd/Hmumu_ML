@@ -7,9 +7,9 @@ c = Framework()
 				# change this line for each run
 # c.add_comment(comment)
 # print comment
-# treePath = 'dimuons/tree'
-treePath = 'tree'
-metadataPath = 'metadata'
+
+treePath = 'dimuons/tree'
+metadataPath = 'dimuons/metadata'
 
 # path = '/tmp/Hmumu_ntuples/updated/'
 # path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
