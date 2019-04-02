@@ -55,7 +55,7 @@ variables.append(Variable("min_dR_mu_jet"	,	"min_dR_mu_jet"		,"min_dR_mu_jet", 	
 variables.append(Variable("max_dR_mu_jet"	,	"max_dR_mu_jet"		,"max_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	-5	, False	))
 variables.append(Variable("min_dR_mumu_jet"	,	"min_dR_mumu_jet"	,"min_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-5	, False	))
 variables.append(Variable("max_dR_mumu_jet"	,	"max_dR_mumu_jet"	,"max_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-5	, False	))
-variables.append(Variable("zepenfeld"		,	"zepenfeld"			,"zepenfeld", 			"",			'F', False, 	"nJetPairs"	,-5	, False	))
+variables.append(Variable("zeppenfeld"		,	"zeppenfeld"			,"zeppenfeld", 			"",			'F', False, 	"nJetPairs"	,-5	, False	))
 
 
 variables.append(Variable("mu1_pt_by_mass"	,	"mu1_pt_by_mass"	,"Muon1 p_{T} / Mmm", 	"",			'F', False, 	"nMuons"	,	0	, False	))
