@@ -51,8 +51,13 @@ c.set_year("2017")
 c.weigh_by_event(True)
 
 c.add_package("TMVA")
-c.add_method("BDTG_UF_v1")
 
-c.setApplication(outPath="/home/dkondra/tmp/BDTG_UF_v1/", xmlPath="/home/dkondra/Hmumu_analysis/Hmumu_ML/dataset/weights/BDTG_UF_v1/TMVAClassification_BDTG_UF_v1.weights.xml")
+# c.add_method("BDTG_UF_v1")
+# c.setApplication(outPath="/home/dkondra/tmp/BDTG_UF_v1/", xmlPath="/home/dkondra/Hmumu_analysis/Hmumu_ML/dataset/weights/BDTG_UF_v1/TMVAClassification_BDTG_UF_v1.weights.xml")
+
+c.add_method("BDTG_MIT")
+c.setApplication(outPath="/home/dkondra/tmp/BDTG_MIT/", xmlPath="/home/dkondra/Hmumu_analysis/Hmumu_ML/dataset/weights/BDTG_MIT/TMVAClassification_BDTG_MIT.weights.xml")
+
+
 c.apply_methods()
 
