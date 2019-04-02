@@ -75,6 +75,7 @@ class Framework(object):
 				metadata.Add(self.path+"/*.root")		
 			else:
 				metadata.Add(self.path)
+			print "metadata: ", metadata.GetEntries(), " entries"
 			metadata.Draw("originalNumEvents>>nEvt_"+self.name)
 			metadata.Draw("sumEventWeights>>eweights_"+self.name)
 			nEvtHist = ROOT.gDirectory.Get("nEvt_"+self.name) 
@@ -179,7 +180,7 @@ class Framework(object):
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
-		
+
 	def set_metadata_path(self, treePath):
 		self.metadataPath = treePath	
 
