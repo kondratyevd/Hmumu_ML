@@ -39,7 +39,7 @@ c.add_data('SingleMu_2016B', path+'/SingleMu2017B/',   		4823				) # lumi [/pb]
 # c.add_dir_to_category('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656, 'tt_ll_POW')
 
 c.add_category('H2Mu_gg', True)
-c.add_dir_to_category('H2Mu_gg', path+'/H2Mu_gg/', 0.009618, 'H2Mu_gg')
+c.add_dir_to_category('H2Mu_gg', path+'/H2Mu_ggH/', 0.009618, 'H2Mu_gg')
 
 c.add_category('H2Mu_VBF', True)
 c.add_dir_to_category('H2Mu_VBF', path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
