@@ -9,6 +9,7 @@ c = Framework()
 # print comment
 # treePath = 'dimuons/tree'
 treePath = 'tree'
+metadataPath = 'metadata'
 
 # path = '/tmp/Hmumu_ntuples/updated/'
 # path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
@@ -62,6 +63,7 @@ c.add_dir_to_category('tt_ll_POW', path+'/tt_ll_POW/', 85.656, 'tt_ll_POW')
 # c.add_background_file('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/tuple_1.root', 85.656)
 
 c.set_tree_path(treePath)
+c.set_metadata_path(metadataPath)
 
 c.add_variable("muPairs.pt", 				1) 
 c.add_variable("muPairs.eta", 				1)

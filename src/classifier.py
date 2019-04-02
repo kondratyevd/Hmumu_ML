@@ -179,6 +179,9 @@ class Framework(object):
 
 	def set_tree_path(self, treePath):
 		self.treePath = treePath
+		
+	def set_metadata_path(self, treePath):
+		self.metadataPath = treePath	
 
 	def set_year(self, year):
 		self.year = year
