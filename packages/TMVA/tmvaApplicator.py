@@ -117,7 +117,7 @@ class TMVAApplicator(object):
 				flag, SF = self.eventInfo(tree, self.framework.year, file.isData)
 				
 				if flag:
-					MVA[0] = self.reader.EvaluateMVA('BDTG_UF_v1')
+					MVA[0] = self.reader.EvaluateMVA(self.method)
 					mass[0] = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
 					eta1 = tree.FindBranch("muons.eta").FindLeaf("eta").GetValue(0)
 					eta2 = tree.FindBranch("muons.eta").FindLeaf("eta").GetValue(1)
