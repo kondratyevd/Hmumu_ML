@@ -100,7 +100,7 @@ elif var_set == "V2":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 elif var_set == "V3":
 	c.add_variable("nJetsCent", 				1)
 	c.add_variable("nJetsFwd",					1)
@@ -115,7 +115,7 @@ elif var_set == "V3":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 elif var_set == "V4":
 	c.add_variable("nJetsCent", 				1)
 	c.add_variable("nJetsFwd",					1)
@@ -133,7 +133,7 @@ elif var_set == "V4":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 elif var_set == "V2-noJets":
 	c.add_spectator('muons.pt',					2)
 	c.add_data_spectator('muons.pt',			2)
@@ -161,7 +161,7 @@ elif var_set == "V2-2orMoreJets":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 
 c.add_spectator('muPairs.mass',		        1)
 c.add_spectator('muPairs.phi',				1)
