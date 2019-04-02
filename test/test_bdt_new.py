@@ -174,7 +174,8 @@ c.weigh_by_event(True)
 c.add_package("TMVA")
 # c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
-c.add_method("BDTG_MIT")
+# c.add_method("BDTG_MIT")
+c.add_method("BDTG_MIT_lite")
 # c.add_package("Keras_multi")
 # c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout

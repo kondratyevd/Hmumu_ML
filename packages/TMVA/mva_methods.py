@@ -44,6 +44,12 @@ def compile_method_list(framework, package):
 		options = "!H:!V:NTrees=5000:MinNodeSize=3%:BoostType=Grad:Shrinkage=0.10:nCuts=40:MaxDepth=5:NodePurityLimit=0.95:Pray"
 		))	
 
+	methods.append(mva_method(
+		type = TMVA.Types.kBDT,
+		name = 'BDTG_MIT_lite',
+		options = "!H:!V:NTrees=500:MinNodeSize=3%:BoostType=Grad:Shrinkage=0.10:nCuts=40:MaxDepth=5:NodePurityLimit=0.95:Pray"
+		))	
+
 	return methods
 
 
