@@ -12,9 +12,10 @@ treePath = 'tree'
 
 # path = '/tmp/Hmumu_ntuples/updated/'
 # path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
-path = "/mnt/hadoop/store/user/piperov/updated_2017_mc/"
+path = "/tmp/dkondrat/updated_2017_mc/"
 
-c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/',   		4823				) # lumi [/pb]
+# c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/',   		4823				) # lumi [/pb]
+c.add_data('SingleMu_2016B', path+'/SingleMu2017B/',   		4823				) # lumi [/pb]
 # c.add_data('SingleMu_2016B'		, path+'/SingleMu_2016B/'	, 5788)
 # c.add_data('SingleMu_2016C'		, path+'/SingleMu_2016C/'	, 2573)
 # c.add_data('SingleMu_2016D'		, path+'/SingleMu_2016D/'	, 4248)
