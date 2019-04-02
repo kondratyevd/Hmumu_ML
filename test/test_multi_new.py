@@ -7,11 +7,12 @@ c = Framework()
 				# change this line for each run
 # c.add_comment(comment)
 # print comment
-treePath = 'dimuons/tree'
+# treePath = 'dimuons/tree'
+treePath = 'tree'
 
 # path = '/tmp/Hmumu_ntuples/updated/'
 # path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
-path = "/mnt/hadoop/store/user/dkondrat/"
+path = "/mnt/hadoop/store/user/piperov/updated_2017_mc/"
 
 c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/',   		4823				) # lumi [/pb]
 # c.add_data('SingleMu_2016B'		, path+'/SingleMu_2016B/'	, 5788)
@@ -23,17 +24,29 @@ c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/
 # c.add_data('SingleMu_2016H_1'	, path+'/SingleMu_2016H_1/'	, 8392)
 # c.add_data('SingleMu_2016H_2'	, path+'/SingleMu_2016H_2/'	, 214)
 
+# c.add_category('H2Mu_gg', True)
+# c.add_dir_to_category('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618, 'H2Mu_gg')
+
+# c.add_category('H2Mu_VBF', True)
+# c.add_dir_to_category('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208, 'H2Mu_VBF')
+
+# c.add_category('ZJets_aMC', False)
+# c.add_dir_to_category('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4, 'ZJets_aMC')
+
+# c.add_category('tt_ll_POW', False)
+# c.add_dir_to_category('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656, 'tt_ll_POW')
+
 c.add_category('H2Mu_gg', True)
-c.add_dir_to_category('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618, 'H2Mu_gg')
+c.add_dir_to_category('H2Mu_gg', path+'/H2Mu_gg/', 0.009618, 'H2Mu_gg')
 
 c.add_category('H2Mu_VBF', True)
-c.add_dir_to_category('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208, 'H2Mu_VBF')
+c.add_dir_to_category('H2Mu_VBF', path+'/H2Mu_VBF/', 0.0008208, 'H2Mu_VBF')
 
 c.add_category('ZJets_aMC', False)
-c.add_dir_to_category('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4, 'ZJets_aMC')
+c.add_dir_to_category('ZJets_aMC', path+'/ZJets_AMC/', 5765.4, 'ZJets_aMC')
 
 c.add_category('tt_ll_POW', False)
-c.add_dir_to_category('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656, 'tt_ll_POW')
+c.add_dir_to_category('tt_ll_POW', path+'/tt_ll_POW/', 85.656, 'tt_ll_POW')
 
 # c.add_signal_dir('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618)
 # c.add_signal_dir('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208)
@@ -58,7 +71,7 @@ c.add_variable("met.pt", 					1)
 
 # c.set_year("2016-2orMoreJets")
 # var_set = "V2-2orMoreJets"
-var_set = "V1"
+var_set = "V2"
 c.set_year("2017")
 
 
