@@ -18,21 +18,21 @@ args = parser.parse_args()
 
 
 eta_cut = [
-	"1", #cat0
+	# "1", #cat0
 	"(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)", #cat1
 	"(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", #cat2
 	"(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", #cat3
-	"(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)", #cat4
-	"(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", #cat5
-	"(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", #cat6
-	"(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)", #cat7
-	"(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", #cat8
-	"(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", #cat9
-	"(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)", #cat10
-	"(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", #cat11
-	"(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", #cat12
-	"1", #cat13
-	"1", #cat14
+	# "(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)", #cat4
+	# "(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", #cat5
+	# "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", #cat6
+	# "(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)", #cat7
+	# "(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", #cat8
+	# "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", #cat9
+	# "(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)", #cat10
+	# "(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", #cat11
+	# "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", #cat12
+	# "1", #cat13
+	# "1", #cat14
 ]
 
 score = "(ggH_prediction+VBF_prediction)"
@@ -59,10 +59,14 @@ mva_cut = [
 
 ### 2016 categories ###
 categories = {}
-n_categories = len(mva_cut)
-for i in range(n_categories):
-	# categories["cat%i"%i] = "(%s)&(%s)"%(eta_cut[i], mva_cut[i])
-	categories["cat%i"%i] = "(%s)"%(mva_cut[i]) # only mva categorization
 
+# for i in range(15):
+# 	categories["cat%i"%i] = "(%s)&(%s)"%(eta_cut[i], mva_cut[i])
 
-create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_test_onlyMVA", "workspace_test_onlyMVA", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+# for i in range(len(mva_cut)):
+# 	categories["cat%i"%i] = "(%s)"%(mva_cut[i]) # only mva categorization
+
+for i in range(len(eta_cut)):
+	categories["cat%i"%i] = "(%s)"%(eta_cut[i]) # only eta categorization
+
+create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_test_onlyETA", "workspace_test_onlyETA", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
