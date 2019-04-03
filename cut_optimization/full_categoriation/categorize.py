@@ -1,6 +1,6 @@
 import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
-from make_datacards_dnn import create_datacard_dnn
+from make_datacards import create_datacard
 import argparse
 
 parser = argparse.ArgumentParser(description='')
@@ -62,4 +62,4 @@ for i in range(15):
 	categories["cat%i"%i] = "(%s)&(%s)"%(eta_cut[i], mva_cut[i])
 
 
-create_datacard_dnn(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_test", "workspace_test", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_test", "workspace_test", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
