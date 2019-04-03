@@ -42,25 +42,27 @@ mva_cuts = [0.61, 0.756, 0.814, 0.842, 0.916, 0.956] # DNN 3layers V1, score = g
 mva_cut = [
 	"(%s<%f)"%(score, mva_cuts[0]), #cat0
 	"(%s>%f)&(%s<%f)"%(score, mva_cuts[0], score, mva_cuts[1]), #cat1
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[0], score, mva_cuts[1]), #cat2
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[0], score, mva_cuts[1]), #cat3
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[0], score, mva_cuts[1]), #cat2
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[0], score, mva_cuts[1]), #cat3
 	"(%s>%f)&(%s<%f)"%(score, mva_cuts[1], score, mva_cuts[2]), #cat4
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[1], score, mva_cuts[2]), #cat5
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[1], score, mva_cuts[2]), #cat6
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[1], score, mva_cuts[2]), #cat5
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[1], score, mva_cuts[2]), #cat6
 	"(%s>%f)&(%s<%f)"%(score, mva_cuts[2], score, mva_cuts[3]), #cat7
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[2], score, mva_cuts[3]), #cat8
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[2], score, mva_cuts[3]), #cat9
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[2], score, mva_cuts[3]), #cat8
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[2], score, mva_cuts[3]), #cat9
 	"(%s>%f)&(%s<%f)"%(score, mva_cuts[3], score, mva_cuts[4]), #cat10
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[3], score, mva_cuts[4]), #cat11
-	"(%s>%f)&(%s<%f)"%(score, mva_cuts[3], score, mva_cuts[4]), #cat12
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[3], score, mva_cuts[4]), #cat11
+	# "(%s>%f)&(%s<%f)"%(score, mva_cuts[3], score, mva_cuts[4]), #cat12
 	"(%s>%f)&(%s<%f)"%(score, mva_cuts[4], score, mva_cuts[5]), #cat13
 	"(%s>%f)"%(score, mva_cuts[5]), #cat14
 ]
 
 ### 2016 categories ###
 categories = {}
-for i in range(15):
-	categories["cat%i"%i] = "(%s)&(%s)"%(eta_cut[i], mva_cut[i])
+n_categories = len(mva_cut)
+for i in range(n_categories):
+	# categories["cat%i"%i] = "(%s)&(%s)"%(eta_cut[i], mva_cut[i])
+	categories["cat%i"%i] = "(%s)"%(mva_cut[i]) # only mva categorization
 
 
-create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_test", "workspace_test", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_test_onlyMVA", "workspace_test_onlyMVA", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
