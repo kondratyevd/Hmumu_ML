@@ -11,7 +11,7 @@ treePath = 'dimuons/tree'
 
 # path = '/tmp/Hmumu_ntuples/updated/'
 # path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
-path = "/mnt/hadoop/store/user/dkondrat/"
+# path = "/mnt/hadoop/store/user/dkondrat/"
 
 c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/',   		4823				) # lumi [/pb]
 # c.add_data('SingleMu_2016B'		, path+'/SingleMu_2016B/'	, 5788)
@@ -35,11 +35,19 @@ c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/
 # c.add_category('tt_ll_POW', False)
 # c.add_dir_to_category('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656, 'tt_ll_POW')
 
-c.add_signal_dir('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618)
-c.add_signal_dir('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208)
+# c.add_signal_dir('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/', 0.009618)
+# c.add_signal_dir('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/', 0.0008208)
 
-c.add_background_dir('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4)
-c.add_background_dir('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656)
+# c.add_background_dir('ZJets_aMC', path+'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190323_195010/0000/', 5765.4)
+# c.add_background_dir('tt_ll_POW', path+'/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190322_195819/0000/', 85.656)
+
+path = path = "/tmp/dkondrat/updated_2017_mc/"
+
+c.add_signal_dir('H2Mu_gg', path+'/H2Mu_ggH/', 0.009618)
+c.add_signal_dir('H2Mu_VBF', path+'/H2Mu_VBF/', 0.0008208)
+
+c.add_background_dir('ZJets_aMC', path+'/ZJets_AMC/', 5765.4)
+c.add_background_dir('tt_ll_POW', path+'/tt_ll_POW/', 85.656)
 
 # c.add_signal_file('H2Mu_gg', path+'/GluGluHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_gg_powheg/190323_193526/0000/tuple_1.root', 0.009618)
 # c.add_signal_file('H2Mu_VBF', path+'/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190322_195711/0000/tuple_1.root', 0.0008208)
@@ -58,7 +66,7 @@ c.add_variable("met.pt", 					1)
 
 # c.set_year("2016-2orMoreJets")
 # var_set = "V2-2orMoreJets"
-var_set = "V1"
+var_set = "V2"
 c.set_year("2017")
 
 
@@ -84,7 +92,7 @@ elif var_set == "V2":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 elif var_set == "V3":
 	c.add_variable("nJetsCent", 				1)
 	c.add_variable("nJetsFwd",					1)
@@ -99,7 +107,7 @@ elif var_set == "V3":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 elif var_set == "V4":
 	c.add_variable("nJetsCent", 				1)
 	c.add_variable("nJetsFwd",					1)
@@ -117,7 +125,7 @@ elif var_set == "V4":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 elif var_set == "V2-noJets":
 	c.add_spectator('muons.pt',					2)
 	c.add_data_spectator('muons.pt',			2)
@@ -145,7 +153,7 @@ elif var_set == "V2-2orMoreJets":
 	c.add_variable("max_dR_mu_jet"	,			1)
 	c.add_variable("min_dR_mumu_jet",			1)
 	c.add_variable("max_dR_mumu_jet",			1)
-	c.add_variable("zepenfeld",					1)
+	c.add_variable("zeppenfeld",					1)
 
 c.add_spectator('muPairs.mass',		        1)
 c.add_spectator('muPairs.phi',				1)
@@ -174,8 +182,8 @@ c.weigh_by_event(True)
 c.add_package("TMVA")
 # c.add_transf("N,G,P")
 # c.add_method("BDTG_UF_v1")
-# c.add_method("BDTG_MIT")
-c.add_method("BDTG_MIT_lite")
+c.add_method("BDTG_MIT")
+# c.add_method("BDTG_MIT_lite")
 # c.add_package("Keras_multi")
 # c.add_method("UCSD_model")	# 50_D2
 # c.add_method("model_50_25") # no Dropout
