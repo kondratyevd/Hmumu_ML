@@ -43,7 +43,6 @@ eta_cut_full = [
 
 score = "(ggH_prediction+VBF_prediction)"
 mva_cuts = [0.61, 0.756, 0.814, 0.842, 0.916, 0.956] # DNN 3layers V1, score = ggH+VBF
-# mva_cuts = [0.612, 0.766, 0.808, 0.838, 0.922, 0.956] # DNN 3layers V2, score = ggH+VBF
 
 mva_cut = [
 	"(%s<%f)"%(score, mva_cuts[0]), #cat0
@@ -73,21 +72,66 @@ mva_cut_full = [
 	"(%s>%f)"%(score, mva_cuts[5]), #cat14
 ]
 
-### 2016 categories ###
-categories_inclusive = {"cat0": "1"}
-create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_inclusive", "workspace_dnn_v1_inclusive", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
 
-categories_full = {}
-for i in range(len(eta_cut_full)):
-	categories_full["cat%i"%i] = "(%s)&(%s)"%(eta_cut_full[i], mva_cut_full[i])
-create_datacard(categories_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_full", "workspace_dnn_v1_full", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+# categories_inclusive = {"cat0": "1"}
+# create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_inclusive", "workspace_dnn_v1_inclusive", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
 
-categories_mva = {}
+# categories_full = {}
+# for i in range(len(eta_cut_full)):
+# 	categories_full["cat%i"%i] = "(%s)&(%s)"%(eta_cut_full[i], mva_cut_full[i])
+# create_datacard(categories_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_full", "workspace_dnn_v1_full", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+
+# categories_mva = {}
+# for i in range(len(mva_cut)):
+# 	categories_mva["cat%i"%i] = "(%s)"%(mva_cut[i]) # only mva categorization
+# create_datacard(categories_mva, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_mva", "workspace_dnn_v1_mva", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+
+# categories_eta = {}
+# for i in range(len(eta_cut)):
+# 	categories_eta["cat%i"%i] = "(%s)"%(eta_cut[i]) # only eta categorization
+# create_datacard(categories_eta, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_eta", "workspace_dnn_v1_eta", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+
+
+
+score = "(ggH_prediction+VBF_prediction)"
+mva_cuts_v2 = [0.612, 0.766, 0.808, 0.838, 0.922, 0.956] # DNN 3layers V2, score = ggH+VBF
+
+mva_cut_v2 = [
+	"(%s<%f)"%(score, mva_cuts_v2[0]), #cat0
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[0], score, mva_cuts_v2[1]), #cat1
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[1], score, mva_cuts_v2[2]), #cat4
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[2], score, mva_cuts_v2[3]), #cat7
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[3], score, mva_cuts_v2[4]), #cat10
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[4], score, mva_cuts_v2[5]), #cat13
+	"(%s>%f)"%(score, mva_cuts_v2[5]), #cat14
+]
+
+mva_cut_v2_full = [
+	"(%s<%f)"%(score, mva_cuts_v2[0]), #cat0
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[0], score, mva_cuts_v2[1]), #cat1
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[0], score, mva_cuts_v2[1]), #cat2
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[0], score, mva_cuts_v2[1]), #cat3
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[1], score, mva_cuts_v2[2]), #cat4
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[1], score, mva_cuts_v2[2]), #cat5
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[1], score, mva_cuts_v2[2]), #cat6
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[2], score, mva_cuts_v2[3]), #cat7
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[2], score, mva_cuts_v2[3]), #cat8
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[2], score, mva_cuts_v2[3]), #cat9
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[3], score, mva_cuts_v2[4]), #cat10
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[3], score, mva_cuts_v2[4]), #cat11
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[3], score, mva_cuts_v2[4]), #cat12
+	"(%s>%f)&(%s<%f)"%(score, mva_cuts_v2[4], score, mva_cuts_v2[5]), #cat13
+	"(%s>%f)"%(score, mva_cuts_v2[5]), #cat14
+]
+
+
+categories_v2_full = {}
+for i in range(len(eta_cut_v2_full)):
+	categories_v2_full["cat%i"%i] = "(%s)&(%s)"%(eta_cut_full[i], mva_cut_v2_full[i])
+create_datacard(categories_v2_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v2_full", "workspace_dnn_v2_full", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+
+categories_v2_mva = {}
 for i in range(len(mva_cut)):
-	categories_mva["cat%i"%i] = "(%s)"%(mva_cut[i]) # only mva categorization
-create_datacard(categories_mva, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_mva", "workspace_dnn_v1_mva", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+	categories_v2_mva["cat%i"%i] = "(%s)"%(mva_cut_v2[i]) # only mva categorization
+create_datacard(categories_v2_mva, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v2_mva", "workspace_dnn_v2_mva", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
 
-categories_eta = {}
-for i in range(len(eta_cut)):
-	categories_eta["cat%i"%i] = "(%s)"%(eta_cut[i]) # only eta categorization
-create_datacard(categories_eta, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v1_eta", "workspace_dnn_v1_eta", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
