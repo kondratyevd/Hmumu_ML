@@ -13,7 +13,7 @@ treePath = 'dimuons/tree'
 # path = '/scratch/browngpu/dkondra/2016_ntuples_updated/'
 # path = "/mnt/hadoop/store/user/dkondrat/"
 
-c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/',   		4823				) # lumi [/pb]
+# c.add_data('SingleMu_2016B', path+'SingleMuon/SingleMu_2017B/190327_172730/0000/',   		4823				) # lumi [/pb]
 # c.add_data('SingleMu_2016B'		, path+'/SingleMu_2016B/'	, 5788)
 # c.add_data('SingleMu_2016C'		, path+'/SingleMu_2016C/'	, 2573)
 # c.add_data('SingleMu_2016D'		, path+'/SingleMu_2016D/'	, 4248)
