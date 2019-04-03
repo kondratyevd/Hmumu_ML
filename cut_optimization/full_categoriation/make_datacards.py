@@ -92,7 +92,7 @@ def add_sig_model(w, cat_name, input_path, cut):
     res.Print()
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
-        par_var = w.var("cat%s_%s"%(cat_name,par))
+        par_var = w.var("%s_%s"%(cat_name,par))
         par_var.setConstant(True)
     Import(w, smodel)
     return signal_rate
@@ -187,7 +187,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     res.Print()
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
-        par_var = w.var("cat%s_%s"%(cat_name,par))
+        par_var = w.var("%s_%s"%(cat_name,par))
         par_var.setConstant(True)
     w.var("mu_res_beta").setRange(-5, 5)
     w.var("mu_scale_beta").setRange(-5, 5)
@@ -242,7 +242,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut):
     res.Print()
     sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
     for par in sigParamList:
-        par_var = w.var("cat%s_%s"%(cat_name,par))
+        par_var = w.var("%s_%s"%(cat_name,par))
         par_var.setConstant(True)
     Import(w, smodel)
     return signal_rate
@@ -303,7 +303,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     res.Print()
     sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
     for par in sigParamList:
-        par_var = w.var("cat%s_%s"%(cat_name,par))
+        par_var = w.var("%s_%s"%(cat_name,par))
         par_var.setConstant(True)
 
     w.var("mu_res_beta").setRange(-5, 5)

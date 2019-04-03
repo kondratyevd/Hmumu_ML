@@ -37,6 +37,7 @@ eta_cut = [
 
 score = "(ggH_prediction+VBF_prediction)"
 mva_cuts = [0.61, 0.756, 0.814, 0.842, 0.916, 0.956] # DNN 3layers V1, score = ggH+VBF
+# mva_cuts = [0.612, 0.766, 0.808, 0.838, 0.922, 0.956] # DNN 3layers V2, score = ggH+VBF
 
 mva_cut = [
 	"(%s<%f)"%(score, mva_cuts[0]), #cat0
