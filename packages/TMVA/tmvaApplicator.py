@@ -79,6 +79,7 @@ class TMVAApplicator(object):
 				flag, SF = self.eventInfo(tree, self.framework.year, file.isData)
 
 				if flag:
+					# print tree.FindBranch("nMuPairs").FindLeaf("nMuPairs").GetValue()
 					for var in self.framework.variable_list:
 
 						if var.abs:
@@ -90,6 +91,7 @@ class TMVAApplicator(object):
 											self.branches["%s_%i"%(var.name,j)][0] = abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j)))
 										except:
 											pass
+									# print "%s_%i"%(var.name,j), self.branches["%s_%i"%(var.name,j)][0]
 							else:
 								self.branches[var.name][0] = var.replacement
 								if tree.GetLeaf(var.validation).GetValue() > 0:
@@ -97,6 +99,7 @@ class TMVAApplicator(object):
 										self.branches[var.name][0] = abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue()))
 									except:
 										pass
+								# print var.name, self.branches[var.name][0]
 						else:
 							if var.isMultiDim:
 								for j in range(var.itemsAdded):
@@ -106,6 +109,7 @@ class TMVAApplicator(object):
 											self.branches["%s_%i"%(var.name,j)][0] = ROOT.Double(tree.FindBranch("%s_%i"%(var.name,j)).FindLeaf(var.leaf).GetValue(j)) 
 										except:
 											pass
+									# print "%s_%i"%(var.name,j), self.branches["%s_%i"%(var.name,j)][0]
 							else:
 								self.branches[var.name][0] = var.replacement
 								if tree.GetLeaf(var.validation).GetValue() > 0:
@@ -113,48 +117,9 @@ class TMVAApplicator(object):
 										self.branches[var.name][0] = ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue())
 									except:
 										pass
-
-						# if var.abs:
-						# 	if var.isMultiDim:
-						# 		for j in range(var.itemsAdded):
-						# 			if tree.GetLeaf(var.validation).GetValue() > j:
-						# 				try:
-						# 					self.branches["%s_%i"%(var.name,j)][0] = abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j)))
-						# 				except:
-						# 					self.branches["%s_%i"%(var.name,j)][0] = var.replacement 
-						# 			else:
-						# 				self.branches["%s_%i"%(var.name,j)][0] = var.replacement 
-						# 	else:
-						# 		if tree.GetLeaf(var.validation).GetValue() > 0:
-						# 			try:
-						# 				self.branches[var.name][0] = abs(ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue()))
-						# 			except:
-						# 				self.branches[var.name][0] = var.replacement 
-						# 		else:
-						# 			self.branches[var.name][0] = var.replacement 
-						# else:
-						# 	if var.isMultiDim:
-						# 		for j in range(var.itemsAdded):
-						# 			if tree.GetLeaf(var.validation).GetValue() > j:
-						# 				try:
-						# 					self.branches["%s_%i"%(var.name,j)][0] = ROOT.Double(tree.FindBranch("%s_%i"%(var.name,j)).FindLeaf(var.leaf).GetValue(j)) 
-						# 				except:
-						# 					self.branches["%s_%i"%(var.name,j)][0] = var.replacement 
-						# 			else:
-						# 				self.branches["%s_%i"%(var.name,j)][0] = var.replacement 	
-						# 	else:
-						# 		if tree.GetLeaf(var.validation).GetValue() > 0:
-						# 			try:
-						# 				self.branches[var.name][0] = ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue())
-						# 			except:
-						# 				self.branches[var.name][0] = var.replacement 
-						# 		else:
-						# 			self.branches[var.name][0] = var.replacement 
-
+								# print var.name, self.branches[var.name][0]
 
 					MVA[0] = self.reader.EvaluateMVA(self.method)
-					if MVA[0]>0.4:
-						print "MVA>0.4!"
 					mass[0] = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue()
 					eta1 = tree.FindBranch("muons.eta").FindLeaf("eta").GetValue(0)
 					eta2 = tree.FindBranch("muons.eta").FindLeaf("eta").GetValue(1)
