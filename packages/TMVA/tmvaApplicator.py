@@ -21,8 +21,8 @@ class TMVAApplicator(object):
 
 	def load_variables(self):
 		self.branches = {}
-		# self.branches["muPairs.mass_Roch"] = array('f', [-999])
-		# self.reader.AddSpectator('muPairs.mass_Roch', self.branches["muPairs.mass_Roch"])
+		self.branches["muPairs.mass_Roch"] = array('f', [-999])
+		self.reader.AddSpectator('muPairs.mass_Roch', self.branches["muPairs.mass_Roch"])
 		for var in self.framework.variable_list:
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):
