@@ -126,7 +126,7 @@ mva_cut_v2_full = [
 
 
 categories_v2_full = {}
-for i in range(len(eta_cut_v2_full)):
+for i in range(len(mva_cut_v2_full)):
 	categories_v2_full["cat%i"%i] = "(%s)&(%s)"%(eta_cut_full[i], mva_cut_v2_full[i])
 create_datacard(categories_v2_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_v2_full", "workspace_dnn_v2_full", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
 
