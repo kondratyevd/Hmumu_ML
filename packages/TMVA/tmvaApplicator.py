@@ -6,6 +6,7 @@ import ROOT
 class TMVAApplicator(object):
 	def __init__(self, framework):
 		self.framework = framework
+		self.hasMass = framework.hasMass
 		ROOT.TMVA.Tools.Instance()
 
 	def __enter__(self):
@@ -21,8 +22,9 @@ class TMVAApplicator(object):
 
 	def load_variables(self):
 		self.branches = {}
-		self.branches["muPairs.mass_Roch"] = array('f', [-999])
-		self.reader.AddSpectator('muPairs.mass_Roch', self.branches["muPairs.mass_Roch"])
+		if self.hasMass:
+			self.branches["muPairs.mass_Roch"] = array('f', [-999])
+			self.reader.AddSpectator('muPairs.mass_Roch', self.branches["muPairs.mass_Roch"])
 		for var in self.framework.variable_list:
 			if var.isMultiDim:	
 				for i in range(var.itemsAdded):

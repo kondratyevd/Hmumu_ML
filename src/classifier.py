@@ -50,6 +50,7 @@ class Framework(object):
 		self.custom_loss = False
 		self.multiclass = False
 		self.lumi = 0
+		self.hasMass = False
 
 
 	class File(object):
