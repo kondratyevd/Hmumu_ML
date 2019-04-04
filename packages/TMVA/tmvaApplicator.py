@@ -38,7 +38,7 @@ class TMVAApplicator(object):
 				name = var.name
 				self.branches[name] = array('f', [-999])
 				self.reader.AddVariable(name, self.branches[name])
-		print self.branches
+		# print self.branches
 
 
 	def loop_over_files(self):
@@ -105,9 +105,11 @@ class TMVAApplicator(object):
 								for j in range(var.itemsAdded):
 									self.branches["%s_%i"%(var.name,j)][0] = var.replacement
 									if tree.GetLeaf(var.validation).GetValue() > j:
+										# print ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j))
 										try:
-											self.branches["%s_%i"%(var.name,j)][0] = ROOT.Double(tree.FindBranch("%s_%i"%(var.name,j)).FindLeaf(var.leaf).GetValue(j)) 
+											self.branches["%s_%i"%(var.name,j)][0] = ROOT.Double(tree.FindBranch(var.name).FindLeaf(var.leaf).GetValue(j))
 										except:
+											# print "fail"
 											pass
 									# print "%s_%i"%(var.name,j), self.branches["%s_%i"%(var.name,j)][0]
 							else:
