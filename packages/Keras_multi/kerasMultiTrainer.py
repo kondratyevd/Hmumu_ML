@@ -16,9 +16,6 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 import matplotlib.pyplot as plt
 ROOT.gStyle.SetOptStat(0)
 
-DY_label = "ZJets_aMC"
-tt_label = "tt_ll_POW"
-
 
 class KerasMultiTrainer(object):
     def __init__(self, framework, package):
@@ -199,16 +196,9 @@ class KerasMultiTrainer(object):
             self.fill_out_root_files("test", self.df_test_scaled, obj.name, self.category_labels, False)
             self.fill_out_root_files("train", self.df_train_scaled, obj.name, self.category_labels, False)
             self.fill_out_root_files("Data", self.data_scaled, obj.name, ["Data"], True)
-            # self.plot_mass_histograms(self.df_test_scaled, obj.name)
-            # self.plot_masses_by_input_category(self.df_test_scaled, obj.name)
 
-            # self.df_history = pandas.DataFrame(history.history)
-            # self.plot_history(history.history, obj.name)
+            self.plot_history(history.history, obj.name)
 
-            # self.plot_ROC("train", self.df_train_scaled, obj.name)
-            # self.plot_ROC("test", self.df_test_scaled, obj.name)
-            # self.check_overfitting(self.df_train_scaled, self.df_test_scaled, obj.name)
-            # self.plot_bkg_shapes(self.df_test_scaled, obj.name)
 
 
 
@@ -245,6 +235,8 @@ class KerasMultiTrainer(object):
         ttbar_prediction    = {}
         ggH_prediction      = {}
         VBF_prediction      = {}
+        sig_prediction      = {}
+        bkg_prediction      = {}
         nJets               = {}
         newBranch1          = {}
         newBranch2          = {}
@@ -269,16 +261,22 @@ class KerasMultiTrainer(object):
             ttbar_prediction[category]= array('f', [0])
             ggH_prediction[category]= array('f', [0])
             VBF_prediction[category]= array('f', [0])
+            sig_prediction[category]= array('f', [0])
+            bkg_prediction[category]= array('f', [0])
             nJets[category]=array('i', [0])
             trees[category] = ROOT.TTree("tree_%s"%category,"tree_%s"%category)
             newBranch1[category] = trees[category].Branch("mass",               mass[category]            , "mass/F")
             newBranch1[category] = trees[category].Branch("max_abs_eta_mu",     max_abs_eta_mu[category]  , "max_abs_eta_mu/F")
             newBranch1[category] = trees[category].Branch("min_abs_eta_mu",     min_abs_eta_mu[category]  , "min_abs_eta_mu/F")
             newBranch2[category] = trees[category].Branch("weight",             weight[category]          , "weight/F")
-            newBranch3[category] = trees[category].Branch("DY_prediction",      DY_prediction[category]   , "DY_prediction/F")
-            newBranch4[category] = trees[category].Branch("ttbar_prediction",   ttbar_prediction[category], "ttbar_prediction/F")
-            newBranch5[category] = trees[category].Branch("ggH_prediction",     ggH_prediction[category]  , "ggH_prediction/F")
-            newBranch6[category] = trees[category].Branch("VBF_prediction",     VBF_prediction[category]  , "VBF_prediction/F")
+            if self.framework.multiclass:
+                newBranch3[category] = trees[category].Branch("DY_prediction",      DY_prediction[category]   , "DY_prediction/F")
+                newBranch4[category] = trees[category].Branch("ttbar_prediction",   ttbar_prediction[category], "ttbar_prediction/F")
+                newBranch5[category] = trees[category].Branch("ggH_prediction",     ggH_prediction[category]  , "ggH_prediction/F")
+                newBranch6[category] = trees[category].Branch("VBF_prediction",     VBF_prediction[category]  , "VBF_prediction/F")
+            else:
+                newBranch3[category] = trees[category].Branch("sig_prediction",      sig_prediction[category]   , "sig_prediction/F")
+                newBranch4[category] = trees[category].Branch("bkg_prediction",      bkg_prediction[category],    "bkg_prediction/F")
             newBranch7[category] = trees[category].Branch("nJets",     nJets[category]  , "nJets/F")
             newBranch8[category] = trees[category].Branch("mu1_eta",     mu1_eta[category]  , "mu1_eta/F")
             newBranch9[category] = trees[category].Branch("mu2_eta",     mu2_eta[category]  , "mu2_eta/F")
@@ -293,10 +291,14 @@ class KerasMultiTrainer(object):
                 max_abs_eta_mu["Data"][0]   = row["max_abs_eta_mu"]
                 min_abs_eta_mu["Data"][0]   = row["min_abs_eta_mu"]
                 weight["Data"][0]           = 1
-                DY_prediction["Data"][0]    = row["pred_%s_%s"%(DY_label, method_name)]
-                ttbar_prediction["Data"][0] = row["pred_%s_%s"%(tt_label, method_name)]
-                ggH_prediction["Data"][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
-                VBF_prediction["Data"][0]   = row["pred_H2Mu_VBF_%s"%(method_name)] 
+                if self.framework.multiclass:
+                    DY_prediction["Data"][0]    = row["pred_%s_%s"%(self.framework.dy_label, method_name)]
+                    ttbar_prediction["Data"][0] = row["pred_%s_%s"%(self.framework.tt_label, method_name)]
+                    ggH_prediction["Data"][0]   = row["pred_%s_%s"%(self.framework.ggh_label, method_name)] 
+                    VBF_prediction["Data"][0]   = row["pred_%s_%s"%(self.framework.vbf_label, method_name)] 
+                else:
+                    sig_prediction["Data"][0]   = row["pred_%s_%s"%(self.framework.sig_label, method_name)]
+                    bkg_prediction["Data"][0]   = row["pred_%s_%s"%(self.framework.bkg_label, method_name)]
                 nJets["Data"][0]            = row["nJets"] 
                 mu1_eta["Data"][0]          = row["muons.eta[0]"]
                 mu2_eta["Data"][0]          = row["muons.eta[1]"]
@@ -309,10 +311,14 @@ class KerasMultiTrainer(object):
                         max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
                         min_abs_eta_mu[category][0]   = row["min_abs_eta_mu"]
                         weight[category][0]           = row["weight"]
-                        DY_prediction[category][0]    = row["pred_%s_%s"%(DY_label, method_name)]
-                        ttbar_prediction[category][0] = row["pred_%s_%s"%(tt_label, method_name)]
-                        ggH_prediction[category][0]   = row["pred_H2Mu_gg_%s"%(method_name)] 
-                        VBF_prediction[category][0]   = row["pred_H2Mu_VBF_%s"%(method_name)]  
+                        if self.framework.multiclass:
+                            DY_prediction[category][0]    = row["pred_%s_%s"%(self.framework.dy_label, method_name)]
+                            ttbar_prediction[category][0] = row["pred_%s_%s"%(self.framework.tt_label, method_name)]
+                            ggH_prediction[category][0]   = row["pred_%s_%s"%(self.framework.ggh_label, method_name)] 
+                            VBF_prediction[category][0]   = row["pred_%s_%s"%(self.framework.vbf_label, method_name)] 
+                        else:
+                            sig_prediction[category][0]   = row["pred_%s_%s"%(self.framework.sig_label, method_name)]
+                            bkg_prediction[category][0]   = row["pred_%s_%s"%(self.framework.bkg_label, method_name)]  
                         nJets[category][0]            = row["nJets"]
                         mu1_eta[category][0]          = row["muons.eta[0]"]
                         mu2_eta[category][0]          = row["muons.eta[1]"]
@@ -322,39 +328,6 @@ class KerasMultiTrainer(object):
         for category in category_list:
             trees[category].Write()
         new_file.Close()            
-
-    def plot_ROC(self, output_name, df, method_name):
-        roc = ROOT.TGraph()
-        roc.SetName('roc')
-        roc.GetXaxis().SetTitle("Signal eff.")
-        roc.GetYaxis().SetTitle("Background rej.")
-        score = pandas.DataFrame()
-        df['isSignal'] = 0
-        df['isBackground'] = 0
-        df['score'] = 0
-        for category in self.framework.signal_categories:
-            df['score'] += df["pred_%s_%s"%(category,method_name)]
-            df['isSignal'] += df[category]
-        for category in self.framework.bkg_categories:
-            df['score'] += 1 - df["pred_%s_%s"%(category,method_name)]
-            df['isBackground'] += df[category]
-
-        min_score = len(self.framework.bkg_categories) - 1
-        for i in range(100*len(self.category_labels)):
-            cut = min_score + i / 50.0
-            sig_eff = float(df.loc[  (df['isSignal']>0) & (df['score'] > cut ) , ['weight'] ].sum(axis=0)) / df.loc[df['isSignal']>0, ['weight']].sum(axis=0)
-            bkg_rej = float(df.loc[  (df['isBackground']>0) & (df['score'] < cut ) , ['weight']  ].sum(axis=0)) / df.loc[df['isBackground']>0, ['weight']].sum(axis=0)
-            roc.SetPoint(i, sig_eff, bkg_rej)
-            
-        f = ROOT.TFile.Open(self.package.mainDir+'/'+method_name+'/root/'+output_name+"_roc.root", "recreate")
-        roc.Write()
-        f.Close()
-
-        canv = ROOT.TCanvas("canv", "canv", 800, 800)
-        canv.cd()
-        roc.Draw("apl")
-        canv.Print(self.package.mainDir+'/'+method_name+'/png/'+output_name+"_roc.png")
-        canv.Close()
 
 
     def plot_history(self, history, method_name):
@@ -377,233 +350,6 @@ class KerasMultiTrainer(object):
         print "Loss plot saved as "+self.package.mainDir+'/'+method_name+'/png/'+"loss.png" 
         plt.clf()   
 
-
-    def check_overfitting(self, train, test, name):
-        legend = ROOT.TLegend(.6,.7,.89,.89)
-        train_dict = self.get_score("train", train, name)
-        test_dict = self.get_score("test", test, name)
-
-        canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
-        canv.cd()
-
-
-
-        for count, category in enumerate(self.category_labels):
-            legend.AddEntry(train_dict[category], category+" train", "f")
-            legend.AddEntry(test_dict[category], category+" test", "pe")
-
-            train_dict[category].Draw("histsame")
-            test_dict[category].Draw("pesame")
-            train_dict[category].GetXaxis().SetTitle("DNN output")
-            test_dict[category].GetXaxis().SetTitle("DNN output")
-            train_dict[category].SetLineColor(self.color_pool[count])
-            train_dict[category].SetFillColor(self.color_pool[count])
-            train_dict[category].SetMarkerColor(self.color_pool[count])
-
-            test_dict[category].SetLineColor(self.color_pool[count])
-            test_dict[category].SetFillColor(self.color_pool[count])
-            test_dict[category].SetMarkerColor(self.color_pool[count])
-
-            test_dict[category].SetMarkerStyle(20)
-            test_dict[category].SetMarkerSize(0.8)
-            test_dict[category].SetLineWidth(1)
-
-        legend.Draw()
-        canv.Print(self.package.mainDir+'/'+name+"/png/overfit.png")
-        canv.SaveAs(self.package.mainDir+'/'+name+"/root/overfit.root")
-        canv.Close()
-
-
-    def get_score(self, label, df, method_name):
-        hist = {}
-        for category in self.category_labels:
-            hist[category] = ROOT.TH1D(category+"_"+label, "", 100, len(self.framework.bkg_categories)-1, len(self.framework.bkg_categories)+1)
-            hist[category].SetLineWidth(2)
-            hist[category].SetFillStyle(3003)
-
-        for index, row in df.iterrows():
-            dnn_score = 0
-
-            for category in self.framework.signal_categories:
-                dnn_score += row["pred_%s_%s"%(category,method_name)]
-            for category in self.framework.bkg_categories:
-                dnn_score += 1 - row["pred_%s_%s"%(category,method_name)]
-
-            for category in self.category_labels:
-                if row[category] == 1:
-                    hist[category].Fill(dnn_score, row['weight'])
-
-        for category in self.category_labels:
-            hist[category].Scale(1/hist[category].Integral())
-
-        return hist
-
-
-
-    def plot_bkg_shapes(self, df, method_name):
-        ROOT.gStyle.SetOptStat(0)
-        score_bins = {}
-        min_bin = len(self.framework.bkg_categories) - 1
-        score_bins["0-25"] = [min_bin, min_bin+0.5]
-        score_bins["25-50"] = [min_bin+0.5, min_bin+1]
-        score_bins["50-75"] = [min_bin+1, min_bin+1.5]
-        score_bins["75-100"] = [min_bin+1.5, min_bin+2]
-        colors = {  
-            "0-25": ROOT.kRed+3,
-            "25-50": ROOT.kCyan+2,
-            "50-75": ROOT.kOrange-3,
-            "75-100": ROOT.kRed+1
-            }
-        hist_dict = {}
-        legend = ROOT.TLegend(.6,.7,.89,.89)
-        canv = ROOT.TCanvas("canv1", "canv1", 800, 800)
-        canv.cd()
-        for key, value in score_bins.iteritems():
-            hist_dict[key] = self.bkg_shape_for_score_bin(df, method_name, value[0], value[1], colors[key])
-            if hist_dict[key].Integral():
-                hist_dict[key].Scale(1/hist_dict[key].Integral())
-            legend.AddEntry(hist_dict[key], "%.2f%% < DNN score < %.2f%%"%((value[0]-min_bin)*50, (value[1]-min_bin)*50), 'f')
-            hist_dict[key].SetMarkerColor(colors[key])
-            hist_dict[key].SetMarkerStyle(20)
-            hist_dict[key].SetMarkerSize(0.8)   
-            hist_dict[key].Draw("histsame")
-            hist_dict[key].Draw("pe1same")
-            hist_dict[key].GetXaxis().SetTitle("M(#mu#mu), GeV")
-        legend.Draw()
-        canv.Print(self.package.mainDir+'/'+method_name+'/png/bkg_shapes.png')
-        canv.SaveAs(self.package.mainDir+'/'+method_name+'/root/bkg_shapes.root')
-        canv.Close()
-
-
-    def bkg_shape_for_score_bin(self, df, method_name, xmin, xmax, color):
-        hist = ROOT.TH1D("b%.1f"%xmin, "", 20, 110, 150)
-        hist.SetLineColor(color)
-        hist.SetLineWidth(2)
-        hist.SetFillColor(color)
-        hist.SetFillStyle(3003)
-
-        for index, row in df.iterrows():
-            dnn_score = 0
-
-            for category in self.framework.signal_categories:
-                dnn_score += row["pred_%s_%s"%(category,method_name)]
-            for category in self.framework.bkg_categories:
-                dnn_score += 1 - row["pred_%s_%s"%(category,method_name)]
-
-            for category in self.framework.bkg_categories:
-                if (row[category] == 1)&(dnn_score>xmin)&(dnn_score<xmax):
-                    hist.Fill(row['muPairs.mass[0]'], row['weight'] )
-        return hist
-
-
-    def plot_mass_histograms(self, df, model_name):
-        legend = ROOT.TLegend(.6,.7,.89,.89)
-        class CategoryMassHist(object):
-            def __init__(self, framework, df, category, model_name, color):
-                self.framework = framework
-                self.df = df
-                self.category = category
-                self.model_name = model_name
-                self.color = color
-                # self.get_histos()
-                self.hist_correct, self.hist_incorrect = self.framework.plot_mass_histogram(self.df, self.category, self.model_name, self.color)
-                            
-        mass_hists = []
-    
-        canv = ROOT.TCanvas("canv", "canv", 800, 800)
-        canv.cd()
-
-        for count, category in enumerate(self.category_labels):
-            new_mass_hist = CategoryMassHist(self, df, category, model_name, self.color_pool[count])
-            mass_hists.append(new_mass_hist)
-            legend.AddEntry(new_mass_hist.hist_correct, category+" correct", "f")
-            legend.AddEntry(new_mass_hist.hist_incorrect, category+" incorrect", "l")
-            new_mass_hist.hist_correct.SetMarkerColor(self.color_pool[count])
-            new_mass_hist.hist_incorrect.SetMarkerColor(self.color_pool[count])
-            new_mass_hist.hist_correct.SetMarkerStyle(20)
-            new_mass_hist.hist_incorrect.SetMarkerStyle(20)
-            new_mass_hist.hist_correct.SetMarkerSize(0.8)
-            new_mass_hist.hist_incorrect.SetMarkerSize(0.8)
-            new_mass_hist.hist_correct.Draw("pe1same")
-            new_mass_hist.hist_incorrect.Draw("pe1same")
-            new_mass_hist.hist_correct.Draw("histsame")
-            new_mass_hist.hist_incorrect.Draw("histsame")
-            new_mass_hist.hist_correct.GetXaxis().SetTitle("M(#mu#mu), GeV")
-            new_mass_hist.hist_incorrect.GetXaxis().SetTitle("M(#mu#mu), GeV")
-
-        legend.Draw()
-        canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_histograms.png")
-        canv.SaveAs(self.package.mainDir+'/'+model_name+"/root/mass_histograms.root")
-        canv.Close()
-
-    def plot_mass_histogram(self, df, category, model_name, color):
-
-        hist_correct = ROOT.TH1D("hist_c_"+category, "", 10, 110, 150)
-        hist_incorrect = ROOT.TH1D("hist_i_"+category, "", 10, 110, 150)
-
-        for index, row in df.iterrows():
-            for cat in self.category_labels:
-                if row[category]==1:
-                    if cat in category:
-                        hist_correct.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
-                    else:
-                        hist_incorrect.Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
-        
-
-
-        hist_correct.Scale(1/hist_correct.Integral())
-        hist_correct.SetLineColor(color)
-        hist_correct.SetFillColor(color)
-        hist_correct.SetLineWidth(2)
-        hist_correct.SetFillStyle(3003)
-
-        hist_incorrect.Scale(1/hist_incorrect.Integral())
-        hist_incorrect.SetLineWidth(2)
-        hist_incorrect.SetLineStyle(2)
-        hist_incorrect.SetLineColor(color)
-
-        return hist_correct, hist_incorrect
-
-
-    def plot_masses_by_input_category(self, df, model_name):
-        for category in self.category_labels:
-            self.plot_mass_from_output_nodes(df, category, model_name)
-
-
-    def plot_mass_from_output_nodes(self, df, category, model_name):
-        legend = ROOT.TLegend(.6,.7,.89,.89)
-        hists = {}
-        for cat in self.category_labels:
-            hists[category+"_"+cat] = ROOT.TH1D(category+"_"+cat+"_mass", "", 10, 110, 150)
-
-        for index, row in df.iterrows():
-            if row[category]==1:
-                for cat in self.category_labels:            
-                    hists[category+"_"+cat].Fill(row['muPairs.mass[0]'], row["pred_%s_%s"%(cat, model_name)]*row['weight'] )
-        
-        canv = ROOT.TCanvas("canv", "canv", 800, 800)
-        canv.cd()
-
-        for count, cat in enumerate(self.category_labels):
-            legend.AddEntry(hists[category+"_"+cat], "true: %s, pred.: %s"%(category, cat), "l")
-            hists[category+"_"+cat].Scale(1/hists[category+"_"+cat].Integral())
-            hists[category+"_"+cat].SetLineColor(self.color_pool[count])
-            hists[category+"_"+cat].SetMarkerColor(self.color_pool[count])
-            hists[category+"_"+cat].SetLineWidth(2)
-            hists[category+"_"+cat].SetMarkerStyle(20)
-            hists[category+"_"+cat].SetMarkerSize(0.8)
-            hists[category+"_"+cat].Draw("pe1same")
-            hists[category+"_"+cat].GetXaxis().SetTitle("M(#mu#mu), GeV")
-
-        self.mass_histograms_th1d[category].SetLineColor(ROOT.kBlack)
-        self.mass_histograms_th1d[category].SetLineWidth(2)
-        self.mass_histograms_th1d[category].Draw("histsame")
-        legend.AddEntry(self.mass_histograms_th1d[category], "%s: input distribution"%category, "l")
-
-        legend.Draw()
-        canv.Print(self.package.mainDir+'/'+model_name+"/png/mass_%s.png"%category)
-        canv.SaveAs(self.package.mainDir+'/'+model_name+"/root/mass_%s.root"%category)
-        canv.Close()
         
     def add_columns(self, df):
         df["abs_eta_1"] = df["muons.eta[0]"].abs()

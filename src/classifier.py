@@ -48,10 +48,17 @@ class Framework(object):
 		self.info_file = None
 		self.prepare_dirs()
 		self.custom_loss = False
-		self.multiclass = False
+		self.multiclass = True
 		self.lumi = 0
 		self.hasMass = False
 
+		self.dy_label = "ZJets_aMC"
+		self.tt_label = "tt_ll_POW"
+		self.ggh_label = "H2Mu_gg"
+		self.vbf_label = "H2Mu_VBF"
+
+		self.sig_label = "sig"
+		self.bkg_label = "bkg"
 
 	class File(object):
 		def __init__(self, source, name, path, xSec, isDir, isData=False):
