@@ -26,6 +26,10 @@ variables.append(Variable("muPairs.dPhi"	,	"dPhi"				,"Dimuon |#delta#phi|", "",
 variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		'F', True, 		"nMuPairs"	,	0	, False	))
 variables.append(Variable("muPairs.mass_Roch",	"mass"				,"Dimuon mass", 		"GeV", 		'F', True,  	"nMuPairs"	,	0	, False	))
 variables.append(Variable("muons.pt"		,	"pt"				,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
+
+variables.append(Variable("mu1_pt_Roch_over_mass",	"mu1_pt_Roch_over_mass"	,"Muon1 p_{T} / Mmm", 	"",	'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("mu2_pt_Roch_over_mass",	"mu2_pt_Roch_over_mass"	,"Muon2 p_{T} / Mmm", 	"",	'F', False, 	"nMuons"	,	0	, False	))
+
 variables.append(Variable("muons.eta"		,	"eta"				,"Muon #eta",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
 variables.append(Variable("muons.phi"		,	"phi"				,"Muon #phi",  			"",   		'F', True, 		"nMuons"	,	-5	, False	))
 variables.append(Variable("muons.isMediumID",	"isMediumID"		,"Muon ID", 			"",			'I', True, 		"nMuons"	,	0	, False	))
@@ -34,18 +38,8 @@ variables.append(Variable("nJets"			,	"nJets"				,"nJets",  				"", 	  	'I', Fal
 variables.append(Variable("nJetsCent"		,	"nJetsCent"			,"nJetsCent",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("nJetsFwd"		,	"nJetsFwd"			,"nJetsFwd",  			"", 		'I', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("nBMed"			,	"nBMed"				,"nBMed",  				"", 	  	'I', False, 	"nMuons"	,	0	, False	))
-# variables.append(Variable("jets.pt"			,	"pt"				,"Jet p_{T}",  			"GeV",   	'F', True, 		"nJets"		,	-5	, False	))
-# variables.append(Variable("jets.eta"		,	"eta"				,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	-5	, False	))
-# variables.append(Variable("jets.phi"		,	"phi"				,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	-5	, False	)) 
-# variables.append(Variable("jetPairs.dEta"	,	"dEta"				,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-1	, True	)) 
-# variables.append(Variable("jetPairs.mass"	,	"mass"				,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	0	, False	))
 
-# variables.append(Variable("min_dR_mu_jet"	,	"min_dR_mu_jet"		,"min_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	-5	, False	))
-# variables.append(Variable("max_dR_mu_jet"	,	"max_dR_mu_jet"		,"max_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	-5	, False	))
-# variables.append(Variable("min_dR_mumu_jet"	,	"min_dR_mumu_jet"	,"min_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-5	, False	))
-# variables.append(Variable("max_dR_mumu_jet"	,	"max_dR_mumu_jet"	,"max_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-5	, False	))
-# variables.append(Variable("zepenfeld"		,	"zepenfeld"			,"zepenfeld", 			"",			'F', False, 	"nJetPairs"	,-5	, False	))variables.append(Variable("jets.pt"			,	"pt"				,"Jet p_{T}",  			"GeV",   	'F', True, 		"nJets"		,	-100	, False	))
-
+variables.append(Variable("jets.pt"			,	"pt"				,"Jet p_{T}",  			"GeV",   	'F', True, 		"nJets"		,	-5	, False	))
 variables.append(Variable("jets.eta"		,	"eta"				,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	-5	, False	))
 variables.append(Variable("jets.phi"		,	"phi"				,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	-5	, False	)) 
 variables.append(Variable("jetPairs.dEta"	,	"dEta"				,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-5	, True	)) 
@@ -55,14 +49,7 @@ variables.append(Variable("min_dR_mu_jet"	,	"min_dR_mu_jet"		,"min_dR_mu_jet", 	
 variables.append(Variable("max_dR_mu_jet"	,	"max_dR_mu_jet"		,"max_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	-5	, False	))
 variables.append(Variable("min_dR_mumu_jet"	,	"min_dR_mumu_jet"	,"min_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-5	, False	))
 variables.append(Variable("max_dR_mumu_jet"	,	"max_dR_mumu_jet"	,"max_dR_mumu_jet", 	"",			'F', False, 	"nJets"	,	-5	, False	))
-variables.append(Variable("zeppenfeld"		,	"zeppenfeld"			,"zeppenfeld", 			"",			'F', False, 	"nJetPairs"	,-5	, False	))
-
-
-variables.append(Variable("mu1_pt_by_mass"	,	"mu1_pt_by_mass"	,"Muon1 p_{T} / Mmm", 	"",			'F', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("mu2_pt_by_mass"	,	"mu2_pt_by_mass"	,"Muon2 p_{T} / Mmm", 	"",			'F', False, 	"nMuons"	,	0	, False	))
-
-variables.append(Variable("muons.pt[0]/muPairs.pt",	"pt"			,"Muon1 p_{T}/Mass", 	"",		'F', False, 	"nMuons"	,	0	, False	))
-variables.append(Variable("muons.pt[1]/muPairs.pt",	"pt"			,"Muon2 p_{T}/Mass", 	"",		'F', False, 	"nMuons"	,	0	, False	))
+variables.append(Variable("zeppenfeld"		,	"zeppenfeld"		,"zeppenfeld", 			"",			'F', False, 	"nJetPairs"	,-5	, False	))
 
 variables.append(Variable("PU_wgt"			,	"PU_wgt"				,"PU_wgt",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("GEN_wgt"			,	"GEN_wgt"				,"GEN_wgt",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
