@@ -74,6 +74,7 @@ class Analyzer(object):
 					else:
 						trees[smp.name].Draw("%s>>%s"%(var_name, hist_name), "weight*(%s)"%smp.additional_cut)
 				dummy.Close()
+				print "Hist %s integral: %f"%(hist_name, hist.Integral())
 				hist.SetLineWidth(2)
 				if smp.isStacked:
 					hist.SetFillColor(smp.color)
