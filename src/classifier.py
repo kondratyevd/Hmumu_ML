@@ -1,6 +1,6 @@
 # from datetime import datetime
 import os, sys, errno
-# import config
+import config
 from config import variables, pkg_names, Package
 
 sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
@@ -22,6 +22,7 @@ gInterpreter.ProcessLine('#include "interface/GenMuPairInfo.h"')
 
 class Framework(object):
 	def __init__(self):
+		self.label = "default"
 		self.file_list_s = []
 		self.file_list_b = []
 		self.dir_list_s = []
@@ -42,6 +43,7 @@ class Framework(object):
 		self.treePath = 'dimuons/tree'
 		self.metadataPath = 'dimuons/metadata'
 		self.outPath = ''
+		self.outDir = '/tmp/dkondrat/ML_output/'
 		self.transf_list = ['I']
 		self.RunID = "Run_X/"
 		self.weighByEvent = False
@@ -60,6 +62,8 @@ class Framework(object):
 		self.sig_label = "sig"
 		self.bkg_label = "bkg"
 
+		self.ebe_weights = False
+
 	class File(object):
 		def __init__(self, source, name, path, xSec, isDir, isData=False):
 			self.source = source
@@ -70,6 +74,7 @@ class Framework(object):
 			self.nEvt = 1
 			self.nOriginalWeighted = 1
 			self.weight = 1
+			self.weight_over_lumi = 1
 			self.isData = isData
 			if not isData:
 				self.get_original_nEvts()
@@ -94,13 +99,16 @@ class Framework(object):
 				self.weight = self.xSec*self.source.lumi / self.nOriginalWeighted
 			else:
 				self.weight = self.xSec*40000 / self.nOriginalWeighted
+			self.weight_over_lumi = self.xSec / self.nOriginalWeighted
+
+	def set_out_dir(self, _dir):
+		self.outDir = _dir
 
 	def prepare_dirs(self):
 		with open("output/CURRENT_RUN_ID", "r") as IDfile:
 			self.RunID=IDfile.read()
 
-		# self.outPath = 'output/'+self.RunID
-		self.outPath = '/tmp/dkondrat/ML_output/'+self.RunID
+		self.outPath = self.outDir+"/"+self.RunID+"/"
 		self.create_dir(self.outPath)
 
 		print "Run ID:	%s"%self.RunID
