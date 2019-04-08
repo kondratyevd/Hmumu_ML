@@ -20,7 +20,7 @@ typedef struct {
   TLorentzVector down;
 } muVecSys;
 
-void FillMuPairInfos( MuPairInfos& _pairInfos, const MuonInfos _muonInfos );
+void FillMuPairInfos( MuPairInfos& _pairInfos, const MuonInfos _muonInfos, pat::MuonCollection muonsSelected);
 
 bool pair_is_OS( std::pair< bool, std::pair<int, int> > i,
 		 std::pair< bool, std::pair<int, int> > j );

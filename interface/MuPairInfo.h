@@ -12,6 +12,7 @@ struct MuPairInfo {
 
   Double_t mass     = -999;
   Double_t massErr  = -999;
+  Double_t mass_res = -999; 
   Double_t pt       = -999;
   Double_t eta      = -999;
   Double_t rapid    = -999;
@@ -22,6 +23,7 @@ struct MuPairInfo {
   Double_t dEta     = -999;
   Double_t dPhi     = -999;
   Double_t dPhiStar = -999;
+  Double_t dThetaStarEta = -999;
 
   Double_t mass_PF    = -999;
   Double_t massErr_PF = -999;
