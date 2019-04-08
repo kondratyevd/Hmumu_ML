@@ -354,19 +354,19 @@ roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
 
 score = "ggH_prediction+VBF_prediction"
 nBins = 50
-gr1 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res.", nBins, ROOT.kRed, 20, process = "ggH")
-gr2 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res.", nBins, ROOT.kBlue, 20, process = "VBF")
+gr1 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res. ggH", nBins, ROOT.kRed, 20, process = "ggH")
+gr2 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res. VBF", nBins, ROOT.kBlue, 20, process = "VBF")
 
-gr3 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res.", nBins, ROOT.kBlack, 20, process = "ggH")
-gr4 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res.", nBins, ROOT.kGreen, 20, process = "VBF")
+gr3 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res. ggH", nBins, ROOT.kBlack, 20, process = "ggH")
+gr4 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res. VBF", nBins, ROOT.kGreen, 20, process = "VBF")
 
 canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
 canvas.cd()
 legend = ROOT.TLegend(0.7, 0.8, 0.895, 0.895)
-gr1.Draw("pe1")
-gr2.Draw("pe1same")
-gr3.Draw("pe1same")
-gr4.Draw("pe1same")
+gr1.Draw("ple1")
+gr2.Draw("ple1same")
+gr3.Draw("ple1same")
+gr4.Draw("ple1same")
 legend.AddEntry(gr1, gr1.GetTitle(), "pe1")
 legend.AddEntry(gr2, gr2.GetTitle(), "pe1")
 legend.AddEntry(gr3, gr3.GetTitle(), "pe1")
