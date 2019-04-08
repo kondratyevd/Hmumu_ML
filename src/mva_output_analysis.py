@@ -294,6 +294,23 @@ class Analyzer(object):
         canvas.SaveAs("%s/roc_curves.png"%(self.out_path))
 
 
+    def plot_width_vs_score(self, score, source, name, title, nBins, color, markerStyle, process = "ggH"):
+        graph = ROOT.TH1D("wvss"+name, title, nBins, 0, 1)
+        for i in range(nBins):
+            cut_lo = i/float(nBins)
+            cut_hi = (i+1)/float(nBins)
+            if "ggH" in process:
+                sample_bin = source.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
+            elif "VBF" in process:
+                sample_bin = source.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
+            width_bin, error_bin = sample_bin.fit_with_dcb("%s_bin_%i"%(name,i+1))
+            graph.SetBinContent(i+1, width_bin)
+            graph.SetBinError(i+1, error_bin)
+        graph.SetMarkerColor(color)
+        graph.SetLineColor(color)
+        graph.SetMarkerStyle(markerStyle)
+        return graph
+
 
 roc_to_compare = []
 
@@ -301,15 +318,15 @@ a = Analyzer()
 a.set_out_path("plots/mva_output_analyzis")
 
 
-# dnn_multi = a.add_mva_source("DNN_Multi", "DNN_Multi", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-23//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-# dnn_multi.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
-# dnn_multi.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-# dnn_multi.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
-# dnn_multi.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
-# dnn_multi.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-# dnn_multi.set_lumi(40490.712)
-# dnn_multi_roc_graph = dnn_multi.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-# dnn_multi_roc = a.RocCurve(dnn_multi_roc_graph, "dnn_multi", "DNN_Multi", ROOT.kBlack)
+dnn_multi = a.add_mva_source("DNN_Multi", "DNN_Multi", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-23//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+dnn_multi.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+dnn_multi.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+dnn_multi.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+dnn_multi.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+dnn_multi.set_lumi(40490.712)
+dnn_multi_roc_graph = dnn_multi.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+dnn_multi_roc = a.RocCurve(dnn_multi_roc_graph, "dnn_multi", "DNN_Multi", ROOT.kBlack)
 # roc_to_compare.append(dnn_multi_roc)
 
 # dnn_multi_hiStat = a.add_mva_source("DNN_Multi_hiStat", "DNN_Multi_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-26//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -337,19 +354,25 @@ roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
 
 score = "ggH_prediction+VBF_prediction"
 nBins = 100
-width_vs_score = ROOT.TH1D("wvss", "Width vs. DNN score", nBins, 0, 1)
-for i in range(nBins):
-    cut_lo = i/float(nBins)
-    cut_hi = (i+1)/float(nBins)
-    sample_bin = dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
-    width_bin, error_bin = sample_bin.fit_with_dcb("bin_%i"%(i+1))
-    width_vs_score.SetBinContent(i+1, width_bin)
-    width_vs_score.SetBinError(i+1, error_bin)
+gr1 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res.", nBins, ROOT.kRed, 20, process = "ggH")
+gr2 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res.", nBins, ROOT.kRed, 21, process = "VBF")
+
+gr3 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res.", nBins, ROOT.kRed, 20, process = "ggH")
+gr4 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res.", nBins, ROOT.kRed, 21, process = "VBF")
 
 canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
 canvas.cd()
-width_vs_score.Draw("pe1")
-canvas.SaveAs("%s/%s/width_vs_score.png"%(a.out_path, dnn_multi_hiStat_ebe.name))
+legend = ROOT.TLegend(0.7, 0.8, 0.895, 0.895)
+gr1.Draw("pe1")
+gr2.Draw("pe1same")
+gr3.Draw("pe1same")
+gr4.Draw("pe1same")
+legend.AddEntry(gr1, gr1.GetTitle(), "pe1")
+legend.AddEntry(gr2, gr2.GetTitle(), "pe1")
+legend.AddEntry(gr3, gr3.GetTitle(), "pe1")
+legend.AddEntry(gr4, gr4.GetTitle(), "pe1")
+legend.Draw()
+canvas.SaveAs("%s/width_vs_score.png"%(a.out_path))
 
 
 
