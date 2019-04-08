@@ -225,7 +225,6 @@ class Analyzer(object):
 	
 	def roc_from_tmva(self, source, title, filename, hist_path, color, linestyle):
 		file = ROOT.TFile.Open("%s/%s"%(source.path, filename), "r")
-		# ROOT.TH1.AddDirectory(0)
 		hist = file.Get(hist_path)
 		print hist.GetEntries()
 		hist.SetLineStyle(linestyle)
@@ -259,15 +258,6 @@ roc_to_compare = []
 a = Analyzer()
 a.set_out_path("plots/mva_output_analyzis")
 
-
-bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-03/TMVA/")
-bdt_uf_roc_tmva = a.roc_from_tmva(bdt_uf, "BDT_UF", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlack, 2)
-roc_to_compare.append(bdt_uf_roc_tmva)
-
-bdt_uf_hiStat = a.add_mva_source("BDT_UF_hiStat", "BDT_UF_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-11/TMVA/")
-bdt_ucsd = a.add_mva_source("BDT_UCSD", "BDT_UCSD", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-15/TMVA/")
-bdt_ucsd_hiStat = a.add_mva_source("BDT_UCSD_hiStat", "BDT_UCSD_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-17/TMVA/")
-bdt_ucsd_hiStat_ebe = a.add_mva_source("BDT_UCSD_hiStat_ebe", "BDT_UCSD_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-20/TMVA/")
 
 dnn_multi = a.add_mva_source("DNN_Multi", "DNN_Multi", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-23//Keras_multi/model_50_D2_25_D2_25_D2/root/")
 dnn_multi.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
@@ -320,6 +310,16 @@ dnn_binary_hiStat_ebe.set_lumi(40490.712)
 dnn_binary_hiStat_ebe_roc_graph = dnn_binary_hiStat_ebe.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_hiStat_ebe_roc = a.RocCurve(dnn_binary_hiStat_ebe_roc_graph, "dnn_binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", ROOT.kYellow)
 roc_to_compare.append(dnn_binary_hiStat_ebe_roc)
+
+
+bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-03/TMVA/")
+bdt_uf_roc_tmva = a.roc_from_tmva(bdt_uf, "BDT_UF", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlack, 2)
+roc_to_compare.append(bdt_uf_roc_tmva)
+
+bdt_uf_hiStat = a.add_mva_source("BDT_UF_hiStat", "BDT_UF_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-11/TMVA/")
+bdt_ucsd = a.add_mva_source("BDT_UCSD", "BDT_UCSD", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-15/TMVA/")
+bdt_ucsd_hiStat = a.add_mva_source("BDT_UCSD_hiStat", "BDT_UCSD_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-17/TMVA/")
+bdt_ucsd_hiStat_ebe = a.add_mva_source("BDT_UCSD_hiStat_ebe", "BDT_UCSD_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-20/TMVA/")
 
 # bdt_old = a.add_mva_source("BDT_UF_V1_old", "BDT_UF_V1_old", "/Users/dmitrykondratyev/ML_output/BDTG_UF_v1/")
 # bdt_old.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
