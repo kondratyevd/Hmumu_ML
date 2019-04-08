@@ -226,6 +226,7 @@ class Analyzer(object):
 	def roc_from_tmva(self, source, title, filename, hist_path, color, linestyle):
 		file = ROOT.TFile.Open("%s/%s"%(source.path, filename), "r")
 		hist = file.Get(hist_path)
+		print hist.GetEntries()
 		hist.SetLineStyle(linestyle)
 		roc = self.RocCurve(hist, source.name+"_roc", title, color)		
 		return roc
