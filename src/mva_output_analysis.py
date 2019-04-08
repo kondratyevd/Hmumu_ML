@@ -353,12 +353,12 @@ roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
 
 
 score = "ggH_prediction+VBF_prediction"
-nBins = 100
+nBins = 50
 gr1 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res.", nBins, ROOT.kRed, 20, process = "ggH")
-gr2 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res.", nBins, ROOT.kRed, 21, process = "VBF")
+gr2 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res.", nBins, ROOT.kBlue, 20, process = "VBF")
 
 gr3 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res.", nBins, ROOT.kBlack, 20, process = "ggH")
-gr4 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res.", nBins, ROOT.kBlack, 21, process = "VBF")
+gr4 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res.", nBins, ROOT.kGreen, 20, process = "VBF")
 
 canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
 canvas.cd()
