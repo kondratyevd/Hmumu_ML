@@ -336,10 +336,11 @@ roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
 
 
 score = "ggH_prediction+VBF_prediction"
-width_vs_score = ROOT.TH1D("wvss", "Width vs. DNN score", 10, 0, 1)
-for i in range(10):
-    cut_lo = i/10.0
-    cut_hi = (i+1)/10.0
+nBins = 100.0
+width_vs_score = ROOT.TH1D("wvss", "Width vs. DNN score", nBins, 0, 1)
+for i in range(nBins):
+    cut_lo = i/nBins
+    cut_hi = (i+1)/nBins
     sample_bin = dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
     width_bin, error_bin = sample_bin.fit_with_dcb("bin_%i"%(i+1))
     width_vs_score.SetBinContent(i+1, width_bin)
