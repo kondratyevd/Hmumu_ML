@@ -92,6 +92,7 @@ class KerasMultiTrainer(object):
 
                         if file.isData:
                             single_file_df['weight'] = 1
+                            single_file_df['weight_over_lumi'] = 1
                             self.data = pandas.concat([self.data, single_file_df]) 
 
                         else:
@@ -106,6 +107,7 @@ class KerasMultiTrainer(object):
 
                             single_file_df[file.category] = 1
                             single_file_df['weight'] = file.weight * weight
+                            single_file_df['weight_over_lumi'] = file.weight_over_lumi * weight
                             self.category_wgts_dict[file.category] = file.weight
                             print "Added %s with %i events"%(file.name, single_file_df.shape[0])
                             self.df = pandas.concat([self.df,single_file_df])
@@ -113,22 +115,28 @@ class KerasMultiTrainer(object):
         for category in self.category_labels:
             self.category_wgts.append(self.category_wgts_dict[category]) # want to preserve order
 
-        self.labels = list(self.df.drop(['weight']+self.spect_labels+self.category_labels, axis=1))
+        self.labels = list(self.df.drop(['weight', 'weight_over_lumi']+self.spect_labels+self.category_labels, axis=1))
         self.df.reset_index(inplace=True, drop=True)
-     
-        print self.df["muPairs.mass[0]"]
+
+        # print self.df["muPairs.mass[0]"]
         self.df = self.apply_cuts(self.df, self.framework.year)
-        print self.df["muPairs.mass[0]"]
+        # print self.df["muPairs.mass[0]"]
 
         if self.framework.custom_loss:
             self.df = self.make_mass_bins(self.df, 10, 110, 150)
-        self.data.reset_index(inplace=True, drop=True)
-        self.data = self.apply_cuts(self.data, self.framework.year)
-        if self.framework.custom_loss:
-            self.data = self.make_mass_bins(self.data, 10, 110, 150, isMC=False)
+
+        if self.framework.data_files:
+            self.data.reset_index(inplace=True, drop=True)
+            self.data = self.apply_cuts(self.data, self.framework.year)
+            if self.framework.custom_loss:
+                self.data = self.make_mass_bins(self.data, 10, 110, 150, isMC=False)
+
         self.truth_labels.extend(self.category_labels)
         self.df = shuffle(self.df)
-        self.data = self.add_columns(self.data)
+
+        if self.framework.data_files:
+           self.data = self.add_columns(self.data)
+        
         self.df = self.add_columns(self.df)
 
         self.df_train, self.df_test = train_test_split(self.df,test_size=0.2, random_state=7)
@@ -183,19 +191,23 @@ class KerasMultiTrainer(object):
                                     #steps_per_epoch = None,
                                     shuffle=True)
     
-
+            obj.model.save(self.package.dirs['modelDir']+obj.name+'_trained.h5')
+            
             train_prediction = pandas.DataFrame(data=obj.model.predict(self.df_train_scaled[self.labels].values), columns=["pred_%s_%s"%(n,obj.name) for n in self.truth_labels], index=self.df_train_scaled.index)
             test_prediction = pandas.DataFrame(data=obj.model.predict(self.df_test_scaled[self.labels].values), columns=["pred_%s_%s"%(n,obj.name) for n in self.truth_labels], index=self.df_test_scaled.index)
-            data_prediction = pandas.DataFrame(data=obj.model.predict(self.data_scaled[self.labels].values), columns=["pred_%s_%s"%(n,obj.name) for n in self.truth_labels], index=self.data_scaled.index)
+            if self.framework.data_files:
+                data_prediction = pandas.DataFrame(data=obj.model.predict(self.data_scaled[self.labels].values), columns=["pred_%s_%s"%(n,obj.name) for n in self.truth_labels], index=self.data_scaled.index)
 
             self.df_train_scaled = pandas.concat([self.df_train_scaled, train_prediction], axis=1)
             self.df_test_scaled = pandas.concat([self.df_test_scaled, test_prediction], axis=1)
-            self.data_scaled = pandas.concat([self.data_scaled, data_prediction], axis=1)
+            if self.framework.data_files:
+                self.data_scaled = pandas.concat([self.data_scaled, data_prediction], axis=1)
 
 
             self.fill_out_root_files("test", self.df_test_scaled, obj.name, self.category_labels, False)
             self.fill_out_root_files("train", self.df_train_scaled, obj.name, self.category_labels, False)
-            self.fill_out_root_files("Data", self.data_scaled, obj.name, ["Data"], True)
+            if self.framework.data_files:
+                self.fill_out_root_files("Data", self.data_scaled, obj.name, ["Data"], True)
 
             self.plot_history(history.history, obj.name)
 
@@ -205,21 +217,18 @@ class KerasMultiTrainer(object):
     def scale(self, train, test, data, labels):
         df_train = train.loc[:,labels]
         df_test = test.loc[:,labels]
-        df_data = data.loc[:, labels]
+        if self.framework.data_files:
+            df_data = data.loc[:, labels]
         scaler = StandardScaler().fit(df_train.values)
         df_train = scaler.transform(df_train.values)
         df_test = scaler.transform(df_test.values)
-        df_data = scaler.transform(df_data.values)  
+        if self.framework.data_files:
+            df_data = scaler.transform(df_data.values)  
         train[labels] = df_train
         test[labels] = df_test
-        data[labels] = df_data
+        if self.framework.data_files:
+            data[labels] = df_data
         return train, test, data
-
-    def save_to_hdf(self, train, test, filename):
-        train.to_hdf('%s%s.hdf5'%(self.package.dirs['dataDir'],filename), 'train')
-        test.to_hdf('%s%s.hdf5'%(self.package.dirs['dataDir'], filename), 'test')
-
-
 
     def fill_out_root_files(self, output_name, df, method_name, category_list, isData):
 
@@ -231,6 +240,7 @@ class KerasMultiTrainer(object):
         mu2_eta             = {}
         dimu_eta            = {}
         weight              = {}
+        weight_over_lumi    = {}
         DY_prediction       = {}
         ttbar_prediction    = {}
         ggH_prediction      = {}
@@ -238,16 +248,6 @@ class KerasMultiTrainer(object):
         sig_prediction      = {}
         bkg_prediction      = {}
         nJets               = {}
-        newBranch1          = {}
-        newBranch2          = {}
-        newBranch3          = {}
-        newBranch4          = {}
-        newBranch5          = {}
-        newBranch6          = {}
-        newBranch7          = {}
-        newBranch8          = {}
-        newBranch9          = {}
-        newBranch0          = {}
 
         for category in category_list:
             mass[category]= array('f', [0])
@@ -257,6 +257,7 @@ class KerasMultiTrainer(object):
             mu2_eta[category] = array('f', [0])
             dimu_eta[category] = array('f', [0])
             weight[category]= array('f', [0])
+            weight_over_lumi[category]= array('f', [0])
             DY_prediction[category]= array('f', [0])
             ttbar_prediction[category]= array('f', [0])
             ggH_prediction[category]= array('f', [0])
@@ -265,22 +266,23 @@ class KerasMultiTrainer(object):
             bkg_prediction[category]= array('f', [0])
             nJets[category]=array('i', [0])
             trees[category] = ROOT.TTree("tree_%s"%category,"tree_%s"%category)
-            newBranch1[category] = trees[category].Branch("mass",               mass[category]            , "mass/F")
-            newBranch1[category] = trees[category].Branch("max_abs_eta_mu",     max_abs_eta_mu[category]  , "max_abs_eta_mu/F")
-            newBranch1[category] = trees[category].Branch("min_abs_eta_mu",     min_abs_eta_mu[category]  , "min_abs_eta_mu/F")
-            newBranch2[category] = trees[category].Branch("weight",             weight[category]          , "weight/F")
+            trees[category].Branch("mass",               mass[category]            , "mass/F")
+            trees[category].Branch("max_abs_eta_mu",     max_abs_eta_mu[category]  , "max_abs_eta_mu/F")
+            trees[category].Branch("min_abs_eta_mu",     min_abs_eta_mu[category]  , "min_abs_eta_mu/F")
+            trees[category].Branch("weight",             weight[category]          , "weight/F")
             if self.framework.multiclass:
-                newBranch3[category] = trees[category].Branch("DY_prediction",      DY_prediction[category]   , "DY_prediction/F")
-                newBranch4[category] = trees[category].Branch("ttbar_prediction",   ttbar_prediction[category], "ttbar_prediction/F")
-                newBranch5[category] = trees[category].Branch("ggH_prediction",     ggH_prediction[category]  , "ggH_prediction/F")
-                newBranch6[category] = trees[category].Branch("VBF_prediction",     VBF_prediction[category]  , "VBF_prediction/F")
+                trees[category].Branch("DY_prediction",      DY_prediction[category]   , "DY_prediction/F")
+                trees[category].Branch("ttbar_prediction",   ttbar_prediction[category], "ttbar_prediction/F")
+                trees[category].Branch("ggH_prediction",     ggH_prediction[category]  , "ggH_prediction/F")
+                trees[category].Branch("VBF_prediction",     VBF_prediction[category]  , "VBF_prediction/F")
             else:
-                newBranch3[category] = trees[category].Branch("sig_prediction",      sig_prediction[category]   , "sig_prediction/F")
-                newBranch4[category] = trees[category].Branch("bkg_prediction",      bkg_prediction[category],    "bkg_prediction/F")
-            newBranch7[category] = trees[category].Branch("nJets",     nJets[category]  , "nJets/F")
-            newBranch8[category] = trees[category].Branch("mu1_eta",     mu1_eta[category]  , "mu1_eta/F")
-            newBranch9[category] = trees[category].Branch("mu2_eta",     mu2_eta[category]  , "mu2_eta/F")
-            newBranch0[category] = trees[category].Branch("dimu_eta",     dimu_eta[category]  , "dimu_eta/F")
+                trees[category].Branch("sig_prediction",      sig_prediction[category]   , "sig_prediction/F")
+                trees[category].Branch("bkg_prediction",      bkg_prediction[category],    "bkg_prediction/F")
+            trees[category].Branch("nJets",     nJets[category]  , "nJets/F")
+            trees[category].Branch("mu1_eta",     mu1_eta[category]  , "mu1_eta/F")
+            trees[category].Branch("mu2_eta",     mu2_eta[category]  , "mu2_eta/F")
+            trees[category].Branch("dimu_eta",     dimu_eta[category]  , "dimu_eta/F")
+            trees[category].Branch("weight_over_lumi",             weight_over_lumi[category]          , "weight_over_lumi/F")
 
         new_file = ROOT.TFile(self.package.mainDir+'/'+method_name+"/root/output_"+output_name+".root","recreate")
         new_file.cd()
@@ -291,6 +293,7 @@ class KerasMultiTrainer(object):
                 max_abs_eta_mu["Data"][0]   = row["max_abs_eta_mu"]
                 min_abs_eta_mu["Data"][0]   = row["min_abs_eta_mu"]
                 weight["Data"][0]           = 1
+                weight_over_lumi["Data"][0] = 1
                 if self.framework.multiclass:
                     DY_prediction["Data"][0]    = row["pred_%s_%s"%(self.framework.dy_label, method_name)]
                     ttbar_prediction["Data"][0] = row["pred_%s_%s"%(self.framework.tt_label, method_name)]
@@ -311,6 +314,7 @@ class KerasMultiTrainer(object):
                         max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
                         min_abs_eta_mu[category][0]   = row["min_abs_eta_mu"]
                         weight[category][0]           = row["weight"]
+                        weight_over_lumi[category][0] = row["weight_over_lumi"]
                         if self.framework.multiclass:
                             DY_prediction[category][0]    = row["pred_%s_%s"%(self.framework.dy_label, method_name)]
                             ttbar_prediction[category][0] = row["pred_%s_%s"%(self.framework.tt_label, method_name)]
