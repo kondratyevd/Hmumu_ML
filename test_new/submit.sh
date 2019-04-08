@@ -33,15 +33,15 @@ case $1 in
 		python test_new/test_dnn_multi_hiStat.py
 		;;
 	8)
-		echo 'Running option 2'
+		echo 'Running option 8'
 		python test_new/test_dnn_multi_hiStat_ebe.py
 		;;
 	9)
-		echo 'Running option 1'
+		echo 'Running option 9'
 		python test_new/test_dnn_binary_hiStat.py
 		;;
 	10)
-		echo 'Running option 2'
+		echo 'Running option 10'
 		python test_new/test_dnn_binary_hiStat_ebe.py
 		;;
 
