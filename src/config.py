@@ -25,6 +25,9 @@ variables.append(Variable("muPairs.dEta"	,	"dEta"				,"Dimuon |#delta#eta|", "",
 variables.append(Variable("muPairs.dPhi"	,	"dPhi"				,"Dimuon |#delta#phi|", "", 		'F', True, 		"nMuPairs"	,	-1	, True	))
 variables.append(Variable("muPairs.mass"	,	"mass"				,"Dimuon mass", 		"GeV", 		'F', True, 		"nMuPairs"	,	0	, False	))
 variables.append(Variable("muPairs.mass_Roch",	"mass"				,"Dimuon mass", 		"GeV", 		'F', True,  	"nMuPairs"	,	0	, False	))
+
+variables.append(Variable("muPairs.mass_res",	"mass_res"			,"Ev-by-ev resolution", "GeV", 		'F', True, 		"nMuPairs"	,	0	, False	))
+
 variables.append(Variable("muons.pt"		,	"pt"				,"Muon p_{T}", 			"GeV",		'F', True, 		"nMuons"	,	0	, False	))
 
 variables.append(Variable("mu1_pt_Roch_over_mass",	"mu1_pt_Roch_over_mass"	,"Muon1 p_{T} / Mmm", 	"",	'F', False, 	"nMuons"	,	0	, False	))
@@ -43,6 +46,7 @@ variables.append(Variable("jets.pt"			,	"pt"				,"Jet p_{T}",  			"GeV",   	'F',
 variables.append(Variable("jets.eta"		,	"eta"				,"Jet #eta",  			"",   		'F', True, 		"nJets"		,	-5	, False	))
 variables.append(Variable("jets.phi"		,	"phi"				,"Jet #phi",  			"",   		'F', True, 		"nJets"		,	-5	, False	)) 
 variables.append(Variable("jetPairs.dEta"	,	"dEta"				,"jj |#delta#eta|",  	"",   		'F', True, 		"nJetPairs"	,	-5	, True	)) 
+variables.append(Variable("jetPairs.dPhi"	,	"dPhi"				,"jj |#delta#phi|",  	"",   		'F', True, 		"nJetPairs"	,	-5	, True	)) 
 variables.append(Variable("jetPairs.mass"	,	"mass"				,"jj mass",  			"GeV",   	'F', True, 		"nJetPairs"	,	-5	, False	))
 
 variables.append(Variable("min_dR_mu_jet"	,	"min_dR_mu_jet"		,"min_dR_mu_jet", 		"",			'F', False, 	"nJets"	,	-5	, False	))
