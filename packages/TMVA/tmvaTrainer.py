@@ -18,7 +18,7 @@ class TMVATrainer(object):
 		self.outputFile = ROOT.TFile.Open( self.package.mainDir+"TMVA.root", 'RECREATE' )
 		print "Opening output file: "+self.package.mainDir+"TMVA.root"
 		transformations = ';'.join(self.framework.transf_list)
-		self.factory = ROOT.TMVA.Factory( "TMVAClassification", self.outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=%s:AnalysisType=Classification"%transformations)
+		self.factory = ROOT.TMVA.Factory( "TMVAClassification_"+self.framework.label, self.outputFile, "!V:!Silent:Color:DrawProgressBar:Transformations=%s:AnalysisType=Classification"%transformations)
 		self.dataloader = ROOT.TMVA.DataLoader("dataset")
 		self.load_variables()
 		if self.framework.weighByEvent:
@@ -114,6 +114,10 @@ class TMVATrainer(object):
 
 				
 				weight = tree.PU_wgt*tree.GEN_wgt*SF*file.xSec/file.nOriginalWeighted*40000 # I take lumi=40000 because it doesn't matter as it is applied to all samples
+
+				if self.framework.ebe_weights:
+					ebe_weight = tree.FindBranch("muPairs.mass_res").FindLeaf("mass_res").GetValue(0)
+					weight = weight*ebe_weight
 
 				if i % 2 == 0: # even-numbered events
 					if (file in self.framework.file_list_s) or (file in self.framework.dir_list_s):
