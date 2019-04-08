@@ -25,7 +25,8 @@ class Analyzer(object):
 			self.lumi = 0
 
 		class Sample(object):
-			def __init__(self, name, title, filename, treename, isData, isStacked, color, isWeightOverLumi, additional_cut):
+			def __init__(self, source, name, title, filename, treename, isData, isStacked, color, isWeightOverLumi, additional_cut):
+				self.source = source
 				self.name = name
 				self.title = title
 				self.filename = filename
@@ -36,12 +37,49 @@ class Analyzer(object):
 				self.isWeightOverLumi = isWeightOverLumi
 				self.additional_cut = additional_cut
 
+			def fit_with_dcb(self, label):
+				width = 0
+				Import = getattr(ROOT.RooWorkspace, 'import')
+    			var = ROOT.RooRealVar("mass","Dilepton mass",110,150)     
+    			var.setBins(100)
+    			var.setRange("window",120,130)
+    			var.setRange("full",110,150)
+    			w = ROOT.RooWorkspace("w", False)
+    			Import(w, var)
+			    max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
+			    signal_tree = ROOT.TChain(self.treename)
+			    signal_tree.Add("%s/%s"%(self.source.path, self.filename))  
+			    print "Loaded tree from "+self.source.path+" with %i entries."%signal_tree.GetEntries()    
+			    signal_hist_name = "signal_%s"%label
+			    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
+
+			    dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
+			    dummy.cd()
+			    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(self.additional_cut, self.source.lumi))
+			    dummy.Close()
+			    signal_rate = signal_hist.Integral()
+			    ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
+			    # ROOT.gSystem.Load("/Users/dmitrykondratyev/Documents/HiggsToMuMu/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
+			    w.factory("RooDCBShape::%s_ggh(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(label,label,label,label,label,label,label))
+			    smodel = w.pdf("%s_ggh"%label)
+			    w.Print()
+			    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var), self.additional_cut)
+			    res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+			    res.Print()
+
+			    Import(w, smodel)
+
+    			return w.var("%s_sigma"%label).getVal()
+
+
+
 		def set_lumi(self, lumi):
 			self.lumi = lumi
 
 		def add_sample(self, name, title, filename, treename, isData, isStacked, color, isWeightOverLumi=True, additional_cut="1"):
-			new_sample = self.Sample(name, title, filename, treename, isData, isStacked, color, isWeightOverLumi, additional_cut)
+			new_sample = self.Sample(self, name, title, filename, treename, isData, isStacked, color, isWeightOverLumi, additional_cut)
 			self.samples.append(new_sample)
+			return new_sample
 			
 		def plot(self, var_name, nBins, xmin, xmax, label=""):
 			trees = {}
@@ -284,7 +322,7 @@ roc_to_compare.append(dnn_multi_roc)
 dnn_multi_hiStat_ebe = a.add_mva_source("DNN_Multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-29//Keras_multi/model_50_D2_25_D2_25_D2/root/")
 dnn_multi_hiStat_ebe.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
 dnn_multi_hiStat_ebe.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True, "47.17/5765.4") # fix wrong xSec
-dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+ggh_dnn_multi_hiStat_ebe = dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
 dnn_multi_hiStat_ebe.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
 dnn_multi_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_multi_hiStat_ebe.set_lumi(40490.712)
@@ -292,6 +330,7 @@ dnn_multi_hiStat_ebe_roc_graph = dnn_multi_hiStat_ebe.plot_roc("ggH_prediction+V
 dnn_multi_hiStat_ebe_roc = a.RocCurve(dnn_multi_hiStat_ebe_roc_graph, "dnn_multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", ROOT.kRed)
 roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
 
+print ggh_dnn_multi_hiStat_ebe.fit_with_dcb("test_fit")
 
 dnn_binary_hiStat = a.add_mva_source("DNN_Binary_hiStat", "DNN_Binary_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-07_21-35-32//Keras_multi/model_50_D2_25_D2_25_D2/root/")
 dnn_binary_hiStat.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, True)
