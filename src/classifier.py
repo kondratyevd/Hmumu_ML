@@ -6,7 +6,6 @@ from config import variables, pkg_names, Package
 sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
 import ROOT
 from ROOT import gInterpreter, gSystem
-gInterpreter.ProcessLine(' #include "interface/CommonIncludes.h"')
 gInterpreter.ProcessLine(' #include "interface/CompositeCandMassResolution.h"')
 gInterpreter.ProcessLine(' #include "interface/EleInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/EventInfo.h"')
@@ -17,15 +16,11 @@ gInterpreter.ProcessLine(' #include "interface/GenParentInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/GenPartInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/JetInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/JetPairInfo.h"')
-gInterpreter.ProcessLine(' #include "interface/KinematicFitMuonCorrections.h"')
 gInterpreter.ProcessLine(' #include "interface/LepMVA.h"')
 gInterpreter.ProcessLine(' #include "interface/MetInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/MhtInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/MuPairInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/MuonInfo.h"')
-gInterpreter.ProcessLine(' #include "interface/NTupleBranches.h"')
-gInterpreter.ProcessLine(' #include "interface/PtCorrKalman.h"')
-gInterpreter.ProcessLine(' #include "interface/PtCorrRoch.h"')
 gInterpreter.ProcessLine(' #include "interface/TauInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/VertexInfo.h"')
 
