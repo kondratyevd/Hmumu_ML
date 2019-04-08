@@ -17,7 +17,7 @@ ggH_2017_powheg = MCSample("H2Mu_gg", hadoop_path+"/GluGluHToMuMu_M-125_TuneCP5_
 VBF_2017_powheg = MCSample("H2Mu_VBF", hadoop_path+"/VBFHToMuMu_M-125_TuneCP5_PSweights_13TeV_powheg_pythia8/H2Mu_VBF_powheg/190406_001029/0000/", 0.0008208)
 
 ZJets_aMC_2017 = MCSample("ZJets_aMC", hadoop_path+"/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190406_001043/0000/", 5765.4)
-ZJets_aMC_2017_hiStat = MCSample("ZJets_aMC", hadoop_path+"/DYJetsToLL_M-105To160_TuneCP5_PSweights_13TeV-amcatnloFXFX-pythia8/ZJets_AMC_hiStat/190406_001056/0000/", 5765.4)
+ZJets_aMC_2017_hiStat = MCSample("ZJets_aMC", hadoop_path+"/DYJetsToLL_M-105To160_TuneCP5_PSweights_13TeV-amcatnloFXFX-pythia8/ZJets_AMC_hiStat/190406_001056/0000/", 47.17)
 
 tt_ll_POW_2017 = MCSample("tt_ll_POW", hadoop_path+"/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/tt_ll_POW/190406_001138/0000/", 85.656)
 
