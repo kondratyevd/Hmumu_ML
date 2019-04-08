@@ -22,7 +22,7 @@ class model_init(object):
 		self.model = Model(inputs=self.inputs, outputs=self.outputs)
 		self.model.compile(loss=self.loss,									# This may be transferred into input parameters in the future
 		              optimizer=self.optimizer, metrics=['accuracy', ])					# if we need to optimize any of these parameters
-		# self.model.save(modelDir+self.name+'_init.h5')
+		self.model.save(modelDir+self.name+'_init.h5')
 		self.model.summary()	
 
 
