@@ -40,6 +40,12 @@ def compile_method_list(framework, package):
 
 	methods.append(mva_method(
 		type = TMVA.Types.kBDT,
+		name = 'BDTG_UCSD',
+		options = "!H:!V:CreateMVAPdfs:NTrees=1200:MinNodeSize=3%:BoostType=Grad:Shrinkage=0.1:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=40:MaxDepth=4:VarTransform=I,N"
+		))	
+
+	methods.append(mva_method(
+		type = TMVA.Types.kBDT,
 		name = 'BDTG_MIT',
 		options = "!H:!V:NTrees=5000:MinNodeSize=3%:BoostType=Grad:Shrinkage=0.10:nCuts=40:MaxDepth=5:NodePurityLimit=0.95:Pray"
 		))	
