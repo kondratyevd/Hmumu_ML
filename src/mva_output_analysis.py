@@ -342,7 +342,7 @@ for i in range(10):
     cut_hi = (i+1)/10.0
     sample_bin = dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
     width_bin = sample_bin.fit_with_dcb("bin_%i"%(i+1))
-    width_vs_score.Fill((i+0.5)/10.0, width)
+    width_vs_score.Fill((i+0.5)/10.0, width_bin)
 
 canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
 canvas.cd()
