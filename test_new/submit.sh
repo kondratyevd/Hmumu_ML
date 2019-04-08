@@ -5,7 +5,7 @@ RunID=$(cat "output/CURRENT_RUN_ID")
 
 case $1 in
 	0)
-		echo 'Running option 1'
+		echo 'Running option 0'
 		python test_new/test_bdt_uf.py
 		;;
 	1)
