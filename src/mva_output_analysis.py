@@ -73,7 +73,7 @@ class Analyzer(object):
 
                 Import(w, smodel)
 
-                return w.var("%s_sigma"%label).getVal()
+                return w.var("%s_sigma"%label).getVal(), w.var("%s_sigma"%label).getError()
 
 
 
@@ -341,12 +341,13 @@ for i in range(10):
     cut_lo = i/10.0
     cut_hi = (i+1)/10.0
     sample_bin = dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
-    width_bin = sample_bin.fit_with_dcb("bin_%i"%(i+1))
-    width_vs_score.Fill((i+0.5)/10.0, width_bin)
+    width_bin, error_bin = sample_bin.fit_with_dcb("bin_%i"%(i+1))
+    width_vs_score.SetBinContent(i+1, width_bin)
+    width_vs_score.SetBinError(i+1, error_bin)
 
 canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
 canvas.cd()
-width_vs_score.Draw("ape1")
+width_vs_score.Draw("pe1")
 canvas.SaveAs("%s/%s/width_vs_score.png"%(a.out_path, dnn_multi_hiStat_ebe.name))
 
 
