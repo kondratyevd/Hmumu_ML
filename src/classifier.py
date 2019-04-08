@@ -6,7 +6,7 @@ from config import variables, pkg_names, Package
 sys.path.append( os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) ) )
 import ROOT
 from ROOT import gInterpreter, gSystem
-gInterpreter.ProcessLine(' #include "interface/CompositeCandMassResolution.h"')
+
 gInterpreter.ProcessLine(' #include "interface/EleInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/EventInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/GenJetInfo.h"')
@@ -16,7 +16,6 @@ gInterpreter.ProcessLine(' #include "interface/GenParentInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/GenPartInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/JetInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/JetPairInfo.h"')
-gInterpreter.ProcessLine(' #include "interface/LepMVA.h"')
 gInterpreter.ProcessLine(' #include "interface/MetInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/MhtInfo.h"')
 gInterpreter.ProcessLine(' #include "interface/MuPairInfo.h"')
