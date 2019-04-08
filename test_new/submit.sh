@@ -4,13 +4,17 @@ python src/prepare.py
 RunID=$(cat "output/CURRENT_RUN_ID")
 
 case $1 in
-	1)
+	0)
 		echo 'Running option 1'
 		python test_new/test_bdt_uf.py
 		;;
+	1)
+		echo 'Running option 1'
+		python test_new/test_bdt_uf_hiStat.py
+		;;
 	2)
 		echo 'Running option 2'
-		python test_new/test_bdt_uf_hiStat.py
+		python test_new/test_bdt_uf_hiStat_ebe.py
 		;;
 	3)
 		echo 'Running option 3'

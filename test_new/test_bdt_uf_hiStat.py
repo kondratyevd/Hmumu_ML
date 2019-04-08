@@ -6,7 +6,7 @@ from samples import *
 
 c = Framework()
 c.label = "bdt_uf_hiStat"
-comment = "Option 2: BDTG_UF_v1 (as in HIG-17-019), w/o even-by-event mass res., ZJets_AMC_hiStat ( mass 105-160 )"	
+comment = "Option 1: BDTG_UF_v1 (as in HIG-17-019), w/o even-by-event mass res., ZJets_AMC_hiStat ( mass 105-160 )"	
 				# change this line for each run
 c.add_comment(comment)
 print comment

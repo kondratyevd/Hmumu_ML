@@ -5,8 +5,8 @@ from src.classifier import Framework
 from samples import *
 
 c = Framework()
-c.label = "bdt_uf"
-comment = "Option 0: BDTG_UF_v1 (as in HIG-17-019), w/o even-by-event mass res., ZJets_AMC ( smaller sample )"	
+c.label = "bdt_uf_hiStat_ebe"
+comment = "Option 2: BDTG_UF_v1 (as in HIG-17-019), with even-by-event mass res. weights, ZJets_AMC_hiStat ( mass 105-160 )"	
 				# change this line for each run
 c.add_comment(comment)
 print comment
@@ -19,14 +19,14 @@ c.set_tree_path(treePath)
 c.set_metadata_path(metadataPath)
 
 c.set_year("2017")
-c.ebe_weights = False
+c.ebe_weights = True
 
 ##################### Input samples #######################
 
 c.add_signal_dir(ggH_2017_powheg.name, ggH_2017_powheg.path, ggH_2017_powheg.xSec)
 c.add_signal_dir(VBF_2017_powheg.name, VBF_2017_powheg.path, VBF_2017_powheg.xSec)
 
-c.add_background_dir(ZJets_aMC_2017.name, ZJets_aMC_2017.path, ZJets_aMC_2017.xSec)
+c.add_background_dir(ZJets_aMC_2017_hiStat.name, ZJets_aMC_2017_hiStat.path, ZJets_aMC_2017_hiStat.xSec)
 c.add_background_dir(tt_ll_POW_2017.name, tt_ll_POW_2017.path, tt_ll_POW_2017.xSec)
 
 ##########################################################
@@ -55,7 +55,6 @@ c.add_variable("jetPairs.dPhi",				1)
 
 
 c.add_data_spectator('muons.pt',			2)
-c.add_data_spectator('muons.eta',			2)
 c.add_data_spectator('muPairs.mass',	    1)
 c.add_data_spectator('muPairs.phi',			1)
 c.add_data_spectator('muons.isMediumID',	2)
@@ -63,7 +62,6 @@ c.add_data_spectator('jets.phi',			2)
 c.add_data_spectator('nJets',				1)
 
 c.add_spectator('muons.pt',					2)
-c.add_spectator('muons.eta',				2)
 c.add_spectator('muPairs.mass',		        1)
 c.add_spectator('muPairs.phi',				1)
 c.add_spectator('muons.isMediumID',			2)
