@@ -134,13 +134,15 @@ class Analyzer(object):
                 canvas.cd()
                 canvas.SetLogy()
 
-                self.mc_stack.Draw("hist")
-                self.mc_stack.SetTitle(self.title)
-                self.mc_stack.GetXaxis().SetTitle(var_name)
-                self.mc_stack.SetMinimum(0.01)
-                self.mc_stack.SetMaximum(100000)
+                if not shapes:
+                    self.mc_stack.Draw("hist")
+                    self.mc_stack.SetTitle(self.title)
+                    self.mc_stack.GetXaxis().SetTitle(var_name)
+                    self.mc_stack.SetMinimum(0.01)
+                    self.mc_stack.SetMaximum(100000)
                 for hist in self.signal_hists:
                     hist.Draw("histsame")
+                    hist.GetXaxis().SetTitle(var_name)
                 if self.data_hist:
                     self.data_hist.Draw("pe1same")
                 legend.Draw()
