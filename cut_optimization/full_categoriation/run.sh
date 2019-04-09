@@ -11,38 +11,38 @@ case $1 in
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UF/SingleMu_2017*_BDTG_UF_v1.root"
 		DATA_TREE="tree"
 		method="BDT"
-		exit 1;;
+		;;
 	1)
 		echo 'Running option 1'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UF_hiStat/H2Mu_*_BDTG_UF_v1.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UF_hiStat/SingleMu_2017*_BDTG_UF_v1.root"
 		DATA_TREE="tree"
 		method="BDT"
-		exit 1;;
+		;;
 	2)
 		echo 'Running option 2'
 		# SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-03-29_10-49-20/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
 		# DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-03-29_10-49-20/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
-		exit 1;;
+		;;
 	3)
 		echo 'Running option 3'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD/H2Mu_*_BDTG_UCSD.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD/SingleMu_2017*_BDTG_UCSD.root"
 		DATA_TREE="tree"
 		method="BDT"
-		exit 1;;
+		;;
 	4)
 		echo 'Running option 4'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat/H2Mu_*_BDTG_UCSD.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat/SingleMu_2017*_BDTG_UCSD.root"
 		DATA_TREE="tree"
 		method="BDT"
-		exit 1;;
+		;;
 	5)
 		echo 'Running option 5'
 		# SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-03-29_10-49-20/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
 		# DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-03-29_10-49-20/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
-		exit 1;;
+		;;
 	6)
 		echo 'Running option 6'
 		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-05/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
@@ -83,7 +83,7 @@ case $1 in
 
 	*)
 		echo 'Wrong option ' $1
-		exit 1;;	
+		;;	
 esac
 
 
