@@ -150,13 +150,13 @@ class Analyzer(object):
                 if e.errno != errno.EEXIST:
                     raise
 
-            canvas.SaveAs("%s/%s.root"%(new_out_path,var_name))
-            canvas.SaveAs("%s/%s.png"%(new_out_path,var_name))
+            canvas.SaveAs("%s/%s.root"%(new_out_path,label))
+            canvas.SaveAs("%s/%s.png"%(new_out_path,label))
 
 
-        def plot_roc(self, score, nBins, xmin, xmax, working_points=[]):
+        def plot_roc(self, score, nBins, xmin, xmax, working_points=[], label = "test"):
             print "Plotting MVA score..."
-            self.plot(score, nBins, xmin, xmax, "forROC")
+            self.plot(score, nBins, xmin, xmax, label+"_forROC")
             roc = ROOT.TGraph()
             idx = []
             if working_points:
@@ -361,7 +361,7 @@ dnn_binary_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", 
 dnn_binary_hiStat.set_lumi(40490.712)
 # dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 # dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1)
-dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("(log(sig_prediction+0.001)+3)/3", 500, 0, 1)
+dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("(log(sig_prediction+0.001)+3)/3", 500, 0, 1, label="log")
 dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
 # dnn_binary_hiStat_roc_graph_1 = dnn_binary_hiStat.plot_roc("bkg_prediction", 500, 0, 1)
 # dnn_binary_hiStat_roc_1 = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
