@@ -15,21 +15,16 @@ parser.add_argument('--nuis_val', action='store', dest='res_unc_val', help='Reso
 parser.add_argument('--scale_unc_val', action='store', dest='scale_unc_val', help='Scale uncertainty')
 parser.add_argument('--smodel', action='store', dest='smodel', help='Signal model')
 parser.add_argument('--option', action='store', dest='option', help='option')
-parser.add_argument('--binary', action='store', dest='binary', help='binary')
+parser.add_argument('--method', action='store', dest='method', help='method')
 args = parser.parse_args()
 
-if "True" in args.binary: # I'll fix it later
-	bin=True
-else:
-	bin=False
-print args.binary
 
 options = {
-	'0': [],
-	'1': [],
+	'0': [-0.324, 0.048, 0.20, 0.292, 0.412, 0.504],
+	'1': [-0.18, 0.288, 0.428, 0.512, 0.632, 0.708],
 	'2': [],
-	'3': [],
-	'4': [],
+	'3': [-0.320, 0.048, 0.204, 0.30, 0.436, 0.556],
+	'4': [-0.264, 0.252, 0.408, 0.496, 0.616, 0.72],
 	'5': [],
 	'6': [0.63, 0.788, 0.832, 0.844, 0.908, 0.940],
 	'7': [0.046, 0.094, 0.116, 0.134, 0.262, 0.388],
@@ -64,12 +59,13 @@ eta_cut_full = [
 	"1", #cat14
 ]
 
-if bin:
+if "binary" in args.method:
 	score = "sig_prediction"
-else:
+elif "multi" in args.method:
 	score = "(ggH_prediction+VBF_prediction)"
+elif "BDT" in args.method:
+	score = "MVA"
 
-# mva_cuts = [0.61, 0.756, 0.814, 0.842, 0.916, 0.956] # DNN 3layers V1, score = ggH+VBF
 
 mva_cut = [
 	"(%s<%f)"%(score, mva_cuts[0]), #cat0
@@ -101,22 +97,22 @@ mva_cut_full = [
 
 
 # categories_inclusive = {"cat0": "1"}
-# create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_inclusive"%args.option, "workspace_dnn_option%s_inclusive"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
+# create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_inclusive"%args.option, "workspace_dnn_option%s_inclusive"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=method)
 
 categories_full = {}
 for i in range(len(eta_cut_full)):
 	categories_full["cat%i"%i] = "(%s)&(%s)"%(eta_cut_full[i], mva_cut_full[i])
-create_datacard(categories_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_full"%args.option, "workspace_dnn_option%s_full"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
+create_datacard(categories_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_full"%args.option, "workspace_dnn_option%s_full"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=method)
 
 # categories_mva = {}
 # for i in range(len(mva_cut)):
 # 	categories_mva["cat%i"%i] = "(%s)"%(mva_cut[i]) # only mva categorization
-# create_datacard(categories_mva, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_mva"%args.option, "workspace_dnn_option%s_mva"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
+# create_datacard(categories_mva, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_mva"%args.option, "workspace_dnn_option%s_mva"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=method)
 
 # categories_eta = {}
 # for i in range(len(eta_cut)):
 # 	categories_eta["cat%i"%i] = "(%s)"%(eta_cut[i]) # only eta categorization
-# create_datacard(categories_eta, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_eta"%args.option, "workspace_dnn_option%s_eta"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
+# create_datacard(categories_eta, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_eta"%args.option, "workspace_dnn_option%s_eta"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=method)
 
 
 

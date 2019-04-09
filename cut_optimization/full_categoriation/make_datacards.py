@@ -13,20 +13,22 @@ def create_workspace():
 
     return w
 
-def add_data(w, cat_name, input_path, data_tree, cut, binary):
+def add_data(w, cat_name, input_path, data_tree, cut, method):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4)
-    if binary:
+    if "binary" in method:
         sig_pred_var = ROOT.RooRealVar("sig_prediction", "sig_prediction", 0, 1)
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)        
-    else:
+    elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
+    elif "BDT" in method:
+        mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
     data_tree = ROOT.TChain(data_tree)
     data_tree.Add(input_path)  
     print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
@@ -36,26 +38,29 @@ def add_data(w, cat_name, input_path, data_tree, cut, binary):
     dummy.cd()
     data_tree.Draw("mass>>%s"%(data_hist_name), cut)
     dummy.Close()
-    if binary:
+    if "binary" in method:
         data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
-    else:
+    elif "multi" in method:
         data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)    
+    elif "BDT" in method:
+        data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)    
+
     Import(w, data)
     return w.data("%s_data"%cat_name)
 
-def add_sig_model(w, cat_name, input_path, cut, binary):
+def add_sig_model(w, cat_name, input_path, cut, method):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4)
-    if binary:
+    if "binary" in method:
         sig_pred_var = ROOT.RooRealVar("sig_prediction", "sig_prediction", 0, 1)
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
         print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
-    else:
+    elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
@@ -71,7 +76,12 @@ def add_sig_model(w, cat_name, input_path, cut, binary):
         tree_list.Add(vbf_tree)
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
-        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
+        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
+    elif "BDT" in method:
+        mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
+        sig_tree = ROOT.TChain("tree")
+        sig_tree.Add(input_path)
+
     signal_tree.SetName("signal_tree")
 
      
@@ -97,10 +107,13 @@ def add_sig_model(w, cat_name, input_path, cut, binary):
     smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
     w.Print()
-    if binary:
+    if "binary" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
-    else:
+    elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
+    elif "BDT" in method:
+        elif "multi" in method:
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
@@ -110,19 +123,19 @@ def add_sig_model(w, cat_name, input_path, cut, binary):
     Import(w, smodel)
     return signal_rate
 
-def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scale_unc_val, binary):
+def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scale_unc_val, method):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4)
-    if binary:
+    if "binary" in method:
         sig_pred_var = ROOT.RooRealVar("sig_prediction", "sig_prediction", 0, 1)
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
         print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
-    else:
+    elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
@@ -138,7 +151,12 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         tree_list.Add(vbf_tree)
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
-        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
+        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()  
+    elif "BDT" in method:
+        mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
+        sig_tree = ROOT.TChain("tree")
+        sig_tree.Add(input_path)
+
     signal_tree.SetName("signal_tree")  
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
@@ -199,10 +217,13 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
 
     # Import(w,smodel)
     w.Print()
-    if binary:
+    if "binary" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
-    else:
+    elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
+    elif "BDT" in method:
+        elif "multi" in method:
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
@@ -217,19 +238,19 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     Import(w, smodel)
     return signal_rate
 
-def add_sig_model_dcb(w, cat_name, input_path, cut, binary):
+def add_sig_model_dcb(w, cat_name, input_path, cut, method):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4)
-    if binary:
+    if "binary" in method:
         sig_pred_var = ROOT.RooRealVar("sig_prediction", "sig_prediction", 0, 1)
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
         print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
-    else:
+    elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
@@ -246,6 +267,11 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, binary):
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
+    elif "BDT" in method:
+        mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
+        sig_tree = ROOT.TChain("tree")
+        sig_tree.Add(input_path)
+
     signal_tree.SetName("signal_tree")      
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
@@ -261,10 +287,13 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, binary):
     w.factory("RooDCBShape::%s_sig(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
     smodel = w.pdf("%s_sig"%cat_name)
     w.Print()
-    if binary:
+    if "binary" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
-    else:
+    elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
+    elif "BDT" in method:
+        elif "multi" in method:
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
     sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
@@ -274,19 +303,19 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, binary):
     Import(w, smodel)
     return signal_rate
 
-def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scale_unc_val, binary):
+def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scale_unc_val, method):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
     mu1_eta = ROOT.RooRealVar("mu1_eta","mu1_eta", -2.4, 2.4) 
     mu2_eta = ROOT.RooRealVar("mu2_eta","mu2_eta", -2.4, 2.4)
-    if binary:
+    if "binary" in method:
         sig_pred_var = ROOT.RooRealVar("sig_prediction", "sig_prediction", 0, 1)
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
         print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
-    else:
+    elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
@@ -303,6 +332,11 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
+    elif "BDT" in method:
+        mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
+        sig_tree = ROOT.TChain("tree")
+        sig_tree.Add(input_path)
+
     signal_tree.SetName("signal_tree")  
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
@@ -329,10 +363,13 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     w.factory("RooDCBShape::%s_sig(mass, %s_mean_times_nuis, %s_sigma_times_nuis, %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
     smodel = w.pdf("%s_sig"%cat_name)
     w.Print()
-    if binary:
+    if "binary" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
-    else:
+    elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
+    elif "BDT" in method:
+        elif "multi" in method:
+        signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
     sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
@@ -347,8 +384,8 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     Import(w, smodel)
     return signal_rate
 
-def add_bkg_model(w, cat_name, input_path, data_tree, cut, binary):
-    data = add_data(w, cat_name, input_path, data_tree, cut, binary)
+def add_bkg_model(w, cat_name, input_path, data_tree, cut, method):
+    data = add_data(w, cat_name, input_path, data_tree, cut, method)
     var = w.var("mass")
     var.setBins(5000)
     var.setRange("left",110,120+0.1)
@@ -374,7 +411,7 @@ def add_bkg_model(w, cat_name, input_path, data_tree, cut, binary):
     return bkg_rate
 
 
-def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, output_path, filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', binary=False):
+def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, output_path, filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', method=""):
     # nCat = len(bins)-1
     combine_import = ""
     combine_bins = "bin         "
@@ -396,16 +433,16 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
         if '3gaus' in smodel:
 
             if nuis:
-                sig_rate = add_sig_model_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, binary)    
+                sig_rate = add_sig_model_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, method)    
             else:
-                sig_rate = add_sig_model(w, cat_name, sig_input_path, cut, binary) 
+                sig_rate = add_sig_model(w, cat_name, sig_input_path, cut, method) 
         elif 'dcb' in smodel:
             if nuis:
-                sig_rate = add_sig_model_dcb_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, binary)    
+                sig_rate = add_sig_model_dcb_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, method)    
             else:
-                sig_rate = add_sig_model_dcb(w, cat_name, sig_input_path, cut, binary) 
+                sig_rate = add_sig_model_dcb(w, cat_name, sig_input_path, cut, method) 
 
-        bkg_rate = add_bkg_model(w, cat_name, data_input_path, data_tree, cut, binary)
+        bkg_rate = add_bkg_model(w, cat_name, data_input_path, data_tree, cut, method)
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
         combine_import = combine_import+"shapes %s_sig  %s %s.root w:%s_sig\n"%(cat_name, cat_name, filename, cat_name)
@@ -435,8 +472,8 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n"
 
 
-def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, datacard_name, workspace_filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', binary=False): 
-    print "Binary:", binary
+def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, datacard_name, workspace_filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', method=""): 
+    print "method:", method
     print "="*30
     print "Categories: "
     for key, value in categories.iteritems():
@@ -447,7 +484,7 @@ def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, 
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_dnn_categories(categories, sig_in_path, data_in_path, data_tree, out_path, workspace_filename, statUnc=statUnc, nuis=nuis, res_unc_val=res_unc_val, scale_unc_val=scale_unc_val, smodel=smodel, binary=binary)
+    import_str, bins_obs, cat_strings, unc_str = make_dnn_categories(categories, sig_in_path, data_in_path, data_tree, out_path, workspace_filename, statUnc=statUnc, nuis=nuis, res_unc_val=res_unc_val, scale_unc_val=scale_unc_val, smodel=smodel, method=""d)
     out_file = open(out_path+datacard_name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
