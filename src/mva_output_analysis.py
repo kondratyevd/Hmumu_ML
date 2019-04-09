@@ -355,7 +355,7 @@ dnn_multi_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root
 dnn_multi_hiStat_ebe.set_lumi(40490.712)
 dnn_multi_hiStat_ebe_roc_graph = dnn_multi_hiStat_ebe.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_multi_hiStat_ebe_roc = a.RocCurve(dnn_multi_hiStat_ebe_roc_graph, "dnn_multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", ROOT.kRed)
-roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
+# roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
 
 # Option 9
 dnn_binary_hiStat = a.add_mva_source("DNN_Binary_hiStat", "DNN_Binary_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -365,7 +365,7 @@ dnn_binary_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", 
 dnn_binary_hiStat.set_lumi(40490.712)
 dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
-roc_to_compare.append(dnn_binary_hiStat_roc)
+# roc_to_compare.append(dnn_binary_hiStat_roc)
 
 # Option 9.1 - plot only shapes
 dnn_binary_hiStat_1 = a.add_mva_source("DNN_Binary_hiStat_1", "DNN_Binary_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -382,38 +382,38 @@ dnn_binary_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.roo
 dnn_binary_hiStat_ebe.set_lumi(40490.712)
 dnn_binary_hiStat_ebe_roc_graph = dnn_binary_hiStat_ebe.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_hiStat_ebe_roc = a.RocCurve(dnn_binary_hiStat_ebe_roc_graph, "dnn_binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", ROOT.kYellow)
-roc_to_compare.append(dnn_binary_hiStat_ebe_roc)
+# roc_to_compare.append(dnn_binary_hiStat_ebe_roc)
 
 # Option 0
 bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-06/TMVA/")
 bdt_uf_roc_tmva = a.roc_from_tmva(bdt_uf, "BDT_UF", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlack, 2)
-roc_to_compare.append(bdt_uf_roc_tmva)
+# roc_to_compare.append(bdt_uf_roc_tmva)
 
 # Option 1
 bdt_uf_hiStat = a.add_mva_source("BDT_UF_hiStat", "BDT_UF_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-12/TMVA/")
 bdt_uf_hiStat_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat, "BDT_UF_hiStat", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlue, 2)
-roc_to_compare.append(bdt_uf_hiStat_roc_tmva)
+# roc_to_compare.append(bdt_uf_hiStat_roc_tmva)
 
 # Option 2
 bdt_uf_hiStat_ebe = a.add_mva_source("BDT_UF_hiStat_ebe", "BDT_UF_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-30/TMVA/")
 bdt_uf_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat_ebe, "BDT_UF_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kRed, 2)
-roc_to_compare.append(bdt_uf_hiStat_ebe_roc_tmva)
+# roc_to_compare.append(bdt_uf_hiStat_ebe_roc_tmva)
 
 # Option 3
 bdt_ucsd = a.add_mva_source("BDT_UCSD", "BDT_UCSD", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-57/TMVA/")
 bdt_ucsd_roc_tmva = a.roc_from_tmva(bdt_ucsd, "BDT_UCSD", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kGreen, 2)
-roc_to_compare.append(bdt_ucsd_roc_tmva)
+# roc_to_compare.append(bdt_ucsd_roc_tmva)
 
 # Option 4
 bdt_ucsd_hiStat = a.add_mva_source("BDT_UCSD_hiStat", "BDT_UCSD_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-44/TMVA/")
 bdt_ucsd_hiStat_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat, "BDT_UCSD_hiStat", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kViolet, 2)
-roc_to_compare.append(bdt_ucsd_hiStat_roc_tmva)
+# roc_to_compare.append(bdt_ucsd_hiStat_roc_tmva)
 
 
 # Option 5
 bdt_ucsd_hiStat_ebe = a.add_mva_source("BDT_UCSD_hiStat_ebe", "BDT_UCSD_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-49/TMVA/")
 bdt_ucsd_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat_ebe, "BDT_UCSD_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kYellow, 2)
-roc_to_compare.append(bdt_ucsd_hiStat_ebe_roc_tmva)
+# roc_to_compare.append(bdt_ucsd_hiStat_ebe_roc_tmva)
 
 
 a.compare_roc_curves(roc_to_compare)
