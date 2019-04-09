@@ -48,7 +48,7 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
     Import(w, data)
     return w.data("%s_data"%cat_name)
 
-def add_sig_model(w, cat_name, input_path, cut, method):
+def add_sig_model(w, cat_name, input_path, cut, method, lumi):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
@@ -236,7 +236,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     Import(w, smodel)
     return signal_rate
 
-def add_sig_model_dcb(w, cat_name, input_path, cut, method):
+def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
     var = w.var("mass")
     var.setBins(5000)
     max_abs_eta_var = ROOT.RooRealVar("max_abs_eta_mu","Max abs(eta) of muons", 0, 2.4) 
