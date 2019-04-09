@@ -92,7 +92,7 @@ esac
 # LUMI=35866
 OUTPUT_PATH=output/test_$1/
 mkdir $OUTPUT_PATH
-python categorize.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE" --sig_tree $SIG_TREE --method $method
+python categorize.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE" --sig_tree "$SIG_TREE" --method $method
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
