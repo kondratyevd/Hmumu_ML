@@ -79,8 +79,8 @@ def add_sig_model(w, cat_name, input_path, cut, method):
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
-        sig_tree = ROOT.TChain("tree")
-        sig_tree.Add(input_path)
+        signal_tree = ROOT.TChain("tree")
+        signal_tree.Add(input_path)
 
     signal_tree.SetName("signal_tree")
 
@@ -153,8 +153,8 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()  
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
-        sig_tree = ROOT.TChain("tree")
-        sig_tree.Add(input_path)
+        signal_tree = ROOT.TChain("tree")
+        signal_tree.Add(input_path)
 
     signal_tree.SetName("signal_tree")  
     signal_hist_name = "signal_%s"%cat_name
@@ -267,8 +267,8 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method):
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
-        sig_tree = ROOT.TChain("tree")
-        sig_tree.Add(input_path)
+        signal_tree = ROOT.TChain("tree")
+        signal_tree.Add(input_path)
 
     signal_tree.SetName("signal_tree")      
     signal_hist_name = "signal_%s"%cat_name
@@ -331,8 +331,8 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
-        sig_tree = ROOT.TChain("tree")
-        sig_tree.Add(input_path)
+        signal_tree = ROOT.TChain("tree")
+        signal_tree.Add(input_path)
 
     signal_tree.SetName("signal_tree")  
     signal_hist_name = "signal_%s"%cat_name
