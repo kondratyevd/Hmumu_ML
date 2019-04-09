@@ -64,7 +64,10 @@ eta_cut_full = [
 	"1", #cat14
 ]
 
-score = "(ggH_prediction+VBF_prediction)"
+if bin:
+	score = "(ggH_prediction+VBF_prediction)"
+else:
+	score = "sig_prediction"
 # mva_cuts = [0.61, 0.756, 0.814, 0.842, 0.916, 0.956] # DNN 3layers V1, score = ggH+VBF
 
 mva_cut = [
