@@ -19,9 +19,10 @@ parser.add_argument('--binary', action='store', dest='binary', help='binary')
 args = parser.parse_args()
 
 if "True" in args.binary: # I'll fix it later
-	bin = True
+	bin=True
 else:
 	bin=False
+print bin
 
 options = {
 	'0': [],
