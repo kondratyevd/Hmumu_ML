@@ -85,7 +85,7 @@ class Analyzer(object):
             self.samples.append(new_sample)
             return new_sample
             
-        def plot(self, var_name, nBins, xmin, xmax, label=""):
+        def plot(self, var_name, nBins, xmin, xmax, label="", draw=True):
             trees = {}
             # hists = {}
             self.signal_hists = []
@@ -211,7 +211,7 @@ class Analyzer(object):
             return roc
 
         def score_cuts_from_wp(self, score, signal_wp, nBins, xmin, xmax):
-            self.plot(score, nBins, xmin, xmax, "forWP")
+            self.plot(score, nBins, xmin, xmax, "forWP", draw=False)
             closest_cuts = []
             best_appr = []
             idx = []
@@ -359,12 +359,8 @@ dnn_binary_hiStat.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, T
 dnn_binary_hiStat.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
 dnn_binary_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_binary_hiStat.set_lumi(40490.712)
-# dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-# dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1)
-dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("(sqrt(sig_prediction))", 500, 0, 1, label="sqrt")
+dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
-# dnn_binary_hiStat_roc_graph_1 = dnn_binary_hiStat.plot_roc("bkg_prediction", 500, 0, 1)
-# dnn_binary_hiStat_roc_1 = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
 roc_to_compare.append(dnn_binary_hiStat_roc)
 
 # Option 10
