@@ -62,7 +62,7 @@ case $1 in
 	*)
 		echo 'Wrong option ' $1
 		exit 1;;	
-
+esac
 
 
 # SIG_TREE="tree"
