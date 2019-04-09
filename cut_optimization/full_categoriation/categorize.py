@@ -22,7 +22,7 @@ if "True" in args.binary: # I'll fix it later
 	bin=True
 else:
 	bin=False
-print bin
+print args.binary
 
 options = {
 	'0': [],
