@@ -444,7 +444,7 @@ bdt_ucsd_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", Fals
 bdt_ucsd_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
 bdt_ucsd_hiStat.set_lumi(40490.712)
 bdt_ucsd_hiStat_roc_graph = bdt_ucsd_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_ucsd_hiStat_roc = a.RocCurve(bdt_ucsd_hiStat_roc_graph, "bdt_ucsd_hiStat", "BDT UCSD loStat", ROOT.kGreen, 2)
+bdt_ucsd_hiStat_roc = a.RocCurve(bdt_ucsd_hiStat_roc_graph, "bdt_ucsd_hiStat", "BDT UCSD hiStat", ROOT.kGreen, 2)
 roc_to_compare.append(bdt_ucsd_hiStat_roc)
 # bdt_ucsd_hiStat_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat, "BDT_UCSD_hiStat", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kViolet, 2)
 # roc_to_compare.append(bdt_ucsd_hiStat_roc_tmva)
