@@ -112,7 +112,6 @@ def add_sig_model(w, cat_name, input_path, cut, method):
     elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
     elif "BDT" in method:
-        elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
@@ -222,7 +221,6 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
     elif "BDT" in method:
-        elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
@@ -292,7 +290,6 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method):
     elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
     elif "BDT" in method:
-        elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
@@ -368,7 +365,6 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), cut)
     elif "BDT" in method:
-        elif "multi" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
