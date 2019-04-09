@@ -436,6 +436,7 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
 
 
 def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, datacard_name, workspace_filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', binary=False): 
+    print "Binary:", binary
     print "="*30
     print "Categories: "
     for key, value in categories.iteritems():
