@@ -128,30 +128,31 @@ class Analyzer(object):
                     self.signal_hists.append(hist)
                     legend.AddEntry(hist, smp.title, "l")
 
-            canvas = ROOT.TCanvas(var_name, var_name, 800, 800)
-            canvas.cd()
-            canvas.SetLogy()
+            if draw:
+                canvas = ROOT.TCanvas(var_name, var_name, 800, 800)
+                canvas.cd()
+                canvas.SetLogy()
 
-            self.mc_stack.Draw("hist")
-            self.mc_stack.SetTitle(self.title)
-            self.mc_stack.GetXaxis().SetTitle(var_name)
-            self.mc_stack.SetMinimum(0.01)
-            self.mc_stack.SetMaximum(100000)
-            for hist in self.signal_hists:
-                hist.Draw("histsame")
-            if self.data_hist:
-                self.data_hist.Draw("pe1same")
-            legend.Draw()
-            new_out_path = "%s/%s/"%(self.framework.out_path, self.name)
+                self.mc_stack.Draw("hist")
+                self.mc_stack.SetTitle(self.title)
+                self.mc_stack.GetXaxis().SetTitle(var_name)
+                self.mc_stack.SetMinimum(0.01)
+                self.mc_stack.SetMaximum(100000)
+                for hist in self.signal_hists:
+                    hist.Draw("histsame")
+                if self.data_hist:
+                    self.data_hist.Draw("pe1same")
+                legend.Draw()
+                new_out_path = "%s/%s/"%(self.framework.out_path, self.name)
 
-            try:
-                os.makedirs(new_out_path)
-            except OSError as e:
-                if e.errno != errno.EEXIST:
-                    raise
+                try:
+                    os.makedirs(new_out_path)
+                except OSError as e:
+                    if e.errno != errno.EEXIST:
+                        raise
 
-            canvas.SaveAs("%s/%s.root"%(new_out_path,label))
-            canvas.SaveAs("%s/%s.png"%(new_out_path,label))
+                canvas.SaveAs("%s/%s.root"%(new_out_path,label))
+                canvas.SaveAs("%s/%s.png"%(new_out_path,label))
 
 
         def plot_roc(self, score, nBins, xmin, xmax, working_points=[], label = "test"):
@@ -211,7 +212,7 @@ class Analyzer(object):
             return roc
 
         def score_cuts_from_wp(self, score, signal_wp, nBins, xmin, xmax):
-            self.plot(score, nBins, xmin, xmax, "forWP", draw=False)
+            # self.plot(score, nBins, xmin, xmax, "forWP", draw=False)
             closest_cuts = []
             best_appr = []
             idx = []
