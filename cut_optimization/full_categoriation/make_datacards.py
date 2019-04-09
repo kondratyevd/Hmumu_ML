@@ -374,7 +374,7 @@ def add_bkg_model(w, cat_name, input_path, data_tree, cut, binary):
     return bkg_rate
 
 
-def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, output_path, filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', binary):
+def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, output_path, filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', binary=False):
     # nCat = len(bins)-1
     combine_import = ""
     combine_bins = "bin         "
