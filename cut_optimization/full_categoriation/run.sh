@@ -2,6 +2,8 @@
 echo "Running..."
 CURRENT_LOCATION=$(pwd)
 
+binary="False"
+
 case $1 in
 	0)
 		echo 'Running option 0'
@@ -52,11 +54,13 @@ case $1 in
 		echo 'Running option 9'
 		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
 		DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		binary="True"
 		;;
 	10)
 		echo 'Running option 10'
 		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-16/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
 		DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-16/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		binary="True"
 		;;
 
 	*)
@@ -70,7 +74,7 @@ DATA_TREE="tree_Data"
 # LUMI=35866
 OUTPUT_PATH=output/test_$1/
 mkdir $OUTPUT_PATH
-python categorize.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE"
+python categorize.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE" --binary
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 

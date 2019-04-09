@@ -15,7 +15,13 @@ parser.add_argument('--nuis_val', action='store', dest='res_unc_val', help='Reso
 parser.add_argument('--scale_unc_val', action='store', dest='scale_unc_val', help='Scale uncertainty')
 parser.add_argument('--smodel', action='store', dest='smodel', help='Signal model')
 parser.add_argument('--option', action='store', dest='option', help='option')
+parser.add_argument('--binary', action='store', dest='binary', help='binary')
 args = parser.parse_args()
+
+if "True" in args.binary: # I'll fix it later
+	bin = True
+else:
+	bin=False
 
 options = {
 	'0': [],
@@ -90,22 +96,22 @@ mva_cut_full = [
 
 
 categories_inclusive = {"cat0": "1"}
-create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_inclusive"%args.option, "workspace_dnn_option%s_inclusive"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_inclusive"%args.option, "workspace_dnn_option%s_inclusive"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
 
 categories_full = {}
 for i in range(len(eta_cut_full)):
 	categories_full["cat%i"%i] = "(%s)&(%s)"%(eta_cut_full[i], mva_cut_full[i])
-create_datacard(categories_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_full"%args.option, "workspace_dnn_option%s_full"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+create_datacard(categories_full, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_full"%args.option, "workspace_dnn_option%s_full"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
 
 categories_mva = {}
 for i in range(len(mva_cut)):
 	categories_mva["cat%i"%i] = "(%s)"%(mva_cut[i]) # only mva categorization
-create_datacard(categories_mva, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_mva"%args.option, "workspace_dnn_option%s_mva"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+create_datacard(categories_mva, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_mva"%args.option, "workspace_dnn_option%s_mva"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
 
 categories_eta = {}
 for i in range(len(eta_cut)):
 	categories_eta["cat%i"%i] = "(%s)"%(eta_cut[i]) # only eta categorization
-create_datacard(categories_eta, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_eta"%args.option, "workspace_dnn_option%s_eta"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel)
+create_datacard(categories_eta, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_eta"%args.option, "workspace_dnn_option%s_eta"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, binary=bin)
 
 
 
