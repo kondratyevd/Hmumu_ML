@@ -480,7 +480,7 @@ def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, 
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_dnn_categories(categories, sig_in_path, data_in_path, data_tree, out_path, workspace_filename, statUnc=statUnc, nuis=nuis, res_unc_val=res_unc_val, scale_unc_val=scale_unc_val, smodel=smodel, method=""d)
+    import_str, bins_obs, cat_strings, unc_str = make_dnn_categories(categories, sig_in_path, data_in_path, data_tree, out_path, workspace_filename, statUnc=statUnc, nuis=nuis, res_unc_val=res_unc_val, scale_unc_val=scale_unc_val, smodel=smodel, method="")
     out_file = open(out_path+datacard_name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
