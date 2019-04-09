@@ -85,9 +85,8 @@ class Analyzer(object):
             self.samples.append(new_sample)
             return new_sample
             
-        def plot(self, var_name, nBins, xmin, xmax, label="", draw=True):
+        def plot(self, var_name, nBins, xmin, xmax, label="", draw=True, shapes=False):
             trees = {}
-            # hists = {}
             self.signal_hists = []
             self.data_hist = None
             self.mc_stack = ROOT.THStack()
@@ -127,6 +126,8 @@ class Analyzer(object):
                     hist.SetLineColor(smp.color)
                     self.signal_hists.append(hist)
                     legend.AddEntry(hist, smp.title, "l")
+                    if shapes:
+                        hist.Scale(1/hist.Integral())
 
             if draw:
                 canvas = ROOT.TCanvas(var_name, var_name, 800, 800)
@@ -363,6 +364,13 @@ dnn_binary_hiStat.set_lumi(40490.712)
 dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
 roc_to_compare.append(dnn_binary_hiStat_roc)
+
+# Option 9.1 - plot only shapes
+dnn_binary_hiStat_1 = a.add_mva_source("DNN_Binary_hiStat_1", "DNN_Binary_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_binary_hiStat_1.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True)
+dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+dnn_binary_hiStat_1.set_lumi(40490.712)
+dnn_binary_hiStat_1.plot("sig_prediction", 500, 0, 1, label="shapes", draw=True, shapes=True):
 
 # Option 10
 dnn_binary_hiStat_ebe = a.add_mva_source("DNN_Binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-16//Keras_multi/model_50_D2_25_D2_25_D2/root/")
