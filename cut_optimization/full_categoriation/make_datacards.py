@@ -54,7 +54,7 @@ def add_sig_model(w, cat_name, input_path, cut, binary):
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%sig_tree.GetEntries()    
+        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     else:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
@@ -121,7 +121,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%sig_tree.GetEntries()    
+        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     else:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
@@ -228,7 +228,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, binary):
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%sig_tree.GetEntries()    
+        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     else:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
@@ -285,7 +285,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%sig_tree.GetEntries()    
+        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     else:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
