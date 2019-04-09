@@ -48,6 +48,10 @@ case $1 in
 		echo 'Running option 10'
 		python test_new/test_dnn_binary_hiStat_ebe.py
 		;;
+	11)
+		echo 'Running option 11'
+		python test_new/test_dnn_binary.py
+		;;
 
 	*)
 		echo 'Wrong option ' $1;;		
