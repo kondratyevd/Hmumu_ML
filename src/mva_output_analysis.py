@@ -344,7 +344,7 @@ dnn_multi_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "
 dnn_multi_hiStat.set_lumi(40490.712)
 dnn_multi_hiStat_roc_graph = dnn_multi_hiStat.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_multi_hiStat_roc = a.RocCurve(dnn_multi_hiStat_roc_graph, "dnn_multi_hiStat", "DNN_Multi_hiStat", ROOT.kRed)
-# roc_to_compare.append(dnn_multi_hiStat_roc)
+roc_to_compare.append(dnn_multi_hiStat_roc)
 
 # Option 8
 dnn_multi_hiStat_ebe = a.add_mva_source("DNN_Multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-09//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -355,8 +355,8 @@ dnn_multi_hiStat_ebe.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", 
 dnn_multi_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_multi_hiStat_ebe.set_lumi(40490.712)
 dnn_multi_hiStat_ebe_roc_graph = dnn_multi_hiStat_ebe.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_multi_hiStat_ebe_roc = a.RocCurve(dnn_multi_hiStat_ebe_roc_graph, "dnn_multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", ROOT.kRed)
-# roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
+dnn_multi_hiStat_ebe_roc = a.RocCurve(dnn_multi_hiStat_ebe_roc_graph, "dnn_multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", ROOT.kRed, 2)
+roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
 
 # Option 9
 dnn_binary_hiStat = a.add_mva_source("DNN_Binary_hiStat", "DNN_Binary_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -366,7 +366,7 @@ dnn_binary_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", 
 dnn_binary_hiStat.set_lumi(40490.712)
 dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kRed)
-roc_to_compare.append(dnn_binary_hiStat_roc)
+# roc_to_compare.append(dnn_binary_hiStat_roc)
 
 # Option 9.1 - plot only shapes
 dnn_binary_hiStat_1 = a.add_mva_source("DNN_Binary_hiStat_1", "DNN_Binary_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -393,7 +393,7 @@ dnn_binary.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_D
 dnn_binary.set_lumi(40490.712)
 dnn_binary_roc_graph = dnn_binary.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_roc = a.RocCurve(dnn_binary_roc_graph, "dnn_binary", "DNN_Binary", ROOT.kBlue)
-roc_to_compare.append(dnn_binary_roc)
+# roc_to_compare.append(dnn_binary_roc)
 
 # Option 0
 bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/home/dkondra/tmp/BDTG_UF/")
