@@ -386,7 +386,7 @@ dnn_binary_hiStat_1.add_sample("bkg4", "bkg4", "output_t*root", "tree_bkg", Fals
 dnn_binary_hiStat_1.add_sample("bkg5", "bkg5", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[4], dnn_cuts[5]))
 dnn_binary_hiStat_1.add_sample("bkg6", "bkg6", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[5], 1))
 # dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-# dnn_binary_hiStat_1.set_lumi(40490.712)
+dnn_binary_hiStat_1.set_lumi(40490.712)
 dnn_binary_hiStat_1.plot("mass", 200, 110, 150, label="shapes", draw=True, shapes=True)
 
 # Option 10
@@ -439,7 +439,7 @@ bdt_uf_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_
 bdt_uf_hiStat.set_lumi(40490.712)
 bdt_uf_hiStat_roc_graph = bdt_uf_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_uf_hiStat_roc = a.RocCurve(bdt_uf_hiStat_roc_graph, "bdt_uf_hiStat", "BDT UF hiStat", ROOT.kBlack)
-roc_to_compare.append(bdt_uf_hiStat_roc)
+# roc_to_compare.append(bdt_uf_hiStat_roc)
 # bdt_uf_hiStat_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat, "BDT_UF_hiStat", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlue, 2)
 # roc_to_compare.append(bdt_uf_hiStat_roc_tmva)
 
