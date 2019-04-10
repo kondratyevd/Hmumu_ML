@@ -45,8 +45,8 @@ class TMVAApplicator(object):
 
 	def loop_over_files(self):
 		for file in self.framework.files_to_evaluate:
-	        for filename in os.listdir(file.path):
-                if filename.endswith(".root"): 
+			for filename in os.listdir(file.path):
+				if filename.endswith(".root"): 
 					tree = ROOT.TChain("dimuons/tree")
 					tree.Add(file.path+"/"+filename)
 					print "Processing ", filename
