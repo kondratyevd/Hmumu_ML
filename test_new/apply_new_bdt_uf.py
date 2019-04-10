@@ -25,11 +25,11 @@ treePath = 'dimuons/tree'
 
 # c.add_data_to_evaluate(SingleMu2017B.name, SingleMu2017B.path+"/*root")
 # c.add_data_to_evaluate(SingleMu2017C.name, SingleMu2017C.path+"/*root")
-# c.add_data_to_evaluate(SingleMu2017D.name, SingleMu2017D.path+"/*root")
+c.add_data_to_evaluate(SingleMu2017D.name, SingleMu2017D.path+"/*root")
 # c.add_data_to_evaluate(SingleMu2017E.name, SingleMu2017E.path+"/*root")
 # c.add_data_to_evaluate(SingleMu2017F.name, SingleMu2017F.path+"/*root")
 
-c.add_mc_to_evaluate(ZJets_aMC_2017_hiStat.name, ZJets_aMC_2017_hiStat.path+"/*root", ZJets_aMC_2017_hiStat.xSec)
+# c.add_mc_to_evaluate(ZJets_aMC_2017_hiStat.name, ZJets_aMC_2017_hiStat.path+"/*root", ZJets_aMC_2017_hiStat.xSec)
 # c.add_mc_to_evaluate(tt_ll_POW_2017.name, tt_ll_POW_2017.path+"/*root", tt_ll_POW_2017.xSec)
 # c.add_mc_to_evaluate(ggH_2017_powheg.name, ggH_2017_powheg.path+"/*root", ggH_2017_powheg.xSec)
 # c.add_mc_to_evaluate(VBF_2017_powheg.name, VBF_2017_powheg.path+"/*root", VBF_2017_powheg.xSec)
