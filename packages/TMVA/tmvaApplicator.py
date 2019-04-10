@@ -49,7 +49,7 @@ class TMVAApplicator(object):
                 if filename.endswith(".root"): 
 					tree = ROOT.TChain("dimuons/tree")
 					tree.Add(file.path+"/"+filename)
-					
+					print "Processing ", filename
 					try:
 						os.makedirs("%s/%s/"%(self.framework.evalOutPath, file.name))
 					except OSError as e:
