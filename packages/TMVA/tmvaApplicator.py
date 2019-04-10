@@ -50,7 +50,13 @@ class TMVAApplicator(object):
 					tree = ROOT.TChain("dimuons/tree")
 					tree.Add(file.path+"/"+filename)
 					
-					new_file = ROOT.TFile("%s/%s_%s_%s.root"%(self.framework.evalOutPath, file.name, filename, self.method),"recreate")
+					try:
+						os.makedirs("%s/%s/"%(self.framework.evalOutPath, file.name))
+					except OSError as e:
+						if e.errno != errno.EEXIST:
+							raise
+
+					new_file = ROOT.TFile("%s/%s/%s_%s"%(self.framework.evalOutPath, file.name, self.method, filename),"recreate")
 					new_file.cd()
 
 					new_tree=ROOT.TTree()
