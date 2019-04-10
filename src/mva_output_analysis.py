@@ -249,6 +249,13 @@ class Analyzer(object):
             print closest_cuts
             return idx
 
+    # def plot_mass_in_slices(self, score, nBinx, xmin, xmax):
+    #     idx = self.score_cuts_from_wp(score, working_points, nBins, xmin, xmax)
+    #     idx = [xmin]+idx+[xmax]
+    #     for i in len(idx)-1:
+    #         cut_lo = idx[i]
+    #         cut_hi = idx[i+1]
+
     def set_out_path(self, path):
         self.out_path = path
         try:
@@ -369,11 +376,18 @@ dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiSt
 roc_to_compare.append(dnn_binary_hiStat_roc)
 
 # Option 9.1 - plot only shapes
+dnn_cuts = [0.054, 0.112, 0.17, 0.248, 0.436, 0.56]
 dnn_binary_hiStat_1 = a.add_mva_source("DNN_Binary_hiStat_1", "DNN_Binary_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_binary_hiStat_1.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True)
-dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-dnn_binary_hiStat_1.set_lumi(40490.712)
-dnn_binary_hiStat_1.plot("sig_prediction", 500, 0, 1, label="shapes", draw=True, shapes=True)
+dnn_binary_hiStat_1.add_sample("bkg0", "bkg0", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(0.0, dnn_cuts[0]))
+dnn_binary_hiStat_1.add_sample("bkg0", "bkg1", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[0], dnn_cuts[1]))
+dnn_binary_hiStat_1.add_sample("bkg2", "bkg2", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[1], dnn_cuts[2]))
+dnn_binary_hiStat_1.add_sample("bkg3", "bkg3", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[2], dnn_cuts[3]))
+dnn_binary_hiStat_1.add_sample("bkg4", "bkg4", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[3], dnn_cuts[4]))
+dnn_binary_hiStat_1.add_sample("bkg5", "bkg5", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[4], dnn_cuts[5]))
+dnn_binary_hiStat_1.add_sample("bkg6", "bkg6", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[5], 1))
+# dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# dnn_binary_hiStat_1.set_lumi(40490.712)
+dnn_binary_hiStat_1.plot("mass", 200, 110, 150, label="shapes", draw=True, shapes=True)
 
 # Option 10
 dnn_binary_hiStat_ebe = a.add_mva_source("DNN_Binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-16//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -393,6 +407,8 @@ dnn_binary.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_D
 dnn_binary.set_lumi(40490.712)
 dnn_binary_roc_graph = dnn_binary.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_roc = a.RocCurve(dnn_binary_roc_graph, "dnn_binary", "DNN_Binary", ROOT.kBlue)
+
+
 # roc_to_compare.append(dnn_binary_roc)
 
 # Option 0
