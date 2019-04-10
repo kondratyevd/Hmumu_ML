@@ -385,7 +385,7 @@ dnn_binary_hiStat_1.add_sample("bkg3", "bkg3", "output_t*root", "tree_bkg", Fals
 dnn_binary_hiStat_1.add_sample("bkg4", "bkg4", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[3], dnn_cuts[4]))
 dnn_binary_hiStat_1.add_sample("bkg5", "bkg5", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[4], dnn_cuts[5]))
 dnn_binary_hiStat_1.add_sample("bkg6", "bkg6", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[5], 1))
-# dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
 dnn_binary_hiStat_1.set_lumi(40490.712)
 dnn_binary_hiStat_1.plot("mass", 200, 110, 150, label="shapes", draw=True, shapes=True)
 
