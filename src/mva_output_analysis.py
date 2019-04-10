@@ -354,7 +354,7 @@ dnn_multi_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False,
 dnn_multi_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[5], score_multi, 1))
 # dnn_multi_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
 dnn_multi_1.set_lumi(40490.712)
-dnn_multi_1.plot("mass", 200, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_multi_1.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 
 # Option 7
@@ -381,7 +381,7 @@ dnn_multi_hiStat_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC",
 dnn_multi_hiStat_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
 # dnn_multi_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
 dnn_multi_hiStat_1.set_lumi(40490.712)
-dnn_multi_hiStat_1.plot("mass", 200, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_multi_hiStat_1.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 # Option 8
 dnn_multi_hiStat_ebe = a.add_mva_source("DNN_Multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-09//Keras_multi/model_50_D2_25_D2_25_D2/root/")
