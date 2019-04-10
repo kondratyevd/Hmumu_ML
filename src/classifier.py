@@ -187,6 +187,11 @@ class Framework(object):
 		file = self.File(self, name, path, xSec, False, isData=False)
 		self.files_to_evaluate.append(file)
 
+	def add_mc_dir_to_evaluate(self, name, path, xSec):
+		print "Adding %s to evaluate MVA score ..."%(path)
+		file = self.File(self, name, path, xSec, True, isData=False)
+		self.files_to_evaluate.append(file)
+
 	def add_data_to_evaluate(self, name, path):
 		print "Adding %s to evaluate MVA score ..."%(path)
 		file = self.File(self, name, path, 1, False, isData=True)
