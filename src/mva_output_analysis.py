@@ -96,7 +96,7 @@ class Analyzer(object):
                 trees[smp.name] = ROOT.TChain(smp.treename)
                 trees[smp.name].Add("%s/%s"%(self.path, smp.filename))
                 print "Tree for %s added with %i entries"%(smp.name, trees[smp.name].GetEntries())
-                hist_name = "hist_%s_%s_%s_%s"%(self.name, smp.name, var_name, label)
+                hist_name = "hist_%s_%s_%s"%(self.name, smp.name, label)
                 hist = ROOT.TH1D(hist_name, hist_name, nBins, xmin, xmax)
 
                 dummy = ROOT.TCanvas("dummy_"+hist_name, "dummy_"+hist_name, 100, 100)
