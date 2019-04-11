@@ -115,7 +115,7 @@ class Analyzer(object):
                     else:
                         trees[smp.name].Draw("%s>>%s"%(var_name, hist_name), "weight*(%s)"%smp.additional_cut)
                 dummy.Close()
-                print "Hist %s integral: %f"%(hist_name, hist.Integral())
+                print "Hist %s: entries = %i, integral=%f"%(hist_name, hist.GetEntries(), hist.Integral())
                 hist.SetLineWidth(2)
                 if smp.isStacked:
                     hist.SetFillColor(smp.color)
@@ -329,12 +329,86 @@ roc_to_compare = []
 a = Analyzer()
 a.set_out_path("plots/mva_output_analyzis")
 
+# Option 0
+bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/home/dkondra/tmp/BDTG_UF/")
+bdt_uf.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
+bdt_uf.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
+bdt_uf.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
+bdt_uf.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
+bdt_uf.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
+bdt_uf.set_lumi(40490.712)
+bdt_uf_roc_graph = bdt_uf.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlack)
+bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlue)
+# roc_to_compare.append(bdt_uf_roc)
+# bdt_uf_roc_tmva = a.roc_from_tmva(bdt_uf, "BDT_UF", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlack, 2)
+# roc_to_compare.append(bdt_uf_roc_tmva)
+
+
+
+# Option 1
+bdt_uf_hiStat = a.add_mva_source("BDT_UF_hiStat", "BDT_UF_hiStat", "/home/dkondra/tmp/BDTG_UF_hiStat/")
+bdt_uf_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
+# bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
+bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
+bdt_uf_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
+bdt_uf_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
+bdt_uf_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
+bdt_uf_hiStat.set_lumi(40490.712)
+bdt_uf_hiStat_roc_graph = bdt_uf_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_uf_hiStat_roc = a.RocCurve(bdt_uf_hiStat_roc_graph, "bdt_uf_hiStat", "BDT UF hiStat", ROOT.kBlack)
+# roc_to_compare.append(bdt_uf_hiStat_roc)
+# bdt_uf_hiStat_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat, "BDT_UF_hiStat", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlue, 2)
+# roc_to_compare.append(bdt_uf_hiStat_roc_tmva)
+
+# Option 2
+# bdt_uf_hiStat_ebe = a.add_mva_source("BDT_UF_hiStat_ebe", "BDT_UF_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-30/TMVA/")
+# bdt_uf_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat_ebe, "BDT_UF_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kRed, 2)
+# roc_to_compare.append(bdt_uf_hiStat_ebe_roc_tmva)
+
+# Option 3
+bdt_ucsd = a.add_mva_source("BDT_UCSD", "BDT_UCSD", "/home/dkondra/tmp/BDTG_UCSD/")
+bdt_ucsd.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
+bdt_ucsd.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
+bdt_ucsd.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
+bdt_ucsd.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
+bdt_ucsd.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
+bdt_ucsd.set_lumi(40490.712)
+bdt_ucsd_roc_graph = bdt_ucsd.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_ucsd_roc = a.RocCurve(bdt_ucsd_roc_graph, "bdt_ucsd", "BDT UCSD loStat", ROOT.kBlue)
+# roc_to_compare.append(bdt_ucsd_roc)
+
+# bdt_ucsd_roc_tmva = a.roc_from_tmva(bdt_ucsd, "BDT_UCSD", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kGreen, 2)
+# roc_to_compare.append(bdt_ucsd_roc_tmva)
+
+# Option 4
+bdt_ucsd_hiStat = a.add_mva_source("BDT_UCSD_hiStat", "BDT_UCSD_hiStat", "/home/dkondra/tmp/BDTG_UCSD_hiStat/")
+bdt_ucsd_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
+# bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
+bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
+bdt_ucsd_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
+bdt_ucsd_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
+bdt_ucsd_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
+bdt_ucsd_hiStat.set_lumi(40490.712)
+bdt_ucsd_hiStat_roc_graph = bdt_ucsd_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_ucsd_hiStat_roc = a.RocCurve(bdt_ucsd_hiStat_roc_graph, "bdt_ucsd_hiStat", "BDT UCSD hiStat", ROOT.kOrange-3)
+roc_to_compare.append(bdt_ucsd_hiStat_roc)
+# bdt_ucsd_hiStat_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat, "BDT_UCSD_hiStat", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kViolet, 2)
+# roc_to_compare.append(bdt_ucsd_hiStat_roc_tmva)
+
+
+# Option 5
+# bdt_ucsd_hiStat_ebe = a.add_mva_source("BDT_UCSD_hiStat_ebe", "BDT_UCSD_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-49/TMVA/")
+# bdt_ucsd_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat_ebe, "BDT_UCSD_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kYellow, 2)
+# roc_to_compare.append(bdt_ucsd_hiStat_ebe_roc_tmva)
+
+
 # Option 6
 dnn_multi = a.add_mva_source("DNN_Multi", "DNN_Multi", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-05//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
-dnn_multi.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-dnn_multi.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
-dnn_multi.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+dnn_multi.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True, "(mass>120)&(mass<130)")
+dnn_multi.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True, "(mass>120)&(mass<130)")
+dnn_multi.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "(mass>120)&(mass<130)")
+dnn_multi.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True, "(mass>120)&(mass<130)")
 dnn_multi.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_multi.set_lumi(40490.712)
 dnn_multi_roc_graph = dnn_multi.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="my_score")
@@ -442,92 +516,11 @@ dnn_binary_roc = a.RocCurve(dnn_binary_roc_graph, "dnn_binary", "DNN_Binary", RO
 
 # roc_to_compare.append(dnn_binary_roc)
 
-# Option 0
-bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/home/dkondra/tmp/BDTG_UF/")
-bdt_uf.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
-bdt_uf.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
-bdt_uf.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
-bdt_uf.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
-bdt_uf.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
-bdt_uf.set_lumi(40490.712)
-bdt_uf_roc_graph = bdt_uf.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-# bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlack)
-bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlue)
-# roc_to_compare.append(bdt_uf_roc)
-# bdt_uf_roc_tmva = a.roc_from_tmva(bdt_uf, "BDT_UF", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlack, 2)
-# roc_to_compare.append(bdt_uf_roc_tmva)
 
-
-
-# Option 1
-bdt_uf_hiStat = a.add_mva_source("BDT_UF_hiStat", "BDT_UF_hiStat", "/home/dkondra/tmp/BDTG_UF_hiStat/")
-bdt_uf_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
-# bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
-bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
-bdt_uf_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
-bdt_uf_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
-bdt_uf_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
-bdt_uf_hiStat.set_lumi(40490.712)
-bdt_uf_hiStat_roc_graph = bdt_uf_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_uf_hiStat_roc = a.RocCurve(bdt_uf_hiStat_roc_graph, "bdt_uf_hiStat", "BDT UF hiStat", ROOT.kBlack)
-# roc_to_compare.append(bdt_uf_hiStat_roc)
-# bdt_uf_hiStat_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat, "BDT_UF_hiStat", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlue, 2)
-# roc_to_compare.append(bdt_uf_hiStat_roc_tmva)
-
-# Option 2
-# bdt_uf_hiStat_ebe = a.add_mva_source("BDT_UF_hiStat_ebe", "BDT_UF_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-30/TMVA/")
-# bdt_uf_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat_ebe, "BDT_UF_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kRed, 2)
-# roc_to_compare.append(bdt_uf_hiStat_ebe_roc_tmva)
-
-# Option 3
-bdt_ucsd = a.add_mva_source("BDT_UCSD", "BDT_UCSD", "/home/dkondra/tmp/BDTG_UCSD/")
-bdt_ucsd.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
-bdt_ucsd.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
-bdt_ucsd.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd.set_lumi(40490.712)
-bdt_ucsd_roc_graph = bdt_ucsd.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_ucsd_roc = a.RocCurve(bdt_ucsd_roc_graph, "bdt_ucsd", "BDT UCSD loStat", ROOT.kBlue)
-# roc_to_compare.append(bdt_ucsd_roc)
-
-# bdt_ucsd_roc_tmva = a.roc_from_tmva(bdt_ucsd, "BDT_UCSD", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kGreen, 2)
-# roc_to_compare.append(bdt_ucsd_roc_tmva)
-
-# Option 4
-bdt_ucsd_hiStat = a.add_mva_source("BDT_UCSD_hiStat", "BDT_UCSD_hiStat", "/home/dkondra/tmp/BDTG_UCSD_hiStat/")
-bdt_ucsd_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
-# bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
-bdt_ucsd_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat.set_lumi(40490.712)
-bdt_ucsd_hiStat_roc_graph = bdt_ucsd_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_ucsd_hiStat_roc = a.RocCurve(bdt_ucsd_hiStat_roc_graph, "bdt_ucsd_hiStat", "BDT UCSD hiStat", ROOT.kOrange-3)
-roc_to_compare.append(bdt_ucsd_hiStat_roc)
-# bdt_ucsd_hiStat_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat, "BDT_UCSD_hiStat", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kViolet, 2)
-# roc_to_compare.append(bdt_ucsd_hiStat_roc_tmva)
-
-
-# Option 5
-# bdt_ucsd_hiStat_ebe = a.add_mva_source("BDT_UCSD_hiStat_ebe", "BDT_UCSD_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-49/TMVA/")
-# bdt_ucsd_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat_ebe, "BDT_UCSD_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kYellow, 2)
-# roc_to_compare.append(bdt_ucsd_hiStat_ebe_roc_tmva)
 
 
 a.compare_roc_curves(roc_to_compare)
 
-
-# Binary test
-
-# dnn_test = a.add_mva_source("DNN_test", "DNN_test", "/tmp/dkondrat/ML_output/Run_2019-04-07_18-53-10/Keras_multi/model_50_D2_25_D2_25_D2/root/")
-
-# dnn_test.add_sample("bkg", "Background", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, False)
-# dnn_test.add_sample("sig", "Signal", "output_t*root", "tree_sig", False, False, ROOT.kRed, False)
-# dnn_test.set_lumi(4823)
-# dnn_test_roc_graph = dnn_test.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-# dnn_test_roc = a.RocCurve(dnn_test_roc_graph, "dnn_test", "DNN test", ROOT.kRed)
 
 
 # score = "ggH_prediction+VBF_prediction"
