@@ -338,7 +338,7 @@ dnn_multi.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, Fals
 dnn_multi.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_multi.set_lumi(40490.712)
 dnn_multi_roc_graph = dnn_multi.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="my_score")
-dnn_multi_roc_graph = dnn_multi.plot_roc("(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="adish_score")
+dnn_multi_roc_graph = dnn_multi.plot_roc("(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="adish_score")
 dnn_multi_roc = a.RocCurve(dnn_multi_roc_graph, "dnn_multi", "DNN_Multi", ROOT.kViolet)
 # roc_to_compare.append(dnn_multi_roc)
 
