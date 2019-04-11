@@ -57,6 +57,8 @@ class Framework(object):
 		self.lumi = 0
 		self.hasMass = False
 
+		self.massWindow = [110, 150]
+
 		self.dy_label = "ZJets_aMC"
 		self.tt_label = "tt_ll_POW"
 		self.ggh_label = "H2Mu_gg"

@@ -132,7 +132,7 @@ class TMVATrainer(object):
 
 
 	def load_variables(self):
-		self.dataloader.AddSpectator('muPairs.mass_Roch', 'Dimuon mass (Roch.)', 'GeV', 110., 150.)
+		self.dataloader.AddSpectator('muPairs.mass_Roch', 'Dimuon mass (Roch.)', 'GeV', self.framework.massWindow[0], self.framework.massWindow[1])
 		for var in self.framework.variable_list:
 			if 'muons.pt[0]/muPairs.pt' in var.name:
 				self.dataloader.AddVariable('jets.phi', 'mu1_pt/mass', '', 'F') # very random!
@@ -178,8 +178,8 @@ class TMVATrainer(object):
 
 		if year is "2016":
 
-			flag = 			((muPair_mass>113.8)&
-							(muPair_mass<147.8)&
+			flag = 			((muPair_mass>self.framework.massWindow[0])&
+							(muPair_mass<self.framework.massWindow[1])&
 							(muon1_ID>0)&
 							(muon2_ID>0)&
 							(muon1_pt>20)&
@@ -194,8 +194,8 @@ class TMVATrainer(object):
 
 		elif year is "2017":
 
-			flag = 			((muPair_mass>110)&
-							(muPair_mass<150)&
+			flag = 			((muPair_mass>self.framework.massWindow[0])&
+							(muPair_mass<self.framework.massWindow[1])&
 							(muon1_ID>0)&
 							(muon2_ID>0)&
 							(muon1_pt>30)&

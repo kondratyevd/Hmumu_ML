@@ -197,8 +197,8 @@ class TMVAApplicator(object):
 
 		if year is "2016":
 
-			flag = 			((muPair_mass>113.8)&
-							(muPair_mass<147.8)&
+			flag = 			((muPair_mass>self.framework.massWindow[0])&
+							(muPair_mass<self.framework.massWindow[1])&
 							(muon1_ID>0)&
 							(muon2_ID>0)&
 							(muon1_pt>20)&
@@ -216,8 +216,8 @@ class TMVAApplicator(object):
 
 		elif year is "2017":
 
-			flag = 			((muPair_mass>110)&
-							(muPair_mass<150)&
+			flag = 			((muPair_mass>self.framework.massWindow[0])&
+							(muPair_mass<self.framework.massWindow[1])&
 							(muon1_ID>0)&
 							(muon2_ID>0)&
 							(muon1_pt>30)&
