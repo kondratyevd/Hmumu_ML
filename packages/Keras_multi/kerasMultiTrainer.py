@@ -110,7 +110,8 @@ class KerasMultiTrainer(object):
                             single_file_df['weight_over_lumi'] = file.weight_over_lumi * weight
                             self.category_wgts_dict[file.category] = file.weight
                             print "Added %s with %i events"%(file.name, single_file_df.shape[0])
-                            self.df = pandas.concat([self.df,single_file_df])
+                            for i in range(file.repeat):
+                                self.df = pandas.concat([self.df,single_file_df])
         
         for category in self.category_labels:
             self.category_wgts.append(self.category_wgts_dict[category]) # want to preserve order

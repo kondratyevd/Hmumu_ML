@@ -70,7 +70,7 @@ class Framework(object):
 		self.ebe_weights = False
 
 	class File(object):
-		def __init__(self, source, name, path, xSec, isDir, isData=False):
+		def __init__(self, source, name, path, xSec, isDir, isData=False, repeat=1):
 			self.source = source
 			self.name = name
 			self.path = path
@@ -83,7 +83,8 @@ class Framework(object):
 			self.isData = isData
 			if not isData:
 				self.get_original_nEvts()
-			self.category = ''						
+			self.category = ''	
+			self.repeat=repeat					
 		
 		def get_original_nEvts(self):
 			ROOT.gROOT.SetBatch(1)
@@ -169,10 +170,11 @@ class Framework(object):
 		else:
 			self.bkg_categories.append(name)
 
-	def add_dir_to_category(self, name, path, xSec, category, isDir=True):
+	def add_dir_to_category(self, name, path, xSec, category, isDir=True, repeat=1):
 		if category in self.signal_categories+self.bkg_categories: 
 			print "Adding directory %s with xSec=%f as %s"%(path, xSec, category)
-			file = self.File(self, name, path, xSec, isDir)
+			print "Events will be repeated %i times."%repeat
+			file = self.File(self, name, path, xSec, isDir, repeat)
 			file.category = category
 			self.files.append(file)
 			
