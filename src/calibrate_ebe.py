@@ -60,14 +60,17 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
 
 
     print cat_name, " width = ", w.var("%s_sigma"%cat_name).getVal()
-    return w.var("%s_sigma"%cat_name).getVal()
+    return w.var("%s_sigma"%cat_name).getVal(), w.var("%s_sigma"%cat_name).getError()
 
 
 
 
 
 
-pt_bins = ["(muons.pt[0]>30)&(muons.pt[0]<50)", "(muons.pt[0]>50)"]
+pt_bins = {
+           "pt_bin1": "(muons.pt[0]>30)&(muons.pt[0]<50)",
+           # "pt_bin2": "(muons.pt[0]>50)"
+           }
 
 B1 = "(abs(muons.eta[0])<0.9)"
 B2 = "(abs(muons.eta[1])<0.9)"
@@ -83,23 +86,22 @@ OO = "%s&%s"%(O1, O2)
 OE = "(%s&%s)||(%s&%s)"%(O1, E2, O2, E1)
 EE = "%s&%s"%(E1, E2)
 
-eta_bins = [BB, BO, BE, OO, OE, EE]
+eta_bins = { "BB": BB,
+             "BO": BO,
+             "BE": BE,
+             "OO": OO,
+             "OE": OE,
+             "EE": EE
+             }
+eta_bin_numbers = { 
+             "BB": 1,
+             "BO": 2,
+             "BE": 3,
+             "OO": 4,
+             "OE": 5,
+             "EE": 6
+             }
 
-categories = {
-    "pt_bin1_BB" : "(%s)&(%s)"%(pt_bins[0], BB),
-    "pt_bin1_BO" : "(%s)&(%s)"%(pt_bins[0], BO),
-    "pt_bin1_BE" : "(%s)&(%s)"%(pt_bins[0], BE),
-    "pt_bin1_OO" : "(%s)&(%s)"%(pt_bins[0], OO),
-    "pt_bin1_OE" : "(%s)&(%s)"%(pt_bins[0], OE),
-    "pt_bin1_EE" : "(%s)&(%s)"%(pt_bins[0], EE),
-
-    "pt_bin2_BB" : "(%s)&(%s)"%(pt_bins[1], BB),
-    "pt_bin2_BO" : "(%s)&(%s)"%(pt_bins[1], BO),
-    "pt_bin2_BE" : "(%s)&(%s)"%(pt_bins[1], BE),
-    "pt_bin2_OO" : "(%s)&(%s)"%(pt_bins[1], OO),
-    "pt_bin2_OE" : "(%s)&(%s)"%(pt_bins[1], OE),
-    "pt_bin2_EE" : "(%s)&(%s)"%(pt_bins[1], EE)
-}
 
 # input_path = "/Users/dmitrykondratyev/Documents/HiggsToMuMu/test_files/dy/*root"
 input_path ="/mnt/hadoop/store/user/dkondrat/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190406_001043/0000/tuple_1*.root"
@@ -115,6 +117,22 @@ tree = ROOT.TChain("dimuons/tree")
 tree.Add(input_path)
 print "Loaded sig tree from "+input_path+" with %i entries."%tree.GetEntries() 
 
-for key, value in categories.iteritems():
-    fit_zpeak(key, tree, out_path, value, False)
+
+hist_res_MC = ROOT.TH1D("res_MC", "MC resolution", 6)
+
+for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
+    for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
+        name = "%s_%s"%(pt_bin_key, eta_bin_key)
+        cut = "(%s)&(%s)"%(pt_bin_cut, eta_bin_cut)
+        width, widthErr = fit_zpeak(name, tree, out_path, cut, False)
+        hist_res_MC.GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
+        hist_res_MC.SetBinContent(eta_bin_numbers[eta_bin_key], width)
+        hist_res_MC.SetBinError(eta_bin_numbers[eta_bin_key], widthErr)
+      
+canv = ROOT.TCanvas("c", "c", 800, 800)
+canv.cd() 
+
+hist_res_MC.Draw("histe1")
+
+canv.SaveAs("%s/res_MC.png"%out_path) 
 
