@@ -57,8 +57,8 @@ def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
     canv.Print("%s/zfit_%s.png"%(out_path, cat_name))
 
 
-    print cat_name, " width = ", w.var("%s_sigma"%cat_name).GetVal()
-    return w.var("%s_sigma"%cat_name).GetVal()
+    print cat_name, " width = ", w.var("%s_sigma"%cat_name).getVal()
+    return w.var("%s_sigma"%cat_name).getVal()
 
 
 
