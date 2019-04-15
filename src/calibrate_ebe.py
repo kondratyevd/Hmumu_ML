@@ -40,7 +40,7 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
     # w.factory("RooNumConvPdf::zfit_%s(mass, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
     # model = ROOT.RooFFTConvPdf("zfit_%s"%cat_name,"zfit_%s"%cat_name,var,w.pdf("bw_%s"%cat_name),w.pdf("dcb_%s"%cat_name))
     w.factory("RooFFTConvPdf::zfit_%s(mass, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
-    # model = w.pdf("zfit_%s"%cat_name)
+    model = w.pdf("zfit_%s"%cat_name)
     # model = w.pdf("dcb_%s"%cat_name)
 
     w.Print()
