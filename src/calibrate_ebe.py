@@ -102,7 +102,7 @@ categories = {
 }
 
 # input_path = "/Users/dmitrykondratyev/Documents/HiggsToMuMu/test_files/dy/*root"
-input_path ="/mnt/hadoop/store/user/dkondrat/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190406_001043/0000/tuple_1.root"
+input_path ="/mnt/hadoop/store/user/dkondrat/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190406_001043/0000/tuple_1*.root"
 out_path = "plots/EBECalibration/"
 
 try:
