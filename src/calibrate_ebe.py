@@ -8,12 +8,12 @@ from array import array
 
 def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
     Import = getattr(ROOT.RooWorkspace, 'import')
-    var = ROOT.RooRealVar("mass_Roch","Dilepton mass",50,130)     
+    var = ROOT.RooRealVar("muPairs.mass_Roch[0]","Dilepton mass",50,130)     
     var.setBins(1000)
     var.setRange("full",50,130)
     w = ROOT.RooWorkspace("w", False)
     Import(w, var)
-    var = w.var("mass_Roch")
+    var = w.var("muPairs.mass_Roch[0]")
     # var.setBins(5000)
     mu1_pt = ROOT.RooRealVar("muons.pt[0]","muons.pt[0]", 0, 10000) 
     mu1_eta = ROOT.RooRealVar("muons.eta[0]","muons.eta[0]", -2.4, 2.4) 
@@ -30,16 +30,17 @@ def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
     tree.Draw("muPairs.mass_Roch[0]>>%s"%(hist_name), "(%s)"%(cut))
     dummy.Close()
 
+    print "Entries in hist: ",hist.GetEntries()
 
     w.factory("mZ[91.1876, 91.1876, 91.1876]")
     w.factory("wZ[2.4952, 2.4952, 2.4952]")
-    w.factory("RooBreitWigner::bw_%s(mass_Roch, mZ, wZ)"%cat_name)
+    w.factory("RooBreitWigner::bw_%s(muPairs.mass_Roch[0], mZ, wZ)"%cat_name)
 
 
     ROOT.gSystem.Load("src/RooDCBShape_cxx.so")    
-    w.factory("RooDCBShape::dcb_%s(mass_Roch, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
+    w.factory("RooDCBShape::dcb_%s(muPairs.mass_Roch[0], %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
 
-    w.factory("RooFFTConvPdf::zfit_%s(mass_Roch, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
+    w.factory("RooFFTConvPdf::zfit_%s(muPairs.mass_Roch[0], bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
     model = w.pdf("zfit_%s"%cat_name)
 
     w.Print()
