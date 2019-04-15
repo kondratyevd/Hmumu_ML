@@ -55,7 +55,7 @@ class KerasMultiTrainer(object):
                 if filename.endswith(".root"): 
                     with uproot.open(file.path+filename) as f: 
                         uproot_tree = f[self.framework.treePath]
-                        print "Opened file: %s with %i entries"%(filename, uproot_tree.GetEntries())
+                        print "Opened file: %s "%(filename)
                         single_file_df = pandas.DataFrame()
 
                         if file.isData:
@@ -81,14 +81,14 @@ class KerasMultiTrainer(object):
                                     self.spect_labels.extend(single_var_df.columns)
                                 single_file_df = pandas.concat([single_file_df, single_var_df], axis=1)
                                 single_file_df.fillna(var.replacement, axis=0, inplace=True) # if there are not enough jets
+                                print "Entries in file: ", single_file_df.count+1
                 
                             else:
                                 single_file_df[var.name] = up_var
                                 if var in self.framework.spectator_list:
                                     self.spect_labels.append(var.name)
  
-                        for category in self.category_labels:
-                        
+                        for category in self.category_labels:  
                             single_file_df[category] = 0
 
                         if file.isData:
