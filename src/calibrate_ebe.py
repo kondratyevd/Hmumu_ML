@@ -8,9 +8,9 @@ from array import array
 
 def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
     Import = getattr(ROOT.RooWorkspace, 'import')
-    var = ROOT.RooRealVar("mass","mass",50,130)     
+    var = ROOT.RooRealVar("mass","mass",80,100)     
     var.setBins(1000)
-    var.setRange("full",50,130)
+    var.setRange("full",80,100)
     w = ROOT.RooWorkspace("w", False)
     Import(w, var)
     var = w.var("mass")
@@ -21,7 +21,7 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
 
      
     hist_name = "%s"%cat_name
-    hist = ROOT.TH1D(hist_name, hist_name, 40, 50, 130)
+    hist = ROOT.TH1D(hist_name, hist_name, 40, 80,100)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     tree.Draw("muPairs.mass_Roch>>%s"%(hist_name), "(%s)"%(cut))
