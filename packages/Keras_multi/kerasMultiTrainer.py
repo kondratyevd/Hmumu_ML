@@ -55,7 +55,7 @@ class KerasMultiTrainer(object):
                 if filename.endswith(".root"): 
                     with uproot.open(file.path+filename) as f: 
                         uproot_tree = f[self.framework.treePath]
-                        print "Opened file: %s with %i entries"%(filename, uproot_tree.entries)
+                        print "Opened file: %s with %i entries"%(filename, uproot_tree.GetEntries())
                         single_file_df = pandas.DataFrame()
 
                         if file.isData:
