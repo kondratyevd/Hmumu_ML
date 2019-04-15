@@ -6,7 +6,7 @@ from math import *
 from array import array 
 
 
-def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
+def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
     Import = getattr(ROOT.RooWorkspace, 'import')
     var = ROOT.RooRealVar("mass","mass",50,130)     
     var.setBins(1000)
@@ -17,10 +17,7 @@ def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
     # var.setBins(5000)
     mu1_pt = ROOT.RooRealVar("muons.pt[0]","muons.pt[0]", 0, 10000) 
     mu1_eta = ROOT.RooRealVar("muons.eta[0]","muons.eta[0]", -2.4, 2.4) 
-    mu2_eta = ROOT.RooRealVar("muons.eta[1]","muons.eta[1]", -2.4, 2.4)
-    tree = ROOT.TChain("dimuons/tree")
-    tree.Add(input_path)
-    print "Loaded sig tree from "+input_path+" with %i entries."%tree.GetEntries()    
+    mu2_eta = ROOT.RooRealVar("muons.eta[1]","muons.eta[1]", -2.4, 2.4)   
 
      
     hist_name = "%s"%cat_name
@@ -111,6 +108,10 @@ except OSError as e:
     if e.errno != errno.EEXIST:
         raise
 
+tree = ROOT.TChain("dimuons/tree")
+tree.Add(input_path)
+print "Loaded sig tree from "+input_path+" with %i entries."%tree.GetEntries() 
+
 for key, value in categories.iteritems():
-    fit_zpeak(key, input_path, out_path, value, False)
+    fit_zpeak(key, tree, out_path, value, False)
 
