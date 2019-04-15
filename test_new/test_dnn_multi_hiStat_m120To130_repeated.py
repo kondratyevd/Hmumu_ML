@@ -29,11 +29,11 @@ c.vbf_label = "H2Mu_VBF"
 
 ##################### Input samples #######################
 
-c.add_data(SingleMu2017B.name, SingleMu2017B.path,  SingleMu2017B.lumi)
-c.add_data(SingleMu2017C.name, SingleMu2017C.path,  SingleMu2017C.lumi)
-c.add_data(SingleMu2017D.name, SingleMu2017D.path,  SingleMu2017D.lumi)
-c.add_data(SingleMu2017E.name, SingleMu2017E.path,  SingleMu2017E.lumi)
-c.add_data(SingleMu2017F.name, SingleMu2017F.path,  SingleMu2017F.lumi)
+# c.add_data(SingleMu2017B.name, SingleMu2017B.path,  SingleMu2017B.lumi)
+# c.add_data(SingleMu2017C.name, SingleMu2017C.path,  SingleMu2017C.lumi)
+# c.add_data(SingleMu2017D.name, SingleMu2017D.path,  SingleMu2017D.lumi)
+# c.add_data(SingleMu2017E.name, SingleMu2017E.path,  SingleMu2017E.lumi)
+# c.add_data(SingleMu2017F.name, SingleMu2017F.path,  SingleMu2017F.lumi)
 
 c.add_category(c.ggh_label, True)
 c.add_dir_to_category(ggH_2017_powheg.name, ggH_2017_powheg.path, ggH_2017_powheg.xSec, c.ggh_label, repeat=4)

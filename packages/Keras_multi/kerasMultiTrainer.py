@@ -129,7 +129,7 @@ class KerasMultiTrainer(object):
 
         if self.framework.data_files:
             self.data.reset_index(inplace=True, drop=True)
-            # self.data = self.apply_cuts(self.data, self.framework.year)
+            self.data = self.apply_cuts(self.data, self.framework.year)
             if self.framework.custom_loss:
                 self.data = self.make_mass_bins(self.data, 10, self.framework.massWindow[0], self.framework.massWindow[1], isMC=False)
 
