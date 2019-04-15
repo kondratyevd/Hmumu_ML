@@ -55,6 +55,7 @@ class KerasMultiTrainer(object):
                 if filename.endswith(".root"): 
                     with uproot.open(file.path+filename) as f: 
                         uproot_tree = f[self.framework.treePath]
+                        print "Opened file: %s with %i entries"%(filename, uproot_tree.entries)
                         single_file_df = pandas.DataFrame()
 
                         if file.isData:
@@ -63,7 +64,7 @@ class KerasMultiTrainer(object):
                             label_list = self.framework.variable_list + self.framework.spectator_list
 
                         for var in label_list:
-                            # print "Adding variable:", var.name
+                            print "Adding variable:", var.name
                             if  "met.pt" in var.name:   # quick fix for met
                                 up_var =  uproot_tree["met"]["pt"].array()
                             else:
