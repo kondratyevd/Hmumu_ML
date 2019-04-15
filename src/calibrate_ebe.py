@@ -124,10 +124,10 @@ tree.Add(input_path)
 print "Loaded sig tree from "+input_path+" with %i entries."%tree.GetEntries() 
 
 
-hist_res_MC_pt_bin1 = ROOT.TH1D("res_MC_pt_bin1", "MC resolution pT bin1", 6, 0, 6)
+hist_res_MC_pt_bin1 = ROOT.TH1D("res_MC_pt_bin1", "MC resolution pT bin1", 9, 0, 9)
 hist_res_MC_pt_bin1.SetLineColor(ROOT.kRed)
 hist_res_MC_pt_bin1.SetMarkerColor(ROOT.kRed)
-hist_res_MC_pt_bin2 = ROOT.TH1D("res_MC_pt_bin2", "MC resolution pT bin2", 6, 0, 6)
+hist_res_MC_pt_bin2 = ROOT.TH1D("res_MC_pt_bin2", "MC resolution pT bin2", 9, 0, 9)
 hist_res_MC_pt_bin2.SetLineColor(ROOT.kGreen)
 hist_res_MC_pt_bin2.SetMarkerColor(ROOT.kGreen)
 
