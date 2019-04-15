@@ -6,7 +6,7 @@ from math import *
 from array import array 
 
 
-def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
+def fit_zpeak(cat_name, tree, out_path, cut):
     Import = getattr(ROOT.RooWorkspace, 'import')
     var = ROOT.RooRealVar("mass","mass",80,100)     
     var.setBins(1000)
@@ -15,11 +15,6 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
     w = ROOT.RooWorkspace("w", False)
     Import(w, var)
     var = w.var("mass")
-    # var.setBins(5000)
-    # mu1_pt = ROOT.RooRealVar("muons.pt[0]","muons.pt[0]", 0, 10000) 
-    # mu1_eta = ROOT.RooRealVar("muons.eta[0]","muons.eta[0]", -2.4, 2.4) 
-    # mu2_eta = ROOT.RooRealVar("muons.eta[1]","muons.eta[1]", -2.4, 2.4)   
-
      
     hist_name = "%s"%cat_name
     hist = ROOT.TH1D(hist_name, hist_name, 40, 80,100)
@@ -38,14 +33,11 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
     ROOT.gSystem.Load("src/RooDCBShape_cxx.so")    
     w.factory("RooDCBShape::dcb_%s(mass, %s_mean[0, 0, 100], %s_sigma[1.5,0,6], %s_alphaL[2,0,10] , %s_alphaR[2,0,10], %s_nL[2,0,1000], %s_nR[2,0,1000])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
 
-    # w.factory("RooNumConvPdf::zfit_%s(mass, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
-    # model = ROOT.RooFFTConvPdf("zfit_%s"%cat_name,"zfit_%s"%cat_name,var,w.pdf("bw_%s"%cat_name),w.pdf("dcb_%s"%cat_name))
     w.factory("RooFFTConvPdf::zfit_%s(mass, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
     model = w.pdf("zfit_%s"%cat_name)
-    # model = w.pdf("dcb_%s"%cat_name)
+
 
     w.Print()
-    # ds = ROOT.RooDataSet("ds","ds", tree, ROOT.RooArgSet(var, mu1_pt, mu1_eta, mu2_eta), cut)
     ds = ROOT.RooDataHist("ds", "ds", ROOT.RooArgList(var), hist)
     # res = model.fitTo(ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res = model.fitTo(ds, ROOT.RooFit.Range("6gev"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
@@ -83,26 +75,37 @@ E1 = "(abs(muons.eta[0])>1.9)"
 E2 = "(abs(muons.eta[1])>1.9)"
 
 BB = "%s&%s"%(B1, B2)
-BO = "(%s&%s)||(%s&%s)"%(B1, O2, B2, O1)
-BE = "(%s&%s)||(%s&%s)"%(B1, E2, B2, E1)
+BO = "%s&%s"%(B1, O2)
+BE = "%s&%s"%(B1, E2)
+
+OB = "%s&%s"%(O1, B2)
 OO = "%s&%s"%(O1, O2)
-OE = "(%s&%s)||(%s&%s)"%(O1, E2, O2, E1)
+OE = "%s&%s"%(O1, E2)
+
+EB = "%s&%s"%(E1, B2)
+EO = "%s&%s"%(E1, O2)
 EE = "%s&%s"%(E1, E2)
 
 eta_bins = { "BB": BB,
              "BO": BO,
              "BE": BE,
+             "OB": OB,
              "OO": OO,
              "OE": OE,
+             "EB": EB,
+             "EO": EO,
              "EE": EE
              }
 eta_bin_numbers = { 
-             "BB": 1,
-             "BO": 2,
-             "BE": 3,
-             "OO": 4,
-             "OE": 5,
-             "EE": 6
+            "BB": 1,
+            "BO": 2,
+            "BE": 3,
+            "OB": 4,
+            "OO": 5,
+            "OE": 6,
+            "EB": 7,
+            "EO": 8,
+            "EE": 9
              }
 
 
@@ -121,21 +124,39 @@ tree.Add(input_path)
 print "Loaded sig tree from "+input_path+" with %i entries."%tree.GetEntries() 
 
 
-hist_res_MC = ROOT.TH1D("res_MC", "MC resolution", 6, 0, 6)
+hist_res_MC_pt_bin1 = ROOT.TH1D("res_MC_pt_bin1", "MC resolution pT bin1", 6, 0, 6)
+hist_res_MC_pt_bin1.SetLineColor(ROOT.kRed)
+hist_res_MC_pt_bin1.SetMarkerColor(ROOT.kRed)
+hist_res_MC_pt_bin2 = ROOT.TH1D("res_MC_pt_bin2", "MC resolution pT bin2", 6, 0, 6)
+hist_res_MC_pt_bin2.SetLineColor(ROOT.kGreen)
+hist_res_MC_pt_bin2.SetMarkerColor(ROOT.kGreen)
+
+
+hist_res_MC = {
+    "pt_bin1": hist_res_MC_pt_bin1,
+    "pt_bin2": hist_res_MC_pt_bin2
+}
 
 for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
     for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
         name = "%s_%s"%(pt_bin_key, eta_bin_key)
         cut = "(%s)&(%s)"%(pt_bin_cut, eta_bin_cut)
-        width, widthErr = fit_zpeak(name, tree, out_path, cut, False)
-        hist_res_MC.GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
-        hist_res_MC.SetBinContent(eta_bin_numbers[eta_bin_key], width)
-        hist_res_MC.SetBinError(eta_bin_numbers[eta_bin_key], widthErr)
+        width, widthErr = fit_zpeak(name, tree, out_path, cut)
+        hist_res_MC[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
+        hist_res_MC[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width)
+        hist_res_MC[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr)
+        hist_res_MC[pt_bin_key].SetLineWidth(2)
+        hist_res_MC[pt_bin_key].SetMarkerStyle(20)
       
 canv = ROOT.TCanvas("c", "c", 800, 800)
 canv.cd() 
+legend = ROOT.TLegend(0.11, 0.7, 0.35, 0.89)
 
-hist_res_MC.Draw("histe1")
+for hist_key, hist in hist_res_MC.iteritems():
+
+    hist_res_MC[hist_key].Draw("histe1same")
+    legend.AddEntry(hist_res_MC[hist_key], hist_res_MC[hist_key].GetTitle(), "ple1")
+legend.Draw()
 
 canv.SaveAs("%s/res_MC.png"%out_path) 
 
