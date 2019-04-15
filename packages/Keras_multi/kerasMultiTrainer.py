@@ -92,11 +92,13 @@ class KerasMultiTrainer(object):
                             single_file_df[category] = 0
 
                         if file.isData:
+                            print "This is a data file"
                             single_file_df['weight'] = 1
                             single_file_df['weight_over_lumi'] = 1
                             self.data = pandas.concat([self.data, single_file_df]) 
 
                         else:
+                            print "This is not a data file"
                             if "2016" in self.framework.year:
                                 SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
                             elif "2017" in self.framework.year:
@@ -113,6 +115,7 @@ class KerasMultiTrainer(object):
                             print "Added %s with %i events"%(file.name, single_file_df.shape[0])
                             single_file_df = self.apply_cuts(single_file_df, self.framework.year)
                             for i in range(file.repeat):
+                                print "Appending copy #%i of %i"%(i+1, file.repeat)
                                 self.df = pandas.concat([self.df,single_file_df])
         
         # for category in self.category_labels:
