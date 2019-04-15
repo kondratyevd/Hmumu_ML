@@ -24,7 +24,7 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
     hist = ROOT.TH1D(hist_name, hist_name, 40, 80,100)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    tree.Draw("muPairs.mass_Roch>>%s"%(hist_name), "(%s)"%(cut))
+    tree.Draw("muPairs.mass_Roch>>%s"%(hist_name), "(%s)&muons.isTightID[0]&muons.isTightID[1]"%(cut))
     dummy.Close()
 
     print "Entries in hist: ",hist.GetEntries()
@@ -35,7 +35,7 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
 
 
     ROOT.gSystem.Load("src/RooDCBShape_cxx.so")    
-    w.factory("RooDCBShape::dcb_%s(mass, %s_mean[0, 0, 100], %s_sigma[1.5,0,6], %s_alphaL[2,0,5] , %s_alphaR[2,0,5], %s_nL[2,0,100], %s_nR[2,0,100])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
+    w.factory("RooDCBShape::dcb_%s(mass, %s_mean[0, 0, 100], %s_sigma[1.5,0,6], %s_alphaL[2,0,5] , %s_alphaR[2,0,5], %s_nL[2,0,1000], %s_nR[2,0,1000])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
 
     # w.factory("RooNumConvPdf::zfit_%s(mass, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
     # model = ROOT.RooFFTConvPdf("zfit_%s"%cat_name,"zfit_%s"%cat_name,var,w.pdf("bw_%s"%cat_name),w.pdf("dcb_%s"%cat_name))
