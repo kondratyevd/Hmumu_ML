@@ -27,7 +27,7 @@ def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
     hist = ROOT.TH1D(hist_name, hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    tree.Draw("mass>>%s"%(hist_name), "(%s)"%(cut))
+    tree.Draw("muPairs.mass_Roch>>%s"%(hist_name), "(%s)"%(cut))
     dummy.Close()
 
     print "Entries in hist: ",hist.GetEntries()
@@ -45,7 +45,7 @@ def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
 
     w.Print()
     # ds = ROOT.RooDataSet("ds","ds", tree, ROOT.RooArgSet(var, mu1_pt, mu1_eta, mu2_eta), cut)
-    ds = ROOT.RooDataHist("ds", "ds", ROOT.RooArgSet(var, mu1_pt, mu1_eta, mu2_eta), hist)
+    ds = ROOT.RooDataHist("ds", "ds", ROOT.RooArgList(var), hist)
     res = model.fitTo(ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
 
