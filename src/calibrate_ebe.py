@@ -44,7 +44,7 @@ def fit_zpeak(cat_name, input_path, out_path, cut, isData=False):
 
     w.Print()
     ds = ROOT.RooDataSet("ds","ds", tree, ROOT.RooArgSet(var, mu1_pt, mu1_eta, mu2_eta), cut)
-    res = smodel.fitTo(ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+    res = model.fitTo(ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
 
     frame = var.frame(ROOT.RooFit.Bins(100))
