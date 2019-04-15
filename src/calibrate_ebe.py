@@ -35,11 +35,11 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
 
 
     ROOT.gSystem.Load("src/RooDCBShape_cxx.so")    
-    w.factory("RooDCBShape::dcb_%s(mass, %s_mean[90, 85,95], %s_sigma[0,0,1], %s_alphaL[0.5,0,1] , %s_alphaR[0.5,0,1], %s_nL[0.5,0,25], %s_nR[0.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
+    w.factory("RooDCBShape::dcb_%s(mass, %s_mean[90, 85,95], %s_sigma[1.5,0,5], %s_alphaL[1.5,0,5] , %s_alphaR[1.5,0,5], %s_nL[1,0,25], %s_nR[1,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
 
     w.factory("RooFFTConvPdf::zfit_%s(mass, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
-    model = w.pdf("zfit_%s"%cat_name)
-    # model = w.pdf("bw_%s"%cat_name)
+    # model = w.pdf("zfit_%s"%cat_name)
+    model = w.pdf("dcb_%s"%cat_name)
 
     w.Print()
     # ds = ROOT.RooDataSet("ds","ds", tree, ROOT.RooArgSet(var, mu1_pt, mu1_eta, mu2_eta), cut)
