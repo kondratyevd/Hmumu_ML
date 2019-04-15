@@ -110,6 +110,7 @@ class KerasMultiTrainer(object):
                             single_file_df['weight_over_lumi'] = file.weight_over_lumi * weight
                             # self.category_wgts_dict[file.category] = file.weight
                             print "Added %s with %i events"%(file.name, single_file_df.shape[0])
+                            single_file_df = self.apply_cuts(single_file_df, self.framework.year)
                             for i in range(file.repeat):
                                 self.df = pandas.concat([self.df,single_file_df])
         
@@ -120,7 +121,7 @@ class KerasMultiTrainer(object):
         self.df.reset_index(inplace=True, drop=True)
 
         # print self.df["muPairs.mass[0]"]
-        self.df = self.apply_cuts(self.df, self.framework.year)
+        # self.df = self.apply_cuts(self.df, self.framework.year)
         # print self.df["muPairs.mass[0]"]
 
         if self.framework.custom_loss:
@@ -128,7 +129,7 @@ class KerasMultiTrainer(object):
 
         if self.framework.data_files:
             self.data.reset_index(inplace=True, drop=True)
-            self.data = self.apply_cuts(self.data, self.framework.year)
+            # self.data = self.apply_cuts(self.data, self.framework.year)
             if self.framework.custom_loss:
                 self.data = self.make_mass_bins(self.data, 10, self.framework.massWindow[0], self.framework.massWindow[1], isMC=False)
 
@@ -364,6 +365,7 @@ class KerasMultiTrainer(object):
         return df
 
     def apply_cuts(self, df, year):
+        print "Events before cuts: ", df.count+1
         muon1_pt    = df['muons.pt[0]']
         muon2_pt    = df['muons.pt[1]']
         muon1_ID    = df['muons.isMediumID[0]']
@@ -413,7 +415,7 @@ class KerasMultiTrainer(object):
                 (muon2_ID>0)&
                 (muon1_pt>30)&
                 (muon2_pt>20))
-
+        print "Events after cuts: ", df.loc[flag].count+1
         return df.loc[flag]
 
     def make_mass_bins(self, df, nbins, min, max, isMC=True):
