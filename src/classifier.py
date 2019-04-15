@@ -174,7 +174,7 @@ class Framework(object):
 		if category in self.signal_categories+self.bkg_categories: 
 			print "Adding directory %s with xSec=%f as %s"%(path, xSec, category)
 			print "Events will be repeated %i times."%repeat
-			file = self.File(self, name, path, xSec, isDir, repeat)
+			file = self.File(self, name, path, xSec, isDir, isData=False, repeat)
 			file.category = category
 			self.files.append(file)
 			
