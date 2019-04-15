@@ -15,13 +15,13 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
     Import(w, var)
     var = w.var("mass")
     # var.setBins(5000)
-    mu1_pt = ROOT.RooRealVar("muons.pt[0]","muons.pt[0]", 0, 10000) 
-    mu1_eta = ROOT.RooRealVar("muons.eta[0]","muons.eta[0]", -2.4, 2.4) 
-    mu2_eta = ROOT.RooRealVar("muons.eta[1]","muons.eta[1]", -2.4, 2.4)   
+    # mu1_pt = ROOT.RooRealVar("muons.pt[0]","muons.pt[0]", 0, 10000) 
+    # mu1_eta = ROOT.RooRealVar("muons.eta[0]","muons.eta[0]", -2.4, 2.4) 
+    # mu2_eta = ROOT.RooRealVar("muons.eta[1]","muons.eta[1]", -2.4, 2.4)   
 
      
     hist_name = "%s"%cat_name
-    hist = ROOT.TH1D(hist_name, hist_name, 40, 110, 150)
+    hist = ROOT.TH1D(hist_name, hist_name, 40, 50, 130)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     tree.Draw("muPairs.mass_Roch>>%s"%(hist_name), "(%s)"%(cut))
@@ -35,7 +35,7 @@ def fit_zpeak(cat_name, tree, out_path, cut, isData=False):
 
 
     ROOT.gSystem.Load("src/RooDCBShape_cxx.so")    
-    w.factory("RooDCBShape::dcb_%s(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
+    w.factory("RooDCBShape::dcb_%s(mass, %s_mean[90,70,110], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
 
     w.factory("RooFFTConvPdf::zfit_%s(mass, bw_%s, dcb_%s)"%(cat_name, cat_name, cat_name))
     model = w.pdf("zfit_%s"%cat_name)
