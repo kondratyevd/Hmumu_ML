@@ -118,7 +118,7 @@ tree.Add(input_path)
 print "Loaded sig tree from "+input_path+" with %i entries."%tree.GetEntries() 
 
 
-hist_res_MC = ROOT.TH1D("res_MC", "MC resolution", 6)
+hist_res_MC = ROOT.TH1D("res_MC", "MC resolution", 6, 0, 6)
 
 for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
     for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
