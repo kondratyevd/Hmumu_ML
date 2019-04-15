@@ -64,7 +64,7 @@ class KerasMultiTrainer(object):
                             label_list = self.framework.variable_list + self.framework.spectator_list
 
                         for var in label_list:
-                            print "Adding variable:", var.name
+                            # print "Adding variable:", var.name
                             if  "met.pt" in var.name:   # quick fix for met
                                 up_var =  uproot_tree["met"]["pt"].array()
                             else:
@@ -81,7 +81,7 @@ class KerasMultiTrainer(object):
                                     self.spect_labels.extend(single_var_df.columns)
                                 single_file_df = pandas.concat([single_file_df, single_var_df], axis=1)
                                 single_file_df.fillna(var.replacement, axis=0, inplace=True) # if there are not enough jets
-                                print "Entries in file: ", single_file_df.count()+1
+                                # print "Entries in file: ", single_file_df.count()+1
                 
                             else:
                                 single_file_df[var.name] = up_var
