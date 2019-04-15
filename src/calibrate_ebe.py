@@ -64,7 +64,7 @@ def fit_zpeak(cat_name, tree, out_path, cut):
 
 pt_bins = {
            "pt_bin1": "(muons.pt[0]>30)&(muons.pt[0]<50)",
-           # "pt_bin2": "(muons.pt[0]>50)"
+           "pt_bin2": "(muons.pt[0]>50)"
            }
 
 B1 = "(abs(muons.eta[0])<0.9)"
