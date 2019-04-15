@@ -22,8 +22,8 @@ class KerasMultiTrainer(object):
         self.framework = framework
         self.package = package
         self.sum_weights = {}
-        self.category_wgts_dict = {}
-        self.category_wgts = []
+        # self.category_wgts_dict = {}
+        # self.category_wgts = []
         self.spect_labels = []
         self.mass_bin_labels = []
         self.category_labels = self.framework.signal_categories+self.framework.bkg_categories
@@ -108,13 +108,13 @@ class KerasMultiTrainer(object):
                             single_file_df[file.category] = 1
                             single_file_df['weight'] = file.weight * weight
                             single_file_df['weight_over_lumi'] = file.weight_over_lumi * weight
-                            self.category_wgts_dict[file.category] = file.weight
+                            # self.category_wgts_dict[file.category] = file.weight
                             print "Added %s with %i events"%(file.name, single_file_df.shape[0])
                             for i in range(file.repeat):
                                 self.df = pandas.concat([self.df,single_file_df])
         
-        for category in self.category_labels:
-            self.category_wgts.append(self.category_wgts_dict[category]) # want to preserve order
+        # for category in self.category_labels:
+        #     self.category_wgts.append(self.category_wgts_dict[category]) # want to preserve order
 
         self.labels = list(self.df.drop(['weight', 'weight_over_lumi']+self.spect_labels+self.category_labels, axis=1))
         self.df.reset_index(inplace=True, drop=True)
