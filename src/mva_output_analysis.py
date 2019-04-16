@@ -541,7 +541,7 @@ dnn_multi_hiStat_m120To130_1.add_sample("cat5", "cat5", "output_t*root", "tree_Z
 dnn_multi_hiStat_m120To130_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
 # dnn_multi_hiStat_m120To130_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
 dnn_multi_hiStat_m120To130_1.set_lumi(40490.712)
-dnn_multi_hiStat_m120To130_1.plot("mass", 10, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_multi_hiStat_m120To130_1.plot("mass", 10, 120, 130, label="shapes", draw=True, shapes=True)
 
 
 
@@ -570,7 +570,7 @@ dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat5", "cat5", "output_t*root"
 dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
 # dnn_multi_hiStat_m120To130_repeated_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
 dnn_multi_hiStat_m120To130_repeated_1.set_lumi(40490.712)
-dnn_multi_hiStat_m120To130_repeated_1.plot("mass", 10, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_multi_hiStat_m120To130_repeated_1.plot("mass", 10, 120, 130, label="shapes", draw=True, shapes=True)
 
 
 a.compare_roc_curves(roc_to_compare)
