@@ -414,7 +414,7 @@ dnn_multi.set_lumi(40490.712)
 # dnn_multi_roc_graph = dnn_multi.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="my_score")
 # dnn_multi_roc_graph = dnn_multi.plot_roc("(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="adish_score")
 # dnn_multi_roc = a.RocCurve(dnn_multi_roc_graph, "dnn_multi", "DNN_Multi", ROOT.kViolet)
-# roc_to_compare.append(dnn_multi_roc)
+roc_to_compare.append(dnn_multi_roc)
 
 
 # dnn_cuts_multi = [0.63, 0.788, 0.832, 0.844, 0.908, 0.940]
@@ -478,7 +478,7 @@ dnn_binary_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", 
 dnn_binary_hiStat.set_lumi(40490.712)
 dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
-roc_to_compare.append(dnn_binary_hiStat_roc)
+# roc_to_compare.append(dnn_binary_hiStat_roc)
 
 # Option 9.1 - plot only shapes
 dnn_cuts = [0.054, 0.112, 0.17, 0.248, 0.436, 0.56]
