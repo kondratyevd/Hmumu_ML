@@ -547,10 +547,10 @@ dnn_multi_hiStat_m120To130_1.plot("mass", 10, 120, 130, label="shapes", draw=Tru
 
 # Option 13
 dnn_multi_hiStat_m120To130_repeated = a.add_mva_source("DNN_Multi_hiStat_m120To130_repeated", "DNN_Multi_hiStat_m120To130_repeated", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-15_18-13-46//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi_hiStat_m120To130_repeated.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+dnn_multi_hiStat_m120To130_repeated.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True, "1./15.")
 dnn_multi_hiStat_m120To130_repeated.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-dnn_multi_hiStat_m120To130_repeated.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
-dnn_multi_hiStat_m120To130_repeated.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+dnn_multi_hiStat_m120To130_repeated.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "1./4.")
+dnn_multi_hiStat_m120To130_repeated.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True, "1./6.")
 dnn_multi_hiStat_m120To130_repeated.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_multi_hiStat_m120To130_repeated.set_lumi(40490.712)
 dnn_multi_hiStat_m120To130_repeated_roc_graph = dnn_multi_hiStat_m120To130_repeated.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
