@@ -140,12 +140,6 @@ hist_res_Data_pt_bin2 = ROOT.TH1D("res_Data_pt_bin2", "Data resolution pT bin2",
 hist_res_Data_pt_bin2.SetLineColor(ROOT.kBlue)
 hist_res_Data_pt_bin2.SetMarkerColor(ROOT.kBlue)
 
-hist_ratio_pt_bin1 = ROOT.TH1D("res_ratio_pt_bin1", "Data/MC pT bin1", 9, 0, 9)
-hist_ratio_pt_bin1.SetLineColor(ROOT.kBlack)
-hist_ratio_pt_bin1.SetMarkerColor(ROOT.kBlack)
-hist_ratio_pt_bin2 = ROOT.TH1D("res_ratio_pt_bin2", "Data/MC pT bin2", 9, 0, 9)
-hist_ratio_pt_bin2.SetLineColor(ROOT.kBlue)
-hist_ratio_pt_bin2.SetMarkerColor(ROOT.kBlue)
 
 hist_res_MC = {
     "pt_bin1": hist_res_MC_pt_bin1,
@@ -157,19 +151,18 @@ hist_res_Data = {
     "pt_bin2": hist_res_Data_pt_bin2
 }
 
-hist_ratio = {
-    "pt_bin1": hist_ratio_pt_bin1,
-    "pt_bin2": hist_ratio_pt_bin2
-}
 
 
+MC_factors = {}
+Data_factors = {}
+ratios = {}
 
 tree_Data = ROOT.TChain("dimuons/tree")
 tree_Data.Add(input_path_DataB)
-# tree_Data.Add(input_path_DataC)
-# tree_Data.Add(input_path_DataD)
-# tree_Data.Add(input_path_DataE)
-# tree_Data.Add(input_path_DataF)
+tree_Data.Add(input_path_DataC)
+tree_Data.Add(input_path_DataD)
+tree_Data.Add(input_path_DataE)
+tree_Data.Add(input_path_DataF)
 
 
 print "Loaded data tree with %i entries."%tree_Data.GetEntries() 
@@ -187,6 +180,7 @@ for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
         hist_res_Data[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr_Data)
         hist_res_Data[pt_bin_key].SetLineWidth(2)
         hist_res_Data[pt_bin_key].SetMarkerStyle(20)
+        Data_factors[name] = width_Data
 
 tree_MC = ROOT.TChain("dimuons/tree")
 tree_MC.Add(input_path_MC)
@@ -204,12 +198,12 @@ for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
         hist_res_MC[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr_MC)
         hist_res_MC[pt_bin_key].SetLineWidth(2)
         hist_res_MC[pt_bin_key].SetMarkerStyle(20)
+        MC_factors[name] = width_MC
 
-        # hist_ratio[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
-        # hist_ratio[pt_bin_key].GetYaxis().SetTitle("#sigma_{Data} / #sigma_{MC}")
-        # hist_ratio[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_Data/width_MC)
-        # hist_ratio[pt_bin_key].SetLineWidth(2)
-        # hist_ratio[pt_bin_key].SetMarkerStyle(20)
+for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
+    for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
+        name = "%s_%s"%(pt_bin_key, eta_bin_key)
+        ratios[name] = Data_factors[name] / MC_factors[name]        
       
 canv = ROOT.TCanvas("c", "c", 800, 800)
 canv.cd() 
@@ -228,16 +222,7 @@ legend.Draw()
 canv.SaveAs("%s/resolution.png"%out_path) 
 canv.SaveAs("%s/resolution.root"%out_path) 
 
+print Data_factors
+print MC_factors
+print ratios
 
-# canv = ROOT.TCanvas("c1", "c1", 800, 800)
-# canv.cd() 
-# legend = ROOT.TLegend(0.11, 0.7, 0.35, 0.89)
-
-# for hist_key, hist in hist_ratio.iteritems():
-#     hist_ratio[hist_key].Draw("histe1same")
-#     legend.AddEntry(hist_ratio[hist_key], hist_ratio[hist_key].GetTitle(), "ple1")
-
-# legend.Draw()
-
-# canv.SaveAs("%s/DataMCratio.png"%out_path) 
-# canv.SaveAs("%s/DataMCratio.root"%out_path) 
