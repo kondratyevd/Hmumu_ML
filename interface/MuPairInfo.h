@@ -25,6 +25,9 @@ struct MuPairInfo {
   Double_t dPhiStar = -999;
   Double_t dThetaStarEta = -999;
 
+  Double_t cosThetaCS = -999;
+  Double_t phiCS = -999;
+
   Double_t mass_PF    = -999;
   Double_t massErr_PF = -999;
   Double_t pt_PF      = -999;
