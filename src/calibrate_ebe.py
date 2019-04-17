@@ -168,18 +168,18 @@ hist_ratio = {
 
 tree_Data = ROOT.TChain("dimuons/tree")
 tree_Data.Add(input_path_DataB)
-# tree_Data.Add(input_path_DataC)
+tree_Data.Add(input_path_DataC)
 # tree_Data.Add(input_path_DataD)
 # tree_Data.Add(input_path_DataE)
 # tree_Data.Add(input_path_DataF)
-print "Loaded data tree from with %i entries."%tree_Data.GetEntries() 
+print "Loaded data tree with %i entries."%tree_Data.GetEntries() 
 
 
 for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
     for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
         name = "%s_%s"%(pt_bin_key, eta_bin_key)
         cut = "(%s)&(%s)"%(pt_bin_cut, eta_bin_cut)
-        
+
         # width_MC, widthErr_MC = fit_zpeak(name+"_MC", tree_MC, out_path, cut)
         # hist_res_MC[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
         # hist_res_MC[pt_bin_key].GetYaxis().SetTitle("#sigma_{res}(GeV)")
