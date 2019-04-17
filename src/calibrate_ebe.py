@@ -162,16 +162,16 @@ hist_ratio = {
     "pt_bin2": hist_ratio_pt_bin2
 }
 
-tree_MC = ROOT.TChain("dimuons/tree")
-tree_MC.Add(input_path_MC)
-print "Loaded MC tree from "+input_path_MC+" with %i entries."%tree_MC.GetEntries() 
+# tree_MC = ROOT.TChain("dimuons/tree")
+# tree_MC.Add(input_path_MC)
+# print "Loaded MC tree from "+input_path_MC+" with %i entries."%tree_MC.GetEntries() 
 
 tree_Data = ROOT.TChain("dimuons/tree")
 tree_Data.Add(input_path_DataB)
-tree_Data.Add(input_path_DataC)
-tree_Data.Add(input_path_DataD)
-tree_Data.Add(input_path_DataE)
-tree_Data.Add(input_path_DataF)
+# tree_Data.Add(input_path_DataC)
+# tree_Data.Add(input_path_DataD)
+# tree_Data.Add(input_path_DataE)
+# tree_Data.Add(input_path_DataF)
 print "Loaded data tree from with %i entries."%tree_Data.GetEntries() 
 
 
