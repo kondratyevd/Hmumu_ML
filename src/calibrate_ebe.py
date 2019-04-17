@@ -9,9 +9,9 @@ from array import array
 def fit_zpeak(cat_name, tree, out_path, cut):
     Import = getattr(ROOT.RooWorkspace, 'import')
     var = ROOT.RooRealVar("mass","mass",80,100)     
-    var.setBins(1000)
+    var.setBins(500)
     var.setRange("full",80,100)
-    var.setRange("window", 87, 94)
+    var.setRange("6gev", 85, 97)
     w = ROOT.RooWorkspace("w", False)
     Import(w, var)
     var = w.var("mass")
@@ -40,13 +40,13 @@ def fit_zpeak(cat_name, tree, out_path, cut):
     w.Print()
     ds = ROOT.RooDataHist("ds", "ds", ROOT.RooArgList(var), hist)
     # res = model.fitTo(ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
-    res = model.fitTo(ds, ROOT.RooFit.Range("window"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+    res = model.fitTo(ds, ROOT.RooFit.Range("6gev"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     res.Print()
 
-    frame = var.frame(ROOT.RooFit.Bins(100))
+    frame = var.frame(ROOT.RooFit.Bins(500))
     ds.plotOn(frame, ROOT.RooFit.Name("ds"))
     # model.plotOn(frame, ROOT.RooFit.Range("full"), ROOT.RooFit.Name("zfit_%s"%cat_name),ROOT.RooFit.LineColor(ROOT.kRed))
-    model.plotOn(frame, ROOT.RooFit.Range("window"), ROOT.RooFit.Name("zfit_%s"%cat_name),ROOT.RooFit.LineColor(ROOT.kRed))
+    model.plotOn(frame, ROOT.RooFit.Range("6gev"), ROOT.RooFit.Name("zfit_%s"%cat_name),ROOT.RooFit.LineColor(ROOT.kRed))
 
     canv = ROOT.TCanvas("canv", "canv", 800, 800)
     canv.cd()
