@@ -179,13 +179,14 @@ for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
     for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
         name = "%s_%s"%(pt_bin_key, eta_bin_key)
         cut = "(%s)&(%s)"%(pt_bin_cut, eta_bin_cut)
-        width_MC, widthErr_MC = fit_zpeak(name+"_MC", tree_MC, out_path, cut)
-        hist_res_MC[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
-        hist_res_MC[pt_bin_key].GetYaxis().SetTitle("#sigma_{res}(GeV)")
-        hist_res_MC[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_MC)
-        hist_res_MC[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr_MC)
-        hist_res_MC[pt_bin_key].SetLineWidth(2)
-        hist_res_MC[pt_bin_key].SetMarkerStyle(20)
+        
+        # width_MC, widthErr_MC = fit_zpeak(name+"_MC", tree_MC, out_path, cut)
+        # hist_res_MC[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
+        # hist_res_MC[pt_bin_key].GetYaxis().SetTitle("#sigma_{res}(GeV)")
+        # hist_res_MC[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_MC)
+        # hist_res_MC[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr_MC)
+        # hist_res_MC[pt_bin_key].SetLineWidth(2)
+        # hist_res_MC[pt_bin_key].SetMarkerStyle(20)
 
         width_Data, widthErr_Data = fit_zpeak(name+"_Data", tree_Data, out_path, cut)
         hist_res_Data[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
@@ -195,11 +196,11 @@ for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
         hist_res_Data[pt_bin_key].SetLineWidth(2)
         hist_res_Data[pt_bin_key].SetMarkerStyle(20)
 
-        hist_ratio[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
-        hist_ratio[pt_bin_key].GetYaxis().SetTitle("#sigma_{Data} / #sigma_{MC}")
-        hist_ratio[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_Data/width_MC)
-        hist_ratio[pt_bin_key].SetLineWidth(2)
-        hist_ratio[pt_bin_key].SetMarkerStyle(20)
+        # hist_ratio[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
+        # hist_ratio[pt_bin_key].GetYaxis().SetTitle("#sigma_{Data} / #sigma_{MC}")
+        # hist_ratio[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_Data/width_MC)
+        # hist_ratio[pt_bin_key].SetLineWidth(2)
+        # hist_ratio[pt_bin_key].SetMarkerStyle(20)
       
 canv = ROOT.TCanvas("c", "c", 800, 800)
 canv.cd() 
