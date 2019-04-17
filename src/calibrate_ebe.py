@@ -111,7 +111,7 @@ eta_bin_numbers = {
 
 # input_path = "/Users/dmitrykondratyev/Documents/HiggsToMuMu/test_files/dy/*root"
 input_path_MC ="/mnt/hadoop/store/user/dkondrat/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190406_001043/0000/*.root"
-input_path_Data ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017B/190406_000906/0000/*root"
+input_path_Data ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017*/190406_00*/0000/*root"
 out_path = "plots/EBECalibration/"
 
 try:
@@ -135,48 +135,62 @@ hist_res_Data_pt_bin2 = ROOT.TH1D("res_Data_pt_bin2", "Data resolution pT bin2",
 hist_res_Data_pt_bin2.SetLineColor(ROOT.kBlue)
 hist_res_Data_pt_bin2.SetMarkerColor(ROOT.kBlue)
 
+hist_ratio_pt_bin1 = ROOT.TH1D("res_ratio_pt_bin1", "Data/MC pT bin1", 9, 0, 9)
+hist_ratio_pt_bin1.SetLineColor(ROOT.kBlack)
+hist_ratio_pt_bin1.SetMarkerColor(ROOT.kBlack)
+hist_ratio_pt_bin2 = ROOT.TH1D("res_ratio_pt_bin2", "Data/MC pT bin2", 9, 0, 9)
+hist_ratio_pt_bin2.SetLineColor(ROOT.kBlue)
+hist_ratio_pt_bin2.SetMarkerColor(ROOT.kBlue)
 
 hist_res_MC = {
     "pt_bin1": hist_res_MC_pt_bin1,
     "pt_bin2": hist_res_MC_pt_bin2
 }
 
-
-tree_MC = ROOT.TChain("dimuons/tree")
-tree_MC.Add(input_path_MC)
-print "Loaded sig tree from "+input_path_MC+" with %i entries."%tree_MC.GetEntries() 
-
-for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
-    for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
-        name = "%s_%s"%(pt_bin_key, eta_bin_key)
-        cut = "(%s)&(%s)"%(pt_bin_cut, eta_bin_cut)
-        width, widthErr = fit_zpeak(name+"_MC", tree_MC, out_path, cut)
-        hist_res_MC[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
-        hist_res_MC[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width)
-        hist_res_MC[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr)
-        hist_res_MC[pt_bin_key].SetLineWidth(2)
-        hist_res_MC[pt_bin_key].SetMarkerStyle(20)
-
-
 hist_res_Data = {
     "pt_bin1": hist_res_Data_pt_bin1,
     "pt_bin2": hist_res_Data_pt_bin2
 }
 
+hist_ratio = {
+    "pt_bin1": hist_ratio_pt_bin1,
+    "pt_bin2": hist_ratio_pt_bin2
+}
+
+tree_MC = ROOT.TChain("dimuons/tree")
+tree_MC.Add(input_path_MC)
+print "Loaded sig tree from "+input_path_MC+" with %i entries."%tree_MC.GetEntries() 
+
 tree_Data = ROOT.TChain("dimuons/tree")
 tree_Data.Add(input_path_Data)
 print "Loaded sig tree from "+input_path_Data+" with %i entries."%tree_Data.GetEntries() 
+
 
 for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
     for pt_bin_key, pt_bin_cut in pt_bins.iteritems():
         name = "%s_%s"%(pt_bin_key, eta_bin_key)
         cut = "(%s)&(%s)"%(pt_bin_cut, eta_bin_cut)
-        width, widthErr = fit_zpeak(name+"_Data", tree_Data, out_path, cut)
+        width_MC, widthErr_MC = fit_zpeak(name+"_MC", tree_MC, out_path, cut)
+        hist_res_MC[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
+        hist_res_MC[pt_bin_key].GetYaxis().SetTitle("#sigma_{res}(GeV)")
+        hist_res_MC[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_MC)
+        hist_res_MC[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr_MC)
+        hist_res_MC[pt_bin_key].SetLineWidth(2)
+        hist_res_MC[pt_bin_key].SetMarkerStyle(20)
+
+        width_Data, widthErr_Data = fit_zpeak(name+"_Data", tree_Data, out_path, cut)
         hist_res_Data[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
-        hist_res_Data[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width)
-        hist_res_Data[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr)
+        hist_res_Data[pt_bin_key].GetYaxis().SetTitle("#sigma_{res}(GeV)")
+        hist_res_Data[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_Data)
+        hist_res_Data[pt_bin_key].SetBinError(eta_bin_numbers[eta_bin_key], widthErr_Data)
         hist_res_Data[pt_bin_key].SetLineWidth(2)
         hist_res_Data[pt_bin_key].SetMarkerStyle(20)
+
+        hist_ratio[pt_bin_key].GetXaxis().SetBinLabel(eta_bin_numbers[eta_bin_key], eta_bin_key)
+        hist_ratio[pt_bin_key].GetYaxis().SetTitle("#sigma_{Data} / #sigma_{MC}")
+        hist_ratio[pt_bin_key].SetBinContent(eta_bin_numbers[eta_bin_key], width_Data/width_MC)
+        hist_ratio[pt_bin_key].SetLineWidth(2)
+        hist_ratio[pt_bin_key].SetMarkerStyle(20)
       
 canv = ROOT.TCanvas("c", "c", 800, 800)
 canv.cd() 
@@ -195,3 +209,17 @@ legend.Draw()
 canv.SaveAs("%s/resolution.png"%out_path) 
 canv.SaveAs("%s/resolution.root"%out_path) 
 
+
+canv = ROOT.TCanvas("c1", "c1", 800, 800)
+canv.cd() 
+legend = ROOT.TLegend(0.11, 0.7, 0.35, 0.89)
+
+
+for hist_key, hist in hist_ratio.iteritems():
+    hist_ratio[hist_key].Draw("histe1same")
+    legend.AddEntry(hist_ratio[hist_key], hist_ratio[hist_key].GetTitle(), "ple1")
+
+legend.Draw()
+
+canv.SaveAs("%s/DataMCratio.png"%out_path) 
+canv.SaveAs("%s/DataMCratio.root"%out_path) 
