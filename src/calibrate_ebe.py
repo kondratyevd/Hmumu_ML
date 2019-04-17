@@ -12,7 +12,7 @@ def fit_zpeak(cat_name, tree, out_path, cut):
     var.setBins(500)
     var.setRange("full",80,100)
     var.setRange("6gev", 85, 97)
-    w = ROOT.RooWorkspace("w", False)
+    w = ROOT.RooWorkspace("w_"+cat_name, False)
     Import(w, var)
     var = w.var("mass")
      
