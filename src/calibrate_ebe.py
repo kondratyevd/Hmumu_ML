@@ -169,9 +169,10 @@ hist_ratio = {
 tree_Data = ROOT.TChain("dimuons/tree")
 tree_Data.Add(input_path_DataB)
 tree_Data.Add(input_path_DataC)
-# tree_Data.Add(input_path_DataD)
-# tree_Data.Add(input_path_DataE)
+tree_Data.Add(input_path_DataD)
+tree_Data.Add(input_path_DataE)
 # tree_Data.Add(input_path_DataF)
+
 print "Loaded data tree with %i entries."%tree_Data.GetEntries() 
 
 
