@@ -55,7 +55,7 @@ class KerasMultiTrainer(object):
                 if filename.endswith(".root"): 
                     with uproot.open(file.path+filename) as f: 
                         uproot_tree = f[self.framework.treePath]
-                        print "Opened file: %s "%(filename)
+                        # print "Opened file: %s "%(filename)
                         single_file_df = pandas.DataFrame()
 
                         if file.isData:
@@ -92,13 +92,13 @@ class KerasMultiTrainer(object):
                             single_file_df[category] = 0
 
                         if file.isData:
-                            print "This is a data file"
+                            # print "This is a data file"
                             single_file_df['weight'] = 1
                             single_file_df['weight_over_lumi'] = 1
                             self.data = pandas.concat([self.data, single_file_df]) 
 
                         else:
-                            print "This is not a data file"
+                            # print "This is not a data file"
                             if "2016" in self.framework.year:
                                 SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
                             elif "2017" in self.framework.year:
