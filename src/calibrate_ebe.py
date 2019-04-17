@@ -111,7 +111,12 @@ eta_bin_numbers = {
 
 # input_path = "/Users/dmitrykondratyev/Documents/HiggsToMuMu/test_files/dy/*root"
 input_path_MC ="/mnt/hadoop/store/user/dkondrat/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/190406_001043/0000/*.root"
-input_path_Data ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017*/190406_00*/0000/*root"
+input_path_Data ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017B/190415_222712/0000/*root"
+input_path_DataB ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017B/190415_222712/0000/*root"
+input_path_DataC ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017C/190415_222730/0000/*root"
+input_path_DataD ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017D/190415_222746/0000/*root"
+input_path_DataE ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017E/190415_222801/0000/*root"
+input_path_DataF ="/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017F/190415_222818/0000/*root"
 out_path = "plots/EBECalibration/"
 
 try:
@@ -159,11 +164,15 @@ hist_ratio = {
 
 tree_MC = ROOT.TChain("dimuons/tree")
 tree_MC.Add(input_path_MC)
-print "Loaded sig tree from "+input_path_MC+" with %i entries."%tree_MC.GetEntries() 
+print "Loaded MC tree from "+input_path_MC+" with %i entries."%tree_MC.GetEntries() 
 
 tree_Data = ROOT.TChain("dimuons/tree")
-tree_Data.Add(input_path_Data)
-print "Loaded sig tree from "+input_path_Data+" with %i entries."%tree_Data.GetEntries() 
+tree_Data.Add(input_path_DataB)
+tree_Data.Add(input_path_DataC)
+tree_Data.Add(input_path_DataD)
+tree_Data.Add(input_path_DataE)
+tree_Data.Add(input_path_DataF)
+print "Loaded data tree from with %i entries."%tree_Data.GetEntries() 
 
 
 for eta_bin_key, eta_bin_cut in eta_bins.iteritems():
@@ -213,7 +222,6 @@ canv.SaveAs("%s/resolution.root"%out_path)
 canv = ROOT.TCanvas("c1", "c1", 800, 800)
 canv.cd() 
 legend = ROOT.TLegend(0.11, 0.7, 0.35, 0.89)
-
 
 for hist_key, hist in hist_ratio.iteritems():
     hist_ratio[hist_key].Draw("histe1same")
