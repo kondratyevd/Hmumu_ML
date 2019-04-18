@@ -102,7 +102,7 @@ class Analyzer(object):
                 dummy = ROOT.TCanvas("dummy_"+hist_name, "dummy_"+hist_name, 100, 100)
                 dummy.cd()
                 if smp.isData:
-                    trees[smp.name].Draw("%s>>%s"%(var_name, hist_name))
+                    trees[smp.name].Draw("%s>>%s"%(var_name, hist_name), smp.additional_cut)
                     self.data_hist = hist
                     self.data_hist.SetMarkerColor(smp.color)
                     self.data_hist.SetLineColor(smp.color)
