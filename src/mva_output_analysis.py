@@ -329,249 +329,298 @@ roc_to_compare = []
 a = Analyzer()
 a.set_out_path("plots/mva_output_analyzis")
 
-# Option 0
-bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/home/dkondra/tmp/BDTG_UF/")
-bdt_uf.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
-bdt_uf.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
-bdt_uf.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
-bdt_uf.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
-bdt_uf.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
-bdt_uf.set_lumi(40490.712)
-bdt_uf_roc_graph = bdt_uf.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-# bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlack)
-bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlue)
-# roc_to_compare.append(bdt_uf_roc)
-# bdt_uf_roc_tmva = a.roc_from_tmva(bdt_uf, "BDT_UF", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlack, 2)
-# roc_to_compare.append(bdt_uf_roc_tmva)
+# # Option 0
+# bdt_uf = a.add_mva_source("BDT_UF", "BDT_UF", "/home/dkondra/tmp/BDTG_UF/")
+# bdt_uf.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
+# bdt_uf.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
+# bdt_uf.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
+# bdt_uf.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
+# bdt_uf.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
+# bdt_uf.set_lumi(40490.712)
+# bdt_uf_roc_graph = bdt_uf.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# # bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlack)
+# bdt_uf_roc = a.RocCurve(bdt_uf_roc_graph, "bdt_uf", "BDT UF loStat", ROOT.kBlue)
+# # roc_to_compare.append(bdt_uf_roc)
+# # bdt_uf_roc_tmva = a.roc_from_tmva(bdt_uf, "BDT_UF", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlack, 2)
+# # roc_to_compare.append(bdt_uf_roc_tmva)
 
 
 
-# Option 1
-bdt_uf_hiStat = a.add_mva_source("BDT_UF_hiStat", "BDT_UF_hiStat", "/home/dkondra/tmp/BDTG_UF_hiStat/")
-bdt_uf_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
-# bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
-bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
-bdt_uf_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
-bdt_uf_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
-bdt_uf_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
-bdt_uf_hiStat.set_lumi(40490.712)
-bdt_uf_hiStat_roc_graph = bdt_uf_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_uf_hiStat_roc = a.RocCurve(bdt_uf_hiStat_roc_graph, "bdt_uf_hiStat", "BDT UF hiStat", ROOT.kBlack)
-# roc_to_compare.append(bdt_uf_hiStat_roc)
-# bdt_uf_hiStat_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat, "BDT_UF_hiStat", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlue, 2)
-# roc_to_compare.append(bdt_uf_hiStat_roc_tmva)
+# # Option 1
+# bdt_uf_hiStat = a.add_mva_source("BDT_UF_hiStat", "BDT_UF_hiStat", "/home/dkondra/tmp/BDTG_UF_hiStat/")
+# bdt_uf_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UF_v1.root", "tree", False, True, ROOT.kYellow)
+# # bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UF_v1.root", "tree", False, True, ROOT.kOrange-3)
+# bdt_uf_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
+# bdt_uf_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UF_v1.root", "tree", False, False, ROOT.kRed)
+# bdt_uf_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UF_v1.root", "tree", False, False, ROOT.kViolet-1)
+# bdt_uf_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UF_v1.root", "tree", True, False, ROOT.kBlack)
+# bdt_uf_hiStat.set_lumi(40490.712)
+# bdt_uf_hiStat_roc_graph = bdt_uf_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# bdt_uf_hiStat_roc = a.RocCurve(bdt_uf_hiStat_roc_graph, "bdt_uf_hiStat", "BDT UF hiStat", ROOT.kBlack)
+# # roc_to_compare.append(bdt_uf_hiStat_roc)
+# # bdt_uf_hiStat_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat, "BDT_UF_hiStat", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kBlue, 2)
+# # roc_to_compare.append(bdt_uf_hiStat_roc_tmva)
 
-# Option 2
-# bdt_uf_hiStat_ebe = a.add_mva_source("BDT_UF_hiStat_ebe", "BDT_UF_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-30/TMVA/")
-# bdt_uf_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat_ebe, "BDT_UF_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kRed, 2)
-# roc_to_compare.append(bdt_uf_hiStat_ebe_roc_tmva)
+# # Option 2
+# # bdt_uf_hiStat_ebe = a.add_mva_source("BDT_UF_hiStat_ebe", "BDT_UF_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-30/TMVA/")
+# # bdt_uf_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_uf_hiStat_ebe, "BDT_UF_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UF_v1/BDTG_UF_v1/MVA_BDTG_UF_v1_rejBvsS", ROOT.kRed, 2)
+# # roc_to_compare.append(bdt_uf_hiStat_ebe_roc_tmva)
 
-# Option 3
-bdt_ucsd = a.add_mva_source("BDT_UCSD", "BDT_UCSD", "/home/dkondra/tmp/BDTG_UCSD/")
-bdt_ucsd.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
-bdt_ucsd.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
-bdt_ucsd.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd.set_lumi(40490.712)
-bdt_ucsd_roc_graph = bdt_ucsd.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_ucsd_roc = a.RocCurve(bdt_ucsd_roc_graph, "bdt_ucsd", "BDT UCSD loStat", ROOT.kBlue)
-# roc_to_compare.append(bdt_ucsd_roc)
+# # Option 3
+# bdt_ucsd = a.add_mva_source("BDT_UCSD", "BDT_UCSD", "/home/dkondra/tmp/BDTG_UCSD/")
+# bdt_ucsd.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
+# bdt_ucsd.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
+# bdt_ucsd.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
+# bdt_ucsd.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
+# bdt_ucsd.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd.set_lumi(40490.712)
+# bdt_ucsd_roc_graph = bdt_ucsd.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# bdt_ucsd_roc = a.RocCurve(bdt_ucsd_roc_graph, "bdt_ucsd", "BDT UCSD loStat", ROOT.kBlue)
+# # roc_to_compare.append(bdt_ucsd_roc)
 
-# bdt_ucsd_roc_tmva = a.roc_from_tmva(bdt_ucsd, "BDT_UCSD", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kGreen, 2)
-# roc_to_compare.append(bdt_ucsd_roc_tmva)
+# # bdt_ucsd_roc_tmva = a.roc_from_tmva(bdt_ucsd, "BDT_UCSD", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kGreen, 2)
+# # roc_to_compare.append(bdt_ucsd_roc_tmva)
 
-# Option 4
-bdt_ucsd_hiStat = a.add_mva_source("BDT_UCSD_hiStat", "BDT_UCSD_hiStat", "/home/dkondra/tmp/BDTG_UCSD_hiStat/")
-bdt_ucsd_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
-# bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
-bdt_ucsd_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat.set_lumi(40490.712)
-bdt_ucsd_hiStat_roc_graph = bdt_ucsd_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_ucsd_hiStat_roc = a.RocCurve(bdt_ucsd_hiStat_roc_graph, "bdt_ucsd_hiStat", "BDT UCSD hiStat", ROOT.kOrange-3)
-roc_to_compare.append(bdt_ucsd_hiStat_roc)
-# bdt_ucsd_hiStat_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat, "BDT_UCSD_hiStat", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kViolet, 2)
-# roc_to_compare.append(bdt_ucsd_hiStat_roc_tmva)
-
-
-# Option 5
-# bdt_ucsd_hiStat_ebe = a.add_mva_source("BDT_UCSD_hiStat_ebe", "BDT_UCSD_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-49/TMVA/")
-# bdt_ucsd_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat_ebe, "BDT_UCSD_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kYellow, 2)
-# roc_to_compare.append(bdt_ucsd_hiStat_ebe_roc_tmva)
+# # Option 4
+# bdt_ucsd_hiStat = a.add_mva_source("BDT_UCSD_hiStat", "BDT_UCSD_hiStat", "/home/dkondra/tmp/BDTG_UCSD_hiStat/")
+# bdt_ucsd_hiStat.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
+# # bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
+# bdt_ucsd_hiStat.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
+# bdt_ucsd_hiStat.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
+# bdt_ucsd_hiStat.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
+# bdt_ucsd_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat.set_lumi(40490.712)
+# bdt_ucsd_hiStat_roc_graph = bdt_ucsd_hiStat.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# bdt_ucsd_hiStat_roc = a.RocCurve(bdt_ucsd_hiStat_roc_graph, "bdt_ucsd_hiStat", "BDT UCSD hiStat", ROOT.kOrange-3)
+# roc_to_compare.append(bdt_ucsd_hiStat_roc)
+# # bdt_ucsd_hiStat_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat, "BDT_UCSD_hiStat", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kViolet, 2)
+# # roc_to_compare.append(bdt_ucsd_hiStat_roc_tmva)
 
 
-# Option 6
-dnn_multi = a.add_mva_source("DNN_Multi", "DNN_Multi", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-05//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
-dnn_multi.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-dnn_multi.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
-dnn_multi.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
-dnn_multi.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_multi.set_lumi(40490.712)
-dnn_multi_roc_graph = dnn_multi.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="my_score")
-# dnn_multi_roc_graph = dnn_multi.plot_roc("(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="adish_score")
-dnn_multi_roc = a.RocCurve(dnn_multi_roc_graph, "dnn_multi", "DNN_Multi", ROOT.kGreen)
-roc_to_compare.append(dnn_multi_roc)
+# # Option 5
+# # bdt_ucsd_hiStat_ebe = a.add_mva_source("BDT_UCSD_hiStat_ebe", "BDT_UCSD_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-36-49/TMVA/")
+# # bdt_ucsd_hiStat_ebe_roc_tmva = a.roc_from_tmva(bdt_ucsd_hiStat_ebe, "BDT_UCSD_hiStat_ebe", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kYellow, 2)
+# # roc_to_compare.append(bdt_ucsd_hiStat_ebe_roc_tmva)
 
 
-# dnn_cuts_multi = [0.63, 0.788, 0.832, 0.844, 0.908, 0.940]
-# score_multi = "ggH_prediction+VBF_prediction"
-# dnn_multi_1 = a.add_mva_source("DNN_multi_1", "DNN_multi_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-05//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-# dnn_multi_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi, 0.0, score_multi, dnn_cuts_multi[0]))
-# dnn_multi_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[0], score_multi, dnn_cuts_multi[1]))
-# dnn_multi_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[1], score_multi, dnn_cuts_multi[2]))
-# dnn_multi_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[2], score_multi, dnn_cuts_multi[3]))
-# dnn_multi_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[3], score_multi, dnn_cuts_multi[4]))
-# dnn_multi_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[4], score_multi, dnn_cuts_multi[5]))
-# dnn_multi_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[5], score_multi, 1))
-# # dnn_multi_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-# dnn_multi_1.set_lumi(40490.712)
-# dnn_multi_1.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
+# # Option 6
+# dnn_multi = a.add_mva_source("DNN_Multi", "DNN_Multi", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-05//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_multi.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+# dnn_multi.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+# dnn_multi.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+# dnn_multi.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+# dnn_multi.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_multi.set_lumi(40490.712)
+# dnn_multi_roc_graph = dnn_multi.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="my_score")
+# # dnn_multi_roc_graph = dnn_multi.plot_roc("(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95], label="adish_score")
+# dnn_multi_roc = a.RocCurve(dnn_multi_roc_graph, "dnn_multi", "DNN_Multi", ROOT.kGreen)
+# roc_to_compare.append(dnn_multi_roc)
 
 
-# Option 7
-dnn_multi_hiStat = a.add_mva_source("DNN_Multi_hiStat", "DNN_Multi_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-51-21//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi_hiStat.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
-dnn_multi_hiStat.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-dnn_multi_hiStat.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
-dnn_multi_hiStat.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
-dnn_multi_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_multi_hiStat.set_lumi(40490.712)
-dnn_multi_hiStat_roc_graph = dnn_multi_hiStat.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_multi_hiStat_roc = a.RocCurve(dnn_multi_hiStat_roc_graph, "dnn_multi_hiStat", "DNN_Multi_hiStat", ROOT.kViolet)
-roc_to_compare.append(dnn_multi_hiStat_roc)
+# # dnn_cuts_multi = [0.63, 0.788, 0.832, 0.844, 0.908, 0.940]
+# # score_multi = "ggH_prediction+VBF_prediction"
+# # dnn_multi_1 = a.add_mva_source("DNN_multi_1", "DNN_multi_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-05//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# # dnn_multi_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi, 0.0, score_multi, dnn_cuts_multi[0]))
+# # dnn_multi_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[0], score_multi, dnn_cuts_multi[1]))
+# # dnn_multi_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[1], score_multi, dnn_cuts_multi[2]))
+# # dnn_multi_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[2], score_multi, dnn_cuts_multi[3]))
+# # dnn_multi_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[3], score_multi, dnn_cuts_multi[4]))
+# # dnn_multi_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[4], score_multi, dnn_cuts_multi[5]))
+# # dnn_multi_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi, dnn_cuts_multi[5], score_multi, 1))
+# # # dnn_multi_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# # dnn_multi_1.set_lumi(40490.712)
+# # dnn_multi_1.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
-# dnn_cuts_multi_hiStat = [0.046, 0.094, 0.116, 0.134, 0.262, 0.388]
+
+# # Option 7
+# dnn_multi_hiStat = a.add_mva_source("DNN_Multi_hiStat", "DNN_Multi_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-51-21//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_multi_hiStat.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+# dnn_multi_hiStat.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+# dnn_multi_hiStat.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+# dnn_multi_hiStat.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+# dnn_multi_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_multi_hiStat.set_lumi(40490.712)
+# dnn_multi_hiStat_roc_graph = dnn_multi_hiStat.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# dnn_multi_hiStat_roc = a.RocCurve(dnn_multi_hiStat_roc_graph, "dnn_multi_hiStat", "DNN_Multi_hiStat", ROOT.kViolet)
+# roc_to_compare.append(dnn_multi_hiStat_roc)
+
+# # dnn_cuts_multi_hiStat = [0.046, 0.094, 0.116, 0.134, 0.262, 0.388]
+# # score_multi_hiStat = "ggH_prediction+VBF_prediction"
+# # dnn_multi_hiStat_1 = a.add_mva_source("DNN_multi_hiStat_1", "DNN_multi_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-51-21//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# # dnn_multi_hiStat_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, 0.0, score_multi_hiStat, dnn_cuts_multi_hiStat[0]))
+# # dnn_multi_hiStat_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[0], score_multi_hiStat, dnn_cuts_multi_hiStat[1]))
+# # dnn_multi_hiStat_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[1], score_multi_hiStat, dnn_cuts_multi_hiStat[2]))
+# # dnn_multi_hiStat_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[2], score_multi_hiStat, dnn_cuts_multi_hiStat[3]))
+# # dnn_multi_hiStat_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[3], score_multi_hiStat, dnn_cuts_multi_hiStat[4]))
+# # dnn_multi_hiStat_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[4], score_multi_hiStat, dnn_cuts_multi_hiStat[5]))
+# # dnn_multi_hiStat_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
+# # # dnn_multi_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# # dnn_multi_hiStat_1.set_lumi(40490.712)
+# # dnn_multi_hiStat_1.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
+
+# # Option 8
+# dnn_multi_hiStat_ebe = a.add_mva_source("DNN_Multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-09//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_multi_hiStat_ebe.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+# dnn_multi_hiStat_ebe.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+# dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+# dnn_multi_hiStat_ebe.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+# dnn_multi_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_multi_hiStat_ebe.set_lumi(40490.712)
+# dnn_multi_hiStat_ebe_roc_graph = dnn_multi_hiStat_ebe.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# dnn_multi_hiStat_ebe_roc = a.RocCurve(dnn_multi_hiStat_ebe_roc_graph, "dnn_multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", ROOT.kGreen)
+# # roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
+
+# # Option 9
+# dnn_binary_hiStat = a.add_mva_source("DNN_Binary_hiStat", "DNN_Binary_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_binary_hiStat.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, True)
+# dnn_binary_hiStat.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# dnn_binary_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_binary_hiStat.set_lumi(40490.712)
+# dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
+# # roc_to_compare.append(dnn_binary_hiStat_roc)
+
+# # Option 9.1 - plot only shapes
+# dnn_cuts = [0.054, 0.112, 0.17, 0.248, 0.436, 0.56]
+# dnn_binary_hiStat_1 = a.add_mva_source("DNN_Binary_hiStat_1", "DNN_Binary_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_binary_hiStat_1.add_sample("cat0", "cat0", "output_t*root", "tree_bkg", False, False, ROOT.kBlack, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(0.0, dnn_cuts[0]))
+# dnn_binary_hiStat_1.add_sample("cat1", "cat1", "output_t*root", "tree_bkg", False, False, ROOT.kViolet, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[0], dnn_cuts[1]))
+# dnn_binary_hiStat_1.add_sample("cat2", "cat2", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[1], dnn_cuts[2]))
+# dnn_binary_hiStat_1.add_sample("cat3", "cat3", "output_t*root", "tree_bkg", False, False, ROOT.kGreen, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[2], dnn_cuts[3]))
+# dnn_binary_hiStat_1.add_sample("cat4", "cat4", "output_t*root", "tree_bkg", False, False, ROOT.kYellow, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[3], dnn_cuts[4]))
+# dnn_binary_hiStat_1.add_sample("cat5", "cat5", "output_t*root", "tree_bkg", False, False, ROOT.kOrange, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[4], dnn_cuts[5]))
+# dnn_binary_hiStat_1.add_sample("cat6", "cat6", "output_t*root", "tree_bkg", False, False, ROOT.kRed, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[5], 1))
+# # dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# dnn_binary_hiStat_1.set_lumi(40490.712)
+# dnn_binary_hiStat_1.plot("mass", 200, 110, 150, label="shapes", draw=True, shapes=True)
+
+# # Option 10
+# dnn_binary_hiStat_ebe = a.add_mva_source("DNN_Binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-16//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_binary_hiStat_ebe.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, True)
+# dnn_binary_hiStat_ebe.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# dnn_binary_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_binary_hiStat_ebe.set_lumi(40490.712)
+# dnn_binary_hiStat_ebe_roc_graph = dnn_binary_hiStat_ebe.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# dnn_binary_hiStat_ebe_roc = a.RocCurve(dnn_binary_hiStat_ebe_roc_graph, "dnn_binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", ROOT.kYellow)
+# # roc_to_compare.append(dnn_binary_hiStat_ebe_roc)
+
+# # Option 11
+# dnn_binary = a.add_mva_source("DNN_Binary", "DNN_Binary", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-09_16-22-10//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_binary.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, True)
+# dnn_binary.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# dnn_binary.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_binary.set_lumi(40490.712)
+# dnn_binary_roc_graph = dnn_binary.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# dnn_binary_roc = a.RocCurve(dnn_binary_roc_graph, "dnn_binary", "DNN_Binary", ROOT.kBlue)
+
+
+# # roc_to_compare.append(dnn_binary_roc)
+
+# # Option 12
+# dnn_multi_hiStat_m120To130 = a.add_mva_source("DNN_Multi_hiStat_m120To130", "DNN_Multi_hiStat_m120To130", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-11_14-31-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_multi_hiStat_m120To130.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+# dnn_multi_hiStat_m120To130.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+# dnn_multi_hiStat_m120To130.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+# dnn_multi_hiStat_m120To130.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+# dnn_multi_hiStat_m120To130.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_multi_hiStat_m120To130.set_lumi(40490.712)
+# dnn_multi_hiStat_m120To130_roc_graph = dnn_multi_hiStat_m120To130.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# dnn_multi_hiStat_m120To130_roc = a.RocCurve(dnn_multi_hiStat_m120To130_roc_graph, "dnn_multi_hiStat_m120To130", "DNN_Multi_hiStat_m120To130", ROOT.kViolet, 2)
+# roc_to_compare.append(dnn_multi_hiStat_m120To130_roc)
+
+
+# dnn_cuts_multi_hiStat = [0.152, 0.262, 0.324, 0.354, 0.570, 0.72]
 # score_multi_hiStat = "ggH_prediction+VBF_prediction"
-# dnn_multi_hiStat_1 = a.add_mva_source("DNN_multi_hiStat_1", "DNN_multi_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-51-21//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-# dnn_multi_hiStat_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, 0.0, score_multi_hiStat, dnn_cuts_multi_hiStat[0]))
-# dnn_multi_hiStat_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[0], score_multi_hiStat, dnn_cuts_multi_hiStat[1]))
-# dnn_multi_hiStat_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[1], score_multi_hiStat, dnn_cuts_multi_hiStat[2]))
-# dnn_multi_hiStat_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[2], score_multi_hiStat, dnn_cuts_multi_hiStat[3]))
-# dnn_multi_hiStat_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[3], score_multi_hiStat, dnn_cuts_multi_hiStat[4]))
-# dnn_multi_hiStat_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[4], score_multi_hiStat, dnn_cuts_multi_hiStat[5]))
-# dnn_multi_hiStat_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
-# # dnn_multi_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-# dnn_multi_hiStat_1.set_lumi(40490.712)
-# dnn_multi_hiStat_1.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
-
-# Option 8
-dnn_multi_hiStat_ebe = a.add_mva_source("DNN_Multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-09//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi_hiStat_ebe.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
-dnn_multi_hiStat_ebe.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-dnn_multi_hiStat_ebe.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
-dnn_multi_hiStat_ebe.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
-dnn_multi_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_multi_hiStat_ebe.set_lumi(40490.712)
-dnn_multi_hiStat_ebe_roc_graph = dnn_multi_hiStat_ebe.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_multi_hiStat_ebe_roc = a.RocCurve(dnn_multi_hiStat_ebe_roc_graph, "dnn_multi_hiStat_ebe", "DNN_Multi_hiStat_ebe", ROOT.kGreen)
-# roc_to_compare.append(dnn_multi_hiStat_ebe_roc)
-
-# Option 9
-dnn_binary_hiStat = a.add_mva_source("DNN_Binary_hiStat", "DNN_Binary_hiStat", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_binary_hiStat.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, True)
-dnn_binary_hiStat.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-dnn_binary_hiStat.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_binary_hiStat.set_lumi(40490.712)
-dnn_binary_hiStat_roc_graph = dnn_binary_hiStat.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_binary_hiStat_roc = a.RocCurve(dnn_binary_hiStat_roc_graph, "dnn_binary_hiStat", "DNN_Binary_hiStat", ROOT.kGreen)
-# roc_to_compare.append(dnn_binary_hiStat_roc)
-
-# Option 9.1 - plot only shapes
-dnn_cuts = [0.054, 0.112, 0.17, 0.248, 0.436, 0.56]
-dnn_binary_hiStat_1 = a.add_mva_source("DNN_Binary_hiStat_1", "DNN_Binary_hiStat_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_binary_hiStat_1.add_sample("cat0", "cat0", "output_t*root", "tree_bkg", False, False, ROOT.kBlack, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(0.0, dnn_cuts[0]))
-dnn_binary_hiStat_1.add_sample("cat1", "cat1", "output_t*root", "tree_bkg", False, False, ROOT.kViolet, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[0], dnn_cuts[1]))
-dnn_binary_hiStat_1.add_sample("cat2", "cat2", "output_t*root", "tree_bkg", False, False, ROOT.kBlue, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[1], dnn_cuts[2]))
-dnn_binary_hiStat_1.add_sample("cat3", "cat3", "output_t*root", "tree_bkg", False, False, ROOT.kGreen, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[2], dnn_cuts[3]))
-dnn_binary_hiStat_1.add_sample("cat4", "cat4", "output_t*root", "tree_bkg", False, False, ROOT.kYellow, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[3], dnn_cuts[4]))
-dnn_binary_hiStat_1.add_sample("cat5", "cat5", "output_t*root", "tree_bkg", False, False, ROOT.kOrange, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[4], dnn_cuts[5]))
-dnn_binary_hiStat_1.add_sample("cat6", "cat6", "output_t*root", "tree_bkg", False, False, ROOT.kRed, True, "(sig_prediction>%f)&(sig_prediction<%f)"%(dnn_cuts[5], 1))
-# dnn_binary_hiStat_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-dnn_binary_hiStat_1.set_lumi(40490.712)
-dnn_binary_hiStat_1.plot("mass", 200, 110, 150, label="shapes", draw=True, shapes=True)
-
-# Option 10
-dnn_binary_hiStat_ebe = a.add_mva_source("DNN_Binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-37-16//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_binary_hiStat_ebe.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, True)
-dnn_binary_hiStat_ebe.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-dnn_binary_hiStat_ebe.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_binary_hiStat_ebe.set_lumi(40490.712)
-dnn_binary_hiStat_ebe_roc_graph = dnn_binary_hiStat_ebe.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_binary_hiStat_ebe_roc = a.RocCurve(dnn_binary_hiStat_ebe_roc_graph, "dnn_binary_hiStat_ebe", "DNN_Binary_hiStat_ebe", ROOT.kYellow)
-# roc_to_compare.append(dnn_binary_hiStat_ebe_roc)
-
-# Option 11
-dnn_binary = a.add_mva_source("DNN_Binary", "DNN_Binary", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-09_16-22-10//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_binary.add_sample("bkg", "bkg", "output_t*root", "tree_bkg", False, True, ROOT.kYellow, True)
-dnn_binary.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-dnn_binary.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_binary.set_lumi(40490.712)
-dnn_binary_roc_graph = dnn_binary.plot_roc("sig_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_binary_roc = a.RocCurve(dnn_binary_roc_graph, "dnn_binary", "DNN_Binary", ROOT.kBlue)
-
-
-# roc_to_compare.append(dnn_binary_roc)
-
-# Option 12
-dnn_multi_hiStat_m120To130 = a.add_mva_source("DNN_Multi_hiStat_m120To130", "DNN_Multi_hiStat_m120To130", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-11_14-31-12//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi_hiStat_m120To130.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
-dnn_multi_hiStat_m120To130.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-dnn_multi_hiStat_m120To130.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
-dnn_multi_hiStat_m120To130.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
-dnn_multi_hiStat_m120To130.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_multi_hiStat_m120To130.set_lumi(40490.712)
-dnn_multi_hiStat_m120To130_roc_graph = dnn_multi_hiStat_m120To130.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_multi_hiStat_m120To130_roc = a.RocCurve(dnn_multi_hiStat_m120To130_roc_graph, "dnn_multi_hiStat_m120To130", "DNN_Multi_hiStat_m120To130", ROOT.kViolet, 2)
-roc_to_compare.append(dnn_multi_hiStat_m120To130_roc)
-
-
-dnn_cuts_multi_hiStat = [0.152, 0.262, 0.324, 0.354, 0.570, 0.72]
-score_multi_hiStat = "ggH_prediction+VBF_prediction"
-dnn_multi_hiStat_m120To130_1 = a.add_mva_source("DNN_multi_hiStat_m120To130_1", "DNN_multi_hiStat_m120To130_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-51-21//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi_hiStat_m120To130_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, 0.0, score_multi_hiStat, dnn_cuts_multi_hiStat[0]))
-dnn_multi_hiStat_m120To130_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[0], score_multi_hiStat, dnn_cuts_multi_hiStat[1]))
-dnn_multi_hiStat_m120To130_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[1], score_multi_hiStat, dnn_cuts_multi_hiStat[2]))
-dnn_multi_hiStat_m120To130_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[2], score_multi_hiStat, dnn_cuts_multi_hiStat[3]))
-dnn_multi_hiStat_m120To130_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[3], score_multi_hiStat, dnn_cuts_multi_hiStat[4]))
-dnn_multi_hiStat_m120To130_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[4], score_multi_hiStat, dnn_cuts_multi_hiStat[5]))
-dnn_multi_hiStat_m120To130_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
-# dnn_multi_hiStat_m120To130_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-dnn_multi_hiStat_m120To130_1.set_lumi(40490.712)
-dnn_multi_hiStat_m120To130_1.plot("mass", 10, 120, 130, label="shapes", draw=True, shapes=True)
+# dnn_multi_hiStat_m120To130_1 = a.add_mva_source("DNN_multi_hiStat_m120To130_1", "DNN_multi_hiStat_m120To130_1", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-08_11-51-21//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_multi_hiStat_m120To130_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, 0.0, score_multi_hiStat, dnn_cuts_multi_hiStat[0]))
+# dnn_multi_hiStat_m120To130_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[0], score_multi_hiStat, dnn_cuts_multi_hiStat[1]))
+# dnn_multi_hiStat_m120To130_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[1], score_multi_hiStat, dnn_cuts_multi_hiStat[2]))
+# dnn_multi_hiStat_m120To130_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[2], score_multi_hiStat, dnn_cuts_multi_hiStat[3]))
+# dnn_multi_hiStat_m120To130_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[3], score_multi_hiStat, dnn_cuts_multi_hiStat[4]))
+# dnn_multi_hiStat_m120To130_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[4], score_multi_hiStat, dnn_cuts_multi_hiStat[5]))
+# dnn_multi_hiStat_m120To130_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
+# # dnn_multi_hiStat_m120To130_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# dnn_multi_hiStat_m120To130_1.set_lumi(40490.712)
+# dnn_multi_hiStat_m120To130_1.plot("mass", 10, 120, 130, label="shapes", draw=True, shapes=True)
 
 
 
-# Option 13
-dnn_multi_hiStat_m120To130_repeated = a.add_mva_source("DNN_Multi_hiStat_m120To130_repeated", "DNN_Multi_hiStat_m120To130_repeated", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-15_18-13-46//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi_hiStat_m120To130_repeated.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True, "1./15.")
-dnn_multi_hiStat_m120To130_repeated.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
-dnn_multi_hiStat_m120To130_repeated.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "1./4.")
-dnn_multi_hiStat_m120To130_repeated.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True, "1./6.")
-dnn_multi_hiStat_m120To130_repeated.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_multi_hiStat_m120To130_repeated.set_lumi(40490.712)
-dnn_multi_hiStat_m120To130_repeated_roc_graph = dnn_multi_hiStat_m120To130_repeated.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_multi_hiStat_m120To130_repeated_roc = a.RocCurve(dnn_multi_hiStat_m120To130_repeated_roc_graph, "dnn_multi_hiStat_m120To130_repeated", "DNN_Multi_hiStat_m120To130_repeated", ROOT.kCyan, 2)
-roc_to_compare.append(dnn_multi_hiStat_m120To130_repeated_roc)
+# # Option 13
+# dnn_multi_hiStat_m120To130_repeated = a.add_mva_source("DNN_Multi_hiStat_m120To130_repeated", "DNN_Multi_hiStat_m120To130_repeated", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-15_18-13-46//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_multi_hiStat_m120To130_repeated.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True, "1./15.")
+# dnn_multi_hiStat_m120To130_repeated.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+# dnn_multi_hiStat_m120To130_repeated.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True, "1./4.")
+# dnn_multi_hiStat_m120To130_repeated.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True, "1./6.")
+# dnn_multi_hiStat_m120To130_repeated.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+# dnn_multi_hiStat_m120To130_repeated.set_lumi(40490.712)
+# dnn_multi_hiStat_m120To130_repeated_roc_graph = dnn_multi_hiStat_m120To130_repeated.plot_roc("ggH_prediction+VBF_prediction", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+# dnn_multi_hiStat_m120To130_repeated_roc = a.RocCurve(dnn_multi_hiStat_m120To130_repeated_roc_graph, "dnn_multi_hiStat_m120To130_repeated", "DNN_Multi_hiStat_m120To130_repeated", ROOT.kCyan, 2)
+# roc_to_compare.append(dnn_multi_hiStat_m120To130_repeated_roc)
 
 
-dnn_cuts_multi_hiStat = [0.152, 0.262, 0.324, 0.354, 0.570, 0.72]
-score_multi_hiStat = "ggH_prediction+VBF_prediction"
-dnn_multi_hiStat_m120To130_repeated_1 = a.add_mva_source("DNN_multi_hiStat_m120To130_repeated_1", "DNN_multi_hiStat_m120To130_repeated_1", "/scratch/gilbreth/dkondra/ML_output//Run_2019-04-15_18-13-46//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, 0.0, score_multi_hiStat, dnn_cuts_multi_hiStat[0]))
-dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[0], score_multi_hiStat, dnn_cuts_multi_hiStat[1]))
-dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[1], score_multi_hiStat, dnn_cuts_multi_hiStat[2]))
-dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[2], score_multi_hiStat, dnn_cuts_multi_hiStat[3]))
-dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[3], score_multi_hiStat, dnn_cuts_multi_hiStat[4]))
-dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[4], score_multi_hiStat, dnn_cuts_multi_hiStat[5]))
-dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
-# dnn_multi_hiStat_m120To130_repeated_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-dnn_multi_hiStat_m120To130_repeated_1.set_lumi(40490.712)
-dnn_multi_hiStat_m120To130_repeated_1.plot("mass", 10, 120, 130, label="shapes", draw=True, shapes=True)
+# dnn_cuts_multi_hiStat = [0.152, 0.262, 0.324, 0.354, 0.570, 0.72]
+# score_multi_hiStat = "ggH_prediction+VBF_prediction"
+# dnn_multi_hiStat_m120To130_repeated_1 = a.add_mva_source("DNN_multi_hiStat_m120To130_repeated_1", "DNN_multi_hiStat_m120To130_repeated_1", "/scratch/gilbreth/dkondra/ML_output//Run_2019-04-15_18-13-46//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+# dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, 0.0, score_multi_hiStat, dnn_cuts_multi_hiStat[0]))
+# dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[0], score_multi_hiStat, dnn_cuts_multi_hiStat[1]))
+# dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[1], score_multi_hiStat, dnn_cuts_multi_hiStat[2]))
+# dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[2], score_multi_hiStat, dnn_cuts_multi_hiStat[3]))
+# dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[3], score_multi_hiStat, dnn_cuts_multi_hiStat[4]))
+# dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[4], score_multi_hiStat, dnn_cuts_multi_hiStat[5]))
+# dnn_multi_hiStat_m120To130_repeated_1.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat, dnn_cuts_multi_hiStat[5], score_multi_hiStat, 1))
+# # dnn_multi_hiStat_m120To130_repeated_1.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
+# dnn_multi_hiStat_m120To130_repeated_1.set_lumi(40490.712)
+# dnn_multi_hiStat_m120To130_repeated_1.plot("mass", 10, 120, 130, label="shapes", draw=True, shapes=True)
 
+
+
+# Option 1.1
+dnn_multi_hiStat_m110to150 = a.add_mva_source("DNN_Multi_hiStat_m110to150", "DNN_Multi_hiStat_m110to150", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-17_14-42-54//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m110to150.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+dnn_multi_hiStat_m110to150.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+dnn_multi_hiStat_m110to150.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+dnn_multi_hiStat_m110to150.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+dnn_multi_hiStat_m110to150.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+dnn_multi_hiStat_m110to150.set_lumi(41394.221)
+dnn_multi_hiStat_m110to150_roc_graph = dnn_multi_hiStat_m110to150.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+dnn_multi_hiStat_m110to150_roc = a.RocCurve(dnn_multi_hiStat_m110to150_roc_graph, "dnn_multi_hiStat_m110to150", "DNN_Multi_hiStat_m110to150", ROOT.kBlack)
+roc_to_compare.append(dnn_multi_hiStat_m110to150_roc)
+
+# Option 1.2
+dnn_multi_hiStat_m110to150_CS = a.add_mva_source("DNN_Multi_hiStat_m110to150_CS", "DNN_Multi_hiStat_m110to150_CS", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-17_14-42-56//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m110to150_CS.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+dnn_multi_hiStat_m110to150_CS.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+dnn_multi_hiStat_m110to150_CS.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+dnn_multi_hiStat_m110to150_CS.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+dnn_multi_hiStat_m110to150_CS.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+dnn_multi_hiStat_m110to150_CS.set_lumi(41394.221)
+dnn_multi_hiStat_m110to150_CS_roc_graph = dnn_multi_hiStat_m110to150_CS.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+dnn_multi_hiStat_m110to150_CS_roc = a.RocCurve(dnn_multi_hiStat_m110to150_CS_roc_graph, "dnn_multi_hiStat_m110to150_CS", "DNN_Multi_hiStat_m110to150_CS", ROOT.kBlack)
+roc_to_compare.append(dnn_multi_hiStat_m110to150_CS_roc)
+
+# Option 1.3
+dnn_multi_hiStat_m120to130 = a.add_mva_source("DNN_Multi_hiStat_m120to130", "DNN_Multi_hiStat_m120to130", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-17_14-42-58//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m120to130.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+dnn_multi_hiStat_m120to130.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+dnn_multi_hiStat_m120to130.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+dnn_multi_hiStat_m120to130.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+dnn_multi_hiStat_m120to130.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+dnn_multi_hiStat_m120to130.set_lumi(41394.221)
+dnn_multi_hiStat_m120to130_roc_graph = dnn_multi_hiStat_m120to130.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+dnn_multi_hiStat_m120to130_roc = a.RocCurve(dnn_multi_hiStat_m120to130_roc_graph, "dnn_multi_hiStat_m120to130", "DNN_Multi_hiStat_m120to130", ROOT.kBlack)
+roc_to_compare.append(dnn_multi_hiStat_m120to130_roc)
+
+# Option 1.4
+dnn_multi_hiStat_m120to130_CS = a.add_mva_source("DNN_Multi_hiStat_m120to130_CS", "DNN_Multi_hiStat_m120to130_CS", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-17_14-43-00//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m120to130_CS.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
+dnn_multi_hiStat_m120to130_CS.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
+dnn_multi_hiStat_m120to130_CS.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
+dnn_multi_hiStat_m120to130_CS.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
+dnn_multi_hiStat_m120to130_CS.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
+dnn_multi_hiStat_m120to130_CS.set_lumi(41394.221)
+dnn_multi_hiStat_m120to130_CS_roc_graph = dnn_multi_hiStat_m120to130_CS.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 0, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+dnn_multi_hiStat_m120to130_CS_roc = a.RocCurve(dnn_multi_hiStat_m120to130_CS_roc_graph, "dnn_multi_hiStat_m120to130_CS", "DNN_Multi_hiStat_m120to130_CS", ROOT.kBlack)
+roc_to_compare.append(dnn_multi_hiStat_m120to130_CS_roc)
 
 a.compare_roc_curves(roc_to_compare)
 
