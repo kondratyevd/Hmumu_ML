@@ -38,7 +38,7 @@ class KerasMultiTrainer(object):
                 self.bkg_mask.append(1)
             else:
                 self.bkg_mask.append(0)
-            self.mass_histograms_th1d[category] = ROOT.TH1D("input_"+category, "", 10, self.framework.massWindow[0], self.framework.massWindow[1])
+            self.mass_histograms_th1d[category] = ROOT.TH1D("input_"+category, "", 10, 110, 150)
     def __enter__(self):
         self.df = pandas.DataFrame()
         self.data = pandas.DataFrame()
@@ -129,13 +129,13 @@ class KerasMultiTrainer(object):
         # print self.df["muPairs.mass[0]"]
 
         if self.framework.custom_loss:
-            self.df = self.make_mass_bins(self.df, 10, self.framework.massWindow[0], self.framework.massWindow[1])
+            self.df = self.make_mass_bins(self.df, 10, 110, 150)
 
         if self.framework.data_files:
             self.data.reset_index(inplace=True, drop=True)
             self.data = self.apply_cuts(self.data, self.framework.year)
             if self.framework.custom_loss:
-                self.data = self.make_mass_bins(self.data, 10, self.framework.massWindow[0], self.framework.massWindow[1], isMC=False)
+                self.data = self.make_mass_bins(self.data, 10, 110, 150, isMC=False)
 
         self.truth_labels.extend(self.category_labels)
         self.df = shuffle(self.df)
@@ -182,9 +182,11 @@ class KerasMultiTrainer(object):
    #                                       save_weights_only=False, mode='auto', 
    #                                       period=1)
 
+            training_data = apply_training_cuts(self.df_train_scaled)
+
             history = obj.model.fit(            
-                                    self.df_train_scaled[self.labels].values,
-                                    self.df_train_scaled[self.truth_labels].values,
+                                    training_data[self.labels].values,
+                                    training_data[self.truth_labels].values,
                                     epochs=obj.epochs, 
                                     batch_size=obj.batchSize, 
                                     verbose=1,
@@ -377,16 +379,16 @@ class KerasMultiTrainer(object):
         nJets       = df['nJets']
 
         if year is "2016":
-            flag =  ((muPair_mass>self.framework.massWindow[0])&
-                (muPair_mass<self.framework.massWindow[1])&
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
                 (muon1_ID>0)&
                 (muon2_ID>0)&
                 (muon1_pt>26)&
                 (muon2_pt>20))
 
         if "2016-noJets" in year:
-            flag =  ((muPair_mass>self.framework.massWindow[0])&
-                (muPair_mass<self.framework.massWindow[1])&
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
                 (muon1_ID>0)&
                 (muon2_ID>0)&
                 (muon1_pt>26)&
@@ -394,8 +396,8 @@ class KerasMultiTrainer(object):
                 (nJets==0)) 
 
         if "2016-1jet" in year:
-            flag =  ((muPair_mass>self.framework.massWindow[0])&
-                (muPair_mass<self.framework.massWindow[1])&
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
                 (muon1_ID>0)&
                 (muon2_ID>0)&
                 (muon1_pt>26)&
@@ -403,8 +405,8 @@ class KerasMultiTrainer(object):
                 (nJets==1))   
 
         if "2016-2orMoreJets" in year:
-            flag =  ((muPair_mass>self.framework.massWindow[0])&
-                (muPair_mass<self.framework.massWindow[1])&
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
                 (muon1_ID>0)&
                 (muon2_ID>0)&
                 (muon1_pt>26)&
@@ -412,12 +414,18 @@ class KerasMultiTrainer(object):
                 (nJets>1))            
 
         elif year is "2017":
-            flag =  ((muPair_mass>self.framework.massWindow[0])&
-                (muPair_mass<self.framework.massWindow[1])&
+            flag =  ((muPair_mass>110)&
+                (muPair_mass<150)&
                 (muon1_ID>0)&
                 (muon2_ID>0)&
                 (muon1_pt>30)&
                 (muon2_pt>20))
+        return df.loc[flag]
+
+    def apply_training_cuts(self, df):
+        muPair_mass = df['muPairs.mass[0]']
+        flag =  ((muPair_mass>self.framework.massWindow[0])&
+                (muPair_mass<self.framework.massWindow[1]))
         return df.loc[flag]
 
     def make_mass_bins(self, df, nbins, min, max, isMC=True):
