@@ -182,7 +182,7 @@ class KerasMultiTrainer(object):
    #                                       save_weights_only=False, mode='auto', 
    #                                       period=1)
 
-            training_data = apply_training_cuts(self.df_train_scaled)
+            training_data = self.apply_training_cuts(self.df_train_scaled)
 
             history = obj.model.fit(            
                                     training_data[self.labels].values,
