@@ -91,7 +91,7 @@ class Framework(object):
 			dummy = ROOT.TCanvas("dummmy","dummy",100,100)
 			metadata = ROOT.TChain(self.source.metadataPath)
 			if self.isDir:
-				metadata.Add(self.path+"*.root")		
+				metadata.Add(self.path+"*_9.root")		
 			else:
 				metadata.Add(self.path)
 			print "metadata: ", metadata.GetEntries(), " entries"
