@@ -586,19 +586,18 @@ dnn_multi_hiStat_m110to150_roc_graph = dnn_multi_hiStat_m110to150.plot_roc("ggH_
 dnn_multi_hiStat_m110to150_roc = a.RocCurve(dnn_multi_hiStat_m110to150_roc_graph, "dnn_multi_hiStat_m110to150", "DNN_Multi_hiStat_m110to150", ROOT.kBlack)
 roc_to_compare.append(dnn_multi_hiStat_m110to150_roc)
 
-# dnn_cuts_multi_hiStat_m110To150 = [1.096, 1.192, 1.276, 1.368, 1.648, 1.92]
-# score_multi_hiStat_m110To150 = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
-# dnn_multi_hiStat_m110To150_sculpt = a.add_mva_source("DNN_multi_hiStat_m110To150_sculpt", "DNN_multi_hiStat_m110To150_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-33//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-# dnn_multi_hiStat_m110To150_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, 1.0, score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[0]))
-# dnn_multi_hiStat_m110To150_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[0], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[1]))
-# dnn_multi_hiStat_m110To150_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[1], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[2]))
-# dnn_multi_hiStat_m110To150_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[2], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[3]))
-# dnn_multi_hiStat_m110To150_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[3], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[4]))
-# dnn_multi_hiStat_m110To150_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[4], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[5]))
-# dnn_multi_hiStat_m110To150_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[5], score_multi_hiStat_m110To150, 3.0))
-# # dnn_multi_hiStat_m110To150_sculpt.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-# dnn_multi_hiStat_m110To150_sculpt.set_lumi(40490.712)
-# dnn_multi_hiStat_m110To150_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_cuts_multi_hiStat_m110To150 = [1.088, 1.184, 1.24, 1.28, 1.548, 1.824]
+score_multi_hiStat_m110To150 = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
+dnn_multi_hiStat_m110To150_sculpt = a.add_mva_source("DNN_multi_hiStat_m110To150_sculpt", "DNN_multi_hiStat_m110To150_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-33//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m110To150_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, 1.0, score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[0]))
+dnn_multi_hiStat_m110To150_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[0], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[1]))
+dnn_multi_hiStat_m110To150_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[1], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[2]))
+dnn_multi_hiStat_m110To150_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[2], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[3]))
+dnn_multi_hiStat_m110To150_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[3], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[4]))
+dnn_multi_hiStat_m110To150_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[4], score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[5]))
+dnn_multi_hiStat_m110To150_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150, dnn_cuts_multi_hiStat_m110To150[5], score_multi_hiStat_m110To150, 3.0))
+dnn_multi_hiStat_m110To150_sculpt.set_lumi(40490.712)
+dnn_multi_hiStat_m110To150_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 
 # Option 1.2
@@ -613,19 +612,18 @@ dnn_multi_hiStat_m110to150_CS_roc_graph = dnn_multi_hiStat_m110to150_CS.plot_roc
 dnn_multi_hiStat_m110to150_CS_roc = a.RocCurve(dnn_multi_hiStat_m110to150_CS_roc_graph, "dnn_multi_hiStat_m110to150_CS", "DNN_Multi_hiStat_m110to150_CS", ROOT.kRed)
 roc_to_compare.append(dnn_multi_hiStat_m110to150_CS_roc)
 
-# dnn_cuts_multi_hiStat_m110To150_CS = [1.092, 1.196, 1.244, 1.4, 1.772, 2.068]
-# score_multi_hiStat_m110To150_CS = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
-# dnn_multi_hiStat_m110To150_CS_sculpt = a.add_mva_source("DNN_multi_hiStat_m110To150_CS_sculpt", "DNN_multi_hiStat_m110To150_CS_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-35//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-# dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, 1.0, score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[0]))
-# dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[0], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[1]))
-# dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[1], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[2]))
-# dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[2], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[3]))
-# dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[3], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[4]))
-# dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[4], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[5]))
-# dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[5], score_multi_hiStat_m110To150_CS, 3.0))
-# # dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-# dnn_multi_hiStat_m110To150_CS_sculpt.set_lumi(40490.712)
-# dnn_multi_hiStat_m110To150_CS_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_cuts_multi_hiStat_m110To150_CS = [1.096, 1.184, 1.244, 1.296, 1.732, 2.048]
+score_multi_hiStat_m110To150_CS = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
+dnn_multi_hiStat_m110To150_CS_sculpt = a.add_mva_source("DNN_multi_hiStat_m110To150_CS_sculpt", "DNN_multi_hiStat_m110To150_CS_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-35//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, 1.0, score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[0]))
+dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[0], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[1]))
+dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[1], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[2]))
+dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[2], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[3]))
+dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[3], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[4]))
+dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[4], score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[5]))
+dnn_multi_hiStat_m110To150_CS_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m110To150_CS, dnn_cuts_multi_hiStat_m110To150_CS[5], score_multi_hiStat_m110To150_CS, 3.0))
+dnn_multi_hiStat_m110To150_CS_sculpt.set_lumi(40490.712)
+dnn_multi_hiStat_m110To150_CS_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 # Option 1.3
 dnn_multi_hiStat_m120to130 = a.add_mva_source("DNN_Multi_hiStat_m120to130", "DNN_Multi_hiStat_m120to130", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-39//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -639,19 +637,18 @@ dnn_multi_hiStat_m120to130_roc_graph = dnn_multi_hiStat_m120to130.plot_roc("ggH_
 dnn_multi_hiStat_m120to130_roc = a.RocCurve(dnn_multi_hiStat_m120to130_roc_graph, "dnn_multi_hiStat_m120to130", "DNN_Multi_hiStat_m120to130", ROOT.kBlack, 2)
 roc_to_compare.append(dnn_multi_hiStat_m120to130_roc)
 
-# dnn_cuts_multi_hiStat_m120To130 = [1.292, 1.528, 1.6280000000000001, 1.7000000000000002, 2.088, 2.364]
-# score_multi_hiStat_m120To130 = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
-# dnn_multi_hiStat_m120To130_sculpt = a.add_mva_source("DNN_multi_hiStat_m120To130_sculpt", "DNN_multi_hiStat_m120To130_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-39//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-# dnn_multi_hiStat_m120To130_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, 1.0, score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[0]))
-# dnn_multi_hiStat_m120To130_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[0], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[1]))
-# dnn_multi_hiStat_m120To130_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[1], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[2]))
-# dnn_multi_hiStat_m120To130_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[2], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[3]))
-# dnn_multi_hiStat_m120To130_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[3], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[4]))
-# dnn_multi_hiStat_m120To130_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[4], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[5]))
-# dnn_multi_hiStat_m120To130_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[5], score_multi_hiStat_m120To130, 3.0))
-# # dnn_multi_hiStat_m120To130_sculpt.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-# dnn_multi_hiStat_m120To130_sculpt.set_lumi(40490.712)
-# dnn_multi_hiStat_m120To130_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_cuts_multi_hiStat_m120To130 = [1.3, 1.516, 1.62, 1.6880000000000002, 2.064, 2.3360000000000003]
+score_multi_hiStat_m120To130 = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
+dnn_multi_hiStat_m120To130_sculpt = a.add_mva_source("DNN_multi_hiStat_m120To130_sculpt", "DNN_multi_hiStat_m120To130_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-39//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m120To130_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, 1.0, score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[0]))
+dnn_multi_hiStat_m120To130_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[0], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[1]))
+dnn_multi_hiStat_m120To130_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[1], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[2]))
+dnn_multi_hiStat_m120To130_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[2], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[3]))
+dnn_multi_hiStat_m120To130_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[3], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[4]))
+dnn_multi_hiStat_m120To130_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[4], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[5]))
+dnn_multi_hiStat_m120To130_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[5], score_multi_hiStat_m120To130, 3.0))
+dnn_multi_hiStat_m120To130_sculpt.set_lumi(40490.712)
+dnn_multi_hiStat_m120To130_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 # Option 1.4
 dnn_multi_hiStat_m120to130_CS = a.add_mva_source("DNN_Multi_hiStat_m120to130_CS", "DNN_Multi_hiStat_m120to130_CS", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40//Keras_multi/model_50_D2_25_D2_25_D2/root/")
@@ -665,19 +662,18 @@ dnn_multi_hiStat_m120to130_CS_roc_graph = dnn_multi_hiStat_m120to130_CS.plot_roc
 dnn_multi_hiStat_m120to130_CS_roc = a.RocCurve(dnn_multi_hiStat_m120to130_CS_roc_graph, "dnn_multi_hiStat_m120to130_CS", "DNN_Multi_hiStat_m120to130_CS", ROOT.kRed, 2)
 roc_to_compare.append(dnn_multi_hiStat_m120to130_CS_roc)
 
-# dnn_cuts_multi_hiStat_m120To130_CS = [1.268, 1.492, 1.604, 1.6760000000000002, 2.084, 2.3600000000000003]
-# score_multi_hiStat_m120To130_CS = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
-# dnn_multi_hiStat_m120To130_CS_sculpt = a.add_mva_source("DNN_multi_hiStat_m120To130_CS_sculpt", "DNN_multi_hiStat_m120To130_CS_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40//Keras_multi/model_50_D2_25_D2_25_D2/root/")
-# dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, 1.0, score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[0]))
-# dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[0], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[1]))
-# dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[1], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[2]))
-# dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[2], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[3]))
-# dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[3], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4]))
-# dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5]))
-# dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5], score_multi_hiStat_m120To130_CS, 3.0))
-# # dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("sig", "sig", "output_t*root", "tree_sig", False, False, ROOT.kRed, True)
-# dnn_multi_hiStat_m120To130_CS_sculpt.set_lumi(40490.712)
-# dnn_multi_hiStat_m120To130_CS_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
+dnn_cuts_multi_hiStat_m120To130_CS = [1.28, 1.504, 1.6280000000000001, 1.7000000000000002, 2.08, 2.356]
+score_multi_hiStat_m120To130_CS = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
+dnn_multi_hiStat_m120To130_CS_sculpt = a.add_mva_source("DNN_multi_hiStat_m120To130_CS_sculpt", "DNN_multi_hiStat_m120To130_CS_sculpt", "/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40//Keras_multi/model_50_D2_25_D2_25_D2/root/")
+dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat0", "cat0", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, 1.0, score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[0]))
+dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat1", "cat1", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[0], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[1]))
+dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat2", "cat2", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[1], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[2]))
+dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat3", "cat3", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[2], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[3]))
+dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[3], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4]))
+dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5]))
+dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5], score_multi_hiStat_m120To130_CS, 3.0))
+dnn_multi_hiStat_m120To130_CS_sculpt.set_lumi(40490.712)
+dnn_multi_hiStat_m120To130_CS_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 a.compare_roc_curves(roc_to_compare)
 
