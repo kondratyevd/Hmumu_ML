@@ -376,7 +376,7 @@ bdt_ucsd.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.roo
 bdt_ucsd.set_lumi(40490.712)
 bdt_ucsd_roc_graph = bdt_ucsd.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_ucsd_roc = a.RocCurve(bdt_ucsd_roc_graph, "bdt_ucsd", "BDT UCSD loStat", ROOT.kBlue)
-# roc_to_compare.append(bdt_ucsd_roc)
+roc_to_compare.append(bdt_ucsd_roc)
 
 # bdt_ucsd_roc_tmva = a.roc_from_tmva(bdt_ucsd, "BDT_UCSD", "TMVA.root", "dataset/Method_BDTG_UCSD/BDTG_UCSD/MVA_BDTG_UCSD_rejBvsS", ROOT.kGreen, 2)
 # roc_to_compare.append(bdt_ucsd_roc_tmva)
