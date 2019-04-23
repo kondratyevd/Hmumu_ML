@@ -74,6 +74,7 @@ c.add_variable("jetPairs.dPhi",				1)
 
 
 c.add_data_spectator('muons.pt',			2)
+c.add_data_spectator('muons.eta',			2)
 c.add_data_spectator('muPairs.mass',	    1)
 c.add_data_spectator('muPairs.phi',			1)
 c.add_data_spectator('muons.isMediumID',	2)
@@ -81,6 +82,7 @@ c.add_data_spectator('jets.phi',			2)
 c.add_data_spectator('nJets',				1)
 
 c.add_spectator('muons.pt',					2)
+c.add_spectator('muons.eta',				2)
 c.add_spectator('muPairs.mass',		        1)
 c.add_spectator('muPairs.phi',				1)
 c.add_spectator('muons.isMediumID',			2)
