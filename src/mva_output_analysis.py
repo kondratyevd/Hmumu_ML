@@ -702,7 +702,7 @@ bdt_ucsd_hiStat_cs_ebe.add_sample("tt", "ttbar", "tt_ll_POW/*.root", "tree", Fal
 bdt_ucsd_hiStat_cs_ebe.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
 bdt_ucsd_hiStat_cs_ebe.add_sample("ggh", "ggH", "H2Mu_gg/*.root", "tree", False, False, ROOT.kRed)
 bdt_ucsd_hiStat_cs_ebe.add_sample("vbf", "VBF", "H2Mu_VBF/*.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd_hiStat_cs.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*.root", "tree", True, False, ROOT.kBlack)
+bdt_ucsd_hiStat_cs_ebe.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_ucsd_hiStat_cs.add_sample("datac", "Data 2017C (40.5/fb)", "SingleMu_2017C/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_ucsd_hiStat_cs.add_sample("datad", "Data 2017D (40.5/fb)", "SingleMu_2017D/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_ucsd_hiStat_cs.add_sample("datae", "Data 2017E (40.5/fb)", "SingleMu_2017E/*.root", "tree", True, False, ROOT.kBlack)
