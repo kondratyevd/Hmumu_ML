@@ -139,7 +139,7 @@ class Analyzer(object):
                     self.mc_stack.SetTitle(self.title)
                     self.mc_stack.GetXaxis().SetTitle(var_name)
                     self.mc_stack.SetMinimum(0.01)
-                    self.mc_stack.SetMaximum(100000)
+                    self.mc_stack.SetMaximum(500)
                 for hist in self.signal_hists:
                     hist.Draw("histsame")
                     hist.GetXaxis().SetTitle(var_name)
@@ -658,7 +658,7 @@ dnn_multi_hiStat_m120to130_CS.add_sample("ggh", "ggH", "output_t*root", "tree_H2
 dnn_multi_hiStat_m120to130_CS.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
 dnn_multi_hiStat_m120to130_CS.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_multi_hiStat_m120to130_CS.set_lumi(41394.221)
-dnn_multi_hiStat_m120to130_CS_roc_graph = dnn_multi_hiStat_m120to130_CS.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 100000, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+dnn_multi_hiStat_m120to130_CS_roc_graph = dnn_multi_hiStat_m120to130_CS.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_multi_hiStat_m120to130_CS_roc = a.RocCurve(dnn_multi_hiStat_m120to130_CS_roc_graph, "dnn_multi_hiStat_m120to130_CS", "DNN_Multi_hiStat_m120to130_CS", ROOT.kRed)
 roc_to_compare.append(dnn_multi_hiStat_m120to130_CS_roc)
 
@@ -691,7 +691,7 @@ bdt_ucsd_hiStat_cs.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*
 # bdt_ucsd_hiStat_cs.add_sample("datae", "Data 2017E (40.5/fb)", "SingleMu_2017E/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_ucsd_hiStat_cs.add_sample("dataf", "Data 2017F (40.5/fb)", "SingleMu_2017F/*.root", "tree", True, False, ROOT.kBlack)
 bdt_ucsd_hiStat_cs.set_lumi(4723.411)
-bdt_ucsd_hiStat_cs_roc_graph = bdt_ucsd_hiStat_cs.plot_roc("MVA", 100000, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_ucsd_hiStat_cs_roc_graph = bdt_ucsd_hiStat_cs.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_ucsd_hiStat_cs_roc = a.RocCurve(bdt_ucsd_hiStat_cs_roc_graph, "bdt_ucsd_hiStat_cs", "BDT UCSD hiStat", ROOT.kOrange-3)
 roc_to_compare.append(bdt_ucsd_hiStat_cs_roc)
 
@@ -746,7 +746,7 @@ dnn_multi_hiStat_m120to130_CS_noSingleMu.add_sample("ggh", "ggH", "output_t*root
 dnn_multi_hiStat_m120to130_CS_noSingleMu.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
 dnn_multi_hiStat_m120to130_CS_noSingleMu.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_multi_hiStat_m120to130_CS_noSingleMu.set_lumi(41394.221)
-dnn_multi_hiStat_m120to130_CS_noSingleMu_roc_graph = dnn_multi_hiStat_m120to130_CS_noSingleMu.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 100000, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+dnn_multi_hiStat_m120to130_CS_noSingleMu_roc_graph = dnn_multi_hiStat_m120to130_CS_noSingleMu.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_multi_hiStat_m120to130_CS_noSingleMu_roc = a.RocCurve(dnn_multi_hiStat_m120to130_CS_noSingleMu_roc_graph, "dnn_multi_hiStat_m120to130_CS_noSingleMu", "DNN_Multi_hiStat_m120to130_CS_noSingleMu", ROOT.kBlue)
 roc_to_compare.append(dnn_multi_hiStat_m120to130_CS_noSingleMu_roc)
 
