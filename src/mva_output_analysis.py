@@ -88,7 +88,8 @@ class Analyzer(object):
         def plot(self, var_name, nBins, xmin, xmax, label="", draw=True, shapes=False):
             trees = {}
             self.signal_hists = []
-            self.data_hist = None
+            self.data_hist = ROOT.TH1D("data_"+self.name+label, "data_"+self.name+label, nBins, xmin, xmax)
+            data_leg_entry = False
             self.mc_stack = ROOT.THStack()
             legend = ROOT.TLegend(0.6, 0.7, 0.895, 0.895)
 
@@ -103,12 +104,14 @@ class Analyzer(object):
                 dummy.cd()
                 if smp.isData:
                     trees[smp.name].Draw("%s>>%s"%(var_name, hist_name), smp.additional_cut)
-                    self.data_hist = hist
+                    self.data_hist.Add(hist)
                     self.data_hist.SetMarkerColor(smp.color)
                     self.data_hist.SetLineColor(smp.color)
                     self.data_hist.SetMarkerStyle(20)
                     self.data_hist.SetMarkerSize(0.8)
-                    legend.AddEntry(hist, "Data %i /pb"%self.lumi, "pe")
+                    if not data_leg_entry:
+                        legend.AddEntry(hist, "Data %i /pb"%self.lumi, "pe")
+                        data_leg_entry = True
                 else:
                     if smp.isWeightOverLumi:
                         trees[smp.name].Draw("%s>>%s"%(var_name, hist_name), "weight_over_lumi*%f*(%s)"%(self.lumi, smp.additional_cut))
