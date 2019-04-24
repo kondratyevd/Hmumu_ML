@@ -21,7 +21,7 @@ parser.add_argument('--max_mva', action='store', dest='max_mva', help='max_mva',
 parser.add_argument('--nSteps', action='store', dest='nSteps', help='nSteps', type=int)
 args = parser.parse_args()
 
-lumi = 4723.411
+lumi = 41394.221
 
 existing_categories_011 = {}
 existing_categories_111 = {}
