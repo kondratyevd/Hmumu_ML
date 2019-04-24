@@ -81,6 +81,30 @@ case $1 in
 		method="DNNbinary"
 		;;
 
+	1.4)
+		echo 'Running option 1.4'
+		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		;;		
+
+	3.1)
+		echo 'Running option 3.1'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDT"
+		;;
+
+	3.4)
+		echo 'Running option 3.4'
+		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-23_09-45-55/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-23_09-45-55/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		;;	
+
 	*)
 		echo 'Wrong option ' $1
 		;;	

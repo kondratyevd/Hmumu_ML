@@ -31,7 +31,9 @@ options = {
 	'7': [0.046, 0.094, 0.116, 0.134, 0.262, 0.388],
 	'8': [0.048, 0.092, 0.118, 0.136, 0.262, 0.378],
 	'9': [0.054, 0.112, 0.17, 0.248, 0.436, 0.56],
-	'10': [0.028, 0.044, 0.064, 0.156, 0.376, 0.548],
+	'1.4': [1.28, 1.504, 1.628, 1.7, 2.08, 2.356],
+	'3.1': [-0.264, 0.252, 0.408, 0.496, 0.612, 0.716],
+	'3.4': [1.308, 1.504, 1.616, 1.684, 2.02, 2.308],
 }
 
 mva_cuts = options[args.option]
@@ -63,7 +65,7 @@ eta_cut_full = [
 if "binary" in args.method:
 	score = "sig_prediction"
 elif "multi" in args.method:
-	score = "(ggH_prediction+VBF_prediction)"
+	score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
 elif "BDT" in args.method:
 	score = "MVA"
 
