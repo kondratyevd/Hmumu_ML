@@ -61,6 +61,13 @@ for ip, p in enumerate(plots):
     legend.AddEntry(p.graph, p.title, "pl")
 
 
+inclusive = ROOT.TLine(0,0.696594,1,0.696594)
+inclusive.SetLineColor(ROOT.kBlue)
+inclusive.SetLineStyle(2)
+inclusive.Draw("same")
+inclusive_eta = ROOT.TLine(0,0.738164,1,0.738164)
+inclusive_eta.SetLineColor(ROOT.kBlue)
+inclusive_eta.Draw("same")
 legend.Draw()
 canvas.Print("%s/%s_mva.png"%(args.out_path, args.label))
 canvas.SaveAs("%s/%s_mva.root"%(args.out_path, args.label))
