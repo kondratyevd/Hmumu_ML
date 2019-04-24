@@ -55,7 +55,7 @@ for ip, p in enumerate(plots):
         p.graph.GetYaxis().SetTitle("Significance")
         p.graph.GetYaxis().SetTitleOffset(1.35)
         p.graph.GetYaxis().SetMinimum(0.6)
-		p.graph.GetYaxis().SetMaximum(1)
+        p.graph.GetYaxis().SetMaximum(1)
     else:
         p.graph.Draw("plsame")
     legend.AddEntry(p.graph, p.title, "pl")
@@ -68,6 +68,7 @@ inclusive.Draw("same")
 inclusive_eta = ROOT.TLine(0,0.738164,1,0.738164)
 inclusive_eta.SetLineColor(ROOT.kBlue)
 inclusive_eta.Draw("same")
+
 legend.Draw()
 canvas.Print("%s/%s_mva.png"%(args.out_path, args.label))
 canvas.SaveAs("%s/%s_mva.root"%(args.out_path, args.label))
