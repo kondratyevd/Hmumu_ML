@@ -54,6 +54,8 @@ for ip, p in enumerate(plots):
         p.graph.GetXaxis().SetTitle("MVA cut")
         p.graph.GetYaxis().SetTitle("Significance")
         p.graph.GetYaxis().SetTitleOffset(1.35)
+        p.graph.GetYaxis().SetMinimum(0.6)
+		p.graph.GetYaxis().SetMaximum(1)
     else:
         p.graph.Draw("plsame")
     legend.AddEntry(p.graph, p.title, "pl")
