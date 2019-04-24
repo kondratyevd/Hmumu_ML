@@ -43,11 +43,11 @@ canvas.cd()
 legend = ROOT.TLegend(0.65, 0.7, 0.89, 0.89)
 
 for ip, p in enumerate(plots):
-    for i in range(10):
+    for i in range(1, 10):
         tree = ROOT.TChain("limit")
         tree.Add(p.path+p.prefix+"%i"%i+p.postfix)
         for iev,  event in enumerate(tree):
-            p.graph.SetPoint(i, i/10.0, event.limit)
+            p.graph.SetPoint(i-1, i/10.0, event.limit)
     if not ip:
         p.graph.Draw("apl")
         p.graph.GetXaxis().SetRangeUser(0, 1)
