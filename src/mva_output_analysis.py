@@ -748,7 +748,7 @@ dnn_multi_hiStat_m120to130_CS_noSingleMu.add_sample("data", "Data 2017 (40.5/fb)
 dnn_multi_hiStat_m120to130_CS_noSingleMu.set_lumi(41394.221)
 dnn_multi_hiStat_m120to130_CS_noSingleMu_roc_graph = dnn_multi_hiStat_m120to130_CS_noSingleMu.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_multi_hiStat_m120to130_CS_noSingleMu_roc = a.RocCurve(dnn_multi_hiStat_m120to130_CS_noSingleMu_roc_graph, "dnn_multi_hiStat_m120to130_CS_noSingleMu", "DNN_Multi_hiStat_m120to130_CS_noSingleMu", ROOT.kBlue)
-roc_to_compare.append(dnn_multi_hiStat_m120to130_CS_noSingleMu_roc)
+# roc_to_compare.append(dnn_multi_hiStat_m120to130_CS_noSingleMu_roc)
 
 dnn_cuts_multi_hiStat_m120To130_CS = [1.308, 1.504, 1.616, 1.6840000000000002, 2.02, 2.308]
 score_multi_hiStat_m120To130_CS = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
