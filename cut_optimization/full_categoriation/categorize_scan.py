@@ -59,7 +59,7 @@ for i in range(args.nSteps): # scan from min to max
 	new_mva_categories.update(exisiting_mva[args.option])
 	print "Will use the following MVA categories:"
 	print new_mva_categories
-	create_datacard(new_mva_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_mva"%args.option, "workspace_dnn_option%s_mva"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
+	create_datacard(new_mva_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_mva_%i"%(args.option, i), "workspace_dnn_option%s_mva_%i"%(args.option, i), nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
 
 	print "Adding splitting by eta:"
 	full_categories = {}
@@ -70,7 +70,7 @@ for i in range(args.nSteps): # scan from min to max
 			full_categories[new_key] = new_value
 	print "Will use the following MVA and ETA categories:"
 	print full_categories
-	create_datacard(full_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_full"%args.option, "workspace_dnn_option%s_full"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
+	create_datacard(full_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_full_%i"%(args.option, i), "workspace_dnn_option%s_full_%i"%(args.option, i), nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
 
 # # categories_inclusive = {"cat0": "1"}
 # # create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_inclusive"%args.option, "workspace_dnn_option%s_inclusive"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
