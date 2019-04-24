@@ -139,7 +139,7 @@ class Analyzer(object):
                     self.mc_stack.SetTitle(self.title)
                     self.mc_stack.GetXaxis().SetTitle(var_name)
                     self.mc_stack.SetMinimum(0.01)
-                    self.mc_stack.SetMaximum(500)
+                    # self.mc_stack.SetMaximum(500)
                 for hist in self.signal_hists:
                     hist.Draw("histsame")
                     hist.GetXaxis().SetTitle(var_name)
