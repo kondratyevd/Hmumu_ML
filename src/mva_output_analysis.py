@@ -89,6 +89,7 @@ class Analyzer(object):
             trees = {}
             self.signal_hists = []
             self.data_hist = ROOT.TH1D("data_"+self.name+label, "data_"+self.name+label, nBins, xmin, xmax)
+            self.data_hist.SetDirectory(0)
             data_leg_entry = False
             self.mc_stack = ROOT.THStack()
             legend = ROOT.TLegend(0.6, 0.7, 0.895, 0.895)
