@@ -6,6 +6,17 @@ method=""
 
 case $1 in
 
+	0)
+		echo 'Running option 0: inclusive'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="DNNmulti"
+		min_mva=1
+		max_mva=3
+		nSteps=0 
+		;;
+
 	0.1.1)
 		echo 'Running option 0.1.1: BDT, cut 1, scan 1'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
@@ -45,7 +56,7 @@ esac
 # LUMI=35866
 OUTPUT_PATH=output/scan_$1/
 mkdir -p $OUTPUT_PATH
-python categorize_scan.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE" --method $method --min_mva $min_mva --max_mva $max_mva --nSteps $nSteps
+# python categorize_scan.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE" --method $method --min_mva $min_mva --max_mva $max_mva --nSteps $nSteps
 cd $OUTPUT_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
@@ -54,4 +65,6 @@ for filename in *.txt; do
     echo $filename
     combine -M Significance --expectSignal=1 -t -1 -n "$SUFF" -d $filename
 done
+rm datacard*
+rm workspace*
 cd $CURRENT_LOCATION
