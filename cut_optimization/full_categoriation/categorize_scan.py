@@ -47,14 +47,16 @@ eta_categories = {
 	"eta2": "(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)"
 }
 
-step = (args.max_mva - args.min_mva)/float(args.nSteps)
+
 
 
 if args.option is "0": # inclusive
 	create_datacard({"cat0": "1"}, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_inclusive", "workspace_inclusive", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
 	create_datacard(eta_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_inclusive_eta", "workspace_inclusive_eta", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
-	return 
-	
+	sys.exit() 
+
+step = (args.max_mva - args.min_mva)/float(args.nSteps)
+
 for i in range(args.nSteps): # scan from min to max
 	sliding_cut = args.min_mva+i*step
 	print "--- Move sliding cut to %f -- "%(sliding_cut)
