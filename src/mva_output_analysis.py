@@ -692,7 +692,7 @@ bdt_ucsd_hiStat_cs.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*
 # bdt_ucsd_hiStat_cs.add_sample("dataf", "Data 2017F (40.5/fb)", "SingleMu_2017F/*.root", "tree", True, False, ROOT.kBlack)
 bdt_ucsd_hiStat_cs.set_lumi(4723.411)
 bdt_ucsd_hiStat_cs_roc_graph = bdt_ucsd_hiStat_cs.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-bdt_ucsd_hiStat_cs_roc = a.RocCurve(bdt_ucsd_hiStat_cs_roc_graph, "bdt_ucsd_hiStat_cs", "BDT UCSD hiStat", ROOT.kOrange-3)
+bdt_ucsd_hiStat_cs_roc = a.RocCurve(bdt_ucsd_hiStat_cs_roc_graph, "bdt_ucsd_hiStat_cs", "BDT UCSD hiStat", ROOT.kBlack)
 roc_to_compare.append(bdt_ucsd_hiStat_cs_roc)
 
 
@@ -710,7 +710,7 @@ bdt_ucsd_hiStat_cs_ebe.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_201
 bdt_ucsd_hiStat_cs_ebe.set_lumi(4723.411)
 bdt_ucsd_hiStat_cs_ebe_roc_graph = bdt_ucsd_hiStat_cs_ebe.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_ucsd_hiStat_cs_ebe_roc = a.RocCurve(bdt_ucsd_hiStat_cs_ebe_roc_graph, "bdt_ucsd_hiStat_cs_ebe", "BDT UCSD hiStat EBE", ROOT.kOrange-3, 2)
-roc_to_compare.append(bdt_ucsd_hiStat_cs_ebe_roc)
+# roc_to_compare.append(bdt_ucsd_hiStat_cs_ebe_roc)
 
 
 # # Option 3.3
