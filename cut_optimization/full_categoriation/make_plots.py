@@ -27,12 +27,12 @@ parser.add_argument('--label', action='store', dest='label', help='label')
 args = parser.parse_args()
 
 
-plot_011_full = SignPlot("BDT_1_1_full", "BDT 1 cut, mva & eta", "output/scan_0.1.1/", ROOT.kBlack, "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root")
-plot_111_full = SignPlot("DNN_1_1_full", "DNN 1 cut, mva & eta", "output/scan_1.1.1/", ROOT.kRed, "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root")
+plot_011_full = SignPlot("BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", ROOT.kBlack, "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root")
+plot_111_full = SignPlot("DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/", ROOT.kRed, "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root")
 
 
-plot_011_mva = SignPlot("BDT_1_1_mva", "BDT 1 cut, mva", "output/scan_0.1.1/", ROOT.kBlack, "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root", 2)
-plot_111_mva = SignPlot("DNN_1_1_mva", "DNN 1 cut, mva", "output/scan_1.1.1/", ROOT.kRed, "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root", 2)
+plot_011_mva = SignPlot("BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/", ROOT.kBlack, "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root", 2)
+plot_111_mva = SignPlot("DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/", ROOT.kRed, "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root", 2)
 
 # plots = [ plot_111_full,  plot_111_mva ]
 plots = [plot_011_full, plot_111_full, plot_011_mva , plot_111_mva ]
