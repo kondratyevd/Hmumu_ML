@@ -117,7 +117,9 @@ class TMVATrainer(object):
 
 				if self.framework.ebe_weights:
 					ebe_weight = tree.FindBranch("muPairs.mass_res").FindLeaf("mass_res").GetValue(0)
-					weight = weight*(1/(ebe_weight+0.00001))
+					mass = tree.FindBranch("muPairs.mass_Roch").FindLeaf("mass_Roch").GetValue(0)
+					if ebe_weight and mass:
+						weight = weight*(1/(ebe_weight/mass))
 
 				if i % 2 == 0: # even-numbered events
 					if (file in self.framework.file_list_s) or (file in self.framework.dir_list_s):
