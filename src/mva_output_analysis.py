@@ -88,9 +88,7 @@ class Analyzer(object):
         def plot(self, var_name, nBins, xmin, xmax, label="", draw=True, shapes=False):
             trees = {}
             self.signal_hists = []
-            self.data_hist = ROOT.TH1D("data_"+self.name+label, "data_"+self.name+label, nBins, xmin, xmax)
-            self.data_hist.SetDirectory(0)
-            data_leg_entry = False
+            self.data_hist = None
             self.mc_stack = ROOT.THStack()
             legend = ROOT.TLegend(0.6, 0.7, 0.895, 0.895)
 
@@ -104,16 +102,13 @@ class Analyzer(object):
                 dummy = ROOT.TCanvas("dummy_"+hist_name, "dummy_"+hist_name, 100, 100)
                 dummy.cd()
                 if smp.isData:
-                    data_hist_name = "data_"+self.name+label
-                    trees[smp.name].Draw("%s>>+%s"%(var_name, data_hist_name), smp.additional_cut)
-                    # self.data_hist.Add(hist, self.data_hist)
+                    trees[smp.name].Draw("%s>>%s"%(var_name, hist_name), smp.additional_cut)
+                    self.data_hist = hist
                     self.data_hist.SetMarkerColor(smp.color)
                     self.data_hist.SetLineColor(smp.color)
                     self.data_hist.SetMarkerStyle(20)
                     self.data_hist.SetMarkerSize(0.8)
-                    if not data_leg_entry:
-                        legend.AddEntry(hist, "Data %i /pb"%self.lumi, "pe")
-                        data_leg_entry = True
+                    legend.AddEntry(hist, "Data %i /pb"%self.lumi, "pe")
                 else:
                     if smp.isWeightOverLumi:
                         trees[smp.name].Draw("%s>>%s"%(var_name, hist_name), "weight_over_lumi*%f*(%s)"%(self.lumi, smp.additional_cut))
@@ -691,11 +686,11 @@ bdt_ucsd_hiStat_cs.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", Fal
 bdt_ucsd_hiStat_cs.add_sample("ggh", "ggH", "H2Mu_gg/*.root", "tree", False, False, ROOT.kRed)
 bdt_ucsd_hiStat_cs.add_sample("vbf", "VBF", "H2Mu_VBF/*.root", "tree", False, False, ROOT.kViolet-1)
 bdt_ucsd_hiStat_cs.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs.add_sample("datac", "Data 2017C (40.5/fb)", "SingleMu_2017C/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs.add_sample("datad", "Data 2017D (40.5/fb)", "SingleMu_2017D/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs.add_sample("datae", "Data 2017E (40.5/fb)", "SingleMu_2017E/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs.add_sample("dataf", "Data 2017F (40.5/fb)", "SingleMu_2017F/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs.set_lumi(41394.221)
+# bdt_ucsd_hiStat_cs.add_sample("datac", "Data 2017C (40.5/fb)", "SingleMu_2017C/*.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat_cs.add_sample("datad", "Data 2017D (40.5/fb)", "SingleMu_2017D/*.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat_cs.add_sample("datae", "Data 2017E (40.5/fb)", "SingleMu_2017E/*.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat_cs.add_sample("dataf", "Data 2017F (40.5/fb)", "SingleMu_2017F/*.root", "tree", True, False, ROOT.kBlack)
+bdt_ucsd_hiStat_cs.set_lumi(4723.411)
 bdt_ucsd_hiStat_cs_roc_graph = bdt_ucsd_hiStat_cs.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_ucsd_hiStat_cs_roc = a.RocCurve(bdt_ucsd_hiStat_cs_roc_graph, "bdt_ucsd_hiStat_cs", "BDT UCSD hiStat", ROOT.kOrange-3)
 roc_to_compare.append(bdt_ucsd_hiStat_cs_roc)
@@ -707,15 +702,15 @@ bdt_ucsd_hiStat_cs_ebe.add_sample("tt", "ttbar", "tt_ll_POW/*.root", "tree", Fal
 bdt_ucsd_hiStat_cs_ebe.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
 bdt_ucsd_hiStat_cs_ebe.add_sample("ggh", "ggH", "H2Mu_gg/*.root", "tree", False, False, ROOT.kRed)
 bdt_ucsd_hiStat_cs_ebe.add_sample("vbf", "VBF", "H2Mu_VBF/*.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd_hiStat_cs_ebe.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs_ebe.add_sample("datac", "Data 2017C (40.5/fb)", "SingleMu_2017C/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs_ebe.add_sample("datad", "Data 2017D (40.5/fb)", "SingleMu_2017D/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs_ebe.add_sample("datae", "Data 2017E (40.5/fb)", "SingleMu_2017E/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs_ebe.add_sample("dataf", "Data 2017F (40.5/fb)", "SingleMu_2017F/*.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs_ebe.set_lumi(41394.221)
+bdt_ucsd_hiStat_cs.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat_cs.add_sample("datac", "Data 2017C (40.5/fb)", "SingleMu_2017C/*.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat_cs.add_sample("datad", "Data 2017D (40.5/fb)", "SingleMu_2017D/*.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat_cs.add_sample("datae", "Data 2017E (40.5/fb)", "SingleMu_2017E/*.root", "tree", True, False, ROOT.kBlack)
+# bdt_ucsd_hiStat_cs.add_sample("dataf", "Data 2017F (40.5/fb)", "SingleMu_2017F/*.root", "tree", True, False, ROOT.kBlack)
+bdt_ucsd_hiStat_cs_ebe.set_lumi(4723.411)
 bdt_ucsd_hiStat_cs_ebe_roc_graph = bdt_ucsd_hiStat_cs_ebe.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-# bdt_ucsd_hiStat_cs_ebe_roc = a.RocCurve(bdt_ucsd_hiStat_cs_ebe_roc_graph, "bdt_ucsd_hiStat_cs_ebe", "BDT UCSD hiStat EBE", ROOT.kOrange-3, 2)
-# roc_to_compare.append(bdt_ucsd_hiStat_cs_ebe_roc)
+bdt_ucsd_hiStat_cs_ebe_roc = a.RocCurve(bdt_ucsd_hiStat_cs_ebe_roc_graph, "bdt_ucsd_hiStat_cs_ebe", "BDT UCSD hiStat EBE", ROOT.kOrange-3, 2)
+roc_to_compare.append(bdt_ucsd_hiStat_cs_ebe_roc)
 
 
 # # Option 3.3
