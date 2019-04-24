@@ -647,7 +647,7 @@ a.set_out_path("plots/mva_output_analyzis")
 # dnn_multi_hiStat_m120To130_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[3], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[4]))
 # dnn_multi_hiStat_m120To130_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[4], score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[5]))
 # dnn_multi_hiStat_m120To130_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130, dnn_cuts_multi_hiStat_m120To130[5], score_multi_hiStat_m120To130, 3.0))
-# dnn_multi_hiStat_m120To130_sculpt.set_lumi(40490.712)
+# dnn_multi_hiStat_m120To130_sculpt.set_lumi(41394.221)
 # dnn_multi_hiStat_m120To130_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 # Option 1.4
@@ -672,7 +672,7 @@ dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat3", "cat3", "output_t*root",
 dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[3], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4]))
 dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5]))
 dnn_multi_hiStat_m120To130_CS_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5], score_multi_hiStat_m120To130_CS, 3.0))
-dnn_multi_hiStat_m120To130_CS_sculpt.set_lumi(40490.712)
+dnn_multi_hiStat_m120To130_CS_sculpt.set_lumi(41394.221)
 dnn_multi_hiStat_m120To130_CS_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 
@@ -681,13 +681,12 @@ dnn_multi_hiStat_m120To130_CS_sculpt.plot("mass", 40, 110, 150, label="shapes", 
 
 # Option 3.1
 bdt_ucsd_hiStat_cs = a.add_mva_source("BDT_UCSD_hiStat_cs", "BDT_UCSD_hiStat", "/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/")
-bdt_ucsd_hiStat_cs.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
-# bdt_ucsd_hiStat_cs.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
+bdt_ucsd_hiStat_cs.add_sample("tt", "ttbar", "tt_ll_POW/*.root", "tree", False, True, ROOT.kYellow)
 bdt_ucsd_hiStat_cs.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd_hiStat_cs.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
-bdt_ucsd_hiStat_cs.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd_hiStat_cs.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs.set_lumi(40490.712)
+bdt_ucsd_hiStat_cs.add_sample("ggh", "ggH", "H2Mu_gg/*.root", "tree", False, False, ROOT.kRed)
+bdt_ucsd_hiStat_cs.add_sample("vbf", "VBF", "H2Mu_VBF/*.root", "tree", False, False, ROOT.kViolet-1)
+bdt_ucsd_hiStat_cs.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*/*.root", "tree", True, False, ROOT.kBlack)
+bdt_ucsd_hiStat_cs.set_lumi(41394.221)
 bdt_ucsd_hiStat_cs_roc_graph = bdt_ucsd_hiStat_cs.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_ucsd_hiStat_cs_roc = a.RocCurve(bdt_ucsd_hiStat_cs_roc_graph, "bdt_ucsd_hiStat_cs", "BDT UCSD hiStat", ROOT.kOrange-3)
 roc_to_compare.append(bdt_ucsd_hiStat_cs_roc)
@@ -695,13 +694,12 @@ roc_to_compare.append(bdt_ucsd_hiStat_cs_roc)
 
 # Option 3.2
 bdt_ucsd_hiStat_cs_ebe = a.add_mva_source("BDT_UCSD_hiStat_cs_ebe", "BDT_UCSD_hiStat_ebe", "/home/dkondra/tmp/BDTG_UCSD_hiStat_cs_ebe/")
-bdt_ucsd_hiStat_cs_ebe.add_sample("tt", "ttbar", "tt_ll_POW_BDTG_UCSD.root", "tree", False, True, ROOT.kYellow)
-# bdt_ucsd_hiStat_cs_ebe.add_sample("dy", "Drell-Yan", "ZJets_aMC_BDTG_UCSD.root", "tree", False, True, ROOT.kOrange-3)
+bdt_ucsd_hiStat_cs_ebe.add_sample("tt", "ttbar", "tt_ll_POW/*.root", "tree", False, True, ROOT.kYellow)
 bdt_ucsd_hiStat_cs_ebe.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
-bdt_ucsd_hiStat_cs_ebe.add_sample("ggh", "ggH", "H2Mu_gg_BDTG_UCSD.root", "tree", False, False, ROOT.kRed)
-bdt_ucsd_hiStat_cs_ebe.add_sample("vbf", "VBF", "H2Mu_VBF_BDTG_UCSD.root", "tree", False, False, ROOT.kViolet-1)
-bdt_ucsd_hiStat_cs_ebe.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*_BDTG_UCSD.root", "tree", True, False, ROOT.kBlack)
-bdt_ucsd_hiStat_cs_ebe.set_lumi(40490.712)
+bdt_ucsd_hiStat_cs_ebe.add_sample("ggh", "ggH", "H2Mu_gg/*.root", "tree", False, False, ROOT.kRed)
+bdt_ucsd_hiStat_cs_ebe.add_sample("vbf", "VBF", "H2Mu_VBF/*.root", "tree", False, False, ROOT.kViolet-1)
+bdt_ucsd_hiStat_cs_ebe.add_sample("data", "Data 2017 (40.5/fb)", "SingleMu_2017*/*.root", "tree", True, False, ROOT.kBlack)
+bdt_ucsd_hiStat_cs_ebe.set_lumi(41394.221)
 bdt_ucsd_hiStat_cs_ebe_roc_graph = bdt_ucsd_hiStat_cs_ebe.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_ucsd_hiStat_cs_ebe_roc = a.RocCurve(bdt_ucsd_hiStat_cs_ebe_roc_graph, "bdt_ucsd_hiStat_cs_ebe", "BDT UCSD hiStat", ROOT.kOrange-3, 2)
 roc_to_compare.append(bdt_ucsd_hiStat_cs_ebe_roc)
@@ -729,7 +727,7 @@ dnn_multi_hiStat_m120To130_CS1_sculpt.add_sample("cat3", "cat3", "output_t*root"
 dnn_multi_hiStat_m120To130_CS1_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[3], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4]))
 dnn_multi_hiStat_m120To130_CS1_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5]))
 dnn_multi_hiStat_m120To130_CS1_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5], score_multi_hiStat_m120To130_CS, 3.0))
-dnn_multi_hiStat_m120To130_CS1_sculpt.set_lumi(40490.712)
+dnn_multi_hiStat_m120To130_CS1_sculpt.set_lumi(41394.221)
 dnn_multi_hiStat_m120To130_CS1_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 # Option 3.4
@@ -754,7 +752,7 @@ dnn_multi_hiStat_m120To130_CS_noSingleMu_sculpt.add_sample("cat3", "cat3", "outp
 dnn_multi_hiStat_m120To130_CS_noSingleMu_sculpt.add_sample("cat4", "cat4", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[3], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4]))
 dnn_multi_hiStat_m120To130_CS_noSingleMu_sculpt.add_sample("cat5", "cat5", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[4], score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5]))
 dnn_multi_hiStat_m120To130_CS_noSingleMu_sculpt.add_sample("cat6", "cat6", "output_t*root", "tree_ZJets_aMC", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(score_multi_hiStat_m120To130_CS, dnn_cuts_multi_hiStat_m120To130_CS[5], score_multi_hiStat_m120To130_CS, 3.0))
-dnn_multi_hiStat_m120To130_CS_noSingleMu_sculpt.set_lumi(40490.712)
+dnn_multi_hiStat_m120To130_CS_noSingleMu_sculpt.set_lumi(41394.221)
 dnn_multi_hiStat_m120To130_CS_noSingleMu_sculpt.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
 a.compare_roc_curves(roc_to_compare)
