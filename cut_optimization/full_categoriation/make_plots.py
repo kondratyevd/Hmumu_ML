@@ -32,6 +32,7 @@ def plot_scan(plots_list, name):
             p.graph.SetMaximum(1)
         else:
             p.graph.Draw("plsame")
+            p.graph.GetXaxis().SetRangeUser(min_x, max_x)
         if p.legEntry:
             legend.AddEntry(p.graph, p.title, "pl")
 
