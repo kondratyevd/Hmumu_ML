@@ -85,10 +85,12 @@ esac
 # SIG_TREE="tree"
 
 # LUMI=35866
+TMP_PATH=/tmp/dkondra/categorization/output/scan_$1/
 OUTPUT_PATH=output/scan_$1/
+mkdir -p $TMP_PATH
 mkdir -p $OUTPUT_PATH
-python categorize_scan.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE" --method $method --min_mva $min_mva --max_mva $max_mva --nSteps $nSteps
-cd $OUTPUT_PATH
+python categorize_scan.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$TMP_PATH"  --data_tree "$DATA_TREE" --method $method --min_mva $min_mva --max_mva $max_mva --nSteps $nSteps
+cd $TMP_PATH
 for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
     # I stole that from some stackexchange topic, don't really know how it works
@@ -99,3 +101,4 @@ done
 rm datacard*
 rm workspace*
 cd $CURRENT_LOCATION
+cp  "$TMP_PATH/*" "$OUTPUT_PATH"
