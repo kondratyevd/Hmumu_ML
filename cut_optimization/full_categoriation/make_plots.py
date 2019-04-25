@@ -85,11 +85,11 @@ args = parser.parse_args()
 plot_011_mva = SignPlot(-1, 1, 10, "BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/",  "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root",ROOT.kBlack, linestyle=2, legEntry=True)
 plot_011_full = SignPlot(-1, 1, 10, "BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=True)
 
-plot_012_mva = SignPlot(-1, 1, 10, "BDT_1_2_mva", "BDT 1 cut tune1, only mva", "output/scan_0.1.2/",  "higgsCombine_dnn_option0.1.2_mva_", ".Significance.mH120.root",ROOT.kBlack, linestyle=2, legEntry=False)
-plot_012_full = SignPlot(-1, 1, 10, "BDT_1_2_full", "BDT 1 cut tune1, mva & #eta", "output/scan_0.1.2/", "higgsCombine_dnn_option0.1.2_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=False)
+plot_012_mva = SignPlot(-0.4, 0, 20, "BDT_1_2_mva", "BDT 1 cut tune1, only mva", "output/scan_0.1.2/",  "higgsCombine_dnn_option0.1.2_mva_", ".Significance.mH120.root",ROOT.kBlack, linestyle=2, legEntry=False)
+plot_012_full = SignPlot(-0.4, 0, 20, "BDT_1_2_full", "BDT 1 cut tune1, mva & #eta", "output/scan_0.1.2/", "higgsCombine_dnn_option0.1.2_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=False)
 
-plot_013_mva = SignPlot(-1, 1, 10, "BDT_1_3_mva", "BDT 1 cut tune2, only mva", "output/scan_0.1.3/",  "higgsCombine_dnn_option0.1.3_mva_", ".Significance.mH120.root",ROOT.kBlack, linestyle=2, legEntry=False)
-plot_013_full = SignPlot(-1, 1, 10, "BDT_1_3_full", "BDT 1 cut tune2, mva & #eta", "output/scan_0.1.3/", "higgsCombine_dnn_option0.1.3_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=False)
+plot_013_mva = SignPlot(0.2, 0.8, 30, "BDT_1_3_mva", "BDT 1 cut tune2, only mva", "output/scan_0.1.3/",  "higgsCombine_dnn_option0.1.3_mva_", ".Significance.mH120.root",ROOT.kBlack, linestyle=2, legEntry=False)
+plot_013_full = SignPlot(0.2, 0.8, 30, "BDT_1_3_full", "BDT 1 cut tune2, mva & #eta", "output/scan_0.1.3/", "higgsCombine_dnn_option0.1.3_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=False)
 
 plots_bdt1 = [plot_011_full, plot_011_mva, plot_012_full, plot_012_mva, plot_013_full, plot_013_mva]
 
