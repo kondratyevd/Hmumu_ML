@@ -7,10 +7,9 @@ def plot_scan(plots_list, name):
     canvas.cd()
 
     legend = ROOT.TLegend(0.65, 0.7, 0.89, 0.89)
-
+    legend.SetHeader("2017 Data (L=41.4fb^{-1})")
     min_x = 10
     max_x = -10
-
     for ip, p in enumerate(plots_list):
         if p.min<min_x:
             min_x=p.min
@@ -35,7 +34,7 @@ def plot_scan(plots_list, name):
             p.graph.Draw("plsame")
         legend.AddEntry(p.graph, p.title, "pl")
 
-
+    # These values are for 2017 Data/MC, lumi = 41394.221, eta categories [0, 0.9, 1.9, 2.4]
     inclusive = ROOT.TLine(min_x,0.696594,max_x,0.696594)
     inclusive.SetLineColor(ROOT.kBlue)
     inclusive.SetLineStyle(2)
@@ -91,5 +90,5 @@ plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "out
 
 plots_dnn1 = [ plot_111_full,  plot_111_mva ]
 
-plot_scan(plots_bdt1, "bdt1")
-plot_scan(plots_dnn1, "dnn1")
+plot_scan(plots_bdt1, "bdt1") # 1st cut, rough estimate
+plot_scan(plots_dnn1, "dnn1") # 1st cut, rough estimate
