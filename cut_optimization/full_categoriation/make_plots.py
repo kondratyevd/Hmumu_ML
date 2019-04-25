@@ -45,7 +45,14 @@ canvas.cd()
 
 legend = ROOT.TLegend(0.65, 0.7, 0.89, 0.89)
 
+min_x = 10
+max_x = -10
+
 for ip, p in enumerate(plots_bdt1):
+	if p.min<min_x:
+		min_x=p.min
+	if p.max<max_x:
+		max_x=p.max	
     for i in range(1, p.nSteps):
     	step = (p.max-p.min)/float(p.nSteps)
     	x = p.min+i*step
@@ -66,12 +73,12 @@ for ip, p in enumerate(plots_bdt1):
     legend.AddEntry(p.graph, p.title, "pl")
 
 
-inclusive = ROOT.TLine(0,0.696594,1,0.696594)
+inclusive = ROOT.TLine(min_x,0.696594,max_x,0.696594)
 inclusive.SetLineColor(ROOT.kBlue)
 inclusive.SetLineStyle(2)
 inclusive.SetLineWidth(2)
 inclusive.Draw("same")
-inclusive_eta = ROOT.TLine(0,0.738164,1,0.738164)
+inclusive_eta = ROOT.TLine(min_x,0.738164,max_x,0.738164)
 inclusive_eta.SetLineColor(ROOT.kBlue)
 inclusive_eta.SetLineWidth(2)
 inclusive_eta.Draw("same")
