@@ -84,12 +84,12 @@ args = parser.parse_args()
 plot_011_mva = SignPlot(-1, 1, 10, "BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/",  "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root",ROOT.kBlack, 2)
 plot_011_full = SignPlot(-1, 1, 10, "BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root", ROOT.kBlack)
 
-plots_bdt1 = [plot_011_mva, plot_011_full]
+plots_bdt1 = [plot_011_full, plot_011_mva]
 
 plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kRed, 2)
 plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root", ROOT.kRed)
 
-plots_dnn1 = [ plot_111_mva,  plot_111_full ]
+plots_dnn1 = [ plot_111_full,  plot_111_mva ]
 
 plot_scan(plots_bdt1, "bdt1")
 plot_scan(plots_dnn1, "dnn1")
