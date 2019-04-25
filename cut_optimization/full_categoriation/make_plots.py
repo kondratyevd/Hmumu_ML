@@ -45,9 +45,10 @@ def plot_scan(plots_list, name):
     inclusive_eta.SetLineColor(ROOT.kBlue)
     inclusive_eta.SetLineWidth(2)
     inclusive_eta.Draw("same")
-    legend.AddEntry(inclusive, "Inclusive", "l")
     legend.AddEntry(inclusive_eta, "3 #eta categories", "l")
+    legend.AddEntry(inclusive, "Inclusive", "l")
 
+    legend.SetBorderSize(0)
     legend.Draw()
     canvas.Print("%s/%s_%s.png"%(args.out_path, args.label, name))
     canvas.SaveAs("%s/%s_%s.root"%(args.out_path, args.label, name))
