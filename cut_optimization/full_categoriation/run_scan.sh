@@ -101,4 +101,4 @@ done
 rm datacard*
 rm workspace*
 cd $CURRENT_LOCATION
-cp  "$TMP_PATH/*" "$OUTPUT_PATH"
+cp "$TMP_PATH"/* "$OUTPUT_PATH"
