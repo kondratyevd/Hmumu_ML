@@ -55,7 +55,7 @@ for ip, p in enumerate(plots_bdt1):
             p.graph.SetPoint(i-1, x, event.limit)
     if not ip:
         p.graph.Draw("apl")
-        p.graph.GetXaxis().SetRangeUser(0, 1)
+        p.graph.GetXaxis().SetRangeUser(p.min, p.max)
         p.graph.GetXaxis().SetTitle("MVA cut")
         p.graph.GetYaxis().SetTitle("Significance")
         p.graph.GetYaxis().SetTitleOffset(1.35)
