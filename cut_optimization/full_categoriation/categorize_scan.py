@@ -41,11 +41,16 @@ exisiting_mva = {
 
 if "binary" in args.method:
 	score = "sig_prediction"
+	min_score = 0
+	max_score = 1
 elif "multi" in args.method:
 	score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
+	min_score = 1
+	max_score = 3
 elif "BDT" in args.method:
 	score = "MVA"
-
+	min_score = -1
+	max_score = 1
 
 eta_categories = {
 	"eta0":	"(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
@@ -68,8 +73,8 @@ for i in range(args.nSteps): # scan from min to max
 	print "--- Move sliding cut to %f -- "%(sliding_cut)
 
 	new_mva_categories = {}
-	new_mva_categories["mva0"] = '((%s>%f)&(%s<%f))'%(score, args.min_mva, score, sliding_cut) # [min, cut]
-	new_mva_categories["mva1"] = '((%s>%f)&(%s<%f))'%(score, sliding_cut, score, args.max_mva) # [cut, max]
+	new_mva_categories["mva0"] = '((%s>%f)&(%s<%f))'%(score, min_score, score, sliding_cut) # [min, cut]
+	new_mva_categories["mva1"] = '((%s>%f)&(%s<%f))'%(score, sliding_cut, score, max_score) # [cut, max]
 	new_mva_categories.update(exisiting_mva[args.option])
 	print "Will use the following MVA categories:"
 	print new_mva_categories

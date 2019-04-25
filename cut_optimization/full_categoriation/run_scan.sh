@@ -85,7 +85,7 @@ esac
 # SIG_TREE="tree"
 
 # LUMI=35866
-OUTPUT_PATH=/tmp/dkondra/categorization/output/scan_$1/
+OUTPUT_PATH=output/scan_$1/
 mkdir -p $OUTPUT_PATH
 python categorize_scan.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$OUTPUT_PATH"  --data_tree "$DATA_TREE" --method $method --min_mva $min_mva --max_mva $max_mva --nSteps $nSteps
 cd $OUTPUT_PATH
