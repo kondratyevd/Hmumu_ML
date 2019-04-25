@@ -49,13 +49,13 @@ min_x = 10
 max_x = -10
 
 for ip, p in enumerate(plots_bdt1):
-	if p.min<min_x:
-		min_x=p.min
-	if p.max<max_x:
-		max_x=p.max	
+    if p.min<min_x:
+        min_x=p.min
+    if p.max<max_x:
+        max_x=p.max 
     for i in range(1, p.nSteps):
-    	step = (p.max-p.min)/float(p.nSteps)
-    	x = p.min+i*step
+        step = (p.max-p.min)/float(p.nSteps)
+        x = p.min+i*step
         tree = ROOT.TChain("limit")
         tree.Add(p.path+p.prefix+"%i"%i+p.postfix)
         for iev,  event in enumerate(tree):
