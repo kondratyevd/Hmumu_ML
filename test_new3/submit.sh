@@ -25,6 +25,12 @@ case $1 in
 		python test_new3/test_dnn_hiStat_m120To130_noSingleMu.py
 		;;
 
+	3.5)
+		echo 'Running option 3.5'
+		python test_new3/test_dnn_hiStat_m120To130_options.py
+		;;
+
+
 	*)
 		echo 'Wrong option ' $1;;		
 
