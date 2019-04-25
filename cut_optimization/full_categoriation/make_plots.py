@@ -90,7 +90,10 @@ plots_bdt1 = [plot_011_full, plot_011_mva]
 plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kRed, 2, legEntry=True)
 plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root", ROOT.kRed, legEntry=True)
 
-plots_dnn1 = [ plot_111_full,  plot_111_mva ]
+plot_112_mva = SignPlot(1.2, 1.8, 30, "DNN_1_2_mva", "DNN 1 cut tune, only mva", "output/scan_1.1.2/",  "higgsCombine_dnn_option1.1.2_mva_", ".Significance.mH120.root",ROOT.kRed, 2, legEntry=False)
+plot_112_full = SignPlot(1.2, 1.8, 30, "DNN_1_2_full", "DNN 1 cut tune, mva & #eta", "output/scan_1.1.2/",  "higgsCombine_dnn_option1.1.2_full_", ".Significance.mH120.root", ROOT.kRed, legEntry=False)
+
+plots_dnn1 = [ plot_111_full,  plot_111_mva, plot_112_full,  plot_112_mva ]
 
 plot_scan(plots_bdt1, "bdt1") # 1st cut, rough estimate
 plot_scan(plots_dnn1, "dnn1") # 1st cut, rough estimate
