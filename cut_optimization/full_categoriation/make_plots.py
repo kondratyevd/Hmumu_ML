@@ -7,7 +7,7 @@ def plot_scan(plots_list, name):
     canvas.cd()
 
     legend = ROOT.TLegend(0.65, 0.7, 0.89, 0.89)
-    legend.SetHeader("2017 Data (L = 41.4fb^{-1})")
+    legend.SetHeader("2017 Data (L = 41.4 /fb)")
     min_x = 10
     max_x = -10
     for ip, p in enumerate(plots_list):
@@ -24,7 +24,7 @@ def plot_scan(plots_list, name):
                 p.graph.SetPoint(i-1, x, event.limit)
         if not ip:
             p.graph.Draw("apl")
-            p.graph.GetXaxis().SetRangeUser(p.min, p.max)
+            p.graph.GetXaxis().SetRangeUser(min_x, max_x)
             p.graph.GetXaxis().SetTitle("MVA cut")
             p.graph.GetYaxis().SetTitle("Significance")
             p.graph.GetYaxis().SetTitleOffset(1.35)
