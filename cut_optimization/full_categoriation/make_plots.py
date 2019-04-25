@@ -3,7 +3,10 @@ ROOT.gStyle.SetOptStat(0)
 import argparse
 
 class SignPlot(object):
-    def __init__(self, name, title, path, color, prefix, postfix, linestyle=1):
+    def __init__(self, min, max, nSteps, name, title, path, prefix, postfix, color, linestyle=1):
+        self.min = min
+        self.max = max
+        self.nSteps = nSteps
         self.name = name
         self.title = title
         self.path = path
@@ -26,28 +29,30 @@ parser.add_argument('--out_path', action='store', dest='out_path', help='Output 
 parser.add_argument('--label', action='store', dest='label', help='label')
 args = parser.parse_args()
 
+plot_011_mva = SignPlot(-1, 1, 10, "BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/",  "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root",ROOT.kBlack, 2)
+plot_011_full = SignPlot(-1, 1, 10, "BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root", ROOT.kBlack)
 
-plot_011_full = SignPlot("BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", ROOT.kBlack, "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root")
-plot_111_full = SignPlot("DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/", ROOT.kRed, "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root")
+plots_bdt1 = [plot_011_mva, plot_011_full]
 
+plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kRed, 2)
+plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root", ROOT.kRed)
 
-plot_011_mva = SignPlot("BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/", ROOT.kBlack, "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root", 2)
-plot_111_mva = SignPlot("DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/", ROOT.kRed, "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root", 2)
+plots_dnn1 = [ plot_111_mva,  plot_111_full ]
 
-# plots = [ plot_111_full,  plot_111_mva ]
-plots = [plot_011_full, plot_111_full, plot_011_mva , plot_111_mva ]
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
 
 legend = ROOT.TLegend(0.65, 0.7, 0.89, 0.89)
 
-for ip, p in enumerate(plots):
-    for i in range(1, 10):
+for ip, p in enumerate(plots_bdt1):
+    for i in range(1, p.nSteps):
+    	step = (p.max-p.min)/float(p.nSteps)
+    	x = p.min+i*step
         tree = ROOT.TChain("limit")
         tree.Add(p.path+p.prefix+"%i"%i+p.postfix)
         for iev,  event in enumerate(tree):
-            p.graph.SetPoint(i-1, i/10.0, event.limit)
+            p.graph.SetPoint(i-1, x, event.limit)
     if not ip:
         p.graph.Draw("apl")
         p.graph.GetXaxis().SetRangeUser(0, 1)
@@ -74,5 +79,5 @@ legend.AddEntry(inclusive, "Inclusive", "l")
 legend.AddEntry(inclusive_eta, "3 #eta categories", "l")
 
 legend.Draw()
-canvas.Print("%s/%s_mva.png"%(args.out_path, args.label))
-canvas.SaveAs("%s/%s_mva.root"%(args.out_path, args.label))
+canvas.Print("%s/%s_bdt1.png"%(args.out_path, args.label))
+canvas.SaveAs("%s/%s_bdt1.root"%(args.out_path, args.label))

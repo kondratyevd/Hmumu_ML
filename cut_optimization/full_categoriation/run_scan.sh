@@ -28,6 +28,28 @@ case $1 in
 		nSteps=10 
 		;;
 
+	0.1.2)
+		echo 'Running option 0.1.2: BDT, cut 1, scan 2'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDT"
+		min_mva=-0.4	
+		max_mva=0
+		nSteps=20 
+		;;
+
+	0.1.3)
+		echo 'Running option 0.1.2: BDT, cut 1, scan 3'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDT"
+		min_mva=0.2	
+		max_mva=0.6
+		nSteps=20 
+		;;
+
 	1.1.1)
 		echo 'Running option 1.1.1: DNN, cut 1, scan 1'
 		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
@@ -39,7 +61,16 @@ case $1 in
 		nSteps=10 
 		;;	
 
-
+	1.1.2)
+		echo 'Running option 1.1.1: DNN, cut 1, scan 2'
+		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		min_mva=1.2
+		max_mva=1.8
+		nSteps=30 
+		;;	
 
 
 
