@@ -91,7 +91,8 @@ plot_012_full = SignPlot(-0.4, 0, 20, "BDT_1_2_full", "BDT 1 cut tune1, mva & #e
 plot_013_mva = SignPlot(0.2, 0.8, 30, "BDT_1_3_mva", "BDT 1 cut tune2, only mva", "output/scan_0.1.3/",  "higgsCombine_dnn_option0.1.3_mva_", ".Significance.mH120.root",ROOT.kBlack, linestyle=2, legEntry=False)
 plot_013_full = SignPlot(0.2, 0.8, 30, "BDT_1_3_full", "BDT 1 cut tune2, mva & #eta", "output/scan_0.1.3/", "higgsCombine_dnn_option0.1.3_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=False)
 
-plots_bdt1 = [plot_011_full, plot_011_mva, plot_012_full, plot_012_mva, plot_013_full, plot_013_mva]
+plots_bdt1 = [plot_011_full, plot_011_mva]
+plots_bdt1_tune = [plot_011_full, plot_011_mva, plot_012_full, plot_012_mva, plot_013_full, plot_013_mva]
 
 plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kRed, 2, legEntry=True)
 plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root", ROOT.kRed, legEntry=True)
@@ -99,7 +100,10 @@ plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "out
 plot_112_mva = SignPlot(1.2, 1.8, 30, "DNN_1_2_mva", "DNN 1 cut tune, only mva", "output/scan_1.1.2/",  "higgsCombine_dnn_option1.1.2_mva_", ".Significance.mH120.root",ROOT.kRed, 2, legEntry=False)
 plot_112_full = SignPlot(1.2, 1.8, 30, "DNN_1_2_full", "DNN 1 cut tune, mva & #eta", "output/scan_1.1.2/",  "higgsCombine_dnn_option1.1.2_full_", ".Significance.mH120.root", ROOT.kRed, legEntry=False)
 
-plots_dnn1 = [ plot_111_full,  plot_111_mva, plot_112_full,  plot_112_mva ]
+plots_dnn1 = [ plot_111_full,  plot_111_mva]
+plots_dnn1_tune = [ plot_111_full,  plot_111_mva, plot_112_full,  plot_112_mva ]
 
-plot_scan(plots_bdt1, "bdt1") # 1st cut, rough estimate
-plot_scan(plots_dnn1, "dnn1") # 1st cut, rough estimate
+plot_scan(plots_bdt1, "bdt1_rough") # 1st cut, rough estimate
+plot_scan(plots_bdt1_tune, "bdt1_tune") # 1st cut, fine tuning
+plot_scan(plots_dnn1, "dnn1_rough") # 1st cut, rough estimate
+plot_scan(plots_dnn1_tune, "dnn1_tune") # 1st cut, fine tuning
