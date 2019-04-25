@@ -51,7 +51,7 @@ max_x = -10
 for ip, p in enumerate(plots_bdt1):
     if p.min<min_x:
         min_x=p.min
-    if p.max<max_x:
+    if p.max>max_x:
         max_x=p.max 
     for i in range(1, p.nSteps):
         step = (p.max-p.min)/float(p.nSteps)
