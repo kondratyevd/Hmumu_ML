@@ -24,11 +24,17 @@ args = parser.parse_args()
 lumi = 41394.221
 
 existing_categories_011 = {}
+existing_categories_012 = {}
+existing_categories_013 = {}
 existing_categories_111 = {}
+existing_categories_112 = {}
 
 exisiting_mva = {
 	'0.1.1': existing_categories_011,
+	'0.1.2': existing_categories_012,
+	'0.1.3': existing_categories_013,	
 	'1.1.1': existing_categories_111,
+	'1.1.2': existing_categories_112,
 }
 
 
