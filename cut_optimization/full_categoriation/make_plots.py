@@ -7,7 +7,7 @@ def plot_scan(plots_list, name):
     canvas.cd()
 
     legend = ROOT.TLegend(0.65, 0.7, 0.89, 0.89)
-    legend.SetHeader("2017 Data (L=41.4fb^{-1})")
+    legend.SetHeader("2017 Data (L = 41.4fb^{-1})")
     min_x = 10
     max_x = -10
     for ip, p in enumerate(plots_list):
@@ -32,7 +32,8 @@ def plot_scan(plots_list, name):
             p.graph.SetMaximum(1)
         else:
             p.graph.Draw("plsame")
-        legend.AddEntry(p.graph, p.title, "pl")
+        if p.legEntry:
+            legend.AddEntry(p.graph, p.title, "pl")
 
     # These values are for 2017 Data/MC, lumi = 41394.221, eta categories [0, 0.9, 1.9, 2.4]
     inclusive = ROOT.TLine(min_x,0.696594,max_x,0.696594)
@@ -54,7 +55,7 @@ def plot_scan(plots_list, name):
 
 
 class SignPlot(object):
-    def __init__(self, min, max, nSteps, name, title, path, prefix, postfix, color, linestyle=1):
+    def __init__(self, min, max, nSteps, name, title, path, prefix, postfix, color, linestyle=1, legEntry=True):
         self.min = min
         self.max = max
         self.nSteps = nSteps
@@ -64,6 +65,7 @@ class SignPlot(object):
         self.color = color
         self.prefix = prefix
         self.postfix = postfix
+        self.legEntry = legEntry        
         self.graph = ROOT.TGraph()
         self.graph.SetName(name)
         self.graph.SetLineColor(color)
@@ -80,13 +82,13 @@ parser.add_argument('--out_path', action='store', dest='out_path', help='Output 
 parser.add_argument('--label', action='store', dest='label', help='label')
 args = parser.parse_args()
 
-plot_011_mva = SignPlot(-1, 1, 10, "BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/",  "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root",ROOT.kBlack, 2)
-plot_011_full = SignPlot(-1, 1, 10, "BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root", ROOT.kBlack)
+plot_011_mva = SignPlot(-1, 1, 10, "BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/",  "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root",ROOT.kBlack, linestyle=2, legEntry=True)
+plot_011_full = SignPlot(-1, 1, 10, "BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=True)
 
 plots_bdt1 = [plot_011_full, plot_011_mva]
 
-plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kRed, 2)
-plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root", ROOT.kRed)
+plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kRed, 2, legEntry=True)
+plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root", ROOT.kRed, legEntry=True)
 
 plots_dnn1 = [ plot_111_full,  plot_111_mva ]
 

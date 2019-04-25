@@ -46,8 +46,8 @@ case $1 in
 		DATA_TREE="tree"
 		method="BDT"
 		min_mva=0.2	
-		max_mva=0.6
-		nSteps=20 
+		max_mva=0.8
+		nSteps=30 
 		;;
 
 	1.1.1)
