@@ -716,13 +716,13 @@ roc_to_compare.append(bdt_ucsd_hiStat_cs_ebe_roc)
 bdt_cuts_ebe = [-0.484, 0.04800000000000004, 0.28400000000000003, 0.43199999999999994, 0.6560000000000001, 0.764]
 bdt_score = "MVA"
 bdt_ucsd_hiStat_cs_ebe_res = a.add_mva_source("BDT_UCSD_hiStat_cs_ebe_res", "BDT_UCSD_hiStat_ebe_res", "/home/dkondra/tmp/BDTG_UCSD_hiStat_cs_ebe/")
-bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat0", "cat0", "H2Mu_gg/*root", "tree", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, 1.0, bdt_score, bdt_cuts_ebe[0]))
+bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat0", "cat0", "H2Mu_gg/*root", "tree", False, False, ROOT.kBlack, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, -1.0, bdt_score, bdt_cuts_ebe[0]))
 bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat1", "cat1", "H2Mu_gg/*root", "tree", False, False, ROOT.kViolet, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, bdt_cuts_ebe[0], bdt_score, bdt_cuts_ebe[1]))
 bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat2", "cat2", "H2Mu_gg/*root", "tree", False, False, ROOT.kBlue, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, bdt_cuts_ebe[1], bdt_score, bdt_cuts_ebe[2]))
 bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat3", "cat3", "H2Mu_gg/*root", "tree", False, False, ROOT.kGreen, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, bdt_cuts_ebe[2], bdt_score, bdt_cuts_ebe[3]))
 bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat4", "cat4", "H2Mu_gg/*root", "tree", False, False, ROOT.kYellow, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, bdt_cuts_ebe[3], bdt_score, bdt_cuts_ebe[4]))
 bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat5", "cat5", "H2Mu_gg/*root", "tree", False, False, ROOT.kOrange, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, bdt_cuts_ebe[4], bdt_score, bdt_cuts_ebe[5]))
-bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat6", "cat6", "H2Mu_gg/*root", "tree", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, bdt_cuts_ebe[5], bdt_score, 3.0))
+bdt_ucsd_hiStat_cs_ebe_res.add_sample("cat6", "cat6", "H2Mu_gg/*root", "tree", False, False, ROOT.kRed, True, "((%s)>%f)&((%s)<%f)"%(bdt_score, bdt_cuts_ebe[5], bdt_score, 1.0))
 bdt_ucsd_hiStat_cs_ebe_res.set_lumi(4723.411)
 bdt_ucsd_hiStat_cs_ebe_res.plot("mass", 40, 110, 150, label="shapes", draw=True, shapes=True)
 
