@@ -123,6 +123,9 @@ def GetListOfModels(trainer):
 	list_of_models.append(model_50_D1)
 	list_of_models.append(model_50_D2_25_D2)
 	list_of_models.append(model_50_D2_25_D2_25_D2)
+	list_of_models.append(model_50_D2_25_D2_25_D2_25_D2)
+	list_of_models.append(model_100_D2_50_D2_50_D2)
+	list_of_models.append(model_100_D2_50_D2_50_D2_50_D2)
 	list_of_models.append(model_50_25_25)
 	list_of_models.append(andrea_model_3)
 
