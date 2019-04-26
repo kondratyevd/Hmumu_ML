@@ -83,22 +83,22 @@ parser.add_argument('--out_path', action='store', dest='out_path', help='Output 
 parser.add_argument('--label', action='store', dest='label', help='label')
 args = parser.parse_args()
 
-plot_011_mva = SignPlot(-1, 1, 10, "BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/",  "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root",ROOT.kBlack+2, linestyle=2, legEntry=True)
+plot_011_mva = SignPlot(-1, 1, 10, "BDT_1_1_mva", "BDT 1 cut, only mva", "output/scan_0.1.1/",  "higgsCombine_dnn_option0.1.1_mva_", ".Significance.mH120.root",ROOT.kGray+2, linestyle=2, legEntry=True)
 plot_011_full = SignPlot(-1, 1, 10, "BDT_1_1_full", "BDT 1 cut, mva & #eta", "output/scan_0.1.1/", "higgsCombine_dnn_option0.1.1_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=True)
 
-plot_012_mva = SignPlot(-0.4, 0, 20, "BDT_1_2_mva", "BDT 1 cut tune1, only mva", "output/scan_0.1.2/",  "higgsCombine_dnn_option0.1.2_mva_", ".Significance.mH120.root",ROOT.kBlack+2, linestyle=2, legEntry=False)
+plot_012_mva = SignPlot(-0.4, 0, 20, "BDT_1_2_mva", "BDT 1 cut tune1, only mva", "output/scan_0.1.2/",  "higgsCombine_dnn_option0.1.2_mva_", ".Significance.mH120.root",ROOT.kGray+2, linestyle=2, legEntry=False)
 plot_012_full = SignPlot(-0.4, 0, 20, "BDT_1_2_full", "BDT 1 cut tune1, mva & #eta", "output/scan_0.1.2/", "higgsCombine_dnn_option0.1.2_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=False)
 
-plot_013_mva = SignPlot(0.2, 0.8, 30, "BDT_1_3_mva", "BDT 1 cut tune2, only mva", "output/scan_0.1.3/",  "higgsCombine_dnn_option0.1.3_mva_", ".Significance.mH120.root",ROOT.kBlack+2, linestyle=2, legEntry=False)
+plot_013_mva = SignPlot(0.2, 0.8, 30, "BDT_1_3_mva", "BDT 1 cut tune2, only mva", "output/scan_0.1.3/",  "higgsCombine_dnn_option0.1.3_mva_", ".Significance.mH120.root",ROOT.kGray+2, linestyle=2, legEntry=False)
 plot_013_full = SignPlot(0.2, 0.8, 30, "BDT_1_3_full", "BDT 1 cut tune2, mva & #eta", "output/scan_0.1.3/", "higgsCombine_dnn_option0.1.3_full_", ".Significance.mH120.root", ROOT.kBlack, legEntry=False)
 
 plots_bdt1 = [plot_011_full, plot_011_mva]
 plots_bdt1_tune = [plot_011_full, plot_011_mva, plot_012_full, plot_012_mva, plot_013_full, plot_013_mva]
 
-plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kRed-6, 2, legEntry=True)
+plot_111_mva = SignPlot(1, 3, 10, "DNN_1_1_mva", "DNN 1 cut, only mva", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_mva_", ".Significance.mH120.root",ROOT.kPink+10, 2, legEntry=True)
 plot_111_full = SignPlot(1, 3, 10, "DNN_1_1_full", "DNN 1 cut, mva & #eta", "output/scan_1.1.1/",  "higgsCombine_dnn_option1.1.1_full_", ".Significance.mH120.root", ROOT.kRed, legEntry=True)
 
-plot_112_mva = SignPlot(1.2, 1.8, 30, "DNN_1_2_mva", "DNN 1 cut tune, only mva", "output/scan_1.1.2/",  "higgsCombine_dnn_option1.1.2_mva_", ".Significance.mH120.root",ROOT.kRed-6, 2, legEntry=False)
+plot_112_mva = SignPlot(1.2, 1.8, 30, "DNN_1_2_mva", "DNN 1 cut tune, only mva", "output/scan_1.1.2/",  "higgsCombine_dnn_option1.1.2_mva_", ".Significance.mH120.root",ROOT.kPink+10, 2, legEntry=False)
 plot_112_full = SignPlot(1.2, 1.8, 30, "DNN_1_2_full", "DNN 1 cut tune, mva & #eta", "output/scan_1.1.2/",  "higgsCombine_dnn_option1.1.2_full_", ".Significance.mH120.root", ROOT.kRed, legEntry=False)
 
 plots_dnn1 = [ plot_111_full,  plot_111_mva]
