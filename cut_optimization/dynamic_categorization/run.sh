@@ -38,9 +38,19 @@ case $1 in
 		method="DNNmulti"
 		min_var=1
 		max_var=3
-		nSteps=3
+		nSteps=5
 		;;	
 
+	2.1)
+		echo 'Running option 2.1: DNN'
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		min_var=1
+		max_var=3
+		nSteps=3
+		;;	
 
 	3)
 		echo 'Running option 3: Rapidity categorization'
