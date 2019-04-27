@@ -54,6 +54,17 @@ case $1 in
 		;;	
 
 
+	4)
+		echo 'Running option 3: DNN 10 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		min_var=1
+		max_var=3
+		nSteps=10
+		;;	
+
 	*)
 		echo 'Wrong option ' $1
 		;;	

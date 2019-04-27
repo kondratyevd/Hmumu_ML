@@ -117,7 +117,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
             print "      What if we cut at k = %i?"%k
             if k==i:
                 print "         No cut"
-                print "         Merging bins %i and %i into a single category"%(i, j)
+                print "         Merging bins from %i to %i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
                 print "         Splitting is", bins
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
