@@ -95,7 +95,7 @@ def get_significance(label, bins):
     return significance
 
 
-best_splitting = [] # will store the best way to split the category containing bins i through j
+best_splitting = [0, args.nSteps] # will store the best way to split the category containing bins i through j
 best_significance = 0
 
 
