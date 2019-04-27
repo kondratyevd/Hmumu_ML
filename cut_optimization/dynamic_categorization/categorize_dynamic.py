@@ -17,8 +17,8 @@ parser.add_argument('--scale_unc_val', action='store', dest='scale_unc_val', hel
 parser.add_argument('--smodel', action='store', dest='smodel', help='Signal model')
 parser.add_argument('--option', action='store', dest='option', help='option')
 parser.add_argument('--method', action='store', dest='method', help='method')
-parser.add_argument('--min_mva', action='store', dest='min_mva', help='min_mva', type=float)
-parser.add_argument('--max_mva', action='store', dest='max_mva', help='max_mva', type=float)
+parser.add_argument('--min_var', action='store', dest='min_var', help='min_var', type=float)
+parser.add_argument('--max_var', action='store', dest='max_var', help='max_var', type=float)
 parser.add_argument('--nSteps', action='store', dest='nSteps', help='nSteps', type=int)
 parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=float)
 args = parser.parse_args()
@@ -35,7 +35,7 @@ if args.option is "0": # inclusive
     create_datacard(eta_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_inclusive_eta", "workspace_inclusive_eta", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
     sys.exit() 
 
-step = (args.max_mva - args.min_mva)/float(args.nSteps)
+step = (args.max_var - args.min_var)/float(args.nSteps)
 
 
 
@@ -45,7 +45,7 @@ def get_significance(label, bins):
         score = "sig_prediction"
         min_score = 0
         max_score = 1
-    elif "multi" in args.method:
+    elif "DNNmulti" in args.method:
         score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
         min_score = 1
         max_score = 3
@@ -53,12 +53,16 @@ def get_significance(label, bins):
         score = "MVA"
         min_score = -1
         max_score = 1
+    elif "Rapidity" in args.method:
+        score = "max_abs_eta_mu"
+        min_score = 0
+        max_score = 2.4
 
     print "Will use method", args.method
     print "    min score =", min_score
     print "    max score =", max_score
 
-    step = (args.max_mva - args.min_mva)/float(args.nSteps)
+    step = (args.max_var - args.min_var)/float(args.nSteps)
 
     print "Rescaling cut boundaries:"
     new_bins = []
@@ -145,6 +149,6 @@ print "Best significance overall is %f and achieved when the splitting is "%(s[0
 print "Rescaling cut boundaries:"
 new_bins = []
 for i in range(len(best_bins)):
-    new_bins.append(min_score + best_bins[i]*step)
+    new_bins.append(min_var + best_bins[i]*step)
 print "Best cuts on MVA score are:"
 print best_bins, " --> ", new_bins
