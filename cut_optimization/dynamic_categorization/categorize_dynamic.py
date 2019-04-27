@@ -51,7 +51,6 @@ def get_significance(label, bins):
         print "    We already saw bins ", bins
         print "     and the significance for them was ", already_tried[bins_str]
         return already_tried[bins_str]
-    else
 
     if "binary" in args.method:
         score = "sig_prediction"
