@@ -131,25 +131,29 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
         print "   Retrieveing best significance in category containing bins #%i-#%i"%(i, j)
         for k in range(i, j+1):
             best_splitting_ij = []
+            consider_this_option = True
             print "      k = %i"%k
             if k==i:
                 print "         No cut"
                 print "         Merging bins from #%i to #%i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
+                print "         Splitting is", bins
+                significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+                sign_merged = significance
             else:
                 print "         Cut between #%i and #%i"%(k-1, k)
                 print "         Use the splitting that provided best significance in categories %i-%i and %i-%i"%(i , k-1, k, j)
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
-            
-            print "         Splitting is", bins
-            significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+                print "         Splitting is", bins
+                significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+                if significance<sign_merged*(1+args.penalty/100.0):
+                    improvement = ( significance - sign_merged )/sign_merged*100.0
+                    print "The improvement over merging is just %f \%, so skip this option."%(improvement)
+                    consider_this_option = False # don't split if improvement over merging is not good enough
 
-            if k!=i:
-                significance = significance/(1+args.penalty/100.0) # we only want to split if the splitting gives at least <penalty>% gain in significance
 
-            if (significance > s[i][j]): 
-                if k!=i:
-                    significance = significance*(1+args.penalty/100.0) # revert
+            if ((significance > s[i][j])&(consider_this_option)): 
+                print "Updating best significance."
                 s[i][j] = significance
                 best_splitting[i][j] = bins
             print "Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), best_splitting[i][j]
