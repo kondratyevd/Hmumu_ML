@@ -124,11 +124,14 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
                 print "         Splitting is", bins
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+                significance = significance/1.02 # we only want to split if the splitting gives at least 2% gain in significance
 
             if (significance > s[i][j]): 
+                if k!=i:
+                    significance = significance*1.02 # revert
                 s[i][j] = significance
                 best_splitting[i][j] = bins
-                print "Best significance for category [%i, %i] is %f and achieved when the splitting is "%(i, j, significance), bins
+                print "Best significance for category %i-%i is %f and achieved when the splitting is "%(i, j, significance), bins
 
 
 for i in range(args.nSteps):
