@@ -37,9 +37,21 @@ if args.option is "0": # inclusive
 
 step = (args.max_var - args.min_var)/float(args.nSteps)
 
+already_tried = {}
 
 
 def get_significance(label, bins):
+
+    bins_str = ""
+    for i in range(len(bins)-1):
+        bins_str = bins_str+"%f_"%bins[i]
+    bins_str = bins_str+"%f"%bins[len(bins)-1]
+
+    if bins_str in already_tried.keys():
+        print "    We already saw bins ", bins
+        print "     and the significance for them was ", already_tried[bins_str]
+        return already_tried[bins_str]
+    else
 
     if "binary" in args.method:
         score = "sig_prediction"
@@ -106,7 +118,6 @@ for i in range(args.nSteps):
     s.append(row)
     best_splitting.append(row_bs)
 
-
 for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the initialization of s[i,j] diagonal
     print "Scanning categories made of %i bins"%l
     for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
@@ -119,15 +130,15 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "         No cut"
                 print "         Merging bins from %i to %i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-                print "         Splitting is", bins
-                significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
-
             else:
                 print "         Cut between %i and %i"%(k-1, k)
                 print "         Use the splitting that provided best significance in categories %i-%i and %i-%i"%(i , k-1, k, j)
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
-                print "         Splitting is", bins
-                significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+            
+            print "         Splitting is", bins
+            significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+
+            if k!=i:
                 significance = significance/1.02 # we only want to split if the splitting gives at least 2% gain in significance
 
             if (significance > s[i][j]): 
