@@ -128,6 +128,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
     for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
         j = i + l - 1
         print "-----------------------------------------------------------"
+        print "   Solving problem P_%i%i"%(i,j)
         print "   Retrieveing best significance in category containing bins #%i-#%i"%(i, j)
         for k in range(i, j+1):
             best_splitting_ij = []
@@ -153,8 +154,8 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     print "This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
-                if ((len(bins)<len(best_splitting[i][j]))&(gain<-args.penalty)):
-                    print "This option doesn't increase number of subcategories, and the significance drops by just %f %%, so keep it."%(-gain)
+                if ((len(bins)<len(best_splitting[i][j]))&(gain>-args.penalty)):
+                    print "This option decreases number of subcategories from %i to %i, and the significance drops by just %f %%, so keep it."%(len(bins),len(best_splitting[i][j]), -gain)
                     this_option_is_actually_better = True
 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
@@ -170,7 +171,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 for jj in range(args.nSteps):
                     row = row + "%f "%s[ii][jj]
                 print row
-
+        print "   Problem P_%i%i solved! The latest reported result is optimal."%(i,j)
 
 
 for i in range(args.nSteps):
