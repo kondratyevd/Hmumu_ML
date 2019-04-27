@@ -38,7 +38,7 @@ case $1 in
 		method="DNNmulti"
 		min_var=1
 		max_var=3
-		nSteps=3
+		nSteps=5
 		;;	
 
 

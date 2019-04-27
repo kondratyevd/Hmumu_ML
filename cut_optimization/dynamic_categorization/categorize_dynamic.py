@@ -149,6 +149,6 @@ print "Best significance overall is %f and achieved when the splitting is "%(s[0
 print "Rescaling cut boundaries:"
 new_bins = []
 for i in range(len(best_bins)):
-    new_bins.append(min_var + best_bins[i]*step)
+    new_bins.append(args.min_var + best_bins[i]*step)
 print "Best cuts on MVA score are:"
 print best_bins, " --> ", new_bins
