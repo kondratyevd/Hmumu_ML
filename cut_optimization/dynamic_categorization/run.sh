@@ -65,6 +65,17 @@ case $1 in
 		nSteps=10
 		;;	
 
+	5)
+		echo 'Running option 5: BDT 10 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDT"
+		min_var=-1
+		max_var=1
+		nSteps=10
+		;;	
+
 	*)
 		echo 'Wrong option ' $1
 		;;	
