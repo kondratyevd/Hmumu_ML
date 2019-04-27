@@ -157,7 +157,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     print "This option decreases number of bins, and the significance drops by just %f %%, so keep it."%(-gain)
                     this_option_is_actually_better = True
 
-            if (((significance > s[i][j])&(consider_this_option))||(this_option_is_actually_better)): 
+            if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
                 print "Updating best significance."
                 s[i][j] = significance
                 best_splitting[i][j] = bins
