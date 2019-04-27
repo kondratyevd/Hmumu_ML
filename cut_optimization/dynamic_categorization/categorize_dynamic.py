@@ -21,6 +21,7 @@ parser.add_argument('--min_var', action='store', dest='min_var', help='min_var',
 parser.add_argument('--max_var', action='store', dest='max_var', help='max_var', type=float)
 parser.add_argument('--nSteps', action='store', dest='nSteps', help='nSteps', type=int)
 parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=float)
+parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
 args = parser.parse_args()
 
 
@@ -143,11 +144,11 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
             significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
             if k!=i:
-                significance = significance/1.02 # we only want to split if the splitting gives at least 2% gain in significance
+                significance = significance/(1+args.penalty/100.0) # we only want to split if the splitting gives at least <penalty>% gain in significance
 
             if (significance > s[i][j]): 
                 if k!=i:
-                    significance = significance*1.02 # revert
+                    significance = significance*(1+args.penalty/100.0) # revert
                 s[i][j] = significance
                 best_splitting[i][j] = bins
                 print "Best significance for category %i-%i is %f and achieved when the splitting is "%(i, j, significance), bins
@@ -158,6 +159,12 @@ for i in range(args.nSteps):
     for j in range(args.nSteps):
         row = row + "%f "%s[i][j]
     print row
+
+print "----------------------------------------"
+print "Here are the values that were memorized:"
+print already_tried
+print "----------------------------------------"
+
 
 best_bins = best_splitting[0][args.nSteps-1]
 print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), best_bins
