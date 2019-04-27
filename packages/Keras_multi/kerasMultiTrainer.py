@@ -124,9 +124,9 @@ class KerasMultiTrainer(object):
         self.labels = list(self.df.drop(['weight', 'weight_over_lumi']+self.spect_labels+self.category_labels, axis=1))
         self.df.reset_index(inplace=True, drop=True)
 
-        # print self.df["muPairs.mass[0]"]
+        # print self.df["muPairs.mass_Roch[0]"]
         # self.df = self.apply_cuts(self.df, self.framework.year)
-        # print self.df["muPairs.mass[0]"]
+        # print self.df["muPairs.mass_Roch[0]"]
 
         if self.framework.custom_loss:
             self.df = self.make_mass_bins(self.df, 10, 110, 150)
@@ -297,7 +297,7 @@ class KerasMultiTrainer(object):
 
         for index, row in df.iterrows():
             if isData:
-                mass["Data"][0]             = row["muPairs.mass[0]"]
+                mass["Data"][0]             = row["muPairs.mass_Roch[0]"]
                 max_abs_eta_mu["Data"][0]   = row["max_abs_eta_mu"]
                 min_abs_eta_mu["Data"][0]   = row["min_abs_eta_mu"]
                 weight["Data"][0]           = 1
@@ -318,7 +318,7 @@ class KerasMultiTrainer(object):
             else:
                 for category in category_list:
                     if row[category]==1:
-                        mass[category][0]             = row["muPairs.mass[0]"]
+                        mass[category][0]             = row["muPairs.mass_Roch[0]"]
                         max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
                         min_abs_eta_mu[category][0]   = row["min_abs_eta_mu"]
                         weight[category][0]           = row["weight"]
@@ -375,7 +375,7 @@ class KerasMultiTrainer(object):
         muon2_pt    = df['muons.pt[1]']
         muon1_ID    = df['muons.isMediumID[0]']
         muon2_ID    = df['muons.isMediumID[1]']
-        muPair_mass = df['muPairs.mass[0]']
+        muPair_mass = df['muPairs.mass_Roch[0]']
         nJets       = df['nJets']
 
         if year is "2016":
@@ -423,15 +423,15 @@ class KerasMultiTrainer(object):
         return df.loc[flag]
 
     def apply_training_cuts(self, df):
-        muPair_mass = df['muPairs.mass[0]']
+        muPair_mass = df['muPairs.mass_Roch[0]']
         flag =  ((muPair_mass>self.framework.massWindow[0])&
                 (muPair_mass<self.framework.massWindow[1]))
         return df.loc[flag]
 
     def make_mass_bins(self, df, nbins, min, max, isMC=True):
 
-        if "muPairs.mass[0]" not in df.columns:
-            print "Add muPairs.mass[0] to spectators!"
+        if "muPairs.mass_Roch[0]" not in df.columns:
+            print "Add muPairs.mass_Roch[0] to spectators!"
             return
 
         bin_width = float((max-min)/nbins)
@@ -440,7 +440,7 @@ class KerasMultiTrainer(object):
 
             for i in range(nbins):
                 df["mass_bin_%i"%i] = 0
-                df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
+                df.loc[(df["muPairs.mass_Roch[0]"]>min+i*bin_width) & (df["muPairs.mass_Roch[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
                 self.mass_bin_labels.append("mass_bin_%i"%i)
                 self.bkg_histogram.append(0)
     
@@ -460,5 +460,5 @@ class KerasMultiTrainer(object):
         else:
             for i in range(nbins):
                 df["mass_bin_%i"%i] = 0
-                df.loc[(df["muPairs.mass[0]"]>min+i*bin_width) & (df["muPairs.mass[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
+                df.loc[(df["muPairs.mass_Roch[0]"]>min+i*bin_width) & (df["muPairs.mass_Roch[0]"]<min+(i+1)*bin_width), "mass_bin_%i"%i] = 1
         return df
