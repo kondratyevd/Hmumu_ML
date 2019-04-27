@@ -99,7 +99,7 @@ best_splitting = [0, args.nSteps] # will store the best way to split the categor
 best_significance = 0
 
 
-for i in range(1, args.nIter+1): # number of iteration
+for i in range(0, args.nIter+1): # number of iteration. 0=inclusive
     print "Iteration %i of %i"%(i, args.nIter)
     for j in range(1, args.nSteps): # possible values of the boundary between categories
         print "   Try to split in j= %i"%(j)
