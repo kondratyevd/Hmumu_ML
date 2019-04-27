@@ -38,7 +38,7 @@ case $1 in
 		method="DNNmulti"
 		min_mva=1
 		max_mva=3
-		nSteps=2
+		nSteps=1
 		;;	
 
 
@@ -57,7 +57,8 @@ OUTPUT_PATH=output/test_run_$1/
 mkdir -p $TMP_PATH
 mkdir -p $OUTPUT_PATH
 
-python categorize_dynamic.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$TMP_PATH"  --data_tree "$DATA_TREE" --method $method --min_mva $min_mva --max_mva $max_mva --nSteps $nSteps --lumi $LUMI
+cd $TMP_PATH
+python $CURRENT_LOCATION/categorize_dynamic.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$TMP_PATH"  --data_tree "$DATA_TREE" --method $method --min_mva $min_mva --max_mva $max_mva --nSteps $nSteps --lumi $LUMI
 # for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
     # I stole that from some stackexchange topic, don't really know how it works
@@ -65,7 +66,7 @@ python categorize_dynamic.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_IN
     # echo $filename
     # combine -M Significance --expectSignal=1 -t -1 -n "$SUFF" -d $filename
 # done
-cd $TMP_PATH
+
 rm datacard*
 rm workspace*
 cd $CURRENT_LOCATION
