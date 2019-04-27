@@ -101,7 +101,12 @@ def get_significance(label, bins):
     tree.Add("higgsCombine%s.Significance.mH120.root"%label)
     for iev,  event in enumerate(tree):
         significance = event.limit
-    print "Expected significance =", significance
+    print "Expected significance %f calculated for bins"%significance, bins
+    print "Saving result as "+bins_str
+    already_tried[bins_str]=significance
+    print " "
+    print "############################################"
+    print " "
     return significance
 
 
