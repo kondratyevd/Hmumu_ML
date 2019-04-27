@@ -148,7 +148,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
                 if significance<sign_merged*(1+args.penalty/100.0):
                     improvement = ( significance - sign_merged )/sign_merged*100.0
-                    print "The improvement over merging is just %f \%, so skip this option."%(improvement)
+                    print "The improvement over merging is just %f %%, so skip this option."%(improvement)
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
 
