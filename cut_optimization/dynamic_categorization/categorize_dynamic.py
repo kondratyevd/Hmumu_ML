@@ -150,11 +150,11 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
 
                 gain = ( significance - s[i][j])/s[i][j]*100.0
                 if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
-                    print "This option increases number of bins from %i to %i, but the improvement is just %f %%, so skip."%(len(bins),len(best_splitting[i][j]),gain)
+                    print "This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
                 if ((len(bins)<len(best_splitting[i][j]))&(gain<-args.penalty)):
-                    print "This option doesn't increase number of bins, and the significance drops by just %f %%, so keep it."%(-gain)
+                    print "This option doesn't increase number of subcategories, and the significance drops by just %f %%, so keep it."%(-gain)
                     this_option_is_actually_better = True
 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
