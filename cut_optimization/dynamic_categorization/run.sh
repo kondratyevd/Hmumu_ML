@@ -62,6 +62,7 @@ case $1 in
 		min_var=0
 		max_var=2.4
 		nSteps=5
+		penalty=5
 		;;	
 
 
