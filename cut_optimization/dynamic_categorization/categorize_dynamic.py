@@ -149,12 +149,12 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
                 gain = ( significance - s[i][j])/s[i][j]*100.0
-                if (len(bins)>len(best_splitting[i][j])&(gain<args.penalty)):
-                    print "This option increases number of bins, but the improvement is just %f %%, so skip."%(gain)
+                if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
+                    print "This option increases number of bins from %i to %i, but the improvement is just %f %%, so skip."%(len(bins),len(best_splitting[i][j]),gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
-                if (len(bins)<len(best_splitting[i][j])&(gain<-args.penalty)):
-                    print "This option decreases number of bins, and the significance drops by just %f %%, so keep it."%(-gain)
+                if ((len(bins)<len(best_splitting[i][j]))&(gain<-args.penalty)):
+                    print "This option doesn't increase number of bins, and the significance drops by just %f %%, so keep it."%(-gain)
                     this_option_is_actually_better = True
 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
