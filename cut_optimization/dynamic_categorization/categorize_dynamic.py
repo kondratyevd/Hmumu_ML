@@ -127,7 +127,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
 
             if (significance > s[i][j]): 
                 s[i][j] = significance
-                best_splitting[i][j] = splitting
+                best_splitting[i][j] = bins
                 print "Best significance for category [%i, %i] is %f and achieved when the splitting is "%(i, j, significance), bins
 
 
