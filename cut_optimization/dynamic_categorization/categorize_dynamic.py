@@ -127,16 +127,17 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
     print "Scanning categories made of %i bins"%l
     for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
         j = i + l - 1
-        print "   Retrieveing best significance in category [%i, %i]"%(i, j)
+        print "-----------------------------------------------------------"
+        print "   Retrieveing best significance in category containing bins #%i-#%i"%(i, j)
         for k in range(i, j+1):
             best_splitting_ij = []
-            print "      What if we cut at k = %i?"%k
+            print "      k = %i"%k
             if k==i:
                 print "         No cut"
-                print "         Merging bins from %i to %i into a single category"%(i, j)
+                print "         Merging bins from #%i to #%i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
             else:
-                print "         Cut between %i and %i"%(k-1, k)
+                print "         Cut between #%i and #%i"%(k-1, k)
                 print "         Use the splitting that provided best significance in categories %i-%i and %i-%i"%(i , k-1, k, j)
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
             
@@ -151,7 +152,14 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     significance = significance*(1+args.penalty/100.0) # revert
                 s[i][j] = significance
                 best_splitting[i][j] = bins
-                print "Best significance for category %i-%i is %f and achieved when the splitting is "%(i, j, significance), bins
+            print "Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), best_splitting[i][j]
+            print "S_ij so far:"
+            for ii in range(args.nSteps):
+                row = ""
+                for jj in range(args.nSteps):
+                    row = row + "%f "%s[ii][jj]
+                print row
+
 
 
 for i in range(args.nSteps):
