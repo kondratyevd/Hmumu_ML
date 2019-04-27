@@ -132,6 +132,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
         for k in range(i, j+1):
             best_splitting_ij = []
             consider_this_option = True
+            this_option_is_actually_better = False
             print "      k = %i"%k
             if k==i:
                 print "         No cut"
@@ -146,16 +147,22 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
                 print "         Splitting is", bins
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
-                if significance<sign_merged*(1+args.penalty/100.0):
-                    improvement = ( significance - sign_merged )/sign_merged*100.0
-                    print "The improvement over merging is just %f %%, so skip this option."%(improvement)
+
+                gain = ( significance - s[i][j])/s[i][j]*100.0
+                if (len(bins)>len(best_splitting[i][j])&(gain<args.penalty)):
+                    print "This option increases number of bins, but the improvement is just %f %%, so skip."%(gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
+                if (len(bins)<len(best_splitting[i][j])&(gain<-args.penalty)):
+                    print "This option decreases number of bins, and the significance drops by just %f %%, so keep it."%(-gain)
+                    this_option_is_actually_better = True
 
-            if ((significance > s[i][j])&(consider_this_option)): 
+            if (((significance > s[i][j])&(consider_this_option))||(this_option_is_actually_better)): 
                 print "Updating best significance."
                 s[i][j] = significance
                 best_splitting[i][j] = bins
+
+
             print "Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), best_splitting[i][j]
             print "S_ij so far:"
             for ii in range(args.nSteps):
