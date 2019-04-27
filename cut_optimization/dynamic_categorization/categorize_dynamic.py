@@ -125,35 +125,10 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "         Splitting is", bins
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
-            # if (significance > s[i][j]): 
-            #     s[i][j] = significance
-            #     best_splitting[i][j] = splitting
-            #     print "Best significance for category [%i, %i] is %f and achieved when the splitting is "%(i, j, significance), splitting
-
-
-
-    # sliding_cut = args.min_mva+i*step
-    # print "--- Move sliding cut to %f -- "%(sliding_cut)
-
-    # new_mva_categories = {}
-    # new_mva_categories["mva0"] = '((%s>%f)&(%s<%f))'%(score, min_score, score, sliding_cut) # [min, cut]
-    # new_mva_categories["mva1"] = '((%s>%f)&(%s<%f))'%(score, sliding_cut, score, max_score) # [cut, max]
-    # new_mva_categories.update(exisiting_mva[args.option])
-    # print "Will use the following MVA categories:"
-    # print new_mva_categories
-    # create_datacard(new_mva_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_mva_%i"%(args.option, i), "workspace_dnn_option%s_mva_%i"%(args.option, i), nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
-
-    # print "Adding splitting by eta:"
-    # full_categories = {}
-    # for key_mva, value_mva in new_mva_categories.iteritems():
-    #   for key_eta, value_eta in eta_categories.iteritems():
-    #       new_key = "%s%s"%(key_mva, key_eta)
-    #       new_value = "(%s)&(%s)"%(value_mva, value_eta)
-    #       full_categories[new_key] = new_value
-    # print "Will use the following MVA and ETA categories:"
-    # print full_categories
-    # create_datacard(full_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_full_%i"%(args.option, i), "workspace_dnn_option%s_full_%i"%(args.option, i), nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
-
+            if (significance > s[i][j]): 
+                s[i][j] = significance
+                best_splitting[i][j] = splitting
+                print "Best significance for category [%i, %i] is %f and achieved when the splitting is "%(i, j, significance), bins
 
 
 for i in range(args.nSteps):
@@ -162,3 +137,11 @@ for i in range(args.nSteps):
         row = row + "%f "%s[i][j]
     print row
 
+best_bins = best_splitting[0][args.nSteps-1]
+print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), best_bins
+print "Rescaling cut boundaries:"
+new_bins = []
+for i in range(len(best_bins)):
+    new_bins.append(min_score + best_bins[i]*step)
+print "Best cuts on MVA score are:"
+print best_bins, " --> ", new_bins
