@@ -23,7 +23,7 @@ case $1 in
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
 		DATA_TREE="tree"
-		method="BDT"
+		method="BDTmva"
 		min_var=-1
 		max_var=1
 		nSteps=2
@@ -66,11 +66,11 @@ case $1 in
 		;;	
 
 	3.2)
-		echo 'Running option 3.1: Rapidity categorization (Roch corrected)'
+		echo 'Running option 3.2: Rapidity categorization (Roch corrected)'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
 		DATA_TREE="tree"
-		method="Rapidity_new"
+		method="Rapidity_BDT"
 		min_var=0
 		max_var=2.4
 		nSteps=5
@@ -93,7 +93,7 @@ case $1 in
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
 		DATA_TREE="tree"
-		method="BDT"
+		method="BDTmva"
 		min_var=-1
 		max_var=1
 		nSteps=10

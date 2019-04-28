@@ -61,7 +61,7 @@ def get_significance(label, bins):
         score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
         min_score = 1
         max_score = 3
-    elif "BDT" in args.method:
+    elif "BDTmva" in args.method:
         score = "MVA"
         min_score = -1
         max_score = 1
@@ -105,7 +105,7 @@ def get_significance(label, bins):
     for iev,  event in enumerate(tree):
         significance = event.limit
     os.system('rm higgsCombine%s.Significance.mH120.root'%label)
-    
+
     print "Expected significance %f calculated for bins"%significance, bins
     print "Saving result as "+bins_str
     already_tried[bins_str]=significance

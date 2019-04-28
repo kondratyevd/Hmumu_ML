@@ -52,7 +52,7 @@ def get_significance(label, bins):
         score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
         min_score = 1
         max_score = 3
-    elif "BDT" in args.method:
+    elif "BDTmva" in args.method:
         score = "MVA"
         min_score = -1
         max_score = 1
