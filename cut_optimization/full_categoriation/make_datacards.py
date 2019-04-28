@@ -67,13 +67,11 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
         tree_list = ROOT.TList()
-        py_tree_list = []
 
         ggh_tree = ROOT.TChain("tree_H2Mu_gg")
         ggh_tree.Add(input_path)
         ggh_tree_clone = ggh_tree.CloneTree()
         ggh_tree_clone.SetDirectory(0)
-        # py_tree_list.append(ggh_tree_clone)
         tree_list.Add(ggh_tree_clone)
 
 
@@ -81,7 +79,6 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         vbf_tree.Add(input_path)  
         vbf_tree_clone = vbf_tree.CloneTree()
         vbf_tree_clone.SetDirectory(0)  
-        # py_tree_list.append(vbf_tree_clone)
         tree_list.Add(vbf_tree_clone)
 
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
@@ -153,14 +150,21 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
-        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
-        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
-        ggh_tree.Add(input_path)
-        vbf_tree.Add(input_path)    
-
         tree_list = ROOT.TList()
-        tree_list.Add(ggh_tree)
-        tree_list.Add(vbf_tree)
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()  
@@ -267,14 +271,21 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
-        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
-        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
-        ggh_tree.Add(input_path)
-        vbf_tree.Add(input_path)    
-
         tree_list = ROOT.TList()
-        tree_list.Add(ggh_tree)
-        tree_list.Add(vbf_tree)
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
