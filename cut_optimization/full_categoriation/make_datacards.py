@@ -77,6 +77,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
+        print "Signal tree contains   %i entries in total."%signal_tree.GetEntries() 
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
         signal_tree = ROOT.TChain("tree")
