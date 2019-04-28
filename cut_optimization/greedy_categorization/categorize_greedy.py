@@ -123,8 +123,8 @@ for i in range(0, args.nIter+1): # number of iteration. 0=inclusive
         print "Old number of categories: %i"%(nCat_old-1)
         # if the number of categories is the same, we simply update significance
         # if the number of categories increases, we require at least <penalty>% gain
-        if (( (gain>args.penalty) and (nCat_old<nCat_new) ) or ( (gain>0) and (nCat_old==nCat_new) ) ):
-            "Updating significance."
+        if (( (gain > args.penalty) and (nCat_old < nCat_new) ) or ( (gain>0) and (nCat_old==nCat_new) ) ):
+            print "Updating best significance."
             best_significance = significance
             best_splitting = bins
     print "Best significance after %i iterations: %f for splitting"%(i, best_significance), best_splitting
