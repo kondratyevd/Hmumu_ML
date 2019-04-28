@@ -155,7 +155,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
                 if ((len(bins)<len(best_splitting[i][j]))&(gain>-args.penalty)):
-                    print "This option decreases number of subcategories from %i to %i, and the significance drops by just %f %%, so keep it."%(len(bins),len(best_splitting[i][j]), -gain)
+                    print "This option decreases number of subcategories from %i to %i, and the significance drops by just %f %%, so keep it."%(len(best_splitting[i][j]),len(bins), -gain)
                     this_option_is_actually_better = True
 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
