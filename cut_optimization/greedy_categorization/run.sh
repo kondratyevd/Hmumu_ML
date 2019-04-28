@@ -25,7 +25,9 @@ case $1 in
 		method="BDT"
 		min_var=-1
 		max_var=1
-		nSteps=1
+		nSteps=2
+		nIter=1
+		penalty=2
 		;;
 
 
