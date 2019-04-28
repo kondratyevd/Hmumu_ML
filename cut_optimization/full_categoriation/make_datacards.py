@@ -66,26 +66,42 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
+        tree_list = ROOT.TList()
+        py_tree_list = []
+
         ggh_tree = ROOT.TChain("tree_H2Mu_gg")
-        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
         ggh_tree.Add(input_path)
+        tree_list.Add(ggh_tree)
+        py_tree_list.append(ggh_tree)
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
         vbf_tree.Add(input_path)    
+        tree_list.Add(vbf_tree)
+        py_tree_list.append(vbf_tree)
 
-        ggh_tree.SetName("signal_tree")
-        vbf_tree.SetName("signal_tree")
 
-        ggh_tree.SetMakeClass(1)
-        vbf_tree.SetMakeClass(1)        
-        # tree_list = ROOT.TList()
-        # tree_list.Add(ggh_tree)
-        # tree_list.Add(vbf_tree)
-        signal_tree = ggh_tree.CloneTree()
-        signal_tree.SetMakeClass(1)
-        signal_tree.AddFriend(vbf_tree)
-        # signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
         print "Signal tree contains   %i entries in total."%signal_tree.GetEntries() 
+
+        ggh_hist_name = "ggh_%s"%cat_name
+        ggh_hist = ROOT.TH1D(ggh_hist_name, ggh_hist_name, 40, 110, 150)
+        dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
+        dummy.cd()
+        ggh_tree.Draw("mass>>%s"%(ggh_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+        dummy.Close()
+        ggh_rate = ggh_hist.Integral()
+        print "GGH rate:", ggh_rate
+
+        vbf_hist_name = "vbf_%s"%cat_name
+        vbf_hist = ROOT.TH1D(vbf_hist_name, vbf_hist_name, 40, 110, 150)
+        dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
+        dummy.cd()
+        vbf_tree.Draw("mass>>%s"%(vbf_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+        dummy.Close()
+        vbf_rate = vbf_hist.Integral()
+        print "VBF rate", vbf_rate
 
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
