@@ -26,7 +26,7 @@ case $1 in
 		method="BDT"
 		min_var=-1
 		max_var=1
-		nSteps=4
+		nSteps=2
 		penalty=5 # in %
 		;;
 
@@ -65,6 +65,17 @@ case $1 in
 		penalty=2
 		;;	
 
+	3.1)
+		echo 'Running option 3.1: Rapidity categorization (Roch corrected)'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="Rapidity_BDT"
+		min_var=0
+		max_var=2.4
+		nSteps=5
+		penalty=2
+		;;	
 
 	4)
 		echo 'Running option 3: DNN 10 categories'

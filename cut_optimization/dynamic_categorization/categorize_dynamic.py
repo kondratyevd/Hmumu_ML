@@ -180,17 +180,25 @@ for i in range(args.nSteps):
         row = row + "%f "%s[i][j]
     print row
 
+print "Solutions to all subproblems: "
+for i in range(args.nSteps):
+    for j in range(i, args.nSteps):
+        rescaled = []
+        for ii in range(len(best_splitting[i][j])):
+            rescaled.append(args.min_var + best_splitting[i][j][ii]*step)
+        print "P%i%i: "%(i, j), rescaled
+
 print "----------------------------------------"
 print "Here are the values that were memorized:"
 print already_tried
 print "----------------------------------------"
 
 
-best_bins = best_splitting[0][args.nSteps-1]
-print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), best_bins
-print "Rescaling cut boundaries:"
-new_bins = []
-for i in range(len(best_bins)):
-    new_bins.append(args.min_var + best_bins[i]*step)
-print "Best cuts on MVA score are:"
-print best_bins, " --> ", new_bins
+# best_bins = best_splitting[0][args.nSteps-1]
+# print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), best_bins
+# print "Rescaling cut boundaries:"
+# new_bins = []
+# for i in range(len(best_bins)):
+#     new_bins.append(args.min_var + best_bins[i]*step)
+# print "Best cuts on MVA score are:"
+# print best_bins, " --> ", new_bins
