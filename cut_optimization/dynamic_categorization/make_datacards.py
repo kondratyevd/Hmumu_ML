@@ -36,7 +36,7 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
     data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    data_tree.Draw("mass_Roch>>%s"%(data_hist_name), cut)
+    data_tree.Draw("mass>>%s"%(data_hist_name), cut)
     dummy.Close()
     if "binary" in method:
         data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
@@ -96,7 +96,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -175,7 +175,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -296,7 +296,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -367,7 +367,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
