@@ -186,7 +186,7 @@ for i in range(args.nSteps):
         rescaled = []
         for ii in range(len(best_splitting[i][j])):
             rescaled.append(args.min_var + best_splitting[i][j][ii]*step)
-        print "P%i%i: "%(i, j), rescaled
+        print "P%i%i: "%(i, j), rescaled, "significance = %f"%s[i][j]
 
 print "----------------------------------------"
 print "Here are the values that were memorized:"
