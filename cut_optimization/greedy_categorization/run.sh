@@ -107,15 +107,8 @@ mkdir -p $OUTPUT_PATH
 
 cd $TMP_PATH
 python $CURRENT_LOCATION/categorize_greedy.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$TMP_PATH"  --data_tree "$DATA_TREE" --method $method --min_var $min_var --max_var $max_var --nSteps $nSteps --lumi $LUMI --nIter $nIter --penalty $penalty
-# for filename in *.txt; do
-    # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
-    # I stole that from some stackexchange topic, don't really know how it works
-    # SUFF=$(echo "$filename" | sed "s|datacard\(.*\)\.txt|\1|");
-    # echo $filename
-    # combine -M Significance --expectSignal=1 -t -1 -n "$SUFF" -d $filename
-# done
 
-rm datacard*
-rm workspace*
+# rm datacard*
+# rm workspace*
 cd $CURRENT_LOCATION
 cp "$TMP_PATH"/* "$OUTPUT_PATH"
