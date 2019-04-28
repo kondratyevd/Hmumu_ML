@@ -9,8 +9,8 @@ case $1 in
 
 	0)
 		echo 'Running option 0: inclusive'
-		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
-		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
 		DATA_TREE="tree_Data"
 		method="DNNmulti"
 		min_var=1
@@ -33,8 +33,8 @@ case $1 in
 
 	2)
 		echo 'Running option 2: DNN'
-		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
-		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
 		DATA_TREE="tree_Data"
 		method="DNNmulti"
 		min_var=1
@@ -44,8 +44,8 @@ case $1 in
 
 	2.1)
 		echo 'Running option 2.1: DNN'
-		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
-		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
 		DATA_TREE="tree_Data"
 		method="DNNmulti"
 		min_var=1
@@ -55,8 +55,8 @@ case $1 in
 
 	3)
 		echo 'Running option 3: Rapidity categorization'
-		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
-		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
 		DATA_TREE="tree_Data"
 		method="Rapidity_multi"
 		min_var=0
@@ -78,14 +78,15 @@ case $1 in
 		;;	
 
 	4)
-		echo 'Running option 3: DNN 10 categories'
-		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
-		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-21_11-06-40/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		echo 'Running option 4: DNN 10 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
 		DATA_TREE="tree_Data"
 		method="DNNmulti"
 		min_var=1
 		max_var=3
 		nSteps=10
+		penalty=2
 		;;	
 
 	5)
@@ -97,6 +98,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=10
+		penalty=2
 		;;	
 
 	*)
