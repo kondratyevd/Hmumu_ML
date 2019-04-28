@@ -43,21 +43,25 @@ c.add_variable("muPairs.pt", 				1)
 c.add_variable("muPairs.eta", 				1)
 c.add_variable("muPairs.cosThetaCS", 		1) 
 c.add_variable("muPairs.phiCS",				1)
+c.add_variable("jets.pt",					2)
+c.add_variable("jets.eta",					1)
+c.add_variable("jetPairs.dEta",				1)
+c.add_variable("jetPairs.dPhi",				1)
+c.add_variable("jetPairs.mass",				1)
 c.add_variable("met.pt", 					1)
-
+c.add_variable("zeppenfeld",				1)
+c.add_variable("nBMed",						1)
+c.add_variable("nJets", 					1)
+c.add_variable("min_dR_mu_jet", 		 	1)
 c.add_variable("mu1_pt_Roch_over_mass", 	1)
 c.add_variable("mu2_pt_Roch_over_mass", 	1)
 c.add_variable('muons.eta',					2)
-c.add_variable("min_dR_mu_jet", 		 	1)
-c.add_variable("nJets", 					1)
-c.add_variable("nBMed",						1)
-c.add_variable("zeppenfeld",				1)
 
-c.add_variable("jets.pt",					2)
-c.add_variable("jets.eta",					1)
-c.add_variable("jetPairs.mass",				1)
-c.add_variable("jetPairs.dEta",				1)
-c.add_variable("jetPairs.dPhi",				1)
+
+
+
+
+
 
 
 
