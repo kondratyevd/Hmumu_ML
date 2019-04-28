@@ -74,10 +74,13 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         ggh_tree.SetName("signal_tree")
         vbf_tree.SetName("signal_tree")
 
+        ggh_tree.SetMakeClass(1)
+        vbf_tree.SetMakeClass(1)        
         # tree_list = ROOT.TList()
         # tree_list.Add(ggh_tree)
         # tree_list.Add(vbf_tree)
         signal_tree = ggh_tree.CloneTree()
+        signal_tree.SetMakeClass(1)
         signal_tree.AddFriend(vbf_tree)
         # signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
