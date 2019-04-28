@@ -100,8 +100,8 @@ mva_cut_full = [
 ]
 
 
-# categories_inclusive = {"cat0": "1"}
-# create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_inclusive"%args.option, "workspace_dnn_option%s_inclusive"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
+categories_inclusive = {"cat0": "1"}
+create_datacard(categories_inclusive, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_dnn_option%s_inclusive"%args.option, "workspace_dnn_option%s_inclusive"%args.option, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=lumi)
 
 categories_full = {}
 for i in range(len(eta_cut_full)):
