@@ -115,12 +115,12 @@ for i in range(0, args.nIter+1): # number of iteration. 0=inclusive
             gain = ( significance - best_significance)/best_significance*100.0
         else:
             gain = 999
-            
+
         nCat_new = len(bins)
         nCat_old = len(best_splitting)
         print "Gain is %f %%"%gain
-        print "New number of categories: %i"%nCat_new
-        print "Old number of categories: %i"%nCat_old
+        print "New number of categories: %i"%(nCat_new-1)
+        print "Old number of categories: %i"%(nCat_old-1)
         # if the number of categories is the same, we simply update significance
         # if the number of categories increases, we require at least <penalty>% gain
         if (( (gain>args.penalty) and (nCat_old<nCat_new) ) or ( (gain>0) and (nCat_old==nCat_new) ) ):
