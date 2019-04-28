@@ -106,7 +106,7 @@ best_significance = get_significance("0_0", best_splitting) # inclusive
 for i in range(1, args.nIter+1):
     print "Iteration %i of %i"%(i, args.nIter)
     best_splitting_for_this_iteration = []
-    best_splitting_for_this_iteration = 0
+    best_significance_for_this_iteration = 0
     for j in range(0, args.nSteps): # possible values of the boundary between categories
         print "   Try to split in j= %i"%(j)
         if j in set(best_splitting):
@@ -120,17 +120,15 @@ for i in range(1, args.nIter+1):
         else:
             gain = 999
 
-        nCat_new = len(bins)
-        nCat_old = len(best_splitting)
-        print "Gain is %f %%"%gain
-        print "New number of categories: %i"%(nCat_new-1)
-        print "Old number of categories: %i"%(nCat_old-1)
-        # if the number of categories is the same, we simply update significance
-        # if the number of categories increases, we require at least <penalty>% gain
-        if (( (gain > args.penalty) and (nCat_old < nCat_new) ) or ( (significance>best_significance_for_this_iteration) and (nCat_old==nCat_new) ) ):
+        print "Gain w.r.t. previous iteration is %f %%"%gain
+        print "Best significance in this iteration has been so far %f, new value is %f, so"%(best_significance_for_this_iteration, significance)
+        if ( (gain > args.penalty) and (significance > best_significance_for_this_iteration)  ):
             print "Updating best significance."
             best_significance_for_this_iteration = significance
             best_splitting_for_this_iteration = bins
+        else:
+            print "Don't update significance."
+
     print "Best significance after %i iterations: %f for splitting"%(i, best_significance_for_this_iteration), best_splitting_for_this_iteration
     best_splitting = best_splitting_for_this_iteration
     best_significance = best_significance_for_this_iteration
