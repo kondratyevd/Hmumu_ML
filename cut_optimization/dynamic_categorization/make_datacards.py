@@ -36,7 +36,7 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
     data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    data_tree.Draw("mass>>%s"%(data_hist_name), cut)
+    data_tree.Draw("mass_Roch>>%s"%(data_hist_name), cut)
     dummy.Close()
     if "binary" in method:
         data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
@@ -66,14 +66,69 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
-        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
-        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
-        ggh_tree.Add(input_path)
-        vbf_tree.Add(input_path)    
-
         tree_list = ROOT.TList()
-        tree_list.Add(ggh_tree)
-        tree_list.Add(vbf_tree)
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
@@ -89,7 +144,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -140,14 +195,69 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
-        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
-        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
-        ggh_tree.Add(input_path)
-        vbf_tree.Add(input_path)    
-
         tree_list = ROOT.TList()
-        tree_list.Add(ggh_tree)
-        tree_list.Add(vbf_tree)
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()  
@@ -161,7 +271,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -254,14 +364,69 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
-        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
-        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
-        ggh_tree.Add(input_path)
-        vbf_tree.Add(input_path)    
-
         tree_list = ROOT.TList()
-        tree_list.Add(ggh_tree)
-        tree_list.Add(vbf_tree)
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
@@ -275,7 +440,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
@@ -318,14 +483,69 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
         tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
 
-        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
-        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
-        ggh_tree.Add(input_path)
-        vbf_tree.Add(input_path)    
-
         tree_list = ROOT.TList()
-        tree_list.Add(ggh_tree)
-        tree_list.Add(vbf_tree)
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
+        signal_tree = ROOT.TTree.MergeTrees(tree_list)
+        tree_list = ROOT.TList()
+
+        ggh_tree = ROOT.TChain("tree_H2Mu_gg")
+        ggh_tree.Add(input_path)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        tree_list.Add(ggh_tree_clone)
+
+
+        vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
+        vbf_tree.Add(input_path)  
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        tree_list.Add(vbf_tree_clone)
+
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
@@ -339,7 +559,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
-    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
+    signal_tree.Draw("mass_Roch>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
     print signal_rate
