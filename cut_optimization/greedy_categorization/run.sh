@@ -64,6 +64,7 @@ case $1 in
 		max_var=2.4
 		nSteps=5
 		penalty=2
+		nIter=2
 		;;	
 
 	4)
