@@ -107,9 +107,9 @@ best_significance = 0
 
 for i in range(0, args.nIter+1): # number of iteration. 0=inclusive
     print "Iteration %i of %i"%(i, args.nIter)
+    best_splitting_for_this_iteration = []
     for j in range(0, args.nSteps): # possible values of the boundary between categories
         print "   Try to split in j= %i"%(j)
-        best_splitting_for_this_iteration = []
         if j in set(best_splitting):
             "   j=%i is already present in splitting:"%(j), best_splitting
             continue
