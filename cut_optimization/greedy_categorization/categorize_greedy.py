@@ -87,57 +87,57 @@ def get_significance(label, bins):
     create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
 
     os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt'%(label, label))
-    os.system('rm datacard_%s.txt'%label)
-    os.system('rm workspace_%s.root'%label)  
+    # os.system('rm datacard_%s.txt'%label)
+    # os.system('rm workspace_%s.root'%label)  
 
-    significance = 0
-    tree = ROOT.TChain("limit")
-    tree.Add("higgsCombine%s.Significance.mH120.root"%label)
-    os.system('rm higgsCombine%s.Significance.mH120.root'%label)
+    # significance = 0
+    # tree = ROOT.TChain("limit")
+    # tree.Add("higgsCombine%s.Significance.mH120.root"%label)
+    # os.system('rm higgsCombine%s.Significance.mH120.root'%label)
 
-    for iev,  event in enumerate(tree):
-        significance = event.limit
-    print "Expected significance =", significance
-    return significance
+    # for iev,  event in enumerate(tree):
+    #     significance = event.limit
+    # print "Expected significance =", significance
+    # return significance
 
 
 best_splitting = [0, args.nSteps] # will store the best way to split the category containing bins i through j
 
 best_significance = get_significance("0_0", best_splitting) # inclusive
 
-for i in range(1, args.nIter+1):
-    print "Iteration %i of %i"%(i, args.nIter)
-    best_splitting_for_this_iteration = []
-    for j in range(0, args.nSteps): # possible values of the boundary between categories
-        print "   Try to split in j= %i"%(j)
-        if j in set(best_splitting):
-            "   j=%i is already present in splitting:"%(j), best_splitting
-            continue
-        bins = sorted(list(set(best_splitting) | set([j])))
-        significance = get_significance("%i_%i"%(i, j), bins)
+# for i in range(1, args.nIter+1):
+#     print "Iteration %i of %i"%(i, args.nIter)
+#     best_splitting_for_this_iteration = []
+#     for j in range(0, args.nSteps): # possible values of the boundary between categories
+#         print "   Try to split in j= %i"%(j)
+#         if j in set(best_splitting):
+#             "   j=%i is already present in splitting:"%(j), best_splitting
+#             continue
+#         bins = sorted(list(set(best_splitting) | set([j])))
+#         significance = get_significance("%i_%i"%(i, j), bins)
 
-        if best_significance:
-            gain = ( significance - best_significance)/best_significance*100.0
-        else:
-            gain = 999
+#         if best_significance:
+#             gain = ( significance - best_significance)/best_significance*100.0
+#         else:
+#             gain = 999
 
-        nCat_new = len(bins)
-        nCat_old = len(best_splitting)
-        print "Gain is %f %%"%gain
-        print "New number of categories: %i"%(nCat_new-1)
-        print "Old number of categories: %i"%(nCat_old-1)
-        # if the number of categories is the same, we simply update significance
-        # if the number of categories increases, we require at least <penalty>% gain
-        if (( (gain > args.penalty) and (nCat_old < nCat_new) ) or ( (gain>0) and (nCat_old==nCat_new) ) ):
-            print "Updating best significance."
-            best_significance = significance
-            best_splitting_for_this_iteration = bins
-    print "Best significance after %i iterations: %f for splitting"%(i, best_significance), best_splitting_for_this_iteration
-    best_splitting = best_splitting_for_this_iteration
+#         nCat_new = len(bins)
+#         nCat_old = len(best_splitting)
+#         print "Gain is %f %%"%gain
+#         print "New number of categories: %i"%(nCat_new-1)
+#         print "Old number of categories: %i"%(nCat_old-1)
+#         # if the number of categories is the same, we simply update significance
+#         # if the number of categories increases, we require at least <penalty>% gain
+#         if (( (gain > args.penalty) and (nCat_old < nCat_new) ) or ( (gain>0) and (nCat_old==nCat_new) ) ):
+#             print "Updating best significance."
+#             best_significance = significance
+#             best_splitting_for_this_iteration = bins
+#     print "Best significance after %i iterations: %f for splitting"%(i, best_significance), best_splitting_for_this_iteration
+#     best_splitting = best_splitting_for_this_iteration
 
-print "Rescaling cut boundaries:"
-new_bins = []
-for i in range(len(best_splitting)):
-    new_bins.append(args.min_var + best_splitting[i]*step)
-print "Best cuts on MVA score are:"
-print best_splitting, " --> ", new_bins
+# print "Rescaling cut boundaries:"
+# new_bins = []
+# for i in range(len(best_splitting)):
+#     new_bins.append(args.min_var + best_splitting[i]*step)
+# print "Best cuts on MVA score are:"
+# print best_splitting, " --> ", new_bins
