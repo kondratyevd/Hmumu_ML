@@ -67,7 +67,7 @@ c.weigh_by_event(True)
 c.add_package("TMVA")
 
 c.add_method("BDTG_UCSD")
-c.setApplication(outPath="/home/dkondra/tmp/BDTG_Raffaele/", xmlPath="/home/dkondra/Hmumu_analysis/Hmumu_ML/test_raffaele/TMVAClassification_bdt_raffaele_BDTG_UCSD.weights.xml")
+c.setApplication(outPath="/home/dkondra/tmp/BDTG_Raffaele/", xmlPath="/home/dkondra/Hmumu_analysis/Hmumu_ML/test_raffaele/TMVAClassification_BDTG.weights.inclusive.xml")
 c.hasMass = True
 
 
