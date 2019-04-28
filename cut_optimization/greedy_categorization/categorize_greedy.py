@@ -130,8 +130,9 @@ for i in range(1, args.nIter+1):
             print "Don't update significance."
 
     print "Best significance after %i iterations: %f for splitting"%(i, best_significance_for_this_iteration), best_splitting_for_this_iteration
-    best_splitting = best_splitting_for_this_iteration
-    best_significance = best_significance_for_this_iteration
+    if best_significance_for_this_iteration:
+        best_splitting = best_splitting_for_this_iteration
+        best_significance = best_significance_for_this_iteration
 
 print "Rescaling cut boundaries:"
 new_bins = []
