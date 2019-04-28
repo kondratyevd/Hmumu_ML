@@ -101,11 +101,11 @@ def get_significance(label, bins):
     return significance
 
 
-best_splitting = [args.nSteps] # will store the best way to split the category containing bins i through j
-best_significance = 0
+best_splitting = [0, args.nSteps] # will store the best way to split the category containing bins i through j
 
+best_significance = get_significance("0_0", bins) # inclusive
 
-for i in range(0, args.nIter+1): # number of iteration. 0=inclusive
+for i in range(1, args.nIter+1):
     print "Iteration %i of %i"%(i, args.nIter)
     best_splitting_for_this_iteration = []
     for j in range(0, args.nSteps): # possible values of the boundary between categories
