@@ -65,7 +65,7 @@ case $1 in
 		penalty=2
 		;;	
 
-	3.1)
+	3.2)
 		echo 'Running option 3.1: Rapidity categorization (Roch corrected)'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"

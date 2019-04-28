@@ -56,8 +56,8 @@ case $1 in
 		nSteps=5
 		;;	
 
-	3.1)
-		echo 'Running option 3.1: Rapidity categorization (Roch corrected)'
+	3.2)
+		echo 'Running option 3.2: Rapidity categorization (Roch corrected)'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
 		DATA_TREE="tree"
