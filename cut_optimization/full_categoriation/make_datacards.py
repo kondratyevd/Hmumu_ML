@@ -71,11 +71,13 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
 
         ggh_tree = ROOT.TChain("tree_H2Mu_gg")
         ggh_tree.Add(input_path)
+        ggh_tree.SetDirectory(0)
         tree_list.Add(ggh_tree)
         py_tree_list.append(ggh_tree)
 
         vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
-        vbf_tree.Add(input_path)    
+        vbf_tree.Add(input_path)  
+        vbf_tree.SetDirectory(0)  
         tree_list.Add(vbf_tree)
         py_tree_list.append(vbf_tree)
 
