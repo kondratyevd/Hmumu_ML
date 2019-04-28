@@ -87,20 +87,18 @@ def get_significance(label, bins):
     create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
 
     os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt'%(label, label))
-    os.system('pwd')
-    os.system('ls')
-    # os.system('rm datacard_%s.txt'%label)
-    # os.system('rm workspace_%s.root'%label)  
+    os.system('rm datacard_%s.txt'%label)
+    os.system('rm workspace_%s.root'%label)  
 
-    # significance = 0
-    # tree = ROOT.TChain("limit")
-    # tree.Add("higgsCombine%s.Significance.mH120.root"%label)
-    # os.system('rm higgsCombine%s.Significance.mH120.root'%label)
+    significance = 0
+    tree = ROOT.TChain("limit")
+    tree.Add("higgsCombine%s.Significance.mH120.root"%label)
+    os.system('rm higgsCombine%s.Significance.mH120.root'%label)
 
-    # for iev,  event in enumerate(tree):
-    #     significance = event.limit
-    # print "Expected significance =", significance
-    # return significance
+    for iev,  event in enumerate(tree):
+        significance = event.limit
+    print "Expected significance =", significance
+    return significance
 
 
 best_splitting = [0, args.nSteps] # will store the best way to split the category containing bins i through j
