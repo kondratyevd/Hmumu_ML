@@ -103,7 +103,7 @@ def get_significance(label, bins):
 
 best_splitting = [0, args.nSteps] # will store the best way to split the category containing bins i through j
 
-best_significance = get_significance("0_0", bins) # inclusive
+best_significance = get_significance("0_0", best_splitting) # inclusive
 
 for i in range(1, args.nIter+1):
     print "Iteration %i of %i"%(i, args.nIter)
