@@ -71,6 +71,9 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         ggh_tree.Add(input_path)
         vbf_tree.Add(input_path)    
 
+        ggh_tree.SetName("signal_tree")
+        vbf_tree.SetName("signal_tree")
+
         tree_list = ROOT.TList()
         tree_list.Add(ggh_tree)
         tree_list.Add(vbf_tree)
