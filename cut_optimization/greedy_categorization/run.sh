@@ -61,7 +61,7 @@ case $1 in
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
 		DATA_TREE="tree"
-		method="Rapidity_BDT"
+		method="Rapidity_new"
 		min_var=0
 		max_var=2.4
 		nSteps=5
