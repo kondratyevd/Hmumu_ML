@@ -111,7 +111,11 @@ for i in range(0, args.nIter+1): # number of iteration. 0=inclusive
         bins = sorted(list(set(best_splitting) | set([j])))
         significance = get_significance("%i_%i"%(i, j), bins)
 
-        gain = ( significance - best_significance)/best_significance*100.0
+        if best_significance:
+            gain = ( significance - best_significance)/best_significance*100.0
+        else:
+            gain = 999
+            
         nCat_new = len(bins)
         nCat_old = len(best_splitting)
         print "Gain is %f %%"%gain
