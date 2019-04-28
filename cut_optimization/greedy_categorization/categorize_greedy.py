@@ -22,6 +22,8 @@ parser.add_argument('--max_var', action='store', dest='max_var', help='max_var',
 parser.add_argument('--nSteps', action='store', dest='nSteps', help='nSteps', type=int)
 parser.add_argument('--nIter', action='store', dest='nIter', help='nIter', type=int)
 parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=float)
+parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
+
 args = parser.parse_args()
 
 
@@ -109,7 +111,16 @@ for i in range(0, args.nIter+1): # number of iteration. 0=inclusive
         bins = sorted(list(set(best_splitting) | set([j])))
         significance = get_significance("%i_%i"%(i, j), bins)
 
-        if (significance>best_significance*1.02):
+        gain = ( significance - best_significance)/best_significance*100.0
+        nCat_new = len(bins)
+        nCat_old = len(best_splitting)
+        print "Gain is %f %%"%gain
+        print "New number of categories: %i"%nCat_new
+        print "Old number of categories: %i"%nCat_old
+        # if the number of categories is the same, we simply update significance
+        # if the number of categories increases, we require at least <penalty>% gain
+        if (( (gain>args.penalty) and (nCat_old<nCat_new) ) or ( (gain>0) and (nCat_old==nCat_new) ) ):
+            "Updating significance."
             best_significance = significance
             best_splitting = bins
     print "Best significance after %i iterations: %f for splitting"%(i, best_significance), best_splitting

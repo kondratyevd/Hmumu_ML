@@ -54,6 +54,17 @@ case $1 in
 		nSteps=5
 		;;	
 
+	3.1)
+		echo 'Running option 3.1: Rapidity categorization (Roch corrected)'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="Rapidity_BDT"
+		min_var=0
+		max_var=2.4
+		nSteps=5
+		penalty=2
+		;;	
 
 	4)
 		echo 'Running option 3: DNN 10 categories'
@@ -92,7 +103,7 @@ mkdir -p $TMP_PATH
 mkdir -p $OUTPUT_PATH
 
 cd $TMP_PATH
-python $CURRENT_LOCATION/categorize_greedy.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$TMP_PATH"  --data_tree "$DATA_TREE" --method $method --min_var $min_var --max_var $max_var --nSteps $nSteps --lumi $LUMI --nIter $nIter
+python $CURRENT_LOCATION/categorize_greedy.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$TMP_PATH"  --data_tree "$DATA_TREE" --method $method --min_var $min_var --max_var $max_var --nSteps $nSteps --lumi $LUMI --nIter $nIter --penalty $penalty
 # for filename in *.txt; do
     # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
     # I stole that from some stackexchange topic, don't really know how it works
