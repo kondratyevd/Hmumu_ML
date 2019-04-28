@@ -106,6 +106,7 @@ best_significance = get_significance("0_0", best_splitting) # inclusive
 for i in range(1, args.nIter+1):
     print "Iteration %i of %i"%(i, args.nIter)
     best_splitting_for_this_iteration = []
+    best_splitting_for_this_iteration = 0
     for j in range(0, args.nSteps): # possible values of the boundary between categories
         print "   Try to split in j= %i"%(j)
         if j in set(best_splitting):
@@ -126,12 +127,13 @@ for i in range(1, args.nIter+1):
         print "Old number of categories: %i"%(nCat_old-1)
         # if the number of categories is the same, we simply update significance
         # if the number of categories increases, we require at least <penalty>% gain
-        if (( (gain > args.penalty) and (nCat_old < nCat_new) ) or ( (gain>0) and (nCat_old==nCat_new) ) ):
+        if (( (gain > args.penalty) and (nCat_old < nCat_new) ) or ( (significance>best_significance_for_this_iteration) and (nCat_old==nCat_new) ) ):
             print "Updating best significance."
-            best_significance = significance
+            best_significance_for_this_iteration = significance
             best_splitting_for_this_iteration = bins
-    print "Best significance after %i iterations: %f for splitting"%(i, best_significance), best_splitting_for_this_iteration
+    print "Best significance after %i iterations: %f for splitting"%(i, best_significance_for_this_iteration), best_splitting_for_this_iteration
     best_splitting = best_splitting_for_this_iteration
+    best_significance = best_significance_for_this_iteration
 
 print "Rescaling cut boundaries:"
 new_bins = []
