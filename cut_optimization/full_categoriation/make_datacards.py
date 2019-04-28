@@ -71,19 +71,21 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
 
         ggh_tree = ROOT.TChain("tree_H2Mu_gg")
         ggh_tree.Add(input_path)
-        ggh_tree.SetDirectory(0)
-        py_tree_list.append(ggh_tree)
-        tree_list.Add(ggh_tree)
+        ggh_tree_clone = ggh_tree.CloneTree()
+        ggh_tree_clone.SetDirectory(0)
+        py_tree_list.append(ggh_tree_clone)
+        tree_list.Add(ggh_tree_clone)
 
 
         vbf_tree = ROOT.TChain("tree_H2Mu_VBF")
         vbf_tree.Add(input_path)  
-        vbf_tree.SetDirectory(0)  
-        py_tree_list.append(vbf_tree)
-        tree_list.Add(vbf_tree)
+        vbf_tree_clone = vbf_tree.CloneTree()
+        vbf_tree_clone.SetDirectory(0)  
+        py_tree_list.append(vbf_tree_clone)
+        tree_list.Add(vbf_tree_clone)
 
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
-        
+
         print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
         print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
         print "Signal tree contains   %i entries in total."%signal_tree.GetEntries() 
@@ -104,7 +106,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         vbf_tree.Draw("mass>>%s"%(vbf_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
         dummy.Close()
         vbf_rate = vbf_hist.Integral()
-        print "VBF rate", vbf_rate
+        print "VBF rate:", vbf_rate
 
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
