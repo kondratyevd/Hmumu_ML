@@ -97,6 +97,14 @@ case $1 in
 		method="BDT"
 		;;
 
+	3.3)
+		echo 'Running option 3.3'
+		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		;;	
+
 	3.4)
 		echo 'Running option 3.4'
 		SIG_INPUT_PATH="/scratch/gilbreth/dkondra/ML_output/Run_2019-04-23_09-45-55/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
