@@ -48,10 +48,10 @@ def get_significance(label, bins):
         bins_str = bins_str+"%f_"%bins[i]
     bins_str = bins_str+"%f"%bins[len(bins)-1]
 
-    if bins_str in already_tried.keys():
-        print "    We already saw bins ", bins
-        print "     and the significance for them was ", already_tried[bins_str]
-        return already_tried[bins_str]
+    # if bins_str in already_tried.keys():
+    #     print "    We already saw bins ", bins
+    #     print "     and the significance for them was ", already_tried[bins_str]
+    #     return already_tried[bins_str]
 
     if "binary" in args.method:
         score = "sig_prediction"
@@ -151,7 +151,18 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "         Use the splitting that provided best significance in categories %i-%i and %i-%i"%(i , k-1, k, j)
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
                 print "         Splitting is", bins
-                significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+
+                bins_str = ""
+                for i in range(len(bins)-1):
+                    bins_str = bins_str+"%f_"%bins[i]
+                bins_str = bins_str+"%f"%bins[len(bins)-1]
+
+                if bins_str in already_tried.keys():
+                    print "    We already saw bins ", bins
+                    print "     and the significance for them was ", already_tried[bins_str]
+                    significance = already_tried[bins_str]
+                else:
+                    significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
                 gain = ( significance - s[i][j])/s[i][j]*100.0
                 if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
