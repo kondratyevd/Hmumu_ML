@@ -53,7 +53,7 @@ def bins_to_illustration(bins):
     for iii in range(args.nSteps):
         if (iii>0) and (iii in bins):
             result = result+"|"
-        result = result+"%i"%bins[iii]
+        result = result+"%i"%iii
     return result
 
 def get_significance(label, bins):
