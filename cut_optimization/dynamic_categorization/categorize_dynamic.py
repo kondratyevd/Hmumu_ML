@@ -164,7 +164,11 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 else:
                     significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
-                gain = ( significance - s[i][j])/s[i][j]*100.0
+                print "Best s[%i][%i] so far was %f"%(i, j, s[i][j])
+                if s[i][j]:
+                    gain = ( significance - s[i][j] ) / s[i][j]*100.0
+                else:
+                    gain = -999
                 if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
                     print "This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
@@ -174,7 +178,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     this_option_is_actually_better = True
 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
-                print "Updating best significance."
+                print "Updating best significance: now s[%i][%j] = "%(i,j), s[i][j]
                 s[i][j] = significance
                 best_splitting[i][j] = bins
 
