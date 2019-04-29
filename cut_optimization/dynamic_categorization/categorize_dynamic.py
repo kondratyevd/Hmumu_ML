@@ -52,9 +52,9 @@ def bins_to_illustration(min, max, bins):
     result = ""
     for iii in range(min, max):
         if (iii in bins):
-            result = result+"|"
-        result = result+"%i"%iii
-    result = result+"|"
+            result = result+"| "
+        result = result+"%i "%iii
+    result = result+"| "
     return result
 
 def get_significance(label, bins):
@@ -159,8 +159,8 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "   Continue solving P_%i%i!"%(i,j)
                 print "   Cut between #%i and #%i"%(k-1, k)
                 print "   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j)
-                print "   ",best_splitting[i][k-1]
-                print "   ",best_splitting[k][j]
+                print "   ",best_splitting[i][k-1], "s[%i][%i] = %f"%(i, k-1, s[i][k-1])
+                print "   ",best_splitting[k][j], "s[%i][%i] = %f"%(k,j, s[k][j])
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
                 print "   Splitting is", bins_to_illustration(i, j+1, bins)
 
@@ -183,14 +183,14 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     gain = ( significance - s[i][j] ) / s[i][j]*100.0
                 else:
                     gain = -999
-                print "   Before this option the best s[%i][%i] was %f for splitting. "%(i, j, s[i][j]), best_splitting[i][j]
+                print "   Before this option the best s[%i][%i] was %f for splitting "%(i, j, s[i][j]), best_splitting[i][j]
                 print "   We gain %f %% if we use the new option."%gain
                 if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
-                    print "    This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
+                    print "     This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
                 if ((len(bins)<len(best_splitting[i][j]))&(gain>-args.penalty)):
-                    print "    This option decreases number of subcategories from %i to %i, and the significance drops by just %f %%, so keep it."%(len(best_splitting[i][j]),len(bins), -gain)
+                    print "     This option decreases number of subcategories from %i to %i, and the significance drops by just %f %%, so keep it."%(len(best_splitting[i][j]),len(bins), -gain)
                     this_option_is_actually_better = True
 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
@@ -201,7 +201,6 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "   Don't update best significance."
 
 
-            print "   Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
             print "S_ij so far:"
             for ii in range(args.nSteps):
                 row = ""
