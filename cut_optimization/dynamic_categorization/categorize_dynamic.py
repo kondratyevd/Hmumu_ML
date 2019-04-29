@@ -140,8 +140,8 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
             else:
                 print "         Cut between #%i and #%i"%(k-1, k)
                 print "         Use the splitting that provided best significance in categories %i-%i and %i-%i:"%(i , k-1, k, j)
-                print "         "+best_splitting[i][k-1]
-                print "         "+best_splitting[k][j]
+                print "         ",best_splitting[i][k-1]
+                print "         ",best_splitting[k][j]
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
                 print "         Splitting is", bins
 
