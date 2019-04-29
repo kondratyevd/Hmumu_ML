@@ -153,8 +153,8 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "         Splitting is", bins
 
                 bins_str = ""
-                for i in range(len(bins)-1):
-                    bins_str = bins_str+"%f_"%bins[i]
+                for ii in range(len(bins)-1):
+                    bins_str = bins_str+"%f_"%bins[ii]
                 bins_str = bins_str+"%f"%bins[len(bins)-1]
 
                 if bins_str in already_tried.keys():
