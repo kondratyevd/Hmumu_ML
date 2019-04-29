@@ -155,7 +155,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 sign_merged = significance
             else:
                 print "      Cut between #%i and #%i"%(k-1, k)
-                print "      Use the splitting that provided best significance in categories %i-%i and %i-%i:"%(i , k-1, k, j)
+                print "      Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j)
                 print "      ",best_splitting[i][k-1]
                 print "      ",best_splitting[k][j]
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
@@ -166,7 +166,6 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     bins_str = bins_str+"%f_"%bins[ii]
                 bins_str = bins_str+"%f"%bins[len(bins)-1]
 
-                print "      Best s[%i][%i] so far was %f for splitting"%(i, j, s[i][j]), best_splitting[i][j]
                 if bins_str in memorized.keys():
                     print "      We already saw bins ", bins
                     print "        and the significance for them was ", memorized[bins_str]
@@ -181,7 +180,8 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     gain = ( significance - s[i][j] ) / s[i][j]*100.0
                 else:
                     gain = -999
-                print "With this new option we gain %f %% w.r.t that one"%gain
+                print "      Before this option the best s[%i][%i] was %f for splitting. "%(i, j, s[i][j]), best_splitting[i][j]
+                print "      We gain %f %% if we use the new option."%gain
                 if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
                     print "This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
