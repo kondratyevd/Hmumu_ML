@@ -38,20 +38,10 @@ if args.option is "0": # inclusive
 
 step = (args.max_var - args.min_var)/float(args.nSteps)
 
-already_tried = {}
+memorized = {}
 
 
 def get_significance(label, bins):
-
-    bins_str = ""
-    for i in range(len(bins)-1):
-        bins_str = bins_str+"%f_"%bins[i]
-    bins_str = bins_str+"%f"%bins[len(bins)-1]
-
-    # if bins_str in already_tried.keys():
-    #     print "    We already saw bins ", bins
-    #     print "     and the significance for them was ", already_tried[bins_str]
-    #     return already_tried[bins_str]
 
     if "binary" in args.method:
         score = "sig_prediction"
@@ -69,10 +59,6 @@ def get_significance(label, bins):
         score = "max_abs_eta_mu"
         min_score = 0
         max_score = 2.4
-
-    print "Will use method", args.method
-    print "    min score =", min_score
-    print "    max score =", max_score
 
     step = (args.max_var - args.min_var)/float(args.nSteps)
 
@@ -107,8 +93,14 @@ def get_significance(label, bins):
     os.system('rm higgsCombine%s.Significance.mH120.root'%label)
 
     print "Expected significance %f calculated for bins"%significance, bins
-    print "Saving result as "+bins_str
-    already_tried[bins_str]=significance
+
+    bins_str = ""
+    for ii in range(len(bins)-1):
+        bins_str = bins_str+"%f_"%bins[ii]
+    bins_str = bins_str+"%f"%bins[len(bins)-1]
+
+    print "Memorizing result as "+bins_str 
+    memorized[bins_str]=significance
     print " "
     print "############################################"
     print " "
@@ -140,7 +132,6 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
             this_option_is_actually_better = False
             print "      k = %i"%k
             if k==i:
-                print "         No cut"
                 print "         Merging bins from #%i to #%i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
                 print "         Splitting is", bins
@@ -148,7 +139,9 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 sign_merged = significance
             else:
                 print "         Cut between #%i and #%i"%(k-1, k)
-                print "         Use the splitting that provided best significance in categories %i-%i and %i-%i"%(i , k-1, k, j)
+                print "         Use the splitting that provided best significance in categories %i-%i and %i-%i:"%(i , k-1, k, j)
+                print "         "+best_splitting[i][k-1]
+                print "         "+best_splitting[k][j]
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
                 print "         Splitting is", bins
 
@@ -157,18 +150,19 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     bins_str = bins_str+"%f_"%bins[ii]
                 bins_str = bins_str+"%f"%bins[len(bins)-1]
 
-                if bins_str in already_tried.keys():
-                    print "    We already saw bins ", bins
-                    print "     and the significance for them was ", already_tried[bins_str]
-                    significance = already_tried[bins_str]
+                if bins_str in memorized.keys():
+                    print "         We already saw bins ", bins
+                    print "           and the significance for them was ", memorized[bins_str]
+                    significance = memorized[bins_str]
                 else:
                     significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
-                print "Best s[%i][%i] so far was %f"%(i, j, s[i][j])
+                print "Best s[%i][%i] so far was %f for splitting"%(i, j, s[i][j]), best_splitting[i][j]
                 if s[i][j]:
                     gain = ( significance - s[i][j] ) / s[i][j]*100.0
                 else:
                     gain = -999
+                print "With this new option we gain %f %% w.r.t that one"%gain
                 if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
                     print "This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
@@ -181,6 +175,8 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 s[i][j] = significance
                 best_splitting[i][j] = bins
                 print "Updating best significance: now s[%i][%i] = "%(i,j), s[i][j]
+            else:
+                print "Don't update best significance."
 
 
             print "Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), best_splitting[i][j]
@@ -209,15 +205,14 @@ for i in range(args.nSteps):
 
 print "----------------------------------------"
 print "Here are the values that were memorized:"
-print already_tried
+print memorized
 print "----------------------------------------"
 
 
-# best_bins = best_splitting[0][args.nSteps-1]
-# print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), best_bins
-# print "Rescaling cut boundaries:"
-# new_bins = []
-# for i in range(len(best_bins)):
-#     new_bins.append(args.min_var + best_bins[i]*step)
-# print "Best cuts on MVA score are:"
-# print best_bins, " --> ", new_bins
+best_bins = best_splitting[0][args.nSteps-1]
+print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), best_bins
+new_bins = []
+for i in range(len(best_bins)):
+    new_bins.append(args.min_var + best_bins[i]*step)
+print "Best cuts on MVA score are:"
+print best_bins, " --> ", new_bins
