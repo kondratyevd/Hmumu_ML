@@ -193,12 +193,12 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
                 s[i][j] = significance
                 best_splitting[i][j] = bins
-                print "Updating best significance: now s[%i][%i] = "%(i,j), s[i][j]
+                print "      Updating best significance: now s[%i][%i] = "%(i,j), s[i][j]
             else:
-                print "Don't update best significance."
+                print "      Don't update best significance."
 
 
-            print "Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
+            print "      Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
             print "S_ij so far:"
             for ii in range(args.nSteps):
                 row = ""
