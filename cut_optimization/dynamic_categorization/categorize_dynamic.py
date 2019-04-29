@@ -78,12 +78,12 @@ def get_significance(label, bins):
 
     step = (args.max_var - args.min_var)/float(args.nSteps)
 
-    print "Rescaling cut boundaries:"
+    print "   Rescaled cut boundaries:"
     new_bins = []
     for i in range(len(bins)):
         new_bins.append(min_score + bins[i]*step)
 
-    print bins, " --> ", new_bins
+    print "      ", bins, " --> ", new_bins
 
     categories = {}
     for i in range(len(new_bins)-1):
@@ -91,9 +91,9 @@ def get_significance(label, bins):
         cut = "(%s>%f)&(%s<%f)"%(score, new_bins[i], score, new_bins[i+1])
         categories[cat_name] = cut
 
-    print "Categories ready:"
-    print  categories
-    print "Creating datacards..."
+    print "   Categories ready:"
+    print  "   ",categories
+    print "   Creating datacards... Please wait..."
 
     create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
 
@@ -150,7 +150,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
             if k==i:
                 print "   Try inclusve: merge bins from #%i to #%i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-                print "   Splitting is"+bins_to_illustration(i, j+1, bins)
+                print "   Splitting is:   "+bins_to_illustration(i, j+1, bins)
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
                 sign_merged = significance
             else:
