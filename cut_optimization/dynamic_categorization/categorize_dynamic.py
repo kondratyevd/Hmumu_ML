@@ -10,7 +10,6 @@ ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Minimization)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.ObjectHandling)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.NumIntegration)
-err = ROOT.Int(0)
 ROOT.gMinuit.mnexcm("ET NOWarnings")
 
 parser = argparse.ArgumentParser(description='')
