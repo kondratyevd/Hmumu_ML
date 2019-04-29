@@ -155,7 +155,9 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     print "           and the significance for them was ", memorized[bins_str]
                     significance = memorized[bins_str]
                 else:
-                    significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+                    significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j])
+                    memorized[bins_str]=significance
+                    # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
                 print "Best s[%i][%i] so far was %f for splitting"%(i, j, s[i][j]), best_splitting[i][j]
                 if s[i][j]:
