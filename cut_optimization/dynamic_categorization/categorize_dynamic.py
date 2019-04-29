@@ -159,7 +159,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "      ",best_splitting[i][k-1]
                 print "      ",best_splitting[k][j]
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
-                print "         Splitting is", bins
+                print "         Splitting is", bins_to_illustration(i, j+1, bins)
 
                 bins_str = ""
                 for ii in range(len(bins)-1):
@@ -198,14 +198,15 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 print "Don't update best significance."
 
 
-            print "Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), best_splitting[i][j]
+            print "Best significance for category containing bins #%i-#%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
             print "S_ij so far:"
             for ii in range(args.nSteps):
                 row = ""
                 for jj in range(args.nSteps):
                     row = row + "%f "%s[ii][jj]
                 print row
-        print "   Problem P_%i%i solved! The latest reported result is optimal."%(i,j)
+        print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
+        print "   Best significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
 
 
 for i in range(args.nSteps):
