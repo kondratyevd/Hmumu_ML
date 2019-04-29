@@ -31,7 +31,7 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
     data_tree = ROOT.TChain(data_tree)
     data_tree.Add(input_path)  
-    print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
+    # print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
     data_hist_name = "data_%s"%cat_name
     data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
@@ -59,7 +59,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+        # print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
@@ -82,13 +82,13 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         tree_list.Add(vbf_tree_clone)
 
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
-        print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
-        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
+        # print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
+        # print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries() 
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
         signal_tree = ROOT.TChain("tree")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+        # print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     
     signal_tree.SetName("signal_tree")
  
@@ -99,7 +99,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
-    print signal_rate
+    # print signal_rate
 
     w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
     w.factory("%s_mix2 [0.5, 0.0, 1.0]"%cat_name)
@@ -140,7 +140,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+        # print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
@@ -163,8 +163,8 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         tree_list.Add(vbf_tree_clone)
 
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
-        print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
-        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()  
+        # print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
+        # print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()  
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
         signal_tree = ROOT.TChain("tree")
@@ -178,7 +178,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
-    print signal_rate
+    # print signal_rate
 
     w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
     w.factory("%s_mix2 [0., 0.0, 1.0]"%cat_name)
@@ -229,7 +229,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
     # Import(w,smodel)
-    w.Print()
+    # w.Print()
     if "binary" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
     elif "multi" in method:
@@ -237,7 +237,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     elif "BDT" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
-    res.Print()
+    # res.Print()
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
         par_var = w.var("%s_%s"%(cat_name,par))
@@ -261,7 +261,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+        # print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
@@ -284,8 +284,8 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
         tree_list.Add(vbf_tree_clone)
 
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
-        print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
-        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
+        # print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
+        # print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
         signal_tree = ROOT.TChain("tree")
@@ -299,13 +299,13 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
-    print signal_rate
+    # print signal_rate
 
     # ROOT.gROOT.ProcessLine(".L /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape.cxx")
     ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
     w.factory("RooDCBShape::%s_sig(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
     smodel = w.pdf("%s_sig"%cat_name)
-    w.Print()
+    # w.Print()
     if "binary" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
     elif "multi" in method:
@@ -313,7 +313,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
     elif "BDT" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
-    res.Print()
+    # res.Print()
     sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
     for par in sigParamList:
         par_var = w.var("%s_%s"%(cat_name,par))
@@ -332,7 +332,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         bkg_pred_var = ROOT.RooRealVar("bkg_prediction", "bkg_prediction", 0, 1)
         signal_tree = ROOT.TChain("tree_sig")
         signal_tree.Add(input_path)
-        print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
+        # print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     elif "multi" in method:
         ggh_pred_var = ROOT.RooRealVar("ggH_prediction", "ggH_prediction", 0, 1)
         vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
@@ -355,8 +355,8 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         tree_list.Add(vbf_tree_clone)
 
         signal_tree = ROOT.TTree.MergeTrees(tree_list)
-        print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
-        print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
+        # print "Loaded ggH tree from "+input_path+" with %i entries."%ggh_tree.GetEntries()    
+        # print "Loaded VBF tree from "+input_path+" with %i entries."%vbf_tree.GetEntries()       
     elif "BDT" in method:
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
         signal_tree = ROOT.TChain("tree")
@@ -370,7 +370,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
     signal_rate = signal_hist.Integral()
-    print signal_rate
+    # print signal_rate
 
   
     w.factory("mu_res_beta [0, 0, 0]")
@@ -387,7 +387,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
     w.factory("RooDCBShape::%s_sig(mass, %s_mean_times_nuis, %s_sigma_times_nuis, %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
     smodel = w.pdf("%s_sig"%cat_name)
-    w.Print()
+    # w.Print()
     if "binary" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
     elif "multi" in method:
@@ -395,7 +395,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     elif "BDT" in method:
         signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
-    res.Print()
+    # res.Print()
     sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]
     for par in sigParamList:
         par_var = w.var("%s_%s"%(cat_name,par))
@@ -430,9 +430,9 @@ def add_bkg_model(w, cat_name, input_path, data_tree, cut, method):
     data_int_sb = data.sumEntries("1","left,right")
     data_int_full = data.sumEntries("1","full")
     bkg_rate = data_int_sb * (func_int_full/func_int_sb)
-    print cut, data_int_full
-    print "="*100
-    return bkg_rate
+    # print cut, data_int_full
+    # print "="*100
+    # return bkg_rate
 
 
 def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, output_path, filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', method="", lumi=40000):
@@ -452,7 +452,7 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
     w = create_workspace()
     for cat_name, cut in categories.iteritems():
 
-        print "Applying cut: ", cut
+        # print "Applying cut: ", cut
 
         if '3gaus' in smodel:
 
@@ -497,12 +497,12 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
 
 
 def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, datacard_name, workspace_filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', method="", lumi=40000): 
-    print "method:", method
-    print "="*30
-    print "Categories: "
-    for key, value in categories.iteritems():
-        print key, value
-    print "="*30
+    # print "method:", method
+    # print "="*30
+    # print "Categories: "
+    # for key, value in categories.iteritems():
+    #     print key, value
+    # print "="*30
     try:
         os.makedirs(out_path)
     except OSError as e:
