@@ -130,25 +130,25 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
     print "Scanning categories made of %i bins"%l
     for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
         j = i + l - 1
-        print "-----------------------------------------------------------"
-        print "   Solving problem P_%i%i"%(i,j)
-        print "   Retrieveing best significance in category containing bins #%i-#%i"%(i, j)
+        print "="*50
+        print "   Solving subproblem P_%i%i"%(i,j)
+        print "="*50
+        print "   The goal is to find best significance in category containing bins #%i-#%i"%(i, j)
         for k in range(i, j+1):
             best_splitting_ij = []
             consider_this_option = True
             this_option_is_actually_better = False
-            print "      k = %i"%k
             if k==i:
-                print "         Merging bins from #%i to #%i into a single category"%(i, j)
+                print "   Try inclusve: merge bins from #%i to #%i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-                print "         Splitting is", bins
+                print "   Splitting is", bins
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
                 sign_merged = significance
             else:
-                print "         Cut between #%i and #%i"%(k-1, k)
-                print "         Use the splitting that provided best significance in categories %i-%i and %i-%i:"%(i , k-1, k, j)
-                print "         ",best_splitting[i][k-1]
-                print "         ",best_splitting[k][j]
+                print "      Cut between #%i and #%i"%(k-1, k)
+                print "      Use the splitting that provided best significance in categories %i-%i and %i-%i:"%(i , k-1, k, j)
+                print "      ",best_splitting[i][k-1]
+                print "      ",best_splitting[k][j]
                 bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
                 print "         Splitting is", bins
 
@@ -157,15 +157,15 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     bins_str = bins_str+"%f_"%bins[ii]
                 bins_str = bins_str+"%f"%bins[len(bins)-1]
 
-                print "         Best s[%i][%i] so far was %f for splitting"%(i, j, s[i][j]), best_splitting[i][j]
+                print "      Best s[%i][%i] so far was %f for splitting"%(i, j, s[i][j]), best_splitting[i][j]
                 if bins_str in memorized.keys():
-                    print "         We already saw bins ", bins
-                    print "           and the significance for them was ", memorized[bins_str]
+                    print "      We already saw bins ", bins
+                    print "        and the significance for them was ", memorized[bins_str]
                     significance = memorized[bins_str]
                 else:
                     significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j])
                     memorized[bins_str]=significance
-                    print "Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance)
+                    print "      Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance)
                     # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
                 if s[i][j]:
