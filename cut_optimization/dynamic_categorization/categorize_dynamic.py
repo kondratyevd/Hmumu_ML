@@ -50,7 +50,7 @@ memorized = {}
 
 def bins_to_illustration(bins):
     result = ""
-    for iii in args.nSteps:
+    for iii in range(args.nSteps):
         if (iii>0) and (iii in bins):
             result = result+"|"
         result = result+bins[iii]
