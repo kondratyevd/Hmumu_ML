@@ -48,12 +48,13 @@ step = (args.max_var - args.min_var)/float(args.nSteps)
 memorized = {}
 
 
-def bins_to_illustration(bins):
+def bins_to_illustration(min, max, bins):
     result = ""
-    for iii in range(args.nSteps):
-        if (iii>0) and (iii in bins):
+    for iii in range(min, max):
+        if (iii in bins):
             result = result+"|"
         result = result+"%i"%iii
+    result = result+"|"
     return result
 
 def get_significance(label, bins):
@@ -149,7 +150,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
             if k==i:
                 print "   Try inclusve: merge bins from #%i to #%i into a single category"%(i, j)
                 bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-                print "   Splitting is"+bins_to_illustration(bins)
+                print "   Splitting is"+bins_to_illustration(i, j+1, bins)
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
                 sign_merged = significance
             else:
