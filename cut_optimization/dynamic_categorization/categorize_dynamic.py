@@ -5,7 +5,7 @@ from math import sqrt
 from make_datacards import create_datacard
 import argparse
 
-# ROOT.RooMsgService.instance().setSilentMode(True)
+ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--sig_in_path', action='store', dest='sig_input_path', help='Input path')
