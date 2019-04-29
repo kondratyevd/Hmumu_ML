@@ -5,6 +5,8 @@ from math import sqrt
 from make_datacards import create_datacard
 import argparse
 
+ROOT.RooFit.RooMsgService.instance().setSilentMode(True)
+
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--sig_in_path', action='store', dest='sig_input_path', help='Input path')
 parser.add_argument('--data_in_path', action='store', dest='data_input_path', help='Input path')
@@ -151,6 +153,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     bins_str = bins_str+"%f_"%bins[ii]
                 bins_str = bins_str+"%f"%bins[len(bins)-1]
 
+                print "         Best s[%i][%i] so far was %f for splitting"%(i, j, s[i][j]), best_splitting[i][j]
                 if bins_str in memorized.keys():
                     print "         We already saw bins ", bins
                     print "           and the significance for them was ", memorized[bins_str]
@@ -158,9 +161,9 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 else:
                     significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j])
                     memorized[bins_str]=significance
+                    print "Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance)
                     # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
-                print "Best s[%i][%i] so far was %f for splitting"%(i, j, s[i][j]), best_splitting[i][j]
                 if s[i][j]:
                     gain = ( significance - s[i][j] ) / s[i][j]*100.0
                 else:
