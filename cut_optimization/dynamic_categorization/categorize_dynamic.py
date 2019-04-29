@@ -178,7 +178,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     this_option_is_actually_better = True
 
             if (((significance > s[i][j])&(consider_this_option)) or this_option_is_actually_better): 
-                print "Updating best significance: now s[%i][%j] = "%(i,j), s[i][j]
+                print "Updating best significance: now s[%i][%i] = "%(i,j), s[i][j]
                 s[i][j] = significance
                 best_splitting[i][j] = bins
 
