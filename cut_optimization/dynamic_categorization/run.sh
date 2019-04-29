@@ -101,6 +101,18 @@ case $1 in
 		penalty=2
 		;;	
 
+	5.1)
+		echo 'Running option 5: BDT 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDTmva"
+		min_var=-1
+		max_var=1
+		nSteps=20
+		penalty=2
+		;;	
+
 	*)
 		echo 'Wrong option ' $1
 		;;	
