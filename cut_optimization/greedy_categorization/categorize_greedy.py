@@ -4,6 +4,12 @@ import ROOT
 from make_datacards import create_datacard
 import argparse
 
+ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
+ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
+ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Minimization)
+ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.ObjectHandling)
+ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.NumIntegration)
+
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--sig_in_path', action='store', dest='sig_input_path', help='Input path')
 parser.add_argument('--data_in_path', action='store', dest='data_input_path', help='Input path')
@@ -40,7 +46,14 @@ if args.option is "0": # inclusive
 
 step = (args.max_var - args.min_var)/float(args.nSteps)
 
-
+def bins_to_illustration(min, max, bins):
+    result = ""
+    for iii in range(min, max):
+        if (iii in bins):
+            result = result+"| "
+        result = result+"%i "%iii
+    result = result+"| "
+    return result
 
 def get_significance(label, bins):
 
@@ -61,9 +74,9 @@ def get_significance(label, bins):
         min_score = 0
         max_score = 2.4
 
-    print "Will use method", args.method
-    print "    min score =", min_score
-    print "    max score =", max_score
+    # print "Will use method", args.method
+    # print "    min score =", min_score
+    # print "    max score =", max_score
 
     step = (args.max_var - args.min_var)/float(args.nSteps)
 
@@ -129,7 +142,7 @@ for i in range(1, args.nIter+1):
         else:
             print "Don't update significance."
 
-    print "Best significance after %i iterations: %f for splitting"%(i, best_significance_for_this_iteration), best_splitting_for_this_iteration
+    print "Best significance after %i iterations: %f for splitting"%(i, best_significance_for_this_iteration), bins_to_illustration(0,args.nSteps, best_splitting_for_this_iteration)
     if best_significance_for_this_iteration:
         best_splitting = best_splitting_for_this_iteration
         best_significance = best_significance_for_this_iteration
@@ -137,7 +150,7 @@ for i in range(1, args.nIter+1):
         print "None of additional cuts gives sufficient improvement."
         break
 
-print "Best significance is %f for splitting"%best_significance, best_splitting
+print "Best significance is %f for splitting"%best_significance, bins_to_illustration(0,args.nSteps, best_splitting)
 new_bins = []
 for i in range(len(best_splitting)):
     new_bins.append(args.min_var + best_splitting[i]*step)
