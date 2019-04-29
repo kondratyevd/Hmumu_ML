@@ -133,8 +133,11 @@ for i in range(1, args.nIter+1):
     if best_significance_for_this_iteration:
         best_splitting = best_splitting_for_this_iteration
         best_significance = best_significance_for_this_iteration
+    else:
+        print "None of additional cuts gives sufficient improvement."
+        break
 
-print "Rescaling cut boundaries:"
+print "Best significance is %f for splitting"%best_significance, best_splitting
 new_bins = []
 for i in range(len(best_splitting)):
     new_bins.append(args.min_var + best_splitting[i]*step)

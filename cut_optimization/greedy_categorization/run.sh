@@ -78,7 +78,7 @@ case $1 in
 		min_var=1
 		max_var=3
 		nSteps=10
-		penalty=2
+		penalty=1
 		nIter=7		
 		;;	
 
@@ -91,7 +91,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=10
-		penalty=2
+		penalty=1
 		nIter=7
 		;;	
 
