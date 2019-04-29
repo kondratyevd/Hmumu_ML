@@ -89,6 +89,18 @@ case $1 in
 		penalty=2
 		;;	
 
+	4.1)
+		echo 'Running option 4: DNN 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		min_var=1
+		max_var=3
+		nSteps=20
+		penalty=2
+		;;	
+
 	5)
 		echo 'Running option 5: BDT 10 categories'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
