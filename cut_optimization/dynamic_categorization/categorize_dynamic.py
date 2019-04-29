@@ -209,7 +209,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     row = row + "%f "%s[ii][jj]
                 print row
         print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
-        print "   Best significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
+        print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
 
 
 for i in range(args.nSteps):
