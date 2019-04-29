@@ -432,7 +432,7 @@ def add_bkg_model(w, cat_name, input_path, data_tree, cut, method):
     bkg_rate = data_int_sb * (func_int_full/func_int_sb)
     # print cut, data_int_full
     # print "="*100
-    # return bkg_rate
+    return bkg_rate
 
 
 def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, output_path, filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', method="", lumi=40000):
