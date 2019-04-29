@@ -70,7 +70,7 @@ case $1 in
 		;;	
 
 	4)
-		echo 'Running option 4: DNN 10 categories'
+		echo 'Running option 4: DNN 20 categories'
 		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
 		DATA_TREE="tree_Data"
@@ -83,7 +83,7 @@ case $1 in
 		;;	
 
 	5)
-		echo 'Running option 5: BDT 10 categories'
+		echo 'Running option 5: BDT 20 categories'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
 		DATA_TREE="tree"
