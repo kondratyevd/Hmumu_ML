@@ -134,7 +134,8 @@ for i in range(1, args.nIter+1):
             gain = 999
 
         print "Gain w.r.t. previous iteration is %f %%"%gain
-        print "Best significance in this iteration has been so far %f, new value is %f, so"%(best_significance_for_this_iteration, significance)
+        print "Best significance in this iteration has been so far %f, for splitting"%(best_significance_for_this_iteration), bins_to_illustration(0, args.nSteps, best_splitting_for_this_iteration) 
+        print "New value is %f, so"%(significance)
         if ( (gain > args.penalty) and (significance > best_significance_for_this_iteration)  ):
             print "Updating best significance."
             best_significance_for_this_iteration = significance
