@@ -77,9 +77,9 @@ case $1 in
 		method="DNNmulti"
 		min_var=1
 		max_var=3
-		nSteps=10
+		nSteps=20
 		penalty=1
-		nIter=7		
+		nIter=10		
 		;;	
 
 	5)
@@ -90,9 +90,9 @@ case $1 in
 		method="BDTmva"
 		min_var=-1
 		max_var=1
-		nSteps=10
+		nSteps=20
 		penalty=1
-		nIter=7
+		nIter=10
 		;;	
 
 	*)
