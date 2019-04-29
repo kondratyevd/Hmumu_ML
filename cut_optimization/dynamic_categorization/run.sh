@@ -26,7 +26,7 @@ case $1 in
 		method="BDTmva"
 		min_var=-1
 		max_var=1
-		nSteps=2
+		nSteps=4
 		penalty=5 # in %
 		;;
 
