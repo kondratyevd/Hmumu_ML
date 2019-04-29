@@ -154,6 +154,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
                 sign_merged = significance
             else:
+                print "      Continue solving P_%i%i!"%(i,j)
                 print "      Cut between #%i and #%i"%(k-1, k)
                 print "      Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j)
                 print "      ",best_splitting[i][k-1]
