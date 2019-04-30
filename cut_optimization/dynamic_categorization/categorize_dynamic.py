@@ -185,11 +185,12 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                     gain = 999
                 print "   Before this option the best s[%i][%i] was %f for splitting "%(i, j, s[i][j]), best_splitting[i][j]
                 print "   We gain %f %% if we use the new option."%gain
-                if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
+                ncat_diff = abs(len(bins) - len(best_splitting[i][j]))
+                if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty*ncat_diff)):
                     print "     This option increases number of subcategories from %i to %i, but the improvement is just %f %%, so skip."%(len(best_splitting[i][j])-1,len(bins)-1,gain)
                     consider_this_option = False # don't split if improvement over merging is not good enough
 
-                if ((len(bins)<len(best_splitting[i][j]))&(gain>-args.penalty)):
+                if ((len(bins)<len(best_splitting[i][j]))&(gain>-args.penalty*ncat_diff)):
                     print "     This option decreases number of subcategories from %i to %i, and the significance drops by just %f %%, so keep it."%(len(best_splitting[i][j]),len(bins), -gain)
                     this_option_is_actually_better = True
 
