@@ -82,8 +82,8 @@ def get_significance(label, bins):
 
     print "Rescaling cut boundaries:"
     new_bins = []
-    for i in range(len(bins)):
-        new_bins.append(min_score + bins[i]*step)
+    for ii in range(len(bins)):
+        new_bins.append(min_score + bins[ii]*step)
 
     print bins, " --> ", new_bins
 
