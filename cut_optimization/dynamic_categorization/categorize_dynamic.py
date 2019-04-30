@@ -182,7 +182,7 @@ for l in range(1, args.nSteps+1): # subsequence length: from 1 to N. l=1 is the 
                 if s[i][j]:
                     gain = ( significance - s[i][j] ) / s[i][j]*100.0
                 else:
-                    gain = -999
+                    gain = 999
                 print "   Before this option the best s[%i][%i] was %f for splitting "%(i, j, s[i][j]), best_splitting[i][j]
                 print "   We gain %f %% if we use the new option."%gain
                 if ((len(bins)>len(best_splitting[i][j]))&(gain<args.penalty)):
