@@ -88,9 +88,9 @@ def get_significance(label, bins):
     print bins, " --> ", new_bins
 
     categories = {}
-    for i in range(len(new_bins)-1):
-        cat_name = "cat%i"%i
-        cut = "(%s>%f)&(%s<%f)"%(score, new_bins[i], score, new_bins[i+1])
+    for ii in range(len(new_bins)-1):
+        cat_name = "cat%i"%ii
+        cut = "(%s>%f)&(%s<%f)"%(score, new_bins[ii], score, new_bins[ii+1])
         categories[cat_name] = cut
 
     print "Categories ready:"
@@ -155,7 +155,7 @@ for i in range(1, args.nIter+1):
 
 print "Best significance is %f for splitting"%best_significance, bins_to_illustration(0,args.nSteps, best_splitting)
 new_bins = []
-for i in range(len(best_splitting)):
-    new_bins.append(args.min_var + best_splitting[i]*step)
+for ii in range(len(best_splitting)):
+    new_bins.append(args.min_var + best_splitting[ii]*step)
 print "Best cuts on MVA score are:"
 print best_splitting, " --> ", new_bins
