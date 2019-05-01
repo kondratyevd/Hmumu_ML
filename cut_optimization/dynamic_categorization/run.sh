@@ -98,7 +98,7 @@ case $1 in
 		min_var=1
 		max_var=3
 		nSteps=20
-		penalty=1
+		penalty=2
 		;;	
 
 	5)
@@ -122,7 +122,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=20
-		penalty=1
+		penalty=2
 		;;	
 
 	*)
