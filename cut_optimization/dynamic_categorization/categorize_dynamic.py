@@ -79,11 +79,11 @@ def get_significance(label, bins, verbose=True):
 
     step = (args.max_var - args.min_var)/float(args.nSteps)
 
+    new_bins = []
+    for i in range(len(bins)):
+        new_bins.append(min_score + bins[i]*step)
     if verbose:
         print "   Rescaled cut boundaries:"
-        new_bins = []
-        for i in range(len(bins)):
-            new_bins.append(min_score + bins[i]*step)
         print "      ", bins, " --> ", new_bins
 
     categories = {}
