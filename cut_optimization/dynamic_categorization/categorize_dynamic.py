@@ -4,6 +4,7 @@ import ROOT
 from math import sqrt
 from make_datacards import create_datacard
 import argparse
+import multiprocessing as mp
 
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
@@ -232,8 +233,32 @@ for i in range(args.nSteps):
     best_splitting.append(row_bs)
 
 # Main loop
+# for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]
+#     print "Scanning categories made of %i bins"%l
+#     for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
+#         j = i + l - 1
+#         print "="*50
+#         print "   Solving subproblem P_%i%i"%(i,j)
+#         print "   The goal is to find best significance in category containing bins #%i through #%i"%(i, j)
+#         print "="*50
+
+#         s[i][j], best_splitting[i][j] = solve_subproblem(i,j,s,best_splitting,memorized, verbose=False)
+
+#         print "S_ij so far:"
+#         for ii in range(args.nSteps):
+#             row = ""
+#             for jj in range(args.nSteps):
+#                 row = row + "%f "%s[ii][jj]
+#             print row
+
+#         print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
+#         print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
+
+
 for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]
     print "Scanning categories made of %i bins"%l
+    
+    pool = mp.Pool(mp.cpu_count())
     for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
         j = i + l - 1
         print "="*50
@@ -241,17 +266,19 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
         print "   The goal is to find best significance in category containing bins #%i through #%i"%(i, j)
         print "="*50
 
-        s[i][j], best_splitting[i][j] = solve_subproblem(i,j,s,best_splitting,memorized, verbose=False)
+        # s[i][j], best_splitting[i][j] = solve_subproblem(i,j,s,best_splitting,memorized, verbose=False)
+        s[i][j], best_splitting[i][j] = pool.apply(solve_subproblem, args = (i,j,s,best_splitting,memorized, False))
 
-        print "S_ij so far:"
-        for ii in range(args.nSteps):
-            row = ""
-            for jj in range(args.nSteps):
-                row = row + "%f "%s[ii][jj]
-            print row
+    pool.close()
+    print "S_ij so far:"
+    for ii in range(args.nSteps):
+        row = ""
+        for jj in range(args.nSteps):
+            row = row + "%f "%s[ii][jj]
+        print row
 
-        print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
-        print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
+        # print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
+        # print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
 
 
 # print "Solutions to all subproblems: "
