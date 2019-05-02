@@ -219,7 +219,7 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
                 if verbose:
                     print "   Don't update best significance."
 
-    return i, j, s_ij, best_splitting_ij
+    return (i, j, s_ij, best_splitting_ij)
 
 
 # Initialization
@@ -254,7 +254,8 @@ for i in range(args.nSteps):
 #         print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
 #         print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
 
-def callback(i, j, s_ij, best_splitting_ij):
+def callback(result):
+    i, j, s_ij, best_splitting_ij = result
     s[i][j] = s_ij
     best_splitting[i][j] = best_splitting_ij
 
