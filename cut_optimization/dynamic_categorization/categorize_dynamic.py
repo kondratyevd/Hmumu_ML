@@ -257,17 +257,19 @@ for i in range(args.nSteps):
 
 for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]
     print "Scanning categories made of %i bins"%l
-    
+    print "Number of CPUs: ", mp.cpu_count()
     pool = mp.Pool(mp.cpu_count())
-    for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
-        j = i + l - 1
-        print "="*50
-        print "   Solving subproblem P_%i%i"%(i,j)
-        print "   The goal is to find best significance in category containing bins #%i through #%i"%(i, j)
-        print "="*50
+
+    s[i][i+l-1], best_splitting[i][i+l-1] = [pool.apply(solve_subproblem, args = (i,i+l-1,s,best_splitting,memorized, False)) for i in range(0, args.nSteps-l+1)]
+    # for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
+        # j = i + l - 1
+        # print "="*50
+        # print "   Solving subproblem P_%i%i"%(i,j)
+        # print "   The goal is to find best significance in category containing bins #%i through #%i"%(i, j)
+        # print "="*50
 
         # s[i][j], best_splitting[i][j] = solve_subproblem(i,j,s,best_splitting,memorized, verbose=False)
-        s[i][j], best_splitting[i][j] = pool.apply(solve_subproblem, args = (i,j,s,best_splitting,memorized, False))
+        # s[i][j], best_splitting[i][j] = pool.apply(solve_subproblem, args = (i,j,s,best_splitting,memorized, False))
 
     pool.close()
     print "S_ij so far:"
