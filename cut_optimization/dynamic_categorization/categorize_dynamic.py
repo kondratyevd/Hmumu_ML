@@ -219,7 +219,7 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
                 if verbose:
                     print "   Don't update best significance."
 
-    return s_ij, best_splitting_ij
+    return i, j, s_ij, best_splitting_ij
 
 
 # Initialization
@@ -254,13 +254,19 @@ for i in range(args.nSteps):
 #         print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
 #         print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
 
+def callback(i, j, s_ij, best_splitting_ij):
+    s[i][j] = s_ij
+    best_splitting[i][j] = best_splitting_ij
+
 
 for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]
     print "Scanning categories made of %i bins"%l
     print "Number of CPUs: ", mp.cpu_count()
     pool = mp.Pool(mp.cpu_count())
 
-    s[i][i+l-1], best_splitting[i][i+l-1] = [pool.apply(solve_subproblem, args = (i,i+l-1,s,best_splitting,memorized, False)) for i in range(0, args.nSteps-l+1)]
+    a = [pool.apply_async(solve_subproblem, args = (i,i+l-1,s,best_splitting,memorized, False), callback=callback) for i in range(0, args.nSteps-l+1)]
+    for process in a:
+        process.wait()
     # for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
         # j = i + l - 1
         # print "="*50
