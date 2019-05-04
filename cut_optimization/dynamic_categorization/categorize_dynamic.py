@@ -219,7 +219,7 @@ for i in range(args.nSteps):
     best_splitting.append(row_bs)
 
 
-parallel = True
+parallel = False
 
 # Main loop
 for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]. l=N is the big problem.
