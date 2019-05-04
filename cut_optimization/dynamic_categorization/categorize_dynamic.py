@@ -134,21 +134,15 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
         consider_this_option = True
         can_decrease_nCat = False
         if k==i:
-            if verbose:
-                print "   First approach to P_%i%i: merge all bins."%(i,j)               
-                print "   Merge bins from #%i to #%i into a single category"%(i, j)
-
+            log("   First approach to P_%i%i: merge all bins."%(i,j)   )            
+            log("   Merge bins from #%i to #%i into a single category"%(i, j))
             bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
+            log("   Splitting is:   "+bins_to_illustration(i, j+1, bins))
 
-            if verbose:
-                print "   Splitting is:   "+bins_to_illustration(i, j+1, bins)
+            significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
-            significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins, verbose)
             sign_merged = significance
-
-            if verbose:
-                print "   Calculated significance for merged bins!"
-
+            log("   Calculated significance for merged bins!")
             s_ij = significance
             best_splitting_ij = bins
         else:
@@ -305,92 +299,7 @@ print "Best cuts on MVA score are:"
 print best_bins, " --> ", new_bins
 
 
-# import os.path, sys
-# sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
-# import ROOT
-# from math import sqrt
-# from make_datacards import create_datacard
-# import argparse
-# import multiprocessing as mp
 
-
-
-
-# def bins_to_illustration(min, max, bins):
-#     result = ""
-#     for iii in range(min, max):
-#         if (iii in bins):
-#             result = result+"| "
-#         result = result+"%i "%iii
-#     result = result+"| "
-#     return result
-
-# if "binary" in args.method:
-#     score = "sig_prediction"
-# elif "DNNmulti" in args.method:
-#     score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
-# elif "BDTmva" in args.method:
-#     score = "MVA"
-# elif "Rapidity" in args.method:
-#     score = "max_abs_eta_mu"
-
-# eta_categories = {
-#     "eta0": "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
-#     "eta1": "(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", 
-#     "eta2": "(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)"
-# }
-
-# if args.option is "0": # inclusive
-#     create_datacard({"cat0": "1"}, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_inclusive", "workspace_inclusive", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
-#     create_datacard(eta_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_inclusive_eta", "workspace_inclusive_eta", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
-#     sys.exit() 
-
-# step = (args.max_var - args.min_var)/float(args.nSteps)
-
-# def get_significance(label, bins):
-#     global memorized
-
-#     new_bins = []
-#     for i in range(len(bins)):
-#         new_bins.append(args.min_var + bins[i]*step)
-#     log("   Rescaled cut boundaries:")
-#     log("      %s --> %s"%(', '.join([str(b) for b in bins]), ', '.join([str(b) for b in new_bins])))
-
-#     log("   Categories ready:")
-#     categories = {}
-#     for i in range(len(new_bins)-1):
-#         cat_name = "cat%i"%i
-#         cut = "(%s>%f)&(%s<%f)"%(score, new_bins[i], score, new_bins[i+1])
-#         categories[cat_name] = cut
-#         log("   %s:  %s"%(cat_name, cut))
-#     log("   Creating datacards... Please wait...")
-
-#     create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
-
-#     os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt'%(label, label))
-#     os.system('rm datacard_%s.txt'%label)
-#     os.system('rm workspace_%s.root'%label)  
-      
-#     significance = 0
-#     tree = ROOT.TChain("limit")
-#     tree.Add("higgsCombine%s.Significance.mH120.root"%label)
-#     for iev,  event in enumerate(tree):
-#         significance = event.limit
-#     os.system('rm higgsCombine%s.Significance.mH120.root'%label)
-
-#     log("Expected significance %f calculated for bins %s"%(significance, ', '.join([str(b) for b in bins])))
-
-#     bins_str = ""
-#     for ii in range(len(bins)-1):
-#         bins_str = bins_str+"%f_"%bins[ii]
-#     bins_str = bins_str+"%f"%bins[len(bins)-1]
-#     memorized[bins_str]=significance
-
-#     log("Memorizing result as "+bins_str )
-#     log(" ")
-#     log("############################################")
-#     log(" ")
-#     return significance
 
 
 # def solve_subproblem(i,j, s, best_splitting, memorized):
