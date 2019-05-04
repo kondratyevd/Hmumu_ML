@@ -156,9 +156,7 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
 
             bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
 
-            if verbose:
-                print "   Splitting is", bins_to_illustration(i, j+1, bins)
-
+            log("   Splitting is "+bins_to_illustration(i, j+1, bins))
             bins_str = ""
             for ii in range(len(bins)-1):
                 bins_str = bins_str+"%f_"%bins[ii]
