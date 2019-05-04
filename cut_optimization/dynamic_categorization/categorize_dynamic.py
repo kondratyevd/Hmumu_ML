@@ -160,9 +160,9 @@ def solve_subproblem(i,j):
             best_splitting_ij = bins
 
         else:
-            log("   Continue solving P_%i%i!"%(i,j))
-            log("   Cut between #%i and #%i"%(k-1, k))
-            log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
+            # log("   Continue solving P_%i%i!"%(i,j))
+            # log("   Cut between #%i and #%i"%(k-1, k))
+            # log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
             # log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
             # log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
 
@@ -218,14 +218,14 @@ def solve_subproblem(i,j):
     log("      Highest significance for P_%i%i is %f and achieved when the splitting is %s"%(i, j, s[i][j], bins_to_illustration(i, j+1, best_splitting[i][j])))
     s[i][j] = s_ij
     best_splitting[i][j] = best_splitting_ij
-    # return (i, j, s_ij, best_splitting_ij)
+    return (i, j, s_ij, best_splitting_ij)
 
-# def callback(result):
-#     global s
-#     global best_splitting
-#     i, j, s_ij, best_splitting_ij = result
-#     s[i][j] = s_ij
-#     best_splitting[i][j] = best_splitting_ij
+def callback(result):
+    global s
+    global best_splitting
+    i, j, s_ij, best_splitting_ij = result
+    s[i][j] = s_ij
+    best_splitting[i][j] = best_splitting_ij
 
 
 parallel = True
@@ -236,7 +236,7 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
     if parallel:
         print "Number of CPUs: ", mp.cpu_count()
         pool = mp.Pool(mp.cpu_count())
-        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1)) for i in range(0, args.nSteps-l+1)]
+        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1), callback=callback) for i in range(0, args.nSteps-l+1)]
         for process in a:
             process.wait()
         pool.close()
