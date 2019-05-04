@@ -31,6 +31,7 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
     data_tree = ROOT.TChain(data_tree)
     data_tree.Add(input_path)  
+    bkg_evts = data_tree.GetEntries()
     # print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
     data_hist_name = "data_%s"%cat_name
     data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 150)
@@ -46,7 +47,7 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
         data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, mva_var), cut)    
 
     Import(w, data)
-    return w.data("%s_data"%cat_name)
+    return w.data("%s_data"%cat_name), bkg_evts
 
 def add_sig_model(w, cat_name, input_path, cut, method, lumi):
     var = w.var("mass")
@@ -91,7 +92,11 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         # print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     
     signal_tree.SetName("signal_tree")
- 
+    sig_evts = signal_tree.GetEntries()
+
+    if (sig_evts<10000):
+        return 0, sig_evts
+
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
@@ -127,7 +132,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         par_var = w.var("%s_%s"%(cat_name,par))
         par_var.setConstant(True)
     Import(w, smodel)
-    return signal_rate
+    return signal_rate, sig_evts
 
 def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scale_unc_val, method, lumi):
     var = w.var("mass")
@@ -170,7 +175,12 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         signal_tree = ROOT.TChain("tree")
         signal_tree.Add(input_path)
 
-    signal_tree.SetName("signal_tree")  
+    signal_tree.SetName("signal_tree")
+    sig_evts = signal_tree.GetEntries()
+
+    if (sig_evts<10000):
+        return 0, sig_evts
+
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
@@ -248,7 +258,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     w.var("mu_scale_beta").setVal(0)
     
     Import(w, smodel)
-    return signal_rate
+    return signal_rate, sig_evts
 
 def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
     var = w.var("mass")
@@ -291,7 +301,11 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
         signal_tree = ROOT.TChain("tree")
         signal_tree.Add(input_path)
 
-    signal_tree.SetName("signal_tree")      
+        signal_tree.SetName("signal_tree")
+    sig_evts = signal_tree.GetEntries()
+
+    if (sig_evts<10000):
+        return 0, sig_evts      
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
@@ -319,7 +333,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
         par_var = w.var("%s_%s"%(cat_name,par))
         par_var.setConstant(True)
     Import(w, smodel)
-    return signal_rate
+    return signal_rate, sig_evts
 
 def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scale_unc_val, method, lumi):
     var = w.var("mass")
@@ -362,7 +376,11 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         signal_tree = ROOT.TChain("tree")
         signal_tree.Add(input_path)
 
-    signal_tree.SetName("signal_tree")  
+        signal_tree.SetName("signal_tree")
+    sig_evts = signal_tree.GetEntries()
+
+    if (sig_evts<10000):
+        return 0, sig_evts  
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
@@ -406,10 +424,12 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     w.var("mu_res_beta").setVal(0)
     w.var("mu_scale_beta").setVal(0)    
     Import(w, smodel)
-    return signal_rate
+    return signal_rate, sig_evts
 
 def add_bkg_model(w, cat_name, input_path, data_tree, cut, method):
-    data = add_data(w, cat_name, input_path, data_tree, cut, method)
+    data, bkg_evts = add_data(w, cat_name, input_path, data_tree, cut, method)
+    if bkg_evts<10000:
+        return 0, bkg_evts
     var = w.var("mass")
     var.setBins(5000)
     var.setRange("left",110,120+0.1)
@@ -432,11 +452,12 @@ def add_bkg_model(w, cat_name, input_path, data_tree, cut, method):
     bkg_rate = data_int_sb * (func_int_full/func_int_sb)
     # print cut, data_int_full
     # print "="*100
-    return bkg_rate
+    return bkg_rate, bkg_evts
 
 
 def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, output_path, filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', method="", lumi=40000):
     # nCat = len(bins)-1
+    valid = True
     combine_import = ""
     combine_bins = "bin         "
     combine_obs =  "observation "
@@ -457,16 +478,19 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
         if '3gaus' in smodel:
 
             if nuis:
-                sig_rate = add_sig_model_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, method, lumi)    
+                sig_rate, sig_evts = add_sig_model_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, method, lumi)    
             else:
-                sig_rate = add_sig_model(w, cat_name, sig_input_path, cut, method, lumi) 
+                sig_rate, sig_evts = add_sig_model(w, cat_name, sig_input_path, cut, method, lumi) 
         elif 'dcb' in smodel:
             if nuis:
-                sig_rate = add_sig_model_dcb_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, method, lumi)    
+                sig_rate, sig_evts = add_sig_model_dcb_with_nuisances(w, cat_name, sig_input_path, cut, res_unc_val, scale_unc_val, method, lumi)    
             else:
-                sig_rate = add_sig_model_dcb(w, cat_name, sig_input_path, cut, method, lumi) 
+                sig_rate, sig_evts = add_sig_model_dcb(w, cat_name, sig_input_path, cut, method, lumi) 
 
-        bkg_rate = add_bkg_model(w, cat_name, data_input_path, data_tree, cut, method)
+        bkg_rate, bkg_evts = add_bkg_model(w, cat_name, data_input_path, data_tree, cut, method)
+
+        if (sig_evts<10000) or (bkg_evts<10000):
+            valid = False
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
         combine_import = combine_import+"shapes %s_sig  %s %s.root w:%s_sig\n"%(cat_name, cat_name, filename, cat_name)
@@ -493,7 +517,7 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
     w.Write()
     workspace_file.Close()
 
-    return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n"
+    return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n", valid
 
 
 def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, datacard_name, workspace_filename, statUnc=False, nuis=False, res_unc_val=0.1, scale_unc_val=0.0005, smodel='3gaus', method="", lumi=40000): 
@@ -508,7 +532,11 @@ def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, 
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str = make_dnn_categories(categories, sig_in_path, data_in_path, data_tree, out_path, workspace_filename, statUnc=statUnc, nuis=nuis, res_unc_val=res_unc_val, scale_unc_val=scale_unc_val, smodel=smodel, method=method, lumi=lumi)
+    import_str, bins_obs, cat_strings, unc_str, valid = make_dnn_categories(categories, sig_in_path, data_in_path, data_tree, out_path, workspace_filename, statUnc=statUnc, nuis=nuis, res_unc_val=res_unc_val, scale_unc_val=scale_unc_val, smodel=smodel, method=method, lumi=lumi)
+    
+    if not valid:
+        return False
+
     out_file = open(out_path+datacard_name+".txt", "w")
     out_file.write("imax *\n")
     out_file.write("jmax *\n")
@@ -526,5 +554,7 @@ def create_datacard(categories, sig_in_path, data_in_path, data_tree, out_path, 
         out_file.write("mu_res_beta    param    0    1.\n")
         out_file.write("mu_scale_beta    param    0    1.\n")
     out_file.close()
+
+    return True
 
     

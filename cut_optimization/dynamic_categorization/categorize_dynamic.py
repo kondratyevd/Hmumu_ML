@@ -103,8 +103,11 @@ def get_significance(label, bins):
         log("   %s:  %s"%(cat_name, cut))
     log("   Creating datacards... Please wait...")
 
-    create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
+    success = create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
 
+    if not success:
+        return 0
+        
     os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt'%(label, label))
     os.system('rm datacard_%s.txt'%label)
     os.system('rm workspace_%s.root'%label)  
