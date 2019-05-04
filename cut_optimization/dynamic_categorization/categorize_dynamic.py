@@ -147,70 +147,62 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
             best_splitting_ij = bins
         else:
 
-            if verbose:
-                print "   Continue solving P_%i%i!"%(i,j)
-                print "   Cut between #%i and #%i"%(k-1, k)
-                print "   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j)
-                print "   ",best_splitting[i][k-1], "s[%i][%i] = %f"%(i, k-1, s[i][k-1])
-                print "   ",best_splitting[k][j], "s[%i][%i] = %f"%(k,j, s[k][j])
+            log("   Continue solving P_%i%i!"%(i,j))
+            log("   Cut between #%i and #%i"%(k-1, k))
+            log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
+            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
+            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
 
             bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
 
-            if verbose:
-                print "   Splitting is", bins_to_illustration(i, j+1, bins)
-
+            log("   Splitting is "+bins_to_illustration(i, j+1, bins))
             bins_str = ""
             for ii in range(len(bins)-1):
                 bins_str = bins_str+"%f_"%bins[ii]
             bins_str = bins_str+"%f"%bins[len(bins)-1]
 
             if bins_str in memorized.keys():
-                if verbose:
-                    print "   We already saw bins ", bins
-                    print "     and the significance for them was ", memorized[bins_str]
+                log("   We already saw bins "+', '.join([str(b) for b in bins]))
+                log("     and the significance for them was %f"%memorized[bins_str])
                 significance = memorized[bins_str]
             else:
-                significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j])
+                significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j]) # this would be exactly true for Poisson significance. For Asimov significance it's still a good approximation.
                 memorized[bins_str]=significance
-                if verbose:
-                    print "   Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance)
-                # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+                log("   Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance))
+                # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)  # getting real Asimov significance (takes longer)
 
             if s_ij:
                 gain = ( significance - s_ij ) / s_ij*100.0
             else:
                 gain = 999
 
-            if verbose:
-                print "   Before this option the best s[%i][%i] was %f for splitting "%(i, j, s_ij), best_splitting_ij
-                print "   This option gives s[%i][%i] = %f for splitting "%(i, j, significance), bins          
-                print "   We gain %f %% if we use the new option."%gain
-                print "   The required gain if %f %% per additional category."%(args.penalty)
+            log("   Before this option the best s[%i][%i] was %f for splitting %s"%(i, j, s_ij, ', '.join([str(b) for b in best_splitting_ij])))
+            log("   This option gives s[%i][%i] = %f for splitting %s"%(i, j, significance, ', '.join([str(b) for b in bins])))
+            log("   We gain %f %% if we use the new option."%gain)
+            log("   The required gain if %f %% per additional category."%(args.penalty))
             ncat_diff = abs(len(bins) - len(best_splitting_ij))
 
             if ((len(bins)>len(best_splitting_ij))&(gain<args.penalty*ncat_diff)):
-                if verbose:
-                    print "     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(len(bins)-len(best_splitting_ij), len(best_splitting_ij)-1,len(bins)-1,gain)
-                consider_this_option = False # don't split if improvement over merging is not good enough
+                log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(len(bins)-len(best_splitting_ij), len(best_splitting_ij)-1,len(bins)-1,gain))
+                consider_this_option = False
 
-            if ((len(bins)<len(best_splitting_ij))&(gain>-args.penalty*ncat_diff)):
-                if verbose:
-                    print "     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(len(best_splitting_ij)-len(bins), len(best_splitting_ij)-1,len(bins)-1, -gain)
+            elif ((len(bins)<len(best_splitting_ij))&(gain>-args.penalty*ncat_diff)):
+                log("     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(len(best_splitting_ij)-len(bins), len(best_splitting_ij)-1,len(bins)-1, -gain))
                 can_decrease_nCat = True
 
-            if ((len(bins)==len(best_splitting_ij))&(gain>0)):
-                if verbose:
-                    print "     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain
+            elif ((len(bins)==len(best_splitting_ij))&(gain>0)):
+                log("     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain)
 
             if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
                 s_ij = significance
                 best_splitting_ij = bins
-                if verbose:
-                    print "   Updating best significance: now s[%i][%i] = "%(i,j), s_ij
+                log("   Updating best significance: now s[%i][%i] = %f"%(i,j, s_ij))
             else:
-                if verbose:
-                    print "   Don't update best significance."
+                log("   Don't update best significance.")
 
+
+    log("   Problem P_%i%i solved! Here's the best solution:"%(i,j))
+    log("      Highest significance for P_%i%i is %f and achieved when the splitting is %s"%(i, j, s[i][j], bins_to_illustration(i, j+1, best_splitting[i][j])))
     return (i, j, s_ij, best_splitting_ij)
 
 
