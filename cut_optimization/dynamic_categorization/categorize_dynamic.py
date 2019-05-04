@@ -165,16 +165,14 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
             bins_str = bins_str+"%f"%bins[len(bins)-1]
 
             if bins_str in memorized.keys():
-                if verbose:
-                    print "   We already saw bins ", bins
-                    print "     and the significance for them was ", memorized[bins_str]
+                log("   We already saw bins "+', '.join([str(b) for b in bins]))
+                log("     and the significance for them was %f"%memorized[bins_str])
                 significance = memorized[bins_str]
             else:
-                significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j])
+                significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j]) # this would be exactly true for Poisson significance. For Asimov significance it's still a good approximation.
                 memorized[bins_str]=significance
-                if verbose:
-                    print "   Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance)
-                # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
+                log("   Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance))
+                # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)  # getting real Asimov significance (takes longer)
 
             if s_ij:
                 gain = ( significance - s_ij ) / s_ij*100.0
@@ -325,6 +323,8 @@ print best_bins, " --> ", new_bins
 #             best_splitting_ij = bins
 
 #         else:
+
+
 #             log("   Continue solving P_%i%i!"%(i,j))
 #             log("   Cut between #%i and #%i"%(k-1, k))
 #             log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
@@ -338,6 +338,8 @@ print best_bins, " --> ", new_bins
 #             for ii in range(len(bins)-1):
 #                 bins_str = bins_str+"%f_"%bins[ii]
 #             bins_str = bins_str+"%f"%bins[len(bins)-1]
+
+
 
 #             if bins_str in memorized.keys():
 #                 log("   We already saw bins "+', '.join([str(b) for b in bins]))
