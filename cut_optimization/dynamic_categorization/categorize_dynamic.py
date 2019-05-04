@@ -40,6 +40,23 @@ def log(s):
     # elif log_mode is 2:
     #   write into log file
 
+if "binary" in args.method:
+    score = "sig_prediction"
+    min_score = 0
+    max_score = 1
+elif "DNNmulti" in args.method:
+    score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
+    min_score = 1
+    max_score = 3
+elif "BDTmva" in args.method:
+    score = "MVA"
+    min_score = -1
+    max_score = 1
+elif "Rapidity" in args.method:
+    score = "max_abs_eta_mu"
+    min_score = 0
+    max_score = 2.4
+
 eta_categories = {
     "eta0": "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
     "eta1": "(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", 
@@ -68,24 +85,7 @@ def bins_to_illustration(min, max, bins):
 
 def get_significance(label, bins, verbose=True):
 
-    if "binary" in args.method:
-        score = "sig_prediction"
-        min_score = 0
-        max_score = 1
-    elif "DNNmulti" in args.method:
-        score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
-        min_score = 1
-        max_score = 3
-    elif "BDTmva" in args.method:
-        score = "MVA"
-        min_score = -1
-        max_score = 1
-    elif "Rapidity" in args.method:
-        score = "max_abs_eta_mu"
-        min_score = 0
-        max_score = 2.4
 
-    step = (args.max_var - args.min_var)/float(args.nSteps)
 
     new_bins = []
     for i in range(len(bins)):
