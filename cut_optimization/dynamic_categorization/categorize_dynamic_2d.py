@@ -6,7 +6,6 @@ from make_datacards import create_datacard
 import argparse
 import multiprocessing as mp
 from numpy import zeros, empty
-import numpy as np
 
 # Disable most of RooFit output
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
@@ -48,7 +47,7 @@ def log(s):
 def bins_to_illustration(min, max, bins):
     result = ""
     for iii in range(min, max):
-        if (iii in np.nditer(bins)):
+        if (iii in bins):
             result = result+"| "
         result = result+"%i "%iii
     result = result+"| "
@@ -76,9 +75,22 @@ step1 = (args.max_var1 - args.min_var1)/float(args.nSteps1)
 step2 = (args.max_var2 - args.min_var2)/float(args.nSteps2)
 
 s = zeros([args.nSteps1, args.nSteps1, args.nSteps2, args.nSteps2])             # will store the best significance for the category containing bins i through j
-best_splitting1 = empty([args.nSteps1, args.nSteps1])  
-best_splitting2 = empty([args.nSteps2, args.nSteps2])  
+best_splitting1 = [] 
+best_splitting2 = []  
 memorized = {}
+
+for i in range(args.nSteps1):
+    row_bs = []
+    for j in range(args.nSteps1):
+        row_bs.append([])
+    best_splitting1.append(row_bs)
+
+for i in range(args.nSteps2):
+    row_bs = []
+    for j in range(args.nSteps2):
+        row_bs.append([])
+    best_splitting2.append(row_bs)
+
 
 def get_significance(label, bins1, bins2):
     global memorized
@@ -91,8 +103,8 @@ def get_significance(label, bins1, bins2):
         new_bins2.append(args.min_var2 + bins2[i]*step2) 
 
     log("   Rescaled cut boundaries:")
-    log("   1st variable:   %s --> %s"%(', '.join([str(b) for b in np.nditer(bins1)]), ', '.join([str(b) for b in np.nditer(new_bins1)])))
-    log("   2nd variable:   %s --> %s"%(', '.join([str(b) for b in np.nditer(bins1)]), ', '.join([str(b) for b in np.nditer(new_bins1)])))
+    log("   1st variable:   %s --> %s"%(', '.join([str(b) for b in bins1]), ', '.join([str(b) for b in new_bins1])))
+    log("   2nd variable:   %s --> %s"%(', '.join([str(b) for b in bins2]), ', '.join([str(b) for b in new_bins2])))
 
     log("   Categories ready:")
     categories = {}
