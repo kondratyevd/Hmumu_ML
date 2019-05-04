@@ -131,7 +131,7 @@ def get_significance(label, bins):
     return significance
 
 
-def solve_subproblem(i,j,memorized):
+def solve_subproblem(i,j):
     global s 
     global best_splitting
     global memorized
