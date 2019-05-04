@@ -102,7 +102,7 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
     dummy.Close()    
 
     sig_entries = signal_hist.GetEntries()
-    if (sig_entries<100000):
+    if (sig_entries<10000):
         return 0, sig_entries
 
     signal_rate = signal_hist.Integral()
@@ -187,7 +187,7 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     dummy.Close()
 
     sig_entries = signal_hist.GetEntries()
-    if (sig_entries<100000):
+    if (sig_entries<10000):
         return 0, sig_entries
 
     signal_rate = signal_hist.Integral()
@@ -314,7 +314,7 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
     dummy.Close()
 
     sig_entries = signal_hist.GetEntries()
-    if (sig_entries<100000):
+    if (sig_entries<10000):
         return 0, sig_entries
 
     signal_rate = signal_hist.Integral()
@@ -391,7 +391,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     dummy.Close()
 
     sig_entries = signal_hist.GetEntries()
-    if (sig_entries<100000):
+    if (sig_entries<10000):
         return 0, sig_entries
 
     signal_rate = signal_hist.Integral()
@@ -435,7 +435,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
 
 def add_bkg_model(w, cat_name, input_path, data_tree, cut, method):
     data, bkg_entries = add_data(w, cat_name, input_path, data_tree, cut, method)
-    if bkg_entries<100000:
+    if bkg_entries<10000:
         return 0, bkg_entries
     var = w.var("mass")
     var.setBins(5000)
@@ -496,7 +496,7 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, data_input_path, data_tree, cut, method)
 
-        if (sig_entries<100000) or (bkg_entries<100000):
+        if (sig_entries<10000) or (bkg_entries<10000):
             valid = False
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
