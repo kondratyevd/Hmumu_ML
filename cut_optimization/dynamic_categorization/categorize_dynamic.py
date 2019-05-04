@@ -117,10 +117,10 @@ def get_significance(label, bins):
     return significance
 
 
-def solve_subproblem(i,j):
-    global s 
-    global best_splitting
-    global memorized
+def solve_subproblem(i,j, s, best_splitting, memorized):
+    # global s 
+    # global best_splitting
+    # global memorized
 
     log("="*50)
     log("   Solving subproblem P_%i%i"%(i,j))
@@ -205,8 +205,8 @@ def solve_subproblem(i,j):
     return (i, j, s_ij, best_splitting_ij)
 
 def callback(result):
-    global s
-    global best_splitting
+    # global s
+    # global best_splitting
     i, j, s_ij, best_splitting_ij = result
     s[i][j] = s_ij
     best_splitting[i][j] = best_splitting_ij
@@ -233,7 +233,7 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
     if parallel:
         print "Number of CPUs: ", mp.cpu_count()
         pool = mp.Pool(mp.cpu_count())
-        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1), callback=callback) for i in range(0, args.nSteps-l+1)]
+        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1, s, best_splitting, memorized), callback=callback) for i in range(0, args.nSteps-l+1)]
         for process in a:
             process.wait()
         pool.close()
