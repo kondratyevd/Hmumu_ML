@@ -6,7 +6,7 @@ from make_datacards import create_datacard
 import argparse
 import multiprocessing as mp
 
-# Disable most of the RooFit output
+# Disable most of RooFit output
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Minimization)
@@ -40,22 +40,23 @@ def log(s):
     # elif log_mode is 2:
     #   write into log file
 
+def bins_to_illustration(min, max, bins):
+    result = ""
+    for iii in range(min, max):
+        if (iii in bins):
+            result = result+"| "
+        result = result+"%i "%iii
+    result = result+"| "
+    return result
+
 if "binary" in args.method:
     score = "sig_prediction"
-    min_score = 0
-    max_score = 1
 elif "DNNmulti" in args.method:
     score = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
-    min_score = 1
-    max_score = 3
 elif "BDTmva" in args.method:
     score = "MVA"
-    min_score = -1
-    max_score = 1
 elif "Rapidity" in args.method:
     score = "max_abs_eta_mu"
-    min_score = 0
-    max_score = 2.4
 
 eta_categories = {
     "eta0": "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
@@ -70,20 +71,23 @@ if args.option is "0": # inclusive
 
 step = (args.max_var - args.min_var)/float(args.nSteps)
 
-memorized = {}
-s = [] # will store the best significance for the category containing bins i through j
+s = []              # will store the best significance for the category containing bins i through j
 best_splitting = [] # will store the best way to split the category containing bins i through j
+memorized = {}
+# Initialization
+for i in range(args.nSteps):
+    row = []
+    row_bs = []
+    for j in range(args.nSteps):
+        row.append(0)
+        row_bs.append([])
+    s.append(row)
+    best_splitting.append(row_bs)
 
-def bins_to_illustration(min, max, bins):
-    result = ""
-    for iii in range(min, max):
-        if (iii in bins):
-            result = result+"| "
-        result = result+"%i "%iii
-    result = result+"| "
-    return result
 
-def get_significance(label, bins, verbose=True):
+def get_significance(label, bins):
+    global memorized
+
     new_bins = []
     for i in range(len(bins)):
         new_bins.append(args.min_var + bins[i]*step)
@@ -127,7 +131,16 @@ def get_significance(label, bins, verbose=True):
     return significance
 
 
-def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
+def solve_subproblem(i,j):
+    global s 
+    global best_splitting
+    global memorized
+
+    log("="*50)
+    log("   Solving subproblem P_%i%i"%(i,j))
+    log("   The goal is to find best significance in category containing bins #%i through #%i"%(i, j))
+    log("="*50)
+
     s_ij = 0
     best_splitting_ij = []
     for k in range(i, j+1):
@@ -145,13 +158,13 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
             log("   Calculated significance for merged bins!")
             s_ij = significance
             best_splitting_ij = bins
-        else:
 
+        else:
             log("   Continue solving P_%i%i!"%(i,j))
             log("   Cut between #%i and #%i"%(k-1, k))
             log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
-            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
-            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
+            # log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
+            # log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
 
             bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
 
@@ -200,45 +213,19 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
             else:
                 log("   Don't update best significance.")
 
-    return (i, j, s_ij, best_splitting_ij)
 
-
-# Initialization
-for i in range(args.nSteps):
-    row = []
-    row_bs = []
-    for j in range(args.nSteps):
-        row.append(0)
-        row_bs.append([])
-    s.append(row)
-    best_splitting.append(row_bs)
-
-# Main loop
-# for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]
-#     print "Scanning categories made of %i bins"%l
-#     for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
-#         j = i + l - 1
-#         print "="*50
-#         print "   Solving subproblem P_%i%i"%(i,j)
-#         print "   The goal is to find best significance in category containing bins #%i through #%i"%(i, j)
-#         print "="*50
-
-#         s[i][j], best_splitting[i][j] = solve_subproblem(i,j,s,best_splitting,memorized, verbose=False)
-
-#         print "S_ij so far:"
-#         for ii in range(args.nSteps):
-#             row = ""
-#             for jj in range(args.nSteps):
-#                 row = row + "%f "%s[ii][jj]
-#             print row
-
-#         print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
-#         print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
-
-def callback(result):
-    i, j, s_ij, best_splitting_ij = result
+    log("   Problem P_%i%i solved! Here's the best solution:"%(i,j))
+    log("      Highest significance for P_%i%i is %f and achieved when the splitting is %s"%(i, j, s[i][j], bins_to_illustration(i, j+1, best_splitting[i][j])))
     s[i][j] = s_ij
     best_splitting[i][j] = best_splitting_ij
+    # return (i, j, s_ij, best_splitting_ij)
+
+# def callback(result):
+#     global s
+#     global best_splitting
+#     i, j, s_ij, best_splitting_ij = result
+#     s[i][j] = s_ij
+#     best_splitting[i][j] = best_splitting_ij
 
 
 parallel = True
@@ -249,7 +236,7 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
     if parallel:
         print "Number of CPUs: ", mp.cpu_count()
         pool = mp.Pool(mp.cpu_count())
-        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1, s, best_splitting, memorized), callback=callback) for i in range(0, args.nSteps-l+1)]
+        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1), callback=callback) for i in range(0, args.nSteps-l+1)]
         for process in a:
             process.wait()
         pool.close()
@@ -265,6 +252,7 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
             row = row + "%f "%s[ii][jj]
         print row
 
+
 # print "Solutions to all subproblems: "
 # for i in range(args.nSteps):
 #     for j in range(i, args.nSteps):
@@ -278,7 +266,6 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
 # print memorized
 # print "----------------------------------------"
 
-
 best_bins = best_splitting[0][args.nSteps-1]
 print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), bins_to_illustration(0, args.nSteps, best_bins)
 new_bins = []
@@ -286,165 +273,3 @@ for i in range(len(best_bins)):
     new_bins.append(args.min_var + best_bins[i]*step)
 print "Best cuts on MVA score are:"
 print best_bins, " --> ", new_bins
-
-
-
-
-
-# def solve_subproblem(i,j, s, best_splitting, memorized):
-#     # global s 
-#     # global best_splitting
-#     # global memorized
-
-#     log("="*50)
-#     log("   Solving subproblem P_%i%i"%(i,j))
-#     log("   The goal is to find best significance in category containing bins #%i through #%i"%(i, j))
-#     log("="*50)
-
-#     s_ij = 0
-#     best_splitting_ij = []
-#     for k in range(i, j+1):
-#         consider_this_option = True
-#         can_decrease_nCat = False
-#         if k==i:
-#             log("   First approach to P_%i%i: merge all bins."%(i,j)   )            
-#             log("   Merge bins from #%i to #%i into a single category"%(i, j))
-#             bins = [i,j+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-#             log("   Splitting is:   "+bins_to_illustration(i, j+1, bins))
-
-#             significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
-
-#             sign_merged = significance
-#             log("   Calculated significance for merged bins!")
-#             s_ij = significance
-#             best_splitting_ij = bins
-
-#         else:
-
-
-#             log("   Continue solving P_%i%i!"%(i,j))
-#             log("   Cut between #%i and #%i"%(k-1, k))
-#             log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
-#             log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
-#             log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
-
-#             bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
-
-#             log("   Splitting is "+bins_to_illustration(i, j+1, bins))
-#             bins_str = ""
-#             for ii in range(len(bins)-1):
-#                 bins_str = bins_str+"%f_"%bins[ii]
-#             bins_str = bins_str+"%f"%bins[len(bins)-1]
-
-
-
-#             if bins_str in memorized.keys():
-#                 log("   We already saw bins "+', '.join([str(b) for b in bins]))
-#                 log("     and the significance for them was %f"%memorized[bins_str])
-#                 significance = memorized[bins_str]
-#             else:
-#                 significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j]) # this would be exactly true for Poisson significance. For Asimov significance it's still a good approximation.
-#                 memorized[bins_str]=significance
-#                 log("   Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance))
-#                 # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)  # getting real Asimov significance (takes longer)
-
-#             if s_ij:
-#                 gain = ( significance - s_ij ) / s_ij*100.0
-#             else:
-#                 gain = 999
-
-#             log("   Before this option the best s[%i][%i] was %f for splitting %s"%(i, j, s_ij, ', '.join([str(b) for b in best_splitting_ij])))
-#             log("   This option gives s[%i][%i] = %f for splitting %s"%(i, j, significance, ', '.join([str(b) for b in bins])))
-#             log("   We gain %f %% if we use the new option."%gain)
-#             log("   The required gain if %f %% per additional category."%(args.penalty))
-#             ncat_diff = abs(len(bins) - len(best_splitting_ij))
-
-#             if ((len(bins)>len(best_splitting_ij))&(gain<args.penalty*ncat_diff)):
-#                 log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(len(bins)-len(best_splitting_ij), len(best_splitting_ij)-1,len(bins)-1,gain))
-#                 consider_this_option = False
-
-#             elif ((len(bins)<len(best_splitting_ij))&(gain>-args.penalty*ncat_diff)):
-#                 log("     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(len(best_splitting_ij)-len(bins), len(best_splitting_ij)-1,len(bins)-1, -gain))
-#                 can_decrease_nCat = True
-
-#             elif ((len(bins)==len(best_splitting_ij))&(gain>0)):
-#                 log("     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain)
-
-#             if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
-#                 s_ij = significance
-#                 best_splitting_ij = bins
-#                 log("   Updating best significance: now s[%i][%i] = %f"%(i,j, s_ij))
-#             else:
-#                 log("   Don't update best significance.")
-
-
-#     log("   Problem P_%i%i solved! Here's the best solution:"%(i,j))
-#     log("      Highest significance for P_%i%i is %f and achieved when the splitting is %s"%(i, j, s[i][j], bins_to_illustration(i, j+1, best_splitting[i][j])))
-#     return (i, j, s_ij, best_splitting_ij)
-
-# def callback(result):
-#     # global s
-#     # global best_splitting
-#     i, j, s_ij, best_splitting_ij = result
-#     s[i][j] = s_ij
-#     best_splitting[i][j] = best_splitting_ij
-
-
-# parallel = True
-
-# # Initialization
-# s = []              # will store the best significance for the category containing bins i through j
-# best_splitting = [] # will store the best way to split the category containing bins i through j
-# memorized = {}
-# for i in range(args.nSteps):
-#     row = []
-#     row_bs = []
-#     for j in range(args.nSteps):
-#         row.append(0)
-#         row_bs.append([])
-#     s.append(row)
-#     best_splitting.append(row_bs)
-
-# # Main loop
-# for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]. l=N is the big problem.
-#     print "Scanning categories made of %i bins"%l
-#     if parallel:
-#         print "Number of CPUs: ", mp.cpu_count()
-#         pool = mp.Pool(mp.cpu_count())
-#         a = [pool.apply_async(solve_subproblem, args = (i,i+l-1, s, best_splitting, memorized), callback=callback) for i in range(0, args.nSteps-l+1)]
-#         for process in a:
-#             process.wait()
-#         pool.close()
-
-#     else:   # if not parallel
-#         for i in range(0, args.nSteps - l + 1): # j = i+l-1
-#             s[i][i+l-1], best_splitting[i][i+l-1] = solve_subproblem(i,i+l-1,s,best_splitting,memorized)
-
-#     print "S_ij so far:"
-#     for ii in range(args.nSteps):
-#         row = ""
-#         for jj in range(args.nSteps):
-#             row = row + "%f "%s[ii][jj]
-#         print row
-
-
-# # print "Solutions to all subproblems: "
-# # for i in range(args.nSteps):
-# #     for j in range(i, args.nSteps):
-# #         rescaled = []
-# #         for ii in range(len(best_splitting[i][j])):
-# #             rescaled.append(args.min_var + best_splitting[i][j][ii]*step)
-# #         print "P%i%i: "%(i, j), rescaled, "significance = %f"%s[i][j]
-
-# # print "----------------------------------------"
-# # print "Here are the values that were memorized:"
-# # print memorized
-# # print "----------------------------------------"
-
-# best_bins = best_splitting[0][args.nSteps-1]
-# print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), bins_to_illustration(0, args.nSteps, best_bins)
-# new_bins = []
-# for i in range(len(best_bins)):
-#     new_bins.append(args.min_var + best_bins[i]*step)
-# print "Best cuts on MVA score are:"
-# print best_bins, " --> ", new_bins
