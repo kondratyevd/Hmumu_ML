@@ -86,6 +86,8 @@ for i in range(args.nSteps):
 
 
 def get_significance(label, bins):
+    global memorized
+
     new_bins = []
     for i in range(len(bins)):
         new_bins.append(args.min_var + bins[i]*step)
@@ -129,7 +131,11 @@ def get_significance(label, bins):
     return significance
 
 
-def solve_subproblem(i,j,s,best_splitting,memorized):
+def solve_subproblem(i,j,memorized):
+    global s 
+    global best_splitting
+    global memorized
+
     log("="*50)
     log("   Solving subproblem P_%i%i"%(i,j))
     log("   The goal is to find best significance in category containing bins #%i through #%i"%(i, j))
@@ -229,7 +235,7 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
     if parallel:
         print "Number of CPUs: ", mp.cpu_count()
         pool = mp.Pool(mp.cpu_count())
-        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1,s,best_splitting,memorized), callback=callback) for i in range(0, args.nSteps-l+1)]
+        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1), callback=callback) for i in range(0, args.nSteps-l+1)]
         for process in a:
             process.wait()
         pool.close()
