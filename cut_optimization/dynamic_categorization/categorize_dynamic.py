@@ -147,29 +147,34 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
             best_splitting_ij = bins
         else:
 
-            log("   Continue solving P_%i%i!"%(i,j))
-            log("   Cut between #%i and #%i"%(k-1, k))
-            log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
-            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
-            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
+            if verbose:
+                print "   Continue solving P_%i%i!"%(i,j)
+                print "   Cut between #%i and #%i"%(k-1, k)
+                print "   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j)
+                print "   ",best_splitting[i][k-1], "s[%i][%i] = %f"%(i, k-1, s[i][k-1])
+                print "   ",best_splitting[k][j], "s[%i][%i] = %f"%(k,j, s[k][j])
 
             bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
 
-            log("   Splitting is "+bins_to_illustration(i, j+1, bins))
+            if verbose:
+                print "   Splitting is", bins_to_illustration(i, j+1, bins)
+
             bins_str = ""
             for ii in range(len(bins)-1):
                 bins_str = bins_str+"%f_"%bins[ii]
             bins_str = bins_str+"%f"%bins[len(bins)-1]
 
             if bins_str in memorized.keys():
-                log("   We already saw bins "+', '.join([str(b) for b in bins]))
-                log("     and the significance for them was %f"%memorized[bins_str])
+                if verbose:
+                    print "   We already saw bins ", bins
+                    print "     and the significance for them was ", memorized[bins_str]
                 significance = memorized[bins_str]
             else:
-                significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j]) # this would be exactly true for Poisson significance. For Asimov significance it's still a good approximation.
+                significance = sqrt(s[i][k-1]*s[i][k-1]+s[k][j]*s[k][j])
                 memorized[bins_str]=significance
-                log("   Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance))
-                # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)  # getting real Asimov significance (takes longer)
+                if verbose:
+                    print "   Significance = sqrt(s[%i][%i]^2+s[%i][%i]^2) = %f"%(i, k-1, k, j, significance)
+                # significance = get_significance("%i_%i_%i_%i"%(l, i, j, k), bins)
 
             if s_ij:
                 gain = ( significance - s_ij ) / s_ij*100.0
@@ -200,9 +205,6 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
             else:
                 log("   Don't update best significance.")
 
-
-    log("   Problem P_%i%i solved! Here's the best solution:"%(i,j))
-    log("      Highest significance for P_%i%i is %f and achieved when the splitting is %s"%(i, j, s[i][j], bins_to_illustration(i, j+1, best_splitting[i][j])))
     return (i, j, s_ij, best_splitting_ij)
 
 
