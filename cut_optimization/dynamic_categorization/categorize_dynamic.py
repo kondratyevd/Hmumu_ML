@@ -31,7 +31,7 @@ parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=flo
 parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
 args = parser.parse_args()
 
-log_mode = 1
+log_mode = 0
 def log(s):
     if log_mode is 0:
         pass
@@ -80,7 +80,7 @@ def get_significance(label, bins):
     for i in range(len(bins)):
         new_bins.append(args.min_var + bins[i]*step)
     log("   Rescaled cut boundaries:")
-    log("      %s --> %s"%(', '.join(bins), ', '.join(new_bins)))
+    log("      %s --> %s"%(', '.join([str(b) for b in bins]), ', '.join([str(b) for b in new_bins])))
 
     log("   Categories ready:")
     categories = {}
@@ -104,7 +104,7 @@ def get_significance(label, bins):
         significance = event.limit
     os.system('rm higgsCombine%s.Significance.mH120.root'%label)
 
-    log("Expected significance %f calculated for bins %s"%(significance, ', '.join(bins)))
+    log("Expected significance %f calculated for bins %s"%(significance, ', '.join([str(b) for b in bins])))
 
     bins_str = ""
     for ii in range(len(bins)-1):
@@ -159,7 +159,7 @@ def solve_subproblem(i,j,s,best_splitting,memorized):
             bins_str = bins_str+"%f"%bins[len(bins)-1]
 
             if bins_str in memorized.keys():
-                log("   We already saw bins "+', '.join(bins))
+                log("   We already saw bins "+', '.join([str(b) for b in bins]))
                 log("     and the significance for them was %f"%memorized[bins_str])
                 significance = memorized[bins_str]
             else:
@@ -173,8 +173,8 @@ def solve_subproblem(i,j,s,best_splitting,memorized):
             else:
                 gain = 999
 
-            log("   Before this option the best s[%i][%i] was %f for splitting %s"%(i, j, s_ij, ', '.join(best_splitting_ij)))
-            log("   This option gives s[%i][%i] = %f for splitting %s"%(i, j, significance, ', '.join(bins)))
+            log("   Before this option the best s[%i][%i] was %f for splitting %s"%(i, j, s_ij, ', '.join([str(b) for b in best_splitting_ij])))
+            log("   This option gives s[%i][%i] = %f for splitting %s"%(i, j, significance, ', '.join([str(b) for b in bins])))
             log("   We gain %f %% if we use the new option."%gain)
             log("   The required gain if %f %% per additional category."%(args.penalty))
             ncat_diff = abs(len(bins) - len(best_splitting_ij))
@@ -219,7 +219,7 @@ for i in range(args.nSteps):
     best_splitting.append(row_bs)
 
 
-parallel = False
+parallel = True
 
 # Main loop
 for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]. l=N is the big problem.
