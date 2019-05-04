@@ -31,7 +31,6 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
         mva_var = ROOT.RooRealVar("MVA", "MVA", -1, 1)
     data_tree = ROOT.TChain(data_tree)
     data_tree.Add(input_path)  
-    bkg_entries = data_tree.GetEntries()
     # print "Loaded tree from "+input_path+" with %i entries."%data_tree.GetEntries()
     data_hist_name = "data_%s"%cat_name
     data_hist = ROOT.TH1D(data_hist_name, data_hist_name, 40, 110, 150)
@@ -39,6 +38,8 @@ def add_data(w, cat_name, input_path, data_tree, cut, method):
     dummy.cd()
     data_tree.Draw("mass>>%s"%(data_hist_name), cut)
     dummy.Close()
+    bkg_entries = data_hist.GetEntries()
+
     if "binary" in method:
         data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta, sig_pred_var, bkg_pred_var), cut)
     elif "multi" in method:
@@ -92,17 +93,18 @@ def add_sig_model(w, cat_name, input_path, cut, method, lumi):
         # print "Loaded sig tree from "+input_path+" with %i entries."%signal_tree.GetEntries()    
     
     signal_tree.SetName("signal_tree")
-    sig_entries = signal_tree.GetEntries()
-
-    if (sig_entries<100000):
-        return 0, sig_entries
 
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
-    dummy.Close()
+    dummy.Close()    
+
+    sig_entries = signal_hist.GetEntries()
+    if (sig_entries<100000):
+        return 0, sig_entries
+
     signal_rate = signal_hist.Integral()
     # print signal_rate
 
@@ -176,10 +178,6 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
         signal_tree.Add(input_path)
 
     signal_tree.SetName("signal_tree")
-    sig_entries = signal_tree.GetEntries()
-
-    if (sig_entries<100000):
-        return 0, sig_entries
 
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
@@ -187,6 +185,11 @@ def add_sig_model_with_nuisances(w, cat_name, input_path, cut, res_unc_val, scal
     dummy.cd()
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
+
+    sig_entries = signal_hist.GetEntries()
+    if (sig_entries<100000):
+        return 0, sig_entries
+
     signal_rate = signal_hist.Integral()
     # print signal_rate
 
@@ -302,16 +305,18 @@ def add_sig_model_dcb(w, cat_name, input_path, cut, method, lumi):
         signal_tree.Add(input_path)
 
         signal_tree.SetName("signal_tree")
-    sig_entries = signal_tree.GetEntries()
-
-    if (sig_entries<100000):
-        return 0, sig_entries      
+   
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
+
+    sig_entries = signal_hist.GetEntries()
+    if (sig_entries<100000):
+        return 0, sig_entries
+
     signal_rate = signal_hist.Integral()
     # print signal_rate
 
@@ -377,16 +382,18 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
         signal_tree.Add(input_path)
 
         signal_tree.SetName("signal_tree")
-    sig_entries = signal_tree.GetEntries()
 
-    if (sig_entries<100000):
-        return 0, sig_entries  
     signal_hist_name = "signal_%s"%cat_name
     signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(cut, lumi))
     dummy.Close()
+
+    sig_entries = signal_hist.GetEntries()
+    if (sig_entries<100000):
+        return 0, sig_entries
+    
     signal_rate = signal_hist.Integral()
     # print signal_rate
 
@@ -488,7 +495,8 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
                 sig_rate, sig_entries = add_sig_model_dcb(w, cat_name, sig_input_path, cut, method, lumi) 
 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, data_input_path, data_tree, cut, method)
-
+        print "sig entries:", sig_entries
+        print "bkg entries:", sig_entries
         if (sig_entries<100000) or (bkg_entries<100000):
             valid = False
 
