@@ -31,7 +31,7 @@ parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=flo
 parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
 args = parser.parse_args()
 
-log_mode = 0
+log_mode = 1
 def log(s):
     if log_mode is 0:
         pass
