@@ -310,7 +310,7 @@ def callback(result):
     best_splitting2[i2][j2] = best_splitting_ij_2
 
 
-parallel = True
+parallel = False
 
 # Main loop
 for l1 in range(1, args.nSteps1+1): 
@@ -358,10 +358,12 @@ for l1 in range(1, args.nSteps1+1):
 # print memorized
 # print "----------------------------------------"
 
-best_bins = best_splitting[0][args.nSteps-1]
-print "Best significance overall is %f and achieved when the splitting is "%(s[0][args.nSteps-1]), bins_to_illustration(0, args.nSteps, best_bins)
-new_bins = []
-for i in range(len(best_bins)):
-    new_bins.append(args.min_var + best_bins[i]*step)
-print "Best cuts on MVA score are:"
-print best_bins, " --> ", new_bins
+
+print "Best significance overall is %f and achieved when the splitting is: "%(s[(0, args.nSteps1-1, 0, args.nSteps2-1)])
+print "By 1st variable: ", bins_to_illustration(0, args.nSteps1, best_bins1)
+print "By 2nd variable: ", bins_to_illustration(0, args.nSteps2, best_bins2)
+# new_bins = []
+# for i in range(len(best_bins)):
+#     new_bins.append(args.min_var + best_bins[i]*step)
+# print "Best cuts on MVA score are:"
+# print best_bins, " --> ", new_bins
