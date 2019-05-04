@@ -84,26 +84,20 @@ def bins_to_illustration(min, max, bins):
     return result
 
 def get_significance(label, bins, verbose=True):
-
-
-
     new_bins = []
     for i in range(len(bins)):
-        new_bins.append(min_score + bins[i]*step)
-    if verbose:
-        print "   Rescaled cut boundaries:"
-        print "      ", bins, " --> ", new_bins
+        new_bins.append(args.min_var + bins[i]*step)
+    log("   Rescaled cut boundaries:")
+    log("      %s --> %s"%(', '.join([str(b) for b in bins]), ', '.join([str(b) for b in new_bins])))
 
+    log("   Categories ready:")
     categories = {}
     for i in range(len(new_bins)-1):
         cat_name = "cat%i"%i
         cut = "(%s>%f)&(%s<%f)"%(score, new_bins[i], score, new_bins[i+1])
         categories[cat_name] = cut
-
-    if verbose:
-        print "   Categories ready:"
-        print  "   ",categories
-        print "   Creating datacards... Please wait..."
+        log("   %s:  %s"%(cat_name, cut))
+    log("   Creating datacards... Please wait...")
 
     create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
 
@@ -118,21 +112,18 @@ def get_significance(label, bins, verbose=True):
         significance = event.limit
     os.system('rm higgsCombine%s.Significance.mH120.root'%label)
 
-    if verbose:
-        print "Expected significance %f calculated for bins"%significance, bins
+    log("Expected significance %f calculated for bins %s"%(significance, ', '.join([str(b) for b in bins])))
 
     bins_str = ""
     for ii in range(len(bins)-1):
         bins_str = bins_str+"%f_"%bins[ii]
     bins_str = bins_str+"%f"%bins[len(bins)-1]
-
     memorized[bins_str]=significance
 
-    if verbose:
-        print "Memorizing result as "+bins_str 
-        print " "
-        print "############################################"
-        print " "
+    log("Memorizing result as "+bins_str )
+    log(" ")
+    log("############################################")
+    log(" ")
     return significance
 
 
