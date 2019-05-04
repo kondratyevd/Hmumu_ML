@@ -393,7 +393,7 @@ def add_sig_model_dcb_with_nuisances(w, cat_name, input_path, cut, res_unc_val, 
     sig_entries = signal_hist.GetEntries()
     if (sig_entries<100000):
         return 0, sig_entries
-    
+
     signal_rate = signal_hist.Integral()
     # print signal_rate
 
@@ -495,8 +495,7 @@ def make_dnn_categories(categories, sig_input_path, data_input_path, data_tree, 
                 sig_rate, sig_entries = add_sig_model_dcb(w, cat_name, sig_input_path, cut, method, lumi) 
 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, data_input_path, data_tree, cut, method)
-        print "sig entries:", sig_entries
-        print "bkg entries:", sig_entries
+
         if (sig_entries<100000) or (bkg_entries<100000):
             valid = False
 
