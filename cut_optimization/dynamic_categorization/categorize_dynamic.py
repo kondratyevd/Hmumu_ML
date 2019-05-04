@@ -147,12 +147,11 @@ def solve_subproblem(i,j,s,best_splitting,memorized, verbose=True):
             best_splitting_ij = bins
         else:
 
-            if verbose:
-                print "   Continue solving P_%i%i!"%(i,j)
-                print "   Cut between #%i and #%i"%(k-1, k)
-                print "   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j)
-                print "   ",best_splitting[i][k-1], "s[%i][%i] = %f"%(i, k-1, s[i][k-1])
-                print "   ",best_splitting[k][j], "s[%i][%i] = %f"%(k,j, s[k][j])
+            log("   Continue solving P_%i%i!"%(i,j))
+            log("   Cut between #%i and #%i"%(k-1, k))
+            log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
+            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
+            log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
 
             bins = sorted(list(set(best_splitting[i][k-1]) | set(best_splitting[k][j]))) # sorted union of lists will provide the correct category boundaries
 
