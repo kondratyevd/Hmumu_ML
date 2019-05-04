@@ -236,7 +236,7 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
     if parallel:
         print "Number of CPUs: ", mp.cpu_count()
         pool = mp.Pool(mp.cpu_count())
-        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1), callback=callback) for i in range(0, args.nSteps-l+1)]
+        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1)) for i in range(0, args.nSteps-l+1)]
         for process in a:
             process.wait()
         pool.close()
