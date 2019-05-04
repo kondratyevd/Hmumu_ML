@@ -160,9 +160,9 @@ def solve_subproblem(i,j):
             best_splitting_ij = bins
 
         else:
-            # log("   Continue solving P_%i%i!"%(i,j))
-            # log("   Cut between #%i and #%i"%(k-1, k))
-            # log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
+            log("   Continue solving P_%i%i!"%(i,j))
+            log("   Cut between #%i and #%i"%(k-1, k))
+            log("   Combine the optimal solutions of P_%i%i and P_%i%i:"%(i , k-1, k, j))
             # log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[i][k-1]), i, k-1, s[i][k-1]))
             # log("   %s: s[%i][%i] = %f"%(bins_to_illustration(best_splitting[k][j]), k,j, s[k][j]))
 
