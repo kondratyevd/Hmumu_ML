@@ -5,7 +5,7 @@ from math import sqrt
 from make_datacards import create_datacard
 import argparse
 import multiprocessing as mp
-from numpy import zeros
+from numpy import zeros, empty
 
 # Disable most of RooFit output
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
