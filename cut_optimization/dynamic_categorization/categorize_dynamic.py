@@ -214,6 +214,8 @@ def solve_subproblem(i,j,s,best_splitting,memorized):
     return (i, j, s_ij, best_splitting_ij)
 
 def callback(result):
+    global s
+    global best_splitting
     i, j, s_ij, best_splitting_ij = result
     s[i][j] = s_ij
     best_splitting[i][j] = best_splitting_ij
