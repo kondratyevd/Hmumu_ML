@@ -328,8 +328,8 @@ for l1 in range(1, args.nSteps1+1):
             # pool.close()
 
         else:   # if not parallel
-            for i1 in range(0, args.nSteps - l1 + 1): # j = i+l-1
-                for i2 in range(0, args.nSteps - l2 + 1): # j = i+l-1
+            for i1 in range(0, args.nSteps1 - l1 + 1): # j = i+l-1
+                for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
                     j2 = i2+l2-1
                     ii1, jj1, ii2, jj2, s_ij, best_splitting_ij_1, best_splitting_ij_2 = solve_subproblem(i1,j1,i2,j2)
