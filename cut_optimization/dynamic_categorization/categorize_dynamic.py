@@ -6,6 +6,7 @@ from make_datacards import create_datacard
 import argparse
 import multiprocessing as mp
 
+# Disable most of the RooFit output
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Minimization)
@@ -15,10 +16,8 @@ ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.NumIntegratio
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--sig_in_path', action='store', dest='sig_input_path', help='Input path')
 parser.add_argument('--data_in_path', action='store', dest='data_input_path', help='Input path')
-# parser.add_argument('--sig_tree', action='store', dest='sig_tree', help='Tree name')
 parser.add_argument('--data_tree', action='store', dest='data_tree', help='Tree name')
 parser.add_argument('--out_path', action='store', dest='output_path', help='Output path')
-# parser.add_argument('--lumi', action='store', dest='lumi', help='Integrated luminosity')
 parser.add_argument('--nuis', action='store_true', dest='nuis', help='Nuisances')
 parser.add_argument('--nuis_val', action='store', dest='res_unc_val', help='Resolution uncertainty')
 parser.add_argument('--scale_unc_val', action='store', dest='scale_unc_val', help='Scale uncertainty')
@@ -32,6 +31,14 @@ parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=flo
 parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
 args = parser.parse_args()
 
+log_mode = 0
+def log(s):
+    if log_mode is 0:
+        pass
+    elif log_mode is 1:
+        print s
+    # elif log_mode is 2:
+    #   write into log file
 
 eta_categories = {
     "eta0": "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
@@ -260,35 +267,29 @@ def callback(result):
     best_splitting[i][j] = best_splitting_ij
 
 
-for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]
+parallel = True
+
+# Main loop
+for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]. l=N is the big problem.
     print "Scanning categories made of %i bins"%l
-    print "Number of CPUs: ", mp.cpu_count()
-    pool = mp.Pool(mp.cpu_count())
+    if parallel:
+        print "Number of CPUs: ", mp.cpu_count()
+        pool = mp.Pool(mp.cpu_count())
+        a = [pool.apply_async(solve_subproblem, args = (i,i+l-1, s, best_splitting, memorized), callback=callback) for i in range(0, args.nSteps-l+1)]
+        for process in a:
+            process.wait()
+        pool.close()
 
-    a = [pool.apply_async(solve_subproblem, args = (i,i+l-1,s,best_splitting,memorized, False), callback=callback) for i in range(0, args.nSteps-l+1)]
-    for process in a:
-        process.wait()
-    # for i in range(0, args.nSteps - l + 1): # we are considering [bin_i, bin_j]
-        # j = i + l - 1
-        # print "="*50
-        # print "   Solving subproblem P_%i%i"%(i,j)
-        # print "   The goal is to find best significance in category containing bins #%i through #%i"%(i, j)
-        # print "="*50
+    else:   # if not parallel
+        for i in range(0, args.nSteps - l + 1): # j = i+l-1
+            s[i][i+l-1], best_splitting[i][i+l-1] = solve_subproblem(i,i+l-1,s,best_splitting,memorized)
 
-        # s[i][j], best_splitting[i][j] = solve_subproblem(i,j,s,best_splitting,memorized, verbose=False)
-        # s[i][j], best_splitting[i][j] = pool.apply(solve_subproblem, args = (i,j,s,best_splitting,memorized, False))
-
-    pool.close()
     print "S_ij so far:"
     for ii in range(args.nSteps):
         row = ""
         for jj in range(args.nSteps):
             row = row + "%f "%s[ii][jj]
         print row
-
-        # print "   Problem P_%i%i solved! Here's the best solution:"%(i,j)
-        # print "      Highest significance for P_%i%i is %f and achieved when the splitting is "%(i, j, s[i][j]), bins_to_illustration(i, j+1, best_splitting[i][j])
-
 
 # print "Solutions to all subproblems: "
 # for i in range(args.nSteps):
@@ -321,39 +322,8 @@ print best_bins, " --> ", new_bins
 # import argparse
 # import multiprocessing as mp
 
-# # Disable most of RooFit output
-# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
-# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
-# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Minimization)
-# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.ObjectHandling)
-# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.NumIntegration)
 
-# parser = argparse.ArgumentParser(description='')
-# parser.add_argument('--sig_in_path', action='store', dest='sig_input_path', help='Input path')
-# parser.add_argument('--data_in_path', action='store', dest='data_input_path', help='Input path')
-# parser.add_argument('--data_tree', action='store', dest='data_tree', help='Tree name')
-# parser.add_argument('--out_path', action='store', dest='output_path', help='Output path')
-# parser.add_argument('--nuis', action='store_true', dest='nuis', help='Nuisances')
-# parser.add_argument('--nuis_val', action='store', dest='res_unc_val', help='Resolution uncertainty')
-# parser.add_argument('--scale_unc_val', action='store', dest='scale_unc_val', help='Scale uncertainty')
-# parser.add_argument('--smodel', action='store', dest='smodel', help='Signal model')
-# parser.add_argument('--option', action='store', dest='option', help='option')
-# parser.add_argument('--method', action='store', dest='method', help='method')
-# parser.add_argument('--min_var', action='store', dest='min_var', help='min_var', type=float)
-# parser.add_argument('--max_var', action='store', dest='max_var', help='max_var', type=float)
-# parser.add_argument('--nSteps', action='store', dest='nSteps', help='nSteps', type=int)
-# parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=float)
-# parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
-# args = parser.parse_args()
 
-# log_mode = 0
-# def log(s):
-#     if log_mode is 0:
-#         pass
-#     elif log_mode is 1:
-#         print s
-#     # elif log_mode is 2:
-#     #   write into log file
 
 # def bins_to_illustration(min, max, bins):
 #     result = ""
