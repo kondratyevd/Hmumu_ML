@@ -6,6 +6,7 @@ from make_datacards import create_datacard
 import argparse
 import multiprocessing as mp
 from numpy import zeros, empty
+import numpy as np
 
 # Disable most of RooFit output
 ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
@@ -47,7 +48,7 @@ def log(s):
 def bins_to_illustration(min, max, bins):
     result = ""
     for iii in range(min, max):
-        if (iii in bins):
+        if (iii in np.nditer(bins)):
             result = result+"| "
         result = result+"%i "%iii
     result = result+"| "
@@ -90,8 +91,8 @@ def get_significance(label, bins1, bins2):
         new_bins2.append(args.min_var2 + bins2[i]*step2) 
 
     log("   Rescaled cut boundaries:")
-    log("   1st variable:   %s --> %s"%(', '.join([str(b) for b in bins1]), ', '.join([str(b) for b in new_bins1])))
-    log("   2nd variable:   %s --> %s"%(', '.join([str(b) for b in bins2]), ', '.join([str(b) for b in new_bins2])))
+    log("   1st variable:   %s --> %s"%(', '.join([str(b) for b in np.nditer(bins1)]), ', '.join([str(b) for b in np.nditer(new_bins1)])))
+    log("   2nd variable:   %s --> %s"%(', '.join([str(b) for b in np.nditer(bins1)]), ', '.join([str(b) for b in np.nditer(new_bins1)])))
 
     log("   Categories ready:")
     categories = {}
