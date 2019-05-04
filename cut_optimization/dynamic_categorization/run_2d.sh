@@ -17,8 +17,8 @@ case $1 in
 		min_var1=-1
 		max_var1=1
 		nSteps1=4
-		min_var2=-1
-		max_var2=1
+		min_var2=0
+		max_var2=2.4
 		nSteps2=5
 		penalty=2 # in %
 		;;
