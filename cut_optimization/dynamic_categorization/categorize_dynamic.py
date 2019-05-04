@@ -74,6 +74,16 @@ step = (args.max_var - args.min_var)/float(args.nSteps)
 s = []              # will store the best significance for the category containing bins i through j
 best_splitting = [] # will store the best way to split the category containing bins i through j
 memorized = {}
+# Initialization
+for i in range(args.nSteps):
+    row = []
+    row_bs = []
+    for j in range(args.nSteps):
+        row.append(0)
+        row_bs.append([])
+    s.append(row)
+    best_splitting.append(row_bs)
+
 
 def get_significance(label, bins):
     new_bins = []
@@ -207,16 +217,6 @@ def callback(result):
     i, j, s_ij, best_splitting_ij = result
     s[i][j] = s_ij
     best_splitting[i][j] = best_splitting_ij
-
-# Initialization
-for i in range(args.nSteps):
-    row = []
-    row_bs = []
-    for j in range(args.nSteps):
-        row.append(0)
-        row_bs.append([])
-    s.append(row)
-    best_splitting.append(row_bs)
 
 
 parallel = True
