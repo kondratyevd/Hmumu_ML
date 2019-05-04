@@ -90,7 +90,18 @@ case $1 in
 		;;	
 
 	4.1)
-		echo 'Running option 4: DNN 20 categories'
+		echo 'Running option 4.1: DNN 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		min_var=1
+		max_var=3
+		nSteps=20
+		penalty=1
+		;;	
+	4.2)
+		echo 'Running option 4.2: DNN 20 categories'
 		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
 		DATA_TREE="tree_Data"
@@ -100,6 +111,29 @@ case $1 in
 		nSteps=20
 		penalty=2
 		;;	
+	4.3)
+		echo 'Running option 4.3: DNN 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		min_var=1
+		max_var=3
+		nSteps=20
+		penalty=3
+		;;	
+	4.4)
+		echo 'Running option 4.4: DNN 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_t*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/Run_2019-04-27_13-20-29/Keras_multi/model_50_D2_25_D2_25_D2/root/output_Data.root"
+		DATA_TREE="tree_Data"
+		method="DNNmulti"
+		min_var=1
+		max_var=3
+		nSteps=20
+		penalty=4
+		;;	
+
 
 	5)
 		echo 'Running option 5: BDT 10 categories'
@@ -114,7 +148,19 @@ case $1 in
 		;;	
 
 	5.1)
-		echo 'Running option 5: BDT 20 categories'
+		echo 'Running option 5.1: BDT 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDTmva"
+		min_var=-1
+		max_var=1
+		nSteps=20
+		penalty=1
+		;;	
+
+	5.2)
+		echo 'Running option 5.2: BDT 20 categories'
 		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
 		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
 		DATA_TREE="tree"
@@ -124,6 +170,28 @@ case $1 in
 		nSteps=20
 		penalty=2
 		;;	
+	5.3)
+		echo 'Running option 5.3: BDT 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDTmva"
+		min_var=-1
+		max_var=1
+		nSteps=20
+		penalty=3
+		;;	
+	5.4)
+		echo 'Running option 5.4: BDT 20 categories'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDTmva"
+		min_var=-1
+		max_var=1
+		nSteps=20
+		penalty=4
+		;;	
 
 	*)
 		echo 'Wrong option ' $1
@@ -131,23 +199,15 @@ case $1 in
 esac
 
 
-# SIG_TREE="tree"
 LUMI=41394.221
-# LUMI=35866
 TMP_PATH=/tmp/dkondra/categorization/output/scan_$1/
 OUTPUT_PATH=output/test_run_$1/
 mkdir -p $TMP_PATH
 mkdir -p $OUTPUT_PATH
 
 cd $TMP_PATH
+
 python $CURRENT_LOCATION/categorize_dynamic.py --option $1 --smodel '3gaus' --sig_in_path "$SIG_INPUT_PATH" --data_in_path "$DATA_INPUT_PATH" --out_path "$TMP_PATH"  --data_tree "$DATA_TREE" --method $method --min_var $min_var --max_var $max_var --nSteps $nSteps --lumi $LUMI --penalty $penalty
-# for filename in *.txt; do
-    # this is to retrieve whatever there is between "datacard" and ".txt" and use as a suffix for combine output. 
-    # I stole that from some stackexchange topic, don't really know how it works
-    # SUFF=$(echo "$filename" | sed "s|datacard\(.*\)\.txt|\1|");
-    # echo $filename
-    # combine -M Significance --expectSignal=1 -t -1 -n "$SUFF" -d $filename
-# done
 
 rm datacard*
 rm workspace*
