@@ -71,20 +71,6 @@ if args.option is "0": # inclusive
 
 step = (args.max_var - args.min_var)/float(args.nSteps)
 
-s = []              # will store the best significance for the category containing bins i through j
-best_splitting = [] # will store the best way to split the category containing bins i through j
-memorized = {}
-# Initialization
-for i in range(args.nSteps):
-    row = []
-    row_bs = []
-    for j in range(args.nSteps):
-        row.append(0)
-        row_bs.append([])
-    s.append(row)
-    best_splitting.append(row_bs)
-
-
 def get_significance(label, bins):
     global memorized
 
@@ -135,13 +121,6 @@ def solve_subproblem(i,j):
     global s 
     global best_splitting
     global memorized
-
-    print "S_ij so far:"
-    for ii in range(args.nSteps):
-        row = ""
-        for jj in range(args.nSteps):
-            row = row + "%f "%s[ii][jj]
-        print row
 
     log("="*50)
     log("   Solving subproblem P_%i%i"%(i,j))
@@ -234,6 +213,19 @@ def callback(result):
 
 
 parallel = True
+
+# Initialization
+s = []              # will store the best significance for the category containing bins i through j
+best_splitting = [] # will store the best way to split the category containing bins i through j
+memorized = {}
+for i in range(args.nSteps):
+    row = []
+    row_bs = []
+    for j in range(args.nSteps):
+        row.append(0)
+        row_bs.append([])
+    s.append(row)
+    best_splitting.append(row_bs)
 
 # Main loop
 for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]. l=N is the big problem.
