@@ -105,8 +105,10 @@ class Category(object):
                 print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,self.j1,self.i2,last_cut-1)
                 print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,self.j1,last_cut,self.j2)
                 print "Children are not updated"
+        elif not last_cut_var:
+            print "Leave the category %s merged."%self.label
         else:
-            print "Error: incorrect variable '%s'"%last_cut_var
+            print "Incorrect variable: '%s'"%last_cut_var
 
     def get_combined_significance(self):
         if self.merged:
@@ -124,7 +126,15 @@ class Category(object):
 
     def print_structure(self):
         if self.merged:
-            print "%s: [%f, %f], %s: [%f, %f]"%(self.var1, self.i1, self.j1, self.var2, self.i2, self.j2)
+            if self.i1 == self.j1:
+                struct1 = "%s: [%i]"%(self.var1, self.i1)
+            else:
+                struct1 = "%s: [%i, %i]"%(self.var1, self.i1, self.j1)
+            if self.i2 == self.j2:
+                struct2 = "%s: [%i]"%(self.var2, self.i2)
+            else:
+                struct2 = "%s: [%i, %i]"%(self.var2, self.i2, self.j2)
+            print "%s, %s"%(struct1, struct2)
         else:
             self.child1.print_structure()
             self.child2.print_structure()
@@ -197,6 +207,7 @@ def solve_subproblem(i1,j1,i2,j2):
     global best_splitting
     global memorized
     global categories
+    global score1, score2
 
     log("="*50)
     log("   Solving subproblem P_%i_%i_%i_%i"%(i1,j1,i2,j2))
@@ -311,9 +322,6 @@ def solve_subproblem(i1,j1,i2,j2):
             log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
         else:
             log("   Don't update best significance.")
-
-    log("   Problem P_%i_%i_%i_%i solved! Here's the best solution:"%(i1,j1,i2,j2))
-    log("      Highest significance for P_%i_%i_%i_%i is %f and achieved when the splitting is %s by 1st variable and %s by 2nd variable"%(i1,j1,i2,j2, s[(i1,j1,i2,j2)], bins_to_illustration(i1, j1+1, best_splitting1[i1][j1]), bins_to_illustration(i2, j2+1, best_splitting2[i2][j2])))
     
     cat_ij.set_splitting(best_splitting_var, best_splitting)
     return cat_ij.label, best_splitting_var, best_splitting
