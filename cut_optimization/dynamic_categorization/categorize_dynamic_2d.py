@@ -346,7 +346,7 @@ class Categorizer(object):
                             category.print_structure()
                         print "Categories so far:"
                         for c in self.categories:
-                            print c.label, c.combined_significance
+                            print c.label, c.get_combined_significance()
 
 
         final_category = None
