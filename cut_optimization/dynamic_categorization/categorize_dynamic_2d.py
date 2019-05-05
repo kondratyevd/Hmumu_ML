@@ -107,6 +107,9 @@ class Category(object):
                 print "Children are not updated"
         elif not last_cut_var:
             print "Leave the category %s merged."%self.label
+            self.merged = True
+            self.child1 = None
+            self.child2 = None
         else:
             print "Incorrect variable: '%s'"%last_cut_var
 
