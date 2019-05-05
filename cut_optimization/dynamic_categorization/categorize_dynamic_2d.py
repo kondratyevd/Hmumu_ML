@@ -64,12 +64,68 @@ elif "Rapidity" in args.method:
 
 score2 = "max_abs_eta_mu"
 
-eta_categories = {
-    "eta0": "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
-    "eta1": "(max_abs_eta_mu>0.9)&(max_abs_eta_mu<1.9)", 
-    "eta2": "(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)"
-}
+categories = {}
 
+class Category(object):
+    """docstring for Category"""
+    def __init__(self, var1, i1, j1, var2, i2, j2, inclusive_significance):
+        self.i1 = i1
+        self.j1 = j1
+        self.i2 = i2
+        self.j2 = j2
+        self.inclusive_significance = inclusive_significance
+        self.child1 = None
+        self.child2 = None
+        self.merged = True
+        self.label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
+
+    def set_splitting(self, last_cut_var, last_cut)
+        global categories
+
+        if last_cut_var is var1:
+            if (categories["%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)] and categories["%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)] ):
+                self.child1 = categories["%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)]
+                self.child2 = categories["%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)] 
+                self.merged = False 
+            else: 
+                print "Some subproblems of smaller size are not solved yet!"      
+                print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,last_cut-1,self.i2,self.j2)
+                print "Info about category (%i_%i_%i_%i) is missing"%(last_cut,self.j1,self.i2,self.j2)
+                print "Children are not updated"
+
+        elif last_cut_var is var2:
+            if (categories["%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1)] and categories["%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2)] ):
+                self.child1 = categories["%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1)]
+                self.child2 = categories["%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2)]  
+                self.merged = False
+            else: 
+                print "Some subproblems of smaller size are not solved yet!"      
+                print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,self.j1,self.i2,last_cut-1)
+                print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,self.j1,last_cut,self.j2)
+                print "Children are not updated"
+        else:
+            print "Error: incorrect variable '%s'"%last_cut_var
+
+    def get_combined_significance(self):
+        if self.merged:
+            return self.inclusive_significance
+        else:
+            s1 = self.child1.get_combined_significance()*self.child1.get_combined_significance()
+            s2 = self.child2.get_combined_significance()*self.child2.get_combined_significance()
+            return sqrt(s1+s2)
+            
+    def get_ncat(self):
+        if self.merged:
+            return 1
+        else:
+            return self.child1.get_ncat()+self.child2.get_ncat()
+
+    def print_structure(self):
+        if self.merged:
+            print "%s: [%f, %f], %s: [%f, %f]"%(var1, i1, j1, var2, i2, j2)
+        else:
+            self.child1.print_structure()
+            self.child2.print_structure()
 
 step1 = (args.max_var1 - args.min_var1)/float(args.nSteps1)
 step2 = (args.max_var2 - args.min_var2)/float(args.nSteps2)
@@ -93,7 +149,6 @@ for i in range(args.nSteps2):
 
 
 def get_significance(label, bins1, bins2):
-    global memorized
 
     new_bins1 = []
     for i in range(len(bins1)):
@@ -107,16 +162,16 @@ def get_significance(label, bins1, bins2):
     log("   2nd variable:   %s --> %s"%(', '.join([str(b) for b in bins2]), ', '.join([str(b) for b in new_bins2])))
 
     log("   Categories ready:")
-    categories = {}
+    categories_for_combine = {}
     for ii in range(len(new_bins1)-1):
         for jj in range(len(new_bins2)-1):
             cat_name = "cat_%i_%i"%(ii, jj)
             cut = "(%s>%f)&(%s<%f)&(%s>%f)&(%s<%f)"%(score1, new_bins1[ii], score1, new_bins1[ii+1], score2, new_bins2[ii], score2, new_bins2[ii+1])
-            categories[cat_name] = cut
+            categories_for_combine[cat_name] = cut
             log("   %s:  %s"%(cat_name, cut))
     log("   Creating datacards... Please wait...")
 
-    success = create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
+    success = create_datacard(categories_for_combine, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
 
     if not success:
         return 0
@@ -132,21 +187,6 @@ def get_significance(label, bins1, bins2):
         significance = event.limit
     os.system('rm higgsCombine%s.Significance.mH120.root'%label)
 
-    bins_str = ""
-    for ii in range(len(bins1)-1):
-        bins_str = bins_str+"%f_"%bins1[ii]
-    bins_str = bins_str+"+"
-    bins_str = bins_str+"%f"%bins1[len(bins1)-1]
-    for ii in range(len(bins2)-1):
-        bins_str = bins_str+"%f_"%bins2[ii]
-    bins_str = bins_str+"%f"%bins2[len(bins2)-1]
-
-    memorized[bins_str]=significance
-
-    log("Memorizing result as "+bins_str )
-    log(" ")
-    log("############################################")
-    log(" ")
     return significance
 
 
@@ -154,6 +194,7 @@ def solve_subproblem(i1,j1,i2,j2):
     global s 
     global best_splitting
     global memorized
+    global categories
 
     log("="*50)
     log("   Solving subproblem P_%i_%i_%i_%i"%(i1,j1,i2,j2))
@@ -161,8 +202,7 @@ def solve_subproblem(i1,j1,i2,j2):
     log("="*50)
 
     s_ij = 0
-    best_splitting_ij_1 = []
-    best_splitting_ij_2 = []
+    best_splitting_ij = ("", 0)
 
     log("   First approach to P_%i_%i_%i_%i: merge all bins"%(i1,j1,i2,j2))          
     log("   Merge bins from #%i to #%i by 1st variable and from #%i to #%i by 2nd variable into a single category"%(i1,j1,i2,j2))
@@ -174,9 +214,11 @@ def solve_subproblem(i1,j1,i2,j2):
     significance = get_significance("%i_%i_%i_%i_%i"%(i1,j1,i2,j2, 0), bins1, bins2)
 
     log("   Calculated significance for merged bins!")
+    log("   Creating a 'Category' object..")
+    cat_ij = Category(score1, i1, j1, score2, i2, j2, significance)
+    categories["%i_%i_%i_%i"%(i1,j1,i2,j2)] = cat_ij
     s_ij = significance
-    best_splitting_ij_1 = bins1
-    best_splitting_ij_2 = bins2
+    ncat_best = 1
 
     for k1 in range(i1+1, j1+1):
         consider_this_option = True
@@ -186,29 +228,8 @@ def solve_subproblem(i1,j1,i2,j2):
         log("   Cut between #%i and #%i by 1st variable"%(k1-1, k1))
         log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , k1-1, i2, j2, k1, j1, i2, j2))
 
-        bins1 = sorted(list(set(best_splitting1[i1][k1-1]) | set(best_splitting1[k1][j1]))) # sorted union of lists will provide the correct category boundaries
-        bins2 = best_splitting2[i2][j2]
-        
-        log("   Splitting by 1st variable is "+bins_to_illustration(i1, j1+1, bins1))
-        log("   Splitting by 2nd variable is "+bins_to_illustration(i2, j2+1, bins2))
-
-        bins_str = ""
-        for ii in range(len(bins1)-1):
-            bins_str = bins_str+"%f_"%bins1[ii]
-        bins_str = bins_str+"+"
-        bins_str = bins_str+"%f"%bins1[len(bins1)-1]
-        for ii in range(len(bins2)-1):
-            bins_str = bins_str+"%f_"%bins2[ii]
-        bins_str = bins_str+"%f"%bins2[len(bins2)-1]
-
-        if bins_str in memorized.keys():
-            log("   We already saw these bins,")
-            log("     and the significance for them was %f"%memorized[bins_str])
-            significance = memorized[bins_str]
-        else:
-            significance = sqrt(s[(i1,k1-1,i2,j2)]*s[(i1,k1-1,i2,j2)]+s[(k1,j1,i2,j2)]*s[(k1,j1,i2,j2)]) # this would be exactly true for Poisson significance. For Asimov significance it's still a good approximation.
-            memorized[bins_str]=significance
-            log("   Significance = sqrt(s[%i,%i,%i,%i]^2+s[%i,%i,%i,%i]^2) = %f"%(i1, k1-1, i2, j2, k1, j1, i2, j2, significance))
+        cat_ij.set_splitting(score1, k1)
+        significance = cat_ij.get_combined_significance()
 
         if s_ij:
             gain = ( significance - s_ij ) / s_ij*100.0
@@ -220,9 +241,9 @@ def solve_subproblem(i1,j1,i2,j2):
         log("   We gain %f %% if we use the new option."%gain)
         log("   The required gain if %f %% per additional category."%(args.penalty))
         
-        old_ncat = len(best_splitting_ij_1) + len(best_splitting_ij_2) - 2
-        new_ncat = len(bins1) + len(bins2) - 2
-        ncat_diff = abs( new_ncat - old_ncat)
+        old_ncat = ncat_best
+        new_ncat = cat_ij.get_ncat()
+        ncat_diff = abs(new_ncat - ncat_best)
 
         if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
             log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain))
@@ -237,7 +258,8 @@ def solve_subproblem(i1,j1,i2,j2):
 
         if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
             s_ij = significance
-            best_splitting_ij_1 = bins1
+            best_splitting_ij = (score1, k1)
+            ncat_best = new_ncat
             log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
         else:
             log("   Don't update best significance.")
@@ -250,29 +272,8 @@ def solve_subproblem(i1,j1,i2,j2):
         log("   Cut between #%i and #%i by 2nd variable"%(k2-1, k2))
         log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , j1, i2, k2-1, i1, j1, k2, j2))
 
-        bins1 = best_splitting1[i1][j1]
-        bins2 = sorted(list(set(best_splitting2[i2][k2-1]) | set(best_splitting2[k2][j2]))) # sorted union of lists will provide the correct category boundaries
-        
-        log("   Splitting by 1st variable is "+bins_to_illustration(i1, j1+1, bins1))
-        log("   Splitting by 2nd variable is "+bins_to_illustration(i2, j2+1, bins2))
-
-        bins_str = ""
-        for ii in range(len(bins1)-1):
-            bins_str = bins_str+"%f_"%bins1[ii]
-        bins_str = bins_str+"+"
-        bins_str = bins_str+"%f"%bins1[len(bins1)-1]
-        for ii in range(len(bins2)-1):
-            bins_str = bins_str+"%f_"%bins2[ii]
-        bins_str = bins_str+"%f"%bins2[len(bins2)-1]
-
-        if bins_str in memorized.keys():
-            log("   We already saw these bins,")
-            log("     and the significance for them was %f"%memorized[bins_str])
-            significance = memorized[bins_str]
-        else:
-            significance = sqrt(s[(i1,j1,i2,k2-1)]*s[(i1,j2,i2,k2-1)]+s[(i1,j1,k2,j2)]*s[(i1,j1,k2,j2)]) # this would be exactly true for Poisson significance. For Asimov significance it's still a good approximation.
-            memorized[bins_str]=significance
-            log("   Significance = sqrt(s[%i,%i,%i,%i]^2+s[%i,%i,%i,%i]^2) = %f"%(i1, j1, i2,k2-1, i1,j1,k2,j2, significance))
+        cat_ij.set_splitting(score2, k2)
+        significance = cat_ij.get_combined_significance()
 
         if s_ij:
             gain = ( significance - s_ij ) / s_ij*100.0
@@ -284,9 +285,9 @@ def solve_subproblem(i1,j1,i2,j2):
         log("   We gain %f %% if we use the new option."%gain)
         log("   The required gain if %f %% per additional category."%(args.penalty))
         
-        old_ncat = len(best_splitting_ij_1) + len(best_splitting_ij_2) - 2
-        new_ncat = len(bins1) + len(bins2) - 2
-        ncat_diff = abs( new_ncat - old_ncat)
+        old_ncat = ncat_best
+        new_ncat = cat_ij.get_ncat()
+        ncat_diff = abs(new_ncat - ncat_best)
 
         if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
             log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain))
@@ -301,26 +302,21 @@ def solve_subproblem(i1,j1,i2,j2):
 
         if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
             s_ij = significance
-            best_splitting_ij_1 = bins1
+            best_splitting_ij = (score2, k2)
+            ncat_best = new_ncat
             log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
         else:
             log("   Don't update best significance.")
 
     log("   Problem P_%i_%i_%i_%i solved! Here's the best solution:"%(i1,j1,i2,j2))
     log("      Highest significance for P_%i_%i_%i_%i is %f and achieved when the splitting is %s by 1st variable and %s by 2nd variable"%(i1,j1,i2,j2, s[(i1,j1,i2,j2)], bins_to_illustration(i1, j1+1, best_splitting1[i1][j1]), bins_to_illustration(i2, j2+1, best_splitting2[i2][j2])))
-    s[(i1,j1,i2,j2)] = s_ij
-    best_splitting1[i1][j1] = best_splitting_ij_1
-    best_splitting2[i2][j2] = best_splitting_ij_2
-    return (i1, j1, i2, j2, s_ij, best_splitting_ij_1, best_splitting_ij_2)
+    
+    cat_ij.set_splitting(best_splitting_ij)
+    return cat_ij.label, best_splitting_ij
 
 def callback(result):
-    global s
-    global best_splitting1
-    global best_splitting2
-    i1, j1, i2, j2, s_ij, best_splitting_ij_1, best_splitting_ij_2 = result
-    s[(i1,j1,i2,j2)] = s_ij
-    best_splitting1[i1][j1] = best_splitting_ij_1
-    best_splitting2[i2][j2] = best_splitting_ij_2
+    label, score, cut = result
+    categories[label].set_splitting(score, cut)
 
 
 parallel = False
@@ -345,17 +341,11 @@ for l1 in range(1, args.nSteps1+1):
                 for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
                     j2 = i2+l2-1
-                    ii1, jj1, ii2, jj2, s_ij, best_splitting_ij_1, best_splitting_ij_2 = solve_subproblem(i1,j1,i2,j2)
-                    s[(i1,j1,i2,j2)] = s_ij
-                    best_splitting1[i1][j1] = best_splitting_ij_1
-                    best_splitting2[i2][j2] = best_splitting_ij_2
+                    label, score, cut = solve_subproblem(i1,j1,i2,j2)
+                    categories[label].set_splitting(score, cut)
+                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
+                    categories[label].print_structure()
 
-        # print "S_ij so far:"
-        # for ii in range(args.nSteps):
-        #     row = ""
-        #     for jj in range(args.nSteps):
-        #         row = row + "%f "%s[ii][jj]
-        #     print row
 
 
 # print "Solutions to all subproblems: "
