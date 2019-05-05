@@ -511,8 +511,9 @@ for l1 in range(1, framework.nSteps1+1):
         if framework.parallel:
             for i1 in range(0, framework.nSteps1 - l1 + 1): 
                 j1=i1+l1-1
+                i2max = framework.nSteps2-l2+1
                 pool = mp.Pool(mp.cpu_count())
-                a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, framework.nSteps2-l2+1)]
+                a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, i2max)]
                 for process in a:
                     process.wait()
                 pool.close()
