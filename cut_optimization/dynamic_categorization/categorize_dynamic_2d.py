@@ -82,7 +82,7 @@ class Category(object):
         self.label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
 
     def set_splitting(self, last_cut_var, last_cut):
-        global categories
+        categories = globals()['categories']
 
         if last_cut_var is self.var1:
             if (categories["%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)] and categories["%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)] ):
@@ -209,7 +209,7 @@ def solve_subproblem(i1,j1,i2,j2):
     global s 
     global best_splitting
     global memorized
-    global categories
+    categories = globals()['categories']
     global score1, score2
 
     log("="*50)
@@ -330,7 +330,7 @@ def solve_subproblem(i1,j1,i2,j2):
     return cat_ij.label, best_splitting_var, best_splitting
 
 def callback(result):
-    global categories
+    categories = globals()['categories']
     label, score, cut = result
     print categories
     categories[label].set_splitting(score, cut)
