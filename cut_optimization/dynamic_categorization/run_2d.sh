@@ -34,7 +34,7 @@ case $1 in
 		nSteps1=20
 		min_var2=0
 		max_var2=2.4
-		nSteps2=10
+		nSteps2=24
 		penalty=2 # in %
 		;;
 
