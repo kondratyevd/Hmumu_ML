@@ -317,7 +317,7 @@ class Categorizer(object):
                         j1=i1+l1-1
                         # print "Number of CPUs: ", mp.cpu_count()
                         pool = mp.Pool(mp.cpu_count())
-                        a = [pool.apply_async(self.solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, self.nSteps2-l2+1)]
+                        a = [pool.apply_async(self.solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=self.callback) for i2 in range(0, self.nSteps2-l2+1)]
                         for process in a:
                             process.wait()
                         pool.close()
