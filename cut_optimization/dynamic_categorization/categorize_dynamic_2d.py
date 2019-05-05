@@ -380,7 +380,7 @@ framework = Categorizer(score1, args.min_var1, args.max_var1, args.nSteps1, scor
 
 
 def solve_subproblem(i1,j1,i2,j2):
-    global framework
+    # global framework
     print "="*50
     print "   Solving subproblem P_%i_%i_%i_%i"%(i1,j1,i2,j2)
     print "   The goal is to find best significance in category containing bins #%i through #%i by 1st variable and #%i through #%i by 2nd variable"%(i1,j1,i2,j2)
@@ -518,7 +518,7 @@ for l1 in range(1, framework.nSteps1+1):
                 for process in a:
                     process.wait()
                 pool.close()
-                # pool.join()
+                pool.join()
 
                 for i2 in range(0, framework.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
