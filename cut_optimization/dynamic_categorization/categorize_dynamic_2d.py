@@ -345,8 +345,8 @@ class Categorizer(object):
                             print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(category.label, category.get_combined_significance())
                             category.print_structure()
                         print "Categories so far:"
-                            for c in self.categories:
-                                print c.label, c.significance
+                        for c in self.categories:
+                            print c.label, c.significance
 
 
         final_category = None
