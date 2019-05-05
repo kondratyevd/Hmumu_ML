@@ -205,11 +205,10 @@ def get_significance(label, bins1, bins2):
     return significance
 
 
-def solve_subproblem(i1,j1,i2,j2):
+def solve_subproblem(categories, i1,j1,i2,j2):
     global s 
     global best_splitting
     global memorized
-    categories = globals()['categories']
     global score1, score2
 
     log("="*50)
@@ -327,11 +326,10 @@ def solve_subproblem(i1,j1,i2,j2):
             log("   Don't update best significance.")
     
     cat_ij.set_splitting(best_splitting_var, best_splitting)
-    return cat_ij.label, best_splitting_var, best_splitting
+    return cat_ij.label, best_splitting_var, best_splitting, categories
 
 def callback(result):
-    categories = globals()['categories']
-    label, score, cut = result
+    label, score, cut, categories = result
     print categories
     categories[label].set_splitting(score, cut)
     print "*"*100
@@ -353,7 +351,7 @@ for l1 in range(1, args.nSteps1+1):
                 j1=i1+l1-1
                 print "Number of CPUs: ", mp.cpu_count()
                 pool = mp.Pool(mp.cpu_count())
-                a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
+                a = [pool.apply_async(solve_subproblem, args = (categories,i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
                 for process in a:
                     process.wait()
                 pool.close()
