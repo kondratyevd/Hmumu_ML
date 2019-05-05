@@ -199,8 +199,8 @@ class Categorizer(object):
         self.log("   Merge bins from #%i to #%i by 1st variable and from #%i to #%i by 2nd variable into a single category"%(i1,j1,i2,j2))
         bins1 = [i1,j1+1] # here the numbers count not bins, but boundaries between bins, hence j+1
         bins2 = [i2,j2+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-        self.log("   Splitting by 1st variable is:   "+bins_to_illustration(i1, j1+1, bins1))
-        self.log("   Splitting by 2nd variable is:   "+bins_to_illustration(i2, j2+1, bins2))
+        self.log("   Splitting by 1st variable is:   "+self.bins_to_illustration(i1, j1+1, bins1))
+        self.log("   Splitting by 2nd variable is:   "+self.bins_to_illustration(i2, j2+1, bins2))
 
         significance = self.get_significance("%i_%i_%i_%i_%i"%(i1,j1,i2,j2, 0), bins1, bins2)
 
