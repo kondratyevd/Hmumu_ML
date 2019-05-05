@@ -475,7 +475,7 @@ elif "Rapidity" in args.method:
 
 score2 = "max_abs_eta_mu"
 
-framework = Categorizer(score1, args.min_var1, args.max_var1, args.nSteps1, score2, args.min_var1, args.max_var2, args.nSteps2, log_mode=1, parallel=True)
+framework = Categorizer(score1, args.min_var1, args.max_var1, args.nSteps1, score2, args.min_var2, args.max_var2, args.nSteps2, log_mode=1, parallel=True)
 # framework.main_loop()
 
 if framework.parallel:
