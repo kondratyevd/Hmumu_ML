@@ -153,18 +153,18 @@ class Categorizer(object):
         for i in range(len(bins2)):
             new_bins2.append(self.min_var2 + bins2[i]*self.step2) 
 
-        log("   Rescaled cut boundaries:")
-        log("   1st variable:   %s --> %s"%(', '.join([str(b) for b in bins1]), ', '.join([str(b) for b in new_bins1])))
-        log("   2nd variable:   %s --> %s"%(', '.join([str(b) for b in bins2]), ', '.join([str(b) for b in new_bins2])))
-        log("   Categories ready:")
+        self.log("   Rescaled cut boundaries:")
+        self.log("   1st variable:   %s --> %s"%(', '.join([str(b) for b in bins1]), ', '.join([str(b) for b in new_bins1])))
+        self.log("   2nd variable:   %s --> %s"%(', '.join([str(b) for b in bins2]), ', '.join([str(b) for b in new_bins2])))
+        self.log("   Categories ready:")
         categories_for_combine = {}
         for ii in range(len(new_bins1)-1):
             for jj in range(len(new_bins2)-1):
                 cat_name = "cat_%i_%i"%(ii, jj)
                 cut = "(%s>%f)&(%s<%f)&(%s>%f)&(%s<%f)"%(self.var1, new_bins1[ii], self.var1, new_bins1[ii+1], self.var2, new_bins2[ii], self.var2, new_bins2[ii+1])
                 categories_for_combine[cat_name] = cut
-                log("   %s:  %s"%(cat_name, cut))
-        log("   Creating datacards... Please wait...")
+                self.log("   %s:  %s"%(cat_name, cut))
+        self.log("   Creating datacards... Please wait...")
 
         success = create_datacard(categories_for_combine, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
         if not success:
@@ -186,26 +186,26 @@ class Categorizer(object):
 
     def solve_subproblem(self, i1,j1,i2,j2):
 
-        log("="*50)
-        log("   Solving subproblem P_%i_%i_%i_%i"%(i1,j1,i2,j2))
-        log("   The goal is to find best significance in category containing bins #%i through #%i by 1st variable and #%i through #%i by 2nd variable"%(i1,j1,i2,j2))
-        log("="*50)
+        self.log("="*50)
+        self.log("   Solving subproblem P_%i_%i_%i_%i"%(i1,j1,i2,j2))
+        self.log("   The goal is to find best significance in category containing bins #%i through #%i by 1st variable and #%i through #%i by 2nd variable"%(i1,j1,i2,j2))
+        self.log("="*50)
 
         s_ij = 0
         best_splitting_var = ""
         best_splitting = 0
 
-        log("   First approach to P_%i_%i_%i_%i: merge all bins"%(i1,j1,i2,j2))          
-        log("   Merge bins from #%i to #%i by 1st variable and from #%i to #%i by 2nd variable into a single category"%(i1,j1,i2,j2))
+        self.log("   First approach to P_%i_%i_%i_%i: merge all bins"%(i1,j1,i2,j2))          
+        self.log("   Merge bins from #%i to #%i by 1st variable and from #%i to #%i by 2nd variable into a single category"%(i1,j1,i2,j2))
         bins1 = [i1,j1+1] # here the numbers count not bins, but boundaries between bins, hence j+1
         bins2 = [i2,j2+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-        log("   Splitting by 1st variable is:   "+bins_to_illustration(i1, j1+1, bins1))
-        log("   Splitting by 2nd variable is:   "+bins_to_illustration(i2, j2+1, bins2))
+        self.log("   Splitting by 1st variable is:   "+bins_to_illustration(i1, j1+1, bins1))
+        self.log("   Splitting by 2nd variable is:   "+bins_to_illustration(i2, j2+1, bins2))
 
         significance = self.get_significance("%i_%i_%i_%i_%i"%(i1,j1,i2,j2, 0), bins1, bins2)
 
-        log("   Calculated significance for merged bins!")
-        log("   Creating a 'Category' object..")
+        self.log("   Calculated significance for merged bins!")
+        self.log("   Creating a 'Category' object..")
         cat_ij = self.Category(self, i1, j1, i2, j2, significance)
         s_ij = significance
         ncat_best = 1
@@ -214,9 +214,9 @@ class Categorizer(object):
             consider_this_option = True
             can_decrease_nCat = False
 
-            log("   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2))
-            log("   Cut between #%i and #%i by 1st variable"%(k1-1, k1))
-            log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , k1-1, i2, j2, k1, j1, i2, j2))
+            self.log("   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2))
+            self.log("   Cut between #%i and #%i by 1st variable"%(k1-1, k1))
+            self.log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , k1-1, i2, j2, k1, j1, i2, j2))
 
             cat_ij.set_splitting(self.var1, k1)
             significance = cat_ij.get_combined_significance()
@@ -226,42 +226,42 @@ class Categorizer(object):
             else:
                 gain = 999
 
-            log("   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij))
-            log("   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance ))
-            log("   We gain %f %% if we use the new option."%gain)
-            log("   The required gain if %f %% per additional category."%(args.penalty))
+            self.log("   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij))
+            self.log("   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance ))
+            self.log("   We gain %f %% if we use the new option."%gain)
+            self.log("   The required gain if %f %% per additional category."%(args.penalty))
             
             old_ncat = ncat_best
             new_ncat = cat_ij.get_ncat()
             ncat_diff = abs(new_ncat - ncat_best)
 
             if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
-                log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain))
+                self.log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain))
                 consider_this_option = False
 
             elif ((new_ncat<old_ncat)&(gain>-args.penalty*ncat_diff)):
-                log("     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain))
+                self.log("     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain))
                 can_decrease_nCat = True
 
             elif ((new_ncat==old_ncat)&(gain>0)):
-                log("     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain)
+                self.log("     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain)
 
             if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
                 s_ij = significance
                 best_splitting_var = self.var1
                 best_splitting = k1
                 ncat_best = new_ncat
-                log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
+                self.log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
             else:
-                log("   Don't update best significance.")
+                self.log("   Don't update best significance.")
 
         for k2 in range(i2+1, j2+1):
             consider_this_option = True
             can_decrease_nCat = False
 
-            log("   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2))
-            log("   Cut between #%i and #%i by 2nd variable"%(k2-1, k2))
-            log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , j1, i2, k2-1, i1, j1, k2, j2))
+            self.log("   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2))
+            self.log("   Cut between #%i and #%i by 2nd variable"%(k2-1, k2))
+            self.log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , j1, i2, k2-1, i1, j1, k2, j2))
 
             cat_ij.set_splitting(self.var2, k2)
             significance = cat_ij.get_combined_significance()
@@ -271,33 +271,33 @@ class Categorizer(object):
             else:
                 gain = 999
 
-            log("   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij))
-            log("   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance ))
-            log("   We gain %f %% if we use the new option."%gain)
-            log("   The required gain if %f %% per additional category."%(args.penalty))
+            self.log("   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij))
+            self.log("   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance ))
+            self.log("   We gain %f %% if we use the new option."%gain)
+            self.log("   The required gain if %f %% per additional category."%(args.penalty))
             
             old_ncat = ncat_best
             new_ncat = cat_ij.get_ncat()
             ncat_diff = abs(new_ncat - ncat_best)
 
             if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
-                log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain))
+                self.log("     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain))
                 consider_this_option = False
 
             elif ((new_ncat<old_ncat)&(gain>-args.penalty*ncat_diff)):
-                log("     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain))
+                self.log("     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain))
                 can_decrease_nCat = True
 
             elif ((new_ncat==old_ncat)&(gain>0)):
-                log("     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain)
+                self.log("     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain)
 
             if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
                 s_ij = significance
                 best_splitting_var = self.var2
                 best_splitting = k2
-                log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
+                self.log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
             else:
-                log("   Don't update best significance.")
+                self.log("   Don't update best significance.")
         
         cat_ij.set_splitting(best_splitting_var, best_splitting, categories)
         return cat_ij
