@@ -334,7 +334,7 @@ def callback(result):
     categories[label].set_splitting(score, cut)
 
 
-parallel = False
+parallel = True
 
 # Main loop
 for l1 in range(1, args.nSteps1+1): 
@@ -343,13 +343,19 @@ for l1 in range(1, args.nSteps1+1):
         print "Scanning categories by 2nd variable made of %i bins"%l2
 
         if parallel:
-            pass
-            # print "Number of CPUs: ", mp.cpu_count()
-            # pool = mp.Pool(mp.cpu_count())
-            # a = [pool.apply_async(solve_subproblem, args = (i,i+l-1), callback=callback) for i in range(0, args.nSteps-l+1)]
-            # for process in a:
-            #     process.wait()
-            # pool.close()
+            for i1 in range(0, args.nSteps1 - l1 + 1): 
+                print "Number of CPUs: ", mp.cpu_count()
+                pool = mp.Pool(mp.cpu_count())
+                a = [pool.apply_async(solve_subproblem, args = (i1,i1+l1-1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
+                for process in a:
+                    process.wait()
+                pool.close()
+                for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
+                    j1 = i1+l1-1
+                    j2 = i2+l2-1
+                    label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
+                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
+                    categories[label].print_structure()
 
         else:   # if not parallel
             for i1 in range(0, args.nSteps1 - l1 + 1): # j = i+l-1
@@ -363,25 +369,6 @@ for l1 in range(1, args.nSteps1+1):
 
 
 
-# print "Solutions to all subproblems: "
-# for i in range(args.nSteps):
-#     for j in range(i, args.nSteps):
-#         rescaled = []
-#         for ii in range(len(best_splitting[i][j])):
-#             rescaled.append(args.min_var + best_splitting[i][j][ii]*step)
-#         print "P%i%i: "%(i, j), rescaled, "significance = %f"%s[i][j]
-
-# print "----------------------------------------"
-# print "Here are the values that were memorized:"
-# print memorized
-# print "----------------------------------------"
-
-
-print "Best significance overall is %f and achieved when the splitting is: "%(s[(0, args.nSteps1-1, 0, args.nSteps2-1)])
-print "By 1st variable: ", bins_to_illustration(0, args.nSteps1, best_bins1)
-print "By 2nd variable: ", bins_to_illustration(0, args.nSteps2, best_bins2)
-# new_bins = []
-# for i in range(len(best_bins)):
-#     new_bins.append(args.min_var + best_bins[i]*step)
-# print "Best cuts on MVA score are:"
-# print best_bins, " --> ", new_bins
+final_label = "0_%i_0_%i"%(args.nSteps1-1, args.nSteps2-1)
+print "Best significance overall is %f and achieved when the splitting is: "%(categories[final_label].get_combined_significance())
+categories[final_label].print_structure()
