@@ -350,7 +350,7 @@ for l1 in range(1, args.nSteps1+1):
                 for process in a:
                     process.wait()
                 pool.close()
-                pool.join()
+                # pool.join()
                 for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
                     j2 = i2+l2-1
