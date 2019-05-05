@@ -23,6 +23,21 @@ case $1 in
 		penalty=2 # in %
 		;;
 
+	2)
+		echo 'Running option 2: BDT'
+		SIG_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_signal/*.root" # both train and test
+		DATA_INPUT_PATH="/home/dkondra/tmp/BDTG_UCSD_hiStat_cs/all_singleMu/*.root"
+		DATA_TREE="tree"
+		method="BDTmva"
+		min_var1=-1
+		max_var1=1
+		nSteps1=20
+		min_var2=0
+		max_var2=2.4
+		nSteps2=10
+		penalty=2 # in %
+		;;
+
 
 	*)
 		echo 'Wrong option ' $1
