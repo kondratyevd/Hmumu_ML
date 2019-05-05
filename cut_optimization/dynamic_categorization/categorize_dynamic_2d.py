@@ -64,8 +64,6 @@ elif "Rapidity" in args.method:
 
 score2 = "max_abs_eta_mu"
 
-categories = {}
-
 class Category(object):
     """docstring for Category"""
     def __init__(self, var1, i1, j1, var2, i2, j2, inclusive_significance):
@@ -328,10 +326,14 @@ def solve_subproblem(categories, i1,j1,i2,j2):
     cat_ij.set_splitting(best_splitting_var, best_splitting)
     return cat_ij.label, best_splitting_var, best_splitting, categories
 
+
+categories = {}
+
+
 def callback(result):
+    global categories
     label, score, cut, categories = result
     categories[label].set_splitting(score, cut)
-
 
 parallel = True
 
