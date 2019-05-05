@@ -202,7 +202,8 @@ def solve_subproblem(i1,j1,i2,j2):
     log("="*50)
 
     s_ij = 0
-    best_splitting_ij = ("", 0)
+    best_splitting_var = ""
+    best_splitting = 0
 
     log("   First approach to P_%i_%i_%i_%i: merge all bins"%(i1,j1,i2,j2))          
     log("   Merge bins from #%i to #%i by 1st variable and from #%i to #%i by 2nd variable into a single category"%(i1,j1,i2,j2))
@@ -258,7 +259,8 @@ def solve_subproblem(i1,j1,i2,j2):
 
         if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
             s_ij = significance
-            best_splitting_ij = (score1, k1)
+            best_splitting_var = score1 
+            best_splitting = k1
             ncat_best = new_ncat
             log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
         else:
@@ -302,8 +304,8 @@ def solve_subproblem(i1,j1,i2,j2):
 
         if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
             s_ij = significance
-            best_splitting_ij = (score2, k2)
-            ncat_best = new_ncat
+            best_splitting_var = score2
+            best_splitting = k2
             log("   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij))
         else:
             log("   Don't update best significance.")
@@ -311,8 +313,8 @@ def solve_subproblem(i1,j1,i2,j2):
     log("   Problem P_%i_%i_%i_%i solved! Here's the best solution:"%(i1,j1,i2,j2))
     log("      Highest significance for P_%i_%i_%i_%i is %f and achieved when the splitting is %s by 1st variable and %s by 2nd variable"%(i1,j1,i2,j2, s[(i1,j1,i2,j2)], bins_to_illustration(i1, j1+1, best_splitting1[i1][j1]), bins_to_illustration(i2, j2+1, best_splitting2[i2][j2])))
     
-    cat_ij.set_splitting(best_splitting_ij)
-    return cat_ij.label, best_splitting_ij
+    cat_ij.set_splitting(best_splitting_var, best_splitting)
+    return cat_ij.label, best_splitting_var, best_splitting
 
 def callback(result):
     label, score, cut = result
