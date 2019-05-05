@@ -35,7 +35,7 @@ parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=flo
 parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
 args = parser.parse_args()
 
-log_mode = 1
+log_mode = 0
 def log(s):
     if log_mode is 0:
         pass
@@ -230,8 +230,6 @@ def solve_subproblem(i1,j1,i2,j2):
     log("   Calculated significance for merged bins!")
     log("   Creating a 'Category' object..")
     cat_ij = Category(score1, i1, j1, score2, i2, j2, significance)
-    # categories.append(cat_ij)
-    # categories["%i_%i_%i_%i"%(i1,j1,i2,j2)] = cat_ij
     s_ij = significance
     ncat_best = 1
 
@@ -328,7 +326,6 @@ def solve_subproblem(i1,j1,i2,j2):
     return cat_ij
 
 
-# categories = {}
 categories = []
 
 def callback(result):
@@ -347,14 +344,13 @@ for l1 in range(1, args.nSteps1+1):
         if parallel:
             for i1 in range(0, args.nSteps1 - l1 + 1): 
                 j1=i1+l1-1
-                print "Number of CPUs: ", mp.cpu_count()
+                # print "Number of CPUs: ", mp.cpu_count()
                 pool = mp.Pool(mp.cpu_count())
                 a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
                 for process in a:
                     process.wait()
                 pool.close()
-                # pool.join()
-                print categories
+                pool.join()
                 for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
                     j2 = i2+l2-1
@@ -370,10 +366,10 @@ for l1 in range(1, args.nSteps1+1):
                 for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
                     j2 = i2+l2-1
-                    label, score, cut = solve_subproblem(i1,j1,i2,j2)
-                    categories[label].set_splitting(score, cut)
-                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
-                    categories[label].print_structure()
+                    category = solve_subproblem(i1,j1,i2,j2)
+                    categories.append(category)
+                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(category.label, category.get_combined_significance())
+                    category.print_structure()
 
 
 
