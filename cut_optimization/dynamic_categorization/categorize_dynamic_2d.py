@@ -330,9 +330,10 @@ def solve_subproblem(i1,j1,i2,j2):
     return cat_ij.label, best_splitting_var, best_splitting
 
 def callback(result):
-    # global categories
-    print result
-    # label, score, cut = result
+    global categories
+    label, score, cut = result
+    print "*"*100
+    print label
     # categories[label].set_splitting(score, cut)
     # categories[label].print_structure()
 
