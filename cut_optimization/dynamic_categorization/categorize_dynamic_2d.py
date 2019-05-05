@@ -375,7 +375,49 @@ elif "Rapidity" in args.method:
 
 score2 = "max_abs_eta_mu"
 
-framework = Categorizer(score1, args.min_var1, args.max_var1, args.nSteps1, score2, args.min_var1, args.max_var2, args.nSteps2, log_mode=1, parallel=True)
-framework.main_loop()
+framework = Categorizer(score1, args.min_var1, args.max_var1, args.nSteps1, score2, args.min_var1, args.max_var2, args.nSteps2, log_mode=1, parallel=False)
+# framework.main_loop()
+
+def callback(result):
+    print "Retrieving result:", category.label
+    category = result
+    framework.categories.append(category)
+
+# Implementing parallel processing outside of the structure
+
+for l1 in range(1, framework.nSteps1+1): 
+    print "Scanning categories by 1st variable (%s) made of %i bins"%(framework.var1, l1)
+    for l2 in range(1, framework.nSteps2+1): 
+        print "Scanning categories by 2nd variable (%s) made of %i bins"%(framework.var2, l2)
+        if framework.parallel:
+            for i1 in range(0, framework.nSteps1 - l1 + 1): 
+                j1=i1+l1-1
+                pool = mp.Pool(mp.cpu_count())
+                a = [pool.apply_async(framework.solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=framework.callback) for i2 in range(0, framework.nSteps2-l2+1)]
+                for process in a:
+                    process.wait()
+                pool.close()
+                # pool.join()
+
+                for i2 in range(0, framework.nSteps2 - l2 + 1): # j = i+l-1
+                    j1 = i1+l1-1
+                    j2 = i2+l2-1
+                    label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
+                    for c in framework.categories:
+                        if label==c.label:
+                            significance = c.get_combined_significance()
+                            print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, significance)
+                            c.print_structure()
+
+
+
+final_category = None
+final_label = "0_%i_0_%i"%(framework.nSteps1-1, framework.nSteps2-1)
+for c in framework.categories:
+    if final_label==c.label:
+        final_category = c
+print "Best significance overall is %f and achieved when the splitting is: "%(final_category.get_combined_significance())
+final_category.print_structure()
+
 
 
