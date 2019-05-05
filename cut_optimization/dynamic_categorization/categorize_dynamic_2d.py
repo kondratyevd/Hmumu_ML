@@ -69,8 +69,10 @@ categories = {}
 class Category(object):
     """docstring for Category"""
     def __init__(self, var1, i1, j1, var2, i2, j2, inclusive_significance):
+        self.var1 = var1
         self.i1 = i1
         self.j1 = j1
+        self.var2 = var2
         self.i2 = i2
         self.j2 = j2
         self.inclusive_significance = inclusive_significance
