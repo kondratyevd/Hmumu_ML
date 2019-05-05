@@ -95,10 +95,10 @@ class Categorizer(object):
                 print "      Searching for %s and %s..."%(label_1, label_2)
                 for c in self.framework.categories:
                     if c.label == label_1:
-                        self.log("      First child found: %s"%c.label)
+                        self.framework.log("      First child found: %s"%c.label)
                         self.child1 = c
                     elif c.label == label_2 :
-                        self.log("      Second child found: %s"%c.label)                        
+                        self.framework.log("      Second child found: %s"%c.label)                        
                         self.child2 = c
 
             elif last_cut_var is self.framework.var2:
@@ -107,10 +107,10 @@ class Categorizer(object):
                 print "      Searching for %s and %s..."%(label_1, label_2)
                 for c in self.framework.categories:
                     if c.label == label_1 :
-                        self.log("      First child found: %s"%c.label)
+                        self.framework.log("      First child found: %s"%c.label)
                         self.child1 = c
                     elif c.label == label_2 :
-                        self.log("      Second child found: %s"%c.label)
+                        self.framework.log("      Second child found: %s"%c.label)
                         self.child2 = c
             else:
                 print "Incorrect variable: '%s'"%last_cut_var
