@@ -311,7 +311,6 @@ class Categorizer(object):
             print "Scanning categories by 1st variable (%s) made of %i bins"%(self.var1, l1)
             for l2 in range(1, self.nSteps2+1): 
                 print "Scanning categories by 2nd variable (%s) made of %i bins"%(self.var2, l2)
-
                 if self.parallel:
                     for i1 in range(0, self.nSteps1 - l1 + 1): 
                         j1=i1+l1-1
@@ -338,7 +337,7 @@ class Categorizer(object):
                         for i2 in range(0, self.nSteps2 - l2 + 1): # j = i+l-1
                             j1 = i1+l1-1
                             j2 = i2+l2-1
-                            category = solve_subproblem(i1,j1,i2,j2)
+                            category = self.solve_subproblem(i1,j1,i2,j2)
                             self.categories.append(category)
                             print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(category.label, category.get_combined_significance())
                             category.print_structure()
