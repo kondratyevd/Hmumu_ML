@@ -386,116 +386,117 @@ def solve_subproblem(i1,j1,i2,j2):
     print "   The goal is to find best significance in category containing bins #%i through #%i by 1st variable and #%i through #%i by 2nd variable"%(i1,j1,i2,j2)
     print "="*50
 
-    s_ij = 0
-    best_splitting_var = ""
-    best_splitting = 0
+    # s_ij = 0
+    # best_splitting_var = ""
+    # best_splitting = 0
 
-    print "   First approach to P_%i_%i_%i_%i: merge all bins"%(i1,j1,i2,j2)
-    print "   Merge bins from #%i to #%i by 1st variable and from #%i to #%i by 2nd variable into a single category"%(i1,j1,i2,j2)
-    bins1 = [i1,j1+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-    bins2 = [i2,j2+1] # here the numbers count not bins, but boundaries between bins, hence j+1
-    print "   Splitting by 1st variable is:   "+framework.bins_to_illustration(i1, j1+1, bins1)
-    print "   Splitting by 2nd variable is:   "+framework.bins_to_illustration(i2, j2+1, bins2)
+    # print "   First approach to P_%i_%i_%i_%i: merge all bins"%(i1,j1,i2,j2)
+    # print "   Merge bins from #%i to #%i by 1st variable and from #%i to #%i by 2nd variable into a single category"%(i1,j1,i2,j2)
+    # bins1 = [i1,j1+1] # here the numbers count not bins, but boundaries between bins, hence j+1
+    # bins2 = [i2,j2+1] # here the numbers count not bins, but boundaries between bins, hence j+1
+    # print "   Splitting by 1st variable is:   "+framework.bins_to_illustration(i1, j1+1, bins1)
+    # print "   Splitting by 2nd variable is:   "+framework.bins_to_illustration(i2, j2+1, bins2)
 
-    significance = framework.get_significance("%i_%i_%i_%i_%i"%(i1,j1,i2,j2, 0), bins1, bins2)
+    # significance = framework.get_significance("%i_%i_%i_%i_%i"%(i1,j1,i2,j2, 0), bins1, bins2)
 
-    print "   Calculated significance for merged bins!"
-    print "   Creating a 'Category' object.."
-    cat_ij = framework.Category(framework, i1, j1, i2, j2, significance)
-    s_ij = significance
-    ncat_best = 1
+    # print "   Calculated significance for merged bins!"
+    # print "   Creating a 'Category' object.."
+    # cat_ij = framework.Category(framework, i1, j1, i2, j2, significance)
+    # s_ij = significance
+    # ncat_best = 1
 
-    for k1 in range(i1+1, j1+1):
-        consider_this_option = True
-        can_decrease_nCat = False
+    # for k1 in range(i1+1, j1+1):
+    #     consider_this_option = True
+    #     can_decrease_nCat = False
 
-        print "   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2)
-        print "   Cut between #%i and #%i by 1st variable"%(k1-1, k1)
-        print "   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , k1-1, i2, j2, k1, j1, i2, j2)
+    #     print "   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2)
+    #     print "   Cut between #%i and #%i by 1st variable"%(k1-1, k1)
+    #     print "   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , k1-1, i2, j2, k1, j1, i2, j2)
 
-        cat_ij.set_splitting(framework.var1, k1)
-        significance = cat_ij.get_combined_significance()
+    #     cat_ij.set_splitting(framework.var1, k1)
+    #     significance = cat_ij.get_combined_significance()
 
-        if s_ij:
-            gain = ( significance - s_ij ) / s_ij*100.0
-        else:
-            gain = 999
+    #     if s_ij:
+    #         gain = ( significance - s_ij ) / s_ij*100.0
+    #     else:
+    #         gain = 999
 
-        print "   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij)
-        print "   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance )
-        print "   We gain %f %% if we use the new option."%gain
-        print "   The required gain if %f %% per additional category."%(args.penalty)
+    #     print "   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij)
+    #     print "   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance )
+    #     print "   We gain %f %% if we use the new option."%gain
+    #     print "   The required gain if %f %% per additional category."%(args.penalty)
         
-        old_ncat = ncat_best
-        new_ncat = cat_ij.get_ncat()
-        ncat_diff = abs(new_ncat - ncat_best)
+    #     old_ncat = ncat_best
+    #     new_ncat = cat_ij.get_ncat()
+    #     ncat_diff = abs(new_ncat - ncat_best)
 
-        if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
-            print "     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain)
-            consider_this_option = False
+    #     if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
+    #         print "     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain)
+    #         consider_this_option = False
 
-        elif ((new_ncat<old_ncat)&(gain>-args.penalty*ncat_diff)):
-            print "     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain)
-            can_decrease_nCat = True
+    #     elif ((new_ncat<old_ncat)&(gain>-args.penalty*ncat_diff)):
+    #         print "     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain)
+    #         can_decrease_nCat = True
 
-        elif ((new_ncat==old_ncat)&(gain>0)):
-            print "     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain
+    #     elif ((new_ncat==old_ncat)&(gain>0)):
+    #         print "     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain
 
-        if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
-            s_ij = significance
-            best_splitting_var = framework.var1
-            best_splitting = k1
-            ncat_best = new_ncat
-            print "   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij)
-        else:
-            print "   Don't update best significance."
+    #     if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
+    #         s_ij = significance
+    #         best_splitting_var = framework.var1
+    #         best_splitting = k1
+    #         ncat_best = new_ncat
+    #         print "   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij)
+    #     else:
+    #         print "   Don't update best significance."
 
-    for k2 in range(i2+1, j2+1):
-        consider_this_option = True
-        can_decrease_nCat = False
+    # for k2 in range(i2+1, j2+1):
+    #     consider_this_option = True
+    #     can_decrease_nCat = False
 
-        print "   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2)
-        print "   Cut between #%i and #%i by 2nd variable"%(k2-1, k2)
-        print "   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , j1, i2, k2-1, i1, j1, k2, j2)
+    #     print "   Continue solving P_%i_%i_%i_%i!"%(i1,j1,i2,j2)
+    #     print "   Cut between #%i and #%i by 2nd variable"%(k2-1, k2)
+    #     print "   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , j1, i2, k2-1, i1, j1, k2, j2)
 
-        cat_ij.set_splitting(framework.var2, k2)
-        significance = cat_ij.get_combined_significance()
+    #     cat_ij.set_splitting(framework.var2, k2)
+    #     significance = cat_ij.get_combined_significance()
 
-        if s_ij:
-            gain = ( significance - s_ij ) / s_ij*100.0
-        else:
-            gain = 999
+    #     if s_ij:
+    #         gain = ( significance - s_ij ) / s_ij*100.0
+    #     else:
+    #         gain = 999
 
-        print "   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij)
-        print "   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance )
-        print "   We gain %f %% if we use the new option."%gain
-        print "   The required gain if %f %% per additional category."%(args.penalty)
+    #     print "   Before this option the best s[%i,%i,%i,%i] was %f."%(i1,j1,i2,j2, s_ij)
+    #     print "   This option gives s[%i,%i,%i,%i] = %f."%(i1,j1,i2,j2, significance )
+    #     print "   We gain %f %% if we use the new option."%gain
+    #     print "   The required gain if %f %% per additional category."%(args.penalty)
         
-        old_ncat = ncat_best
-        new_ncat = cat_ij.get_ncat()
-        ncat_diff = abs(new_ncat - ncat_best)
+    #     old_ncat = ncat_best
+    #     new_ncat = cat_ij.get_ncat()
+    #     ncat_diff = abs(new_ncat - ncat_best)
 
-        if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
-            print "     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain)
-            consider_this_option = False
+    #     if ((new_ncat>old_ncat)&(gain<args.penalty*ncat_diff)):
+    #         print "     This option increases number of subcategories by %i from %i to %i, but the improvement is just %f %%, so skip."%(ncat_diff, old_ncat,new_ncat,gain)
+    #         consider_this_option = False
 
-        elif ((new_ncat<old_ncat)&(gain>-args.penalty*ncat_diff)):
-            print "     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain)
-            can_decrease_nCat = True
+    #     elif ((new_ncat<old_ncat)&(gain>-args.penalty*ncat_diff)):
+    #         print "     This option decreases number of subcategories by %i from %i to %i, and the change in significance is just %f %%, so keep it."%(ncat_diff, old_ncat, new_ncat, -gain)
+    #         can_decrease_nCat = True
 
-        elif ((new_ncat==old_ncat)&(gain>0)):
-            print "     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain
+    #     elif ((new_ncat==old_ncat)&(gain>0)):
+    #         print "     This option keeps the same number of categories as the bes option so far, and the significance is increased by %f %%, so keep it."%gain
 
-        if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
-            s_ij = significance
-            best_splitting_var = framework.var2
-            best_splitting = k2
-            print "   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij)
-        else:
-            print "   Don't update best significance."
+    #     if (((gain>0)&(consider_this_option)) or can_decrease_nCat): 
+    #         s_ij = significance
+    #         best_splitting_var = framework.var2
+    #         best_splitting = k2
+    #         print "   Updating best significance: now s[%i,%i,%i,%i] = %f"%(i1,j1,i2,j2, s_ij)
+    #     else:
+    #         print "   Don't update best significance."
     
-    cat_ij.set_splitting(best_splitting_var, best_splitting)
-    return cat_ij
+    # cat_ij.set_splitting(best_splitting_var, best_splitting)
+    # return cat_ij
+    return None
 
 def callback(result):
     print "Retrieving result:", category.label
