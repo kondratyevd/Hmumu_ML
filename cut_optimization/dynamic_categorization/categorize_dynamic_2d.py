@@ -330,12 +330,7 @@ def solve_subproblem(categories, i1,j1,i2,j2):
 
 def callback(result):
     label, score, cut, categories = result
-    print categories
     categories[label].set_splitting(score, cut)
-    print "*"*100
-    print label
-    # print categories
-    # categories[label].print_structure()
 
 
 parallel = True
@@ -356,12 +351,12 @@ for l1 in range(1, args.nSteps1+1):
                     process.wait()
                 pool.close()
                 pool.join()
-                # for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
-                #     j1 = i1+l1-1
-                #     j2 = i2+l2-1
-                #     label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
-                #     print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
-                #     categories[label].print_structure()
+                for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
+                    j1 = i1+l1-1
+                    j2 = i2+l2-1
+                    label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
+                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
+                    categories[label].print_structure()
 
         else:   # if not parallel
             for i1 in range(0, args.nSteps1 - l1 + 1): # j = i+l-1
