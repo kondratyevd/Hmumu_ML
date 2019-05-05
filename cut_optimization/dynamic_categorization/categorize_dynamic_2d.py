@@ -310,48 +310,23 @@ class Categorizer(object):
         cat_ij.set_splitting(best_splitting_var, best_splitting)
         return cat_ij
 
-    def callback(self, result):
-        print "Retrieving result:", category.label
-        category = result
-        self.categories.append(category)
-
     def main_loop(self):
         for l1 in range(1, self.nSteps1+1): 
             print "Scanning categories by 1st variable (%s) made of %i bins"%(self.var1, l1)
             for l2 in range(1, self.nSteps2+1): 
                 print "Scanning categories by 2nd variable (%s) made of %i bins"%(self.var2, l2)
-                if self.parallel:
-                    for i1 in range(0, self.nSteps1 - l1 + 1): 
-                        j1=i1+l1-1
-                        pool = mp.Pool(mp.cpu_count())
-                        a = [pool.apply_async(self.solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=self.callback) for i2 in range(0, self.nSteps2-l2+1)]
-                        for process in a:
-                            process.wait()
-                        pool.close()
-                        # pool.join()
 
-                        for i2 in range(0, self.nSteps2 - l2 + 1): # j = i+l-1
-                            j1 = i1+l1-1
-                            j2 = i2+l2-1
-                            label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
-                            for c in self.categories:
-                                if label==c.label:
-                                    significance = c.get_combined_significance()
-                                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, significance)
-                                    c.print_structure()
-
-                else:   # if not parallel
-                    for i1 in range(0, self.nSteps1 - l1 + 1): # j = i+l-1
-                        for i2 in range(0, self.nSteps2 - l2 + 1): # j = i+l-1
-                            j1 = i1+l1-1
-                            j2 = i2+l2-1
-                            category = self.solve_subproblem(i1,j1,i2,j2)
-                            self.categories.append(category)
-                            print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(category.label, category.get_combined_significance())
-                            category.print_structure()
-                        print "Categories so far:"
-                        for c in self.categories:
-                            print c.label, c.get_combined_significance()
+                for i1 in range(0, self.nSteps1 - l1 + 1): # j = i+l-1
+                    for i2 in range(0, self.nSteps2 - l2 + 1): # j = i+l-1
+                        j1 = i1+l1-1
+                        j2 = i2+l2-1
+                        category = self.solve_subproblem(i1,j1,i2,j2)
+                        self.categories.append(category)
+                        print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(category.label, category.get_combined_significance())
+                        category.print_structure()
+                    print "Categories so far:"
+                    for c in self.categories:
+                        print c.label, c.get_combined_significance()
 
 
         final_category = None
@@ -361,22 +336,6 @@ class Categorizer(object):
                 final_category = c
         print "Best significance overall is %f and achieved when the splitting is: "%(final_category.get_combined_significance())
         final_category.print_structure()
-
-
-
-if "binary" in args.method:
-    score1 = "sig_prediction"
-elif "DNNmulti" in args.method:
-    score1 = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
-elif "BDTmva" in args.method:
-    score1 = "MVA"
-elif "Rapidity" in args.method:
-    score1 = "max_abs_eta_mu"
-
-score2 = "max_abs_eta_mu"
-
-framework = Categorizer(score1, args.min_var1, args.max_var1, args.nSteps1, score2, args.min_var1, args.max_var2, args.nSteps2, log_mode=1, parallel=False)
-# framework.main_loop()
 
 
 def solve_subproblem(i1,j1,i2,j2):
@@ -502,32 +461,49 @@ def callback(result):
     category = result
     framework.categories.append(category)
 
-# Implementing parallel processing outside of the structure
-
-for l1 in range(1, framework.nSteps1+1): 
-    print "Scanning categories by 1st variable (%s) made of %i bins"%(framework.var1, l1)
-    for l2 in range(1, framework.nSteps2+1): 
-        print "Scanning categories by 2nd variable (%s) made of %i bins"%(framework.var2, l2)
-        for i1 in range(0, framework.nSteps1 - l1 + 1): 
-            j1=i1+l1-1
-            pool = mp.Pool(mp.cpu_count())
-            a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, framework.nSteps2-l2+1)]
-            for process in a:
-                process.wait()
-            pool.close()
-            pool.join()
-
-            for i2 in range(0, framework.nSteps2 - l2 + 1): # j = i+l-1
-                j1 = i1+l1-1
-                j2 = i2+l2-1
-                label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
-                for c in framework.categories:
-                    if label==c.label:
-                        significance = c.get_combined_significance()
-                        print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, significance)
-                        c.print_structure()
 
 
+
+if "binary" in args.method:
+    score1 = "sig_prediction"
+elif "DNNmulti" in args.method:
+    score1 = "(ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction))"
+elif "BDTmva" in args.method:
+    score1 = "MVA"
+elif "Rapidity" in args.method:
+    score1 = "max_abs_eta_mu"
+
+score2 = "max_abs_eta_mu"
+
+framework = Categorizer(score1, args.min_var1, args.max_var1, args.nSteps1, score2, args.min_var1, args.max_var2, args.nSteps2, log_mode=1, parallel=True)
+# framework.main_loop()
+
+if framework.parallel:
+    for l1 in range(1, framework.nSteps1+1): 
+        print "Scanning categories by 1st variable (%s) made of %i bins"%(framework.var1, l1)
+        for l2 in range(1, framework.nSteps2+1): 
+            print "Scanning categories by 2nd variable (%s) made of %i bins"%(framework.var2, l2)
+            for i1 in range(0, framework.nSteps1 - l1 + 1): 
+                j1=i1+l1-1
+                pool = mp.Pool(mp.cpu_count())
+                a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, framework.nSteps2-l2+1)]
+                for process in a:
+                    process.wait()
+                pool.close()
+                pool.join()
+
+                for i2 in range(0, framework.nSteps2 - l2 + 1): # j = i+l-1
+                    j1 = i1+l1-1
+                    j2 = i2+l2-1
+                    label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
+                    for c in framework.categories:
+                        if label==c.label:
+                            significance = c.get_combined_significance()
+                            print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, significance)
+                            c.print_structure()
+
+else:
+    framework.main_loop()
 
 final_category = None
 final_label = "0_%i_0_%i"%(framework.nSteps1-1, framework.nSteps2-1)
