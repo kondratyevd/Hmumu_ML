@@ -348,8 +348,8 @@ class Categorizer(object):
         for c in self.categories:
             if final_label==c.label:
                 final_category = c
-        print "Best significance overall is %f and achieved when the splitting is: "%(c.get_combined_significance())
-        c.print_structure()
+        print "Best significance overall is %f and achieved when the splitting is: "%(final_category.get_combined_significance())
+        final_category.print_structure()
 
 
 
