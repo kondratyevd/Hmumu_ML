@@ -82,7 +82,7 @@ class Category(object):
     def set_splitting(self, last_cut_var, last_cut):
         global categories
 
-        if last_cut_var is var1:
+        if last_cut_var is self.var1:
             if (categories["%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)] and categories["%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)] ):
                 self.child1 = categories["%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)]
                 self.child2 = categories["%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)] 
@@ -93,7 +93,7 @@ class Category(object):
                 print "Info about category (%i_%i_%i_%i) is missing"%(last_cut,self.j1,self.i2,self.j2)
                 print "Children are not updated"
 
-        elif last_cut_var is var2:
+        elif last_cut_var is self.var2:
             if (categories["%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1)] and categories["%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2)] ):
                 self.child1 = categories["%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1)]
                 self.child2 = categories["%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2)]  
