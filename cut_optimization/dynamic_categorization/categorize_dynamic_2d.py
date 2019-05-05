@@ -79,10 +79,10 @@ class Category(object):
         self.merged = True
         self.label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
 
-    def set_splitting(self, last_cut_var, last_cut):
-        global categories
-        self.merged = False
+    def set_splitting(self, last_cut_var, last_cut, categories):
+        # global categories
 
+        self.merged = False
         if not last_cut_var:
             print "Leave the category %s merged."%self.label
             self.merged = True
@@ -205,7 +205,7 @@ def get_significance(label, bins1, bins2):
     return significance
 
 
-def solve_subproblem(i1,j1,i2,j2):
+def solve_subproblem(i1,j1,i2,j2, categories):
     global s 
     global best_splitting
     global memorized
@@ -243,7 +243,7 @@ def solve_subproblem(i1,j1,i2,j2):
         log("   Cut between #%i and #%i by 1st variable"%(k1-1, k1))
         log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , k1-1, i2, j2, k1, j1, i2, j2))
 
-        cat_ij.set_splitting(score1, k1)
+        cat_ij.set_splitting(score1, k1, categories)
         significance = cat_ij.get_combined_significance()
 
         if s_ij:
@@ -288,7 +288,7 @@ def solve_subproblem(i1,j1,i2,j2):
         log("   Cut between #%i and #%i by 2nd variable"%(k2-1, k2))
         log("   Combine the optimal solutions of P_%i_%i_%i_%i and P_%i_%i_%i_%i"%(i1 , j1, i2, k2-1, i1, j1, k2, j2))
 
-        cat_ij.set_splitting(score2, k2)
+        cat_ij.set_splitting(score2, k2, categories)
         significance = cat_ij.get_combined_significance()
 
         if s_ij:
@@ -324,7 +324,7 @@ def solve_subproblem(i1,j1,i2,j2):
         else:
             log("   Don't update best significance.")
     
-    cat_ij.set_splitting(best_splitting_var, best_splitting)
+    cat_ij.set_splitting(best_splitting_var, best_splitting, categories)
     return cat_ij
 
 
@@ -348,7 +348,7 @@ for l1 in range(1, args.nSteps1+1):
                 j1=i1+l1-1
                 # print "Number of CPUs: ", mp.cpu_count()
                 pool = mp.Pool(mp.cpu_count())
-                a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
+                a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1, categories), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
                 for process in a:
                     process.wait()
                 pool.close()
