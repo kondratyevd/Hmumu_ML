@@ -124,7 +124,7 @@ class Category(object):
 
     def print_structure(self):
         if self.merged:
-            print "%s: [%f, %f], %s: [%f, %f]"%(var1, i1, j1, var2, i2, j2)
+            print "%s: [%f, %f], %s: [%f, %f]"%(self.var1, self.i1, self.j1, self.var2, self.i2, self.j2)
         else:
             self.child1.print_structure()
             self.child2.print_structure()
