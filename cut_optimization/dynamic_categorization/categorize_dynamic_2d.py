@@ -299,7 +299,7 @@ class Categorizer(object):
             else:
                 self.log("   Don't update best significance.")
         
-        cat_ij.set_splitting(best_splitting_var, best_splitting, categories)
+        cat_ij.set_splitting(best_splitting_var, best_splitting)
         return cat_ij
 
     def callback(self, result):
