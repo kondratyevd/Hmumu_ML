@@ -332,6 +332,7 @@ def solve_subproblem(i1,j1,i2,j2):
 def callback(result):
     label, score, cut = result
     categories[label].set_splitting(score, cut)
+    categories[label].print_structure()
 
 
 parallel = True
@@ -353,7 +354,6 @@ for l1 in range(1, args.nSteps1+1):
                     print process.is_alive()
                 pool.close()
                 pool.join()
-                pool.terminate()
                 for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
                     j2 = i2+l2-1
