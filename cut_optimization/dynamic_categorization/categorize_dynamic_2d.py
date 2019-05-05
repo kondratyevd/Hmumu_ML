@@ -80,36 +80,38 @@ class Category(object):
         self.label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
 
     def set_splitting(self, last_cut_var, last_cut):
-        categories = globals()['categories']
+        global categories
+        self.merged = False
 
-        if last_cut_var is self.var1:
-            if (categories["%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)] and categories["%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)] ):
-                self.child1 = categories["%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)]
-                self.child2 = categories["%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)] 
-                self.merged = False 
-            else: 
-                print "Some subproblems of smaller size are not solved yet!"      
-                print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,last_cut-1,self.i2,self.j2)
-                print "Info about category (%i_%i_%i_%i) is missing"%(last_cut,self.j1,self.i2,self.j2)
-                print "Children are not updated"
-
-        elif last_cut_var is self.var2:
-            if (categories["%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1)] and categories["%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2)] ):
-                self.child1 = categories["%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1)]
-                self.child2 = categories["%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2)]  
-                self.merged = False
-            else: 
-                print "Some subproblems of smaller size are not solved yet!"      
-                print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,self.j1,self.i2,last_cut-1)
-                print "Info about category (%i_%i_%i_%i) is missing"%(self.i1,self.j1,last_cut,self.j2)
-                print "Children are not updated"
-        elif not last_cut_var:
-            print "Leave the category %s merged."%self.label
+        if not last_cut_var:
+             print "Leave the category %s merged."%self.label
             self.merged = True
             self.child1 = None
             self.child2 = None
+
+        elif last_cut_var is self.var1:
+            print "Split the category by %s at %i"%(last_cut_var, last_cut)
+            for c in categories:
+                if c.label is "%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2):
+                    self.child1 = c
+                    first_child_found = True
+                elif c.label is "%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2):
+                    self.child2 = c
+                    second_child_found = True
+
+        elif last_cut_var is self.var2:
+            print "Split the category by %s at %i"%(last_cut_var, last_cut)
+            for c in categories:
+                if c.label is "%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1):
+                    self.child1 = c
+                    first_child_found = True
+                elif c.label is "%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2):
+                    self.child2 = c
+                    second_child_found = True
+
         else:
             print "Incorrect variable: '%s'"%last_cut_var
+            self.merged = True
 
     def get_combined_significance(self):
         if self.merged:
