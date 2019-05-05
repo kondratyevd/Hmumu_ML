@@ -84,7 +84,7 @@ class Category(object):
         self.merged = False
 
         if not last_cut_var:
-             print "Leave the category %s merged."%self.label
+            print "Leave the category %s merged."%self.label
             self.merged = True
             self.child1 = None
             self.child2 = None
