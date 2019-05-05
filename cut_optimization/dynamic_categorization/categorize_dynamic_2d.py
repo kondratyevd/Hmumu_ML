@@ -230,7 +230,8 @@ def solve_subproblem(categories, i1,j1,i2,j2):
     log("   Calculated significance for merged bins!")
     log("   Creating a 'Category' object..")
     cat_ij = Category(score1, i1, j1, score2, i2, j2, significance)
-    categories["%i_%i_%i_%i"%(i1,j1,i2,j2)] = cat_ij
+    categories.append(cat_ij)
+    # categories["%i_%i_%i_%i"%(i1,j1,i2,j2)] = cat_ij
     s_ij = significance
     ncat_best = 1
 
@@ -327,13 +328,16 @@ def solve_subproblem(categories, i1,j1,i2,j2):
     return cat_ij.label, best_splitting_var, best_splitting, categories
 
 
-categories = {}
-
+# categories = {}
+categories = []
 
 def callback(result):
     global categories
     label, score, cut, categories = result
-    categories[label].set_splitting(score, cut)
+    for c in categories:
+        if label==c.label:
+            c.set_splitting(score, cut)
+    # categories[label].set_splitting(score, cut)
 
 parallel = True
 
@@ -358,8 +362,11 @@ for l1 in range(1, args.nSteps1+1):
                     j1 = i1+l1-1
                     j2 = i2+l2-1
                     label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
-                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
-                    categories[label].print_structure()
+                    for c in categories:
+                        if label==c.label:
+                            significance = c.get_combined_significance()
+                            print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, significance)
+                            c.print_structure()
 
         else:   # if not parallel
             for i1 in range(0, args.nSteps1 - l1 + 1): # j = i+l-1
