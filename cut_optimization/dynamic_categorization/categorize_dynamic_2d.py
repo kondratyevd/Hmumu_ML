@@ -330,10 +330,11 @@ def solve_subproblem(i1,j1,i2,j2):
     return cat_ij.label, best_splitting_var, best_splitting
 
 def callback(result):
-    global categories
-    label, score, cut = result
-    categories[label].set_splitting(score, cut)
-    categories[label].print_structure()
+    # global categories
+    print result
+    # label, score, cut = result
+    # categories[label].set_splitting(score, cut)
+    # categories[label].print_structure()
 
 
 parallel = True
@@ -352,14 +353,14 @@ for l1 in range(1, args.nSteps1+1):
                 a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
                 # for process in a:
                 #     process.wait()
-                pool.close()
-                pool.join()
-                for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
-                    j1 = i1+l1-1
-                    j2 = i2+l2-1
-                    label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
-                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
-                    categories[label].print_structure()
+                # pool.close()
+                # pool.join()
+                # for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
+                #     j1 = i1+l1-1
+                #     j2 = i2+l2-1
+                #     label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
+                #     print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
+                #     categories[label].print_structure()
 
         else:   # if not parallel
             for i1 in range(0, args.nSteps1 - l1 + 1): # j = i+l-1
