@@ -84,37 +84,42 @@ class Categorizer(object):
             self.label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
 
         def set_splitting(self, last_cut_var, last_cut):
-            self.merged = False
             if not last_cut_var:
                 print "Leave the category %s merged."%self.label
-                self.merged = True
                 self.child1 = None
                 self.child2 = None
 
             elif last_cut_var is self.framework.var1:
-                print "      Split the category by %s at %i"%(last_cut_var, last_cut)
+                label_1 = "%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2)
+                label_2 = "%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2)
+                print "      Searching for %s and %s..."%(label_1, label_2)
                 for c in self.framework.categories:
-                    if c.label is "%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2):
-                        self.child1 = c
-                        first_child_found = True
-                    elif c.label is "%i_%i_%i_%i"%(last_cut,self.j1,self.i2,self.j2):
-                        self.child2 = c
-                        second_child_found = True
-
-            elif last_cut_var is self.framework.var2:
-                print "      Split the category by %s at %i"%(last_cut_var, last_cut)
-                for c in self.framework.categories:
-                    if c.label is "%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1):
+                    if c.label == label_1:
                         log("      First child found: %s"%c.label)
                         self.child1 = c
-                        first_child_found = True
-                    elif c.label is "%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2):
+                    elif c.label == label_2 :
+                        log("      Second child found: %s"%c.label)                        
+                        self.child2 = c
+
+            elif last_cut_var is self.framework.var2:
+                label_1 = "%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1)
+                label_2 = "%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2)
+                print "      Searching for %s and %s..."%(label_1, label_2)
+                for c in self.framework.categories:
+                    if c.label == label_1 :
+                        log("      First child found: %s"%c.label)
+                        self.child1 = c
+                    elif c.label == label_2 :
                         log("      Second child found: %s"%c.label)
                         self.child2 = c
-                        second_child_found = True
-
             else:
                 print "Incorrect variable: '%s'"%last_cut_var
+                self.child1 = None
+                self.child2 = None
+
+            if self.chil1 and self.child2:
+                self.merged = False
+            else:
                 self.merged = True
 
         def get_combined_significance(self):
