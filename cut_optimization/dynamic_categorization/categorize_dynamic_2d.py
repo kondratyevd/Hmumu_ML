@@ -79,7 +79,7 @@ class Category(object):
         self.merged = True
         self.label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
 
-    def set_splitting(self, last_cut_var, last_cut)
+    def set_splitting(self, last_cut_var, last_cut):
         global categories
 
         if last_cut_var is var1:
