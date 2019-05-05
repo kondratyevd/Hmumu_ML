@@ -92,7 +92,7 @@ class Categorizer(object):
                 self.child2 = None
 
             elif last_cut_var is self.framework.var1:
-                print "Split the category by %s at %i"%(last_cut_var, last_cut)
+                print "      Split the category by %s at %i"%(last_cut_var, last_cut)
                 for c in self.framework.categories:
                     if c.label is "%i_%i_%i_%i"%(self.i1,last_cut-1,self.i2,self.j2):
                         self.child1 = c
@@ -102,12 +102,14 @@ class Categorizer(object):
                         second_child_found = True
 
             elif last_cut_var is self.framework.var2:
-                print "Split the category by %s at %i"%(last_cut_var, last_cut)
+                print "      Split the category by %s at %i"%(last_cut_var, last_cut)
                 for c in self.framework.categories:
                     if c.label is "%i_%i_%i_%i"%(self.i1,self.j1,self.i2,last_cut-1):
+                        log("      First child found: %s"%c.label)
                         self.child1 = c
                         first_child_found = True
                     elif c.label is "%i_%i_%i_%i"%(self.i1,self.j1,last_cut,self.j2):
+                        log("      Second child found: %s"%c.label)
                         self.child2 = c
                         second_child_found = True
 
@@ -168,6 +170,7 @@ class Categorizer(object):
 
         success = create_datacard(categories_for_combine, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
         if not success:
+            print "Datacards were not created (might be not enough events in the category). Set significance to 0."
             return 0
             
         os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt'%(label, label))
@@ -341,6 +344,10 @@ class Categorizer(object):
                             self.categories.append(category)
                             print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(category.label, category.get_combined_significance())
                             category.print_structure()
+                        print "Categories so far:"
+                            for c in self.categories:
+                                print c.label, c.significance
+
 
         final_category = None
         final_label = "0_%i_0_%i"%(self.nSteps1-1, self.nSteps2-1)
