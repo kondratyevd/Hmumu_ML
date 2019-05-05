@@ -323,13 +323,12 @@ class Categorizer(object):
                 if self.parallel:
                     for i1 in range(0, self.nSteps1 - l1 + 1): 
                         j1=i1+l1-1
-                        print "Number of CPUs: ", mp.cpu_count()
                         pool = mp.Pool(mp.cpu_count())
                         a = [pool.apply_async(self.solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=self.callback) for i2 in range(0, self.nSteps2-l2+1)]
                         for process in a:
                             process.wait()
                         pool.close()
-                        pool.join()
+                        # pool.join()
 
                         for i2 in range(0, self.nSteps2 - l2 + 1): # j = i+l-1
                             j1 = i1+l1-1
