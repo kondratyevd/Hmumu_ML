@@ -37,7 +37,7 @@ args = parser.parse_args()
 
 
 class Categorizer(object):
-    def __init__(self, var1, min_var1, max_var1, nSteps1, var2, min_var1, max_var2, nSteps2, log_mode, parallel):
+    def __init__(self, var1, min_var1, max_var1, nSteps1, var2, min_var2, max_var2, nSteps2, log_mode, parallel):
         self.categories = []
         self.var1 = var1
         self.min_var1 = min_var1
