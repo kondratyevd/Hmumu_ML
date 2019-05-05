@@ -348,10 +348,12 @@ for l1 in range(1, args.nSteps1+1):
                 print "Number of CPUs: ", mp.cpu_count()
                 pool = mp.Pool(mp.cpu_count())
                 a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
-                # for process in a:
-                #     process.wait()
+                for process in a:
+                    process.wait()
+                    print process.is_alive()
                 pool.close()
                 pool.join()
+                pool.terminate()
                 for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
                     j1 = i1+l1-1
                     j2 = i2+l2-1
