@@ -332,9 +332,10 @@ def solve_subproblem(i1,j1,i2,j2):
 def callback(result):
     global categories
     label, score, cut = result
+    categories[label].set_splitting(score, cut)
     print "*"*100
     print label
-    categories[label].set_splitting(score, cut)
+    print categories
     # categories[label].print_structure()
 
 
