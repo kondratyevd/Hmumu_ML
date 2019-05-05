@@ -117,7 +117,7 @@ class Categorizer(object):
                 self.child1 = None
                 self.child2 = None
 
-            if self.chil1 and self.child2:
+            if self.child1 and self.child2:
                 self.merged = False
             else:
                 self.merged = True
