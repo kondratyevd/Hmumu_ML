@@ -330,6 +330,7 @@ def solve_subproblem(i1,j1,i2,j2):
     return cat_ij.label, best_splitting_var, best_splitting
 
 def callback(result):
+    global categories
     label, score, cut = result
     categories[label].set_splitting(score, cut)
     categories[label].print_structure()
@@ -349,9 +350,8 @@ for l1 in range(1, args.nSteps1+1):
                 print "Number of CPUs: ", mp.cpu_count()
                 pool = mp.Pool(mp.cpu_count())
                 a = [pool.apply_async(solve_subproblem, args = (i1,j1,i2,i2+l2-1), callback=callback) for i2 in range(0, args.nSteps2-l2+1)]
-                for process in a:
-                    process.wait()
-                    print process.is_alive()
+                # for process in a:
+                #     process.wait()
                 pool.close()
                 pool.join()
                 for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
