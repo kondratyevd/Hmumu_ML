@@ -35,7 +35,7 @@ parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=flo
 parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
 args = parser.parse_args()
 
-log_mode = 0
+log_mode = 1
 def log(s):
     if log_mode is 0:
         pass
@@ -372,7 +372,10 @@ for l1 in range(1, args.nSteps1+1):
                     category.print_structure()
 
 
-
+final_category = None
 final_label = "0_%i_0_%i"%(args.nSteps1-1, args.nSteps2-1)
-print "Best significance overall is %f and achieved when the splitting is: "%(categories[final_label].get_combined_significance())
-categories[final_label].print_structure()
+for c in categories:
+    if final_label==c.label:
+        final_category = c
+print "Best significance overall is %f and achieved when the splitting is: "%(c.get_combined_significance())
+c.print_structure()
