@@ -350,13 +350,13 @@ for l1 in range(1, args.nSteps1+1):
                 for process in a:
                     process.wait()
                 pool.close()
-                print "Closing pool..."
-                for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
-                    j1 = i1+l1-1
-                    j2 = i2+l2-1
-                    label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
-                    print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
-                    categories[label].print_structure()
+                # print "Closing pool..."
+                # for i2 in range(0, args.nSteps2 - l2 + 1): # j = i+l-1
+                #     j1 = i1+l1-1
+                #     j2 = i2+l2-1
+                #     label = "%i_%i_%i_%i"%(i1,j1,i2,j2)
+                #     print "Subproblem %s solved; the best significance is %f for the following subcategories:"%(label, categories[label].get_combined_significance())
+                #     categories[label].print_structure()
 
         else:   # if not parallel
             for i1 in range(0, args.nSteps1 - l1 + 1): # j = i+l-1
