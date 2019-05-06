@@ -202,7 +202,7 @@ case $1 in
 		method="UCSD_bdtucsd_inclusive"
 		min_var=-1
 		max_var=1
-		nSteps=1
+		nSteps=20
 		penalty=2
 		;;	
 
