@@ -32,7 +32,9 @@ parser.add_argument('--lumi', action='store', dest='lumi', help='lumi', type=flo
 parser.add_argument('--penalty', action='store', dest='penalty', help='penalty', type=float)
 args = parser.parse_args()
 
-log_mode = 0
+log_mode = 1
+parallel = False
+
 def log(s):
     if log_mode is 0:
         pass
@@ -250,8 +252,6 @@ def callback(result):
     s[i][j] = s_ij
     best_splitting[i][j] = best_splitting_ij
 
-
-parallel = True
 
 # Main loop
 for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initializes the diagonal of s[i,j]. l=N is the big problem.
