@@ -109,7 +109,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     fit_func = w.pdf('%s_bkg'%cat_name)
     
 
-    bkg_binned = ROOT.RooDataHist("%s_bkg"%cat_name,"%s_bkg"%cat_name, ROOT.RooArgList(var), bkg_hist)
+    bkg_binned = ROOT.RooDataHist("%s_bkg_hist"%cat_name,"%s_bkg_hist"%cat_name, ROOT.RooArgList(var), bkg_hist)
     Import(w, bkg_binned)
     bkg_binned.Print()
     cmdlist = ROOT.RooLinkedList()
