@@ -336,7 +336,7 @@ sig_hist, data_hist = plot_initial_shapes(0, 0.1)
 # frame, frame_nuis_up, frame_nuis_down = plot_fits_nuis(0, 0.1)
 # frame = plot_fits_nuis(0, 0.1)
 
-frame = plot_fits(0, 0.1)
+w, frame = plot_fits(0, 0.1)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
