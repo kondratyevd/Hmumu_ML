@@ -68,7 +68,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
 
 def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     var = w.var("hmass")
-    var.setBins(5000)
+    var.setBins(500)
     var.setRange("left",110,120+0.1)
     var.setRange("right",130-0.1,150)
 
@@ -109,12 +109,12 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     fit_func = w.pdf('%s_bkg'%cat_name)
     
 
-    bkg_binned = ROOT.RooDataHist("%s_bkg"%cat_name,"%s_bkg"%cat_name, RooArgList(var), bkg_hist)
+    bkg_binned = ROOT.RooDataHist("%s_bkg"%cat_name,"%s_bkg"%cat_name, ROOT.RooArgList(var), bkg_hist)
     Import(w, bkg_binned)
 
     r = fit_func.chi2FitTo(bkg_binned, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
     r.Print()
-
+    var.setBins(5000)
     # bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
     # Import(w, bkg_ds)
 
