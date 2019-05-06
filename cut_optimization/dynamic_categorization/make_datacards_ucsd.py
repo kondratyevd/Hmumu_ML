@@ -53,8 +53,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     gaus3 = w.pdf('%s_gaus3'%(cat_name))
     smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
-    signal_ds = ROOT.RooDataHist("signal_ds","signal_ds", var, signal_hist)
-    # signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
 
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
@@ -78,6 +77,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bdtucsd_inclusive   = ROOT.RooRealVar("bdtucsd_inclusive", "bdtucsd_inclusive", -1, 1)
     bdtucsd_01jet       = ROOT.RooRealVar("bdtucsd_01jet", "bdtucsd_01jet", -1, 1)
     bdtucsd_2jet        = ROOT.RooRealVar("bdtucsd_2jet", "bdtucsd_2jet", -1, 1)
+    weight              = ROOT.RooRealVar("weight", "weight", -1, 1)
 
     bkg_tree = ROOT.TChain("tree")
     bkg_tree.Add(dy_path)
@@ -108,11 +108,17 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     w.factory("EXPR::%s_bkg('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{hmass, %s_a1, %s_bwz_redux_f})"%(cat_name,cat_name,cat_name))
     fit_func = w.pdf('%s_bkg'%cat_name)
     
-    bkg_ds = ROOT.RooDataHist("%s_bkg"%cat_name,"%s_bkg"%cat_name, var, bkg_hist)
-    data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
-    Import(w, data)
 
-    r = fit_func.fitTo(bkg_ds, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
+
+
+    bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    Import(w, bkg_ds)
+
+    wFunc = ROOT.RooFormulaVar("w","event weight","@0",ROOT.RooArgList(weight))
+    w = bkg_ds.addColumn(wFunc)
+    wdata = ROOT.RooDataSet(bkg_ds.GetName(),bkg_ds.GetTitle(),bkg_ds,bkg_ds.get(),0,w.GetName()) 
+
+    r = fit_func.fitTo(wdata, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
     # integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
     # integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
