@@ -144,7 +144,7 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
         combine_import = combine_import+"shapes %s_sig  %s %s.root w:%s_sig\n"%(cat_name, cat_name, filename, cat_name)
-        combine_import = combine_import+"shapes data_obs  %s %s.root w:%s_data\n"%(cat_name, filename, cat_name)
+        # combine_import = combine_import+"shapes data_obs  %s %s.root w:%s_data\n"%(cat_name, filename, cat_name)
 
         combine_bins = combine_bins+cat_name+" "
         combine_obs = combine_obs+"-1   "
