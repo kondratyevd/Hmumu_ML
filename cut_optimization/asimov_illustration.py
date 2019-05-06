@@ -333,7 +333,9 @@ def make_asimov_dataset(w):
 
 sig_hist, data_hist = plot_initial_shapes(0, 0.1)
 # frame, frame_nuis_up, frame_nuis_down = plot_fits_nuis(0, 0.1)
-frame = plot_fits_nuis(0, 0.1)
+# frame = plot_fits_nuis(0, 0.1)
+
+frame = plot_fits(0, 0.1)
 
 canvas = ROOT.TCanvas("c", "c", 800, 800)
 canvas.cd()
@@ -343,8 +345,7 @@ frame.GetYaxis().SetLabelSize(0)
 frame.SetTitle("")
 sig_hist.Draw('histsame')
 # data_hist.Draw('plesame')
-# frame_nuis_up.Draw("same")
-# frame_nuis_down.Draw("same")
+
 canvas.SaveAs('plots/asimov/new_test.png')
 
 # sig_hist, data_hist = plot_initial_shapes(0, 0.1)
@@ -379,4 +380,5 @@ canvas.SaveAs('plots/asimov/new_test.png')
 # sig_hist_new.SetTitle("")
 # bkg_hist_new.Draw('histsame')
 # canvas.SaveAs('plots/asimov/asimov_ds.png')
+
 
