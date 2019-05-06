@@ -193,6 +193,20 @@ case $1 in
 		penalty=4
 		;;	
 
+
+	6.1)
+		echo 'Running option 6.1: UCSD samples, bdtucsd_inclusive'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_inclusive"
+		min_var=-1
+		max_var=1
+		nSteps=10
+		penalty=2
+		;;	
+
+
 	*)
 		echo 'Wrong option ' $1
 		;;	

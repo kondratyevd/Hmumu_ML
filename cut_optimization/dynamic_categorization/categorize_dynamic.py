@@ -3,6 +3,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.par
 import ROOT
 from math import sqrt
 from make_datacards import create_datacard
+from make_datacards_ucsd import create_datacard_ucsd
 import argparse
 import multiprocessing as mp
 
@@ -57,6 +58,17 @@ elif "BDTmva" in args.method:
     score = "MVA"
 elif "Rapidity" in args.method:
     score = "max_abs_eta_mu"
+elif "UCSD_bdtuf" in args.method:
+    score = "bdtuf"
+elif "UCSD_bdtucsd_inclusive" in args.method:
+    score = "bdtucsd_inclusive"
+elif "UCSD_bdtucsd_01jet" in args.method:
+    score = "bdtucsd_01jet"
+elif "UCSD_bdtucsd_2jet" in args.method:
+    score = "bdtucsd_2jet"
+
+
+
 
 eta_categories = {
     "eta0": "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
@@ -103,11 +115,21 @@ def get_significance(label, bins):
         log("   %s:  %s"%(cat_name, cut))
     log("   Creating datacards... Please wait...")
 
-    success = create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
+    if "UCSD" in args.method:
+        file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
+        ggh_path = file_path+"tree_ggH.root"
+        vbf_path = file_path+"tree_VBF.root"
+        dy_path = file_path+"tree_DY.root"
+        tt_path = file_path+"tree_top.root"
+        vv_path = file_path+"tree_VV.root"
+        success = create_datacard_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_path, args.output_path,  "datacard_"+label, "workspace_"+label)
+
+    else:
+        success = create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
 
     if not success:
         return 0
-        
+
     os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt'%(label, label))
     os.system('rm datacard_%s.txt'%label)
     os.system('rm workspace_%s.root'%label)  
