@@ -210,7 +210,7 @@ def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     # cmdlist.Add(ROOT.RooFit.Save())
     # cmdlist.Add(ROOT.RooFit.Verbose(False))
     # cmdlist.Add(ROOT.RooFit.PrintLevel(-1000))
-    r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+    r = fit_func.chi2FitTo(data_binned, cmdlist)
 
     # r = fit_func.fitTo(data, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     r.Print()
