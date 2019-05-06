@@ -119,7 +119,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     wdata = ROOT.RooDataSet(bkg_ds.GetName(),bkg_ds.GetTitle(),bkg_ds,bkg_ds.get(),0,w.GetName()) 
 
     r = fit_func.fitTo(wdata, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
-
+    r.Print()
     # integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
     # integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
     # func_int_sb = integral_sb.getVal()
