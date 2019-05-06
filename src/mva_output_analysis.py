@@ -779,22 +779,23 @@ dnn_multi_hiStat_m120To130_CS1_sculpt.plot("mass", 40, 110, 150, label="shapes",
 
 # Option 4 - Raffaele's BDT
 
-bdt_raffaele = a.add_mva_source("BDT_raffaele", "BDT Raffaele", "/home/dkondra/tmp/BDTG_Raffaele/")
-bdt_raffaele.add_sample("tt", "ttbar", "tt_ll_POW/*.root", "tree", False, True, ROOT.kYellow)
-bdt_raffaele.add_sample("dy", "Drell-Yan", "ZJets_aMC/*.root", "tree", False, True, ROOT.kOrange-3)
-bdt_raffaele.add_sample("ggh", "ggH", "H2Mu_gg/*.root", "tree", False, False, ROOT.kRed)
-bdt_raffaele.add_sample("vbf", "VBF", "H2Mu_VBF/*.root", "tree", False, False, ROOT.kViolet-1)
-bdt_raffaele.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*.root", "tree", True, False, ROOT.kBlack)
+bdt_raffaele = a.add_mva_source("BDT_raffaele", "BDT Raffaele", "/mnt/hadoop/store/user/dkondrat/UCSD_files/")
+bdt_raffaele.add_sample("tt", "ttbar", "tree_top.root", "tree", False, True, ROOT.kYellow)
+bdt_raffaele.add_sample("dy", "Drell-Yan", "tree_DY.root", "tree", False, True, ROOT.kOrange-3)
+bdt_raffaele.add_sample("ggh", "ggH", "tree_ggH.root", "tree", False, False, ROOT.kRed)
+bdt_raffaele.add_sample("vbf", "VBF", "tree_VBF.root", "tree", False, False, ROOT.kViolet-1)
+# bdt_raffaele.add_sample("datab", "Data 2017B (40.5/fb)", "SingleMu_2017B/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_raffaele.add_sample("datac", "Data 2017C (40.5/fb)", "SingleMu_2017C/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_raffaele.add_sample("datad", "Data 2017D (40.5/fb)", "SingleMu_2017D/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_raffaele.add_sample("datae", "Data 2017E (40.5/fb)", "SingleMu_2017E/*.root", "tree", True, False, ROOT.kBlack)
 # bdt_raffaele.add_sample("dataf", "Data 2017F (40.5/fb)", "SingleMu_2017F/*.root", "tree", True, False, ROOT.kBlack)
 bdt_raffaele.set_lumi(4723.411)
-bdt_raffaele_roc_graph = bdt_raffaele.plot_roc("MVA", 500, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_raffaele_roc_graph = bdt_raffaele.plot_roc("bdtucsd_inclusive", 200, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_raffaele_roc = a.RocCurve(bdt_raffaele_roc_graph, "bdt_raffaele", "BDT Raffaele", ROOT.kBlack, 2)
 roc_to_compare.append(bdt_raffaele_roc)
 
 a.compare_roc_curves(roc_to_compare)
+
 
 
 
