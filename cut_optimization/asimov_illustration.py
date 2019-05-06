@@ -261,7 +261,7 @@ def plot_fits(eta_min, eta_max):
     cut = "(max_abs_eta_mu>%f)&(max_abs_eta_mu<%f)"%(eta_min, eta_max)
 
     w = create_workspace()
-    sig_rate = add_sig_model_dcb(w, 0, signal_input, sig_tree_name, cut) 
+    sig_rate = add_sig_model_3gaus(w, 0, signal_input, sig_tree_name, cut) 
     bkg_rate = add_bkg_model(w, 0, data_input, data_tree_name, cut)
     var = w.var('mass')
     frame = var.frame(ROOT.RooFit.Bins(100))
