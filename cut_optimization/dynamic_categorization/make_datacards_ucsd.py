@@ -109,7 +109,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     
     bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
     Import(w, bkg_ds)
-    
+
     r = fit_func.fitTo(bkg_ds, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
     integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
@@ -140,6 +140,8 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
         # print "Applying cut: ", cut
         sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, cut) 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
+
+        print "Signal rate: %f, bkg_rate: %f"%(sig_rate, bkg_rate)
 
         if (sig_entries<1000) or (bkg_entries<1000):
             valid = False
