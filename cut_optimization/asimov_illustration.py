@@ -185,10 +185,10 @@ def add_data(w, cat_number, input_path, data_tree, cut):
     data_hist.Scale(1/data_hist.Integral())
     data = ROOT.RooDataSet("cat%i_data"%cat_number,"cat%i_data"%cat_number, data_tree, ROOT.RooArgSet(var, max_abs_eta_var, mu1_eta, mu2_eta), cut)
     Import(w, data)
-    return w.data("cat%i_data"%cat_number)
+    return w.data("cat%i_data"%cat_number), data_hist
 
 def add_bkg_model(w, cat_number, input_path, data_tree, cut):
-    data = add_data(w, cat_number, input_path, data_tree, cut)
+    data, data_hist = add_data(w, cat_number, input_path, data_tree, cut)
     var = w.var("mass")
     # var.setBins(5000)
     var.setRange("left",110,120+0.1)
@@ -200,17 +200,29 @@ def add_bkg_model(w, cat_number, input_path, data_tree, cut):
     w.factory("expr::cat%i_bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{mass, cat%i_a2, cat%i_a3})"%(cat_number,cat_number,cat_number))
     w.factory("EXPR::cat%i_bkg('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{mass, cat%i_a1, cat%i_bwz_redux_f})"%(cat_number,cat_number,cat_number))
     fit_func = w.pdf('cat%i_bkg'%cat_number)
-    r = fit_func.fitTo(data, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+
+    data_binned = ROOT.RooDataHist("data_hist","data_hist", ROOT.RooArgList(var), data_hist)
+    Import(w, data_binned)
+    data_binned.Print()
+    bkg_rate = data_hist.Integral()
+    cmdlist = ROOT.RooLinkedList()
+    # cmdlist.Add(ROOT.RooFit.Range("left,right"))
+    # cmdlist.Add(ROOT.RooFit.Save())
+    # cmdlist.Add(ROOT.RooFit.Verbose(False))
+    # cmdlist.Add(ROOT.RooFit.PrintLevel(-1000))
+    r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+
+    # r = fit_func.fitTo(data, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
     r.Print()
-    integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
-    integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
-    func_int_sb = integral_sb.getVal()
-    func_int_full = integral_full.getVal()
-    data_int_sb = data.sumEntries("1","left,right")
-    data_int_full = data.sumEntries("1","full")
-    bkg_rate = data_int_sb * (func_int_full/func_int_sb)
-    print cut, data_int_full
-    print "="*100
+    # integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
+    # integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
+    # func_int_sb = integral_sb.getVal()
+    # func_int_full = integral_full.getVal()
+    # data_int_sb = data.sumEntries("1","left,right")
+    # data_int_full = data.sumEntries("1","full")
+    # bkg_rate = data_int_sb * (func_int_full/func_int_sb)
+    # print cut, data_int_full
+    # print "="*100
     return bkg_rate    
 
 
@@ -333,7 +345,7 @@ sig_hist.Draw('histsame')
 # data_hist.Draw('plesame')
 # frame_nuis_up.Draw("same")
 # frame_nuis_down.Draw("same")
-canvas.SaveAs('plots/asimov/nuis_test.png')
+canvas.SaveAs('plots/asimov/new_test.png')
 
 # sig_hist, data_hist = plot_initial_shapes(0, 0.1)
 # w, frame = plot_fits(0, 0.1)
