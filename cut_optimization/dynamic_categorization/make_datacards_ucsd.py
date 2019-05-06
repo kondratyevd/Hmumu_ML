@@ -53,7 +53,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     gaus3 = w.pdf('%s_gaus3'%(cat_name))
     smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
-    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    signal_ds = ROOT.RooDataHist("signal_ds","signal_ds", var, signal_hist)
+    # signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
 
     res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
@@ -107,18 +108,19 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     w.factory("EXPR::%s_bkg('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{hmass, %s_a1, %s_bwz_redux_f})"%(cat_name,cat_name,cat_name))
     fit_func = w.pdf('%s_bkg'%cat_name)
     
-    bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
-    Import(w, bkg_ds)
+    bkg_ds = ROOT.RooDataHist("%s_bkg"%cat_name,"%s_bkg"%cat_name, var, bkg_hist)
+    data = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    Import(w, data)
 
     r = fit_func.fitTo(bkg_ds, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
-    integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
-    integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
-    func_int_sb = integral_sb.getVal()
-    func_int_full = integral_full.getVal()
-    bkg_int_sb = bkg_ds.sumEntries("1","left,right")
-    bkg_int_full = bkg_ds.sumEntries("1","full")
-    bkg_rate = bkg_int_sb * (func_int_full/func_int_sb)
+    # integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
+    # integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
+    # func_int_sb = integral_sb.getVal()
+    # func_int_full = integral_full.getVal()
+    # bkg_int_sb = bkg_ds.sumEntries("1","left,right")
+    # bkg_int_full = bkg_ds.sumEntries("1","full")
+    # bkg_rate = bkg_int_sb * (func_int_full/func_int_sb)
     return bkg_rate, bkg_entries
 
 
