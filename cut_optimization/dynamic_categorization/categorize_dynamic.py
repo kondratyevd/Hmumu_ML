@@ -112,7 +112,7 @@ def get_significance(label, bins):
     categories = {}
     for i in range(len(new_bins)-1):
         cat_name = "cat%i"%i
-        cut = "(%s>%f)&(%s<%f)"%(score, new_bins[i], score, new_bins[i+1])
+        cut = "(%s>%f)&(%s<%f)&(hmass>110)&(hmass<150)"%(score, new_bins[i], score, new_bins[i+1])
         categories[cat_name] = cut
         log("   %s:  %s"%(cat_name, cut))
     log("   Creating datacards... Please wait...")
