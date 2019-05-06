@@ -81,7 +81,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bkg_tree = ROOT.TChain("tree")
     bkg_tree.Add(dy_path)
     bkg_tree.Add(tt_path)
-    # bkg_tree.Add(vv_path)
+    bkg_tree.Add(vv_path)
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
