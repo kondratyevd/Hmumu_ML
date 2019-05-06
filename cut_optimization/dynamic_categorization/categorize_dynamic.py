@@ -8,11 +8,11 @@ import argparse
 import multiprocessing as mp
 
 # Disable most of RooFit output
-ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
-ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
-ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Minimization)
-ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.ObjectHandling)
-ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.NumIntegration)
+# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Eval)
+# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Fitting)
+# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.Minimization)
+# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.ObjectHandling)
+# ROOT.RooMsgService.instance().getStream(1).removeTopic(ROOT.RooFit.NumIntegration)
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--sig_in_path', action='store', dest='sig_input_path', help='Input path')
