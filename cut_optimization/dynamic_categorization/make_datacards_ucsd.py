@@ -106,8 +106,10 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     w.factory("expr::%s_bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{hmass, %s_a2, %s_a3})"%(cat_name,cat_name,cat_name))
     w.factory("EXPR::%s_bkg('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{hmass, %s_a1, %s_bwz_redux_f})"%(cat_name,cat_name,cat_name))
     fit_func = w.pdf('%s_bkg'%cat_name)
-
-    bkg_ds = ROOT.RooDataSet("bkg_ds","bkg_ds", bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    
+    bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    Import(w, bkg_ds)
+    
     r = fit_func.fitTo(bkg_ds, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
     integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
@@ -144,7 +146,7 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
         combine_import = combine_import+"shapes %s_sig  %s %s.root w:%s_sig\n"%(cat_name, cat_name, filename, cat_name)
-        # combine_import = combine_import+"shapes data_obs  %s %s.root w:%s_data\n"%(cat_name, filename, cat_name)
+        combine_import = combine_import+"shapes data_obs  %s %s.root w:%s_data\n"%(cat_name, filename, cat_name)
 
         combine_bins = combine_bins+cat_name+" "
         combine_obs = combine_obs+"-1   "
