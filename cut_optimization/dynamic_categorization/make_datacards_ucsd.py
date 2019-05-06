@@ -86,7 +86,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
-    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 40, 110, 150)
+    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 400, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     bkg_tree.Draw("hmass>>%s"%(bkg_hist_name), "(%s)*weight"%(cut))
@@ -112,12 +112,12 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bkg_binned = ROOT.RooDataHist("%s_bkg"%cat_name,"%s_bkg"%cat_name, ROOT.RooArgList(var), bkg_hist)
     Import(w, bkg_binned)
     bkg_binned.Print()
-    cmdlist = ROOT.RooLinkedList()
+    # cmdlist = ROOT.RooLinkedList()
     # cmdlist.Add(ROOT.RooFit.Range("left,right"))
     # cmdlist.Add(ROOT.RooFit.Save())
     # cmdlist.Add(ROOT.RooFit.Verbose(False))
     # cmdlist.Add(ROOT.RooFit.PrintLevel(-1000))
-    r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+    r = fit_func.chi2FitTo(bkg_binned)
     r.Print()
     var.setBins(5000)
     # bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
