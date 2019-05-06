@@ -68,9 +68,6 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
 
 
 def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
-
-    if bkg_entries<1000:
-        return 0, bkg_entries
     var = w.var("hmass")
     var.setBins(5000)
     var.setRange("left",110,120+0.1)
