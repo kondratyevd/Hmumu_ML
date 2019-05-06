@@ -93,7 +93,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     dummy.Close()    
 
     bkg_entries = bkg_hist.GetEntries()
-
+    print "bkg_entries = ", bkg_entries
     if (bkg_entries<1000):
         return 0, bkg_entries
 
