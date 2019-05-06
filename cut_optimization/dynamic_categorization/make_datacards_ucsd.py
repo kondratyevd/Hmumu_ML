@@ -111,13 +111,13 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
 
 
-    bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
     Import(w, bkg_ds)
 
     bkg_ds.Print()
-    wFunc = ROOT.RooFormulaVar("w","event weight","@0",ROOT.RooArgList(weight))
+    wFunc = ROOT.RooFormulaVar("weight","event weight","@0",ROOT.RooArgList(weight))
     w = bkg_ds.addColumn(wFunc)
-    wdata = ROOT.RooDataSet(bkg_ds.GetName(),bkg_ds.GetTitle(),bkg_ds,ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet),cut,w.GetName()) 
+    wdata = ROOT.RooDataSet(bkg_ds.GetName(),bkg_ds.GetTitle(),bkg_ds,ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight),cut,w.GetName()) 
     wdata.Print()
     r = fit_func.fitTo(wdata, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
     r.Print()
