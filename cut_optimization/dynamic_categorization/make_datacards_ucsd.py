@@ -141,8 +141,6 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
         sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, cut) 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
 
-        print "Signal rate: %f, bkg_rate: %f"%(sig_rate, bkg_rate)
-
         if (sig_entries<1000) or (bkg_entries<1000):
             valid = False
 
