@@ -133,10 +133,7 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
     combine_proc_str = "process    "
     combine_ipro_str = "process    "
     combine_rate_str = "rate       "
-    if statUnc:
-        combine_unc = "statUnc  lnN   "
-    else:
-        combine_unc = ""
+    combine_unc = ""
 
     w = create_workspace()
     for cat_name, cut in categories.iteritems():
@@ -197,11 +194,6 @@ def create_datacard_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
     out_file.write("------------------------------\n")
     out_file.write(cat_strings)
     out_file.write("------------------------------\n")
-    if statUnc:
-        out_file.write(unc_str)
-    if nuis:
-        out_file.write("mu_res_beta    param    0    1.\n")
-        out_file.write("mu_scale_beta    param    0    1.\n")
     out_file.close()
 
     return True
