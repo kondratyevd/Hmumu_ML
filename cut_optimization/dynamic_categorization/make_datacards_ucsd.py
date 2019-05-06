@@ -35,7 +35,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     dummy.Close()    
 
     sig_entries = signal_hist.GetEntries()
-
+    print cut
+    print "sig_entries = ", sig_entries
     if (sig_entries<1000):
         return 0, sig_entries
 
@@ -93,6 +94,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     dummy.Close()    
 
     bkg_entries = bkg_hist.GetEntries()
+    print cut
     print "bkg_entries = ", bkg_entries
     if (bkg_entries<1000):
         return 0, bkg_entries
