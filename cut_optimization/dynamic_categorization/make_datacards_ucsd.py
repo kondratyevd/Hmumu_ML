@@ -102,8 +102,8 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
 
     w.factory("%s_a1 [1.66, 0.7, 2.1]"%cat_name)
-    w.factory("%s_a2 [0.39, 0.30, 0.62]"%cat_name)
-    w.factory("%s_a3 [-0.26, -0.40, -0.12]"%cat_name)
+    w.factory("%s_a2 [0.39, 0.30, 0.72]"%cat_name)
+    w.factory("%s_a3 [-0.26, -0.40, -0.1]"%cat_name)
     w.factory("expr::%s_bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{hmass, %s_a2, %s_a3})"%(cat_name,cat_name,cat_name))
     w.factory("EXPR::%s_bkg('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{hmass, %s_a1, %s_bwz_redux_f})"%(cat_name,cat_name,cat_name))
     fit_func = w.pdf('%s_bkg'%cat_name)
@@ -120,8 +120,9 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     # cmdlist.Add(ROOT.RooFit.PrintLevel(-1000))
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
     r.Print()
-    # bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
-    # Import(w, bkg_ds)
+
+    bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
+    Import(w, bkg_ds)
 
     # bkg_ds.Print()
     # wFunc = ROOT.RooFormulaVar("weight","event weight","@0",ROOT.RooArgList(weight))
