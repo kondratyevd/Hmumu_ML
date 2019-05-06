@@ -266,7 +266,7 @@ for l in range(1, args.nSteps+1): # subproblem size: from 1 to N. l=1 initialize
 
     else:   # if not parallel
         for i in range(0, args.nSteps - l + 1): # j = i+l-1
-            s[i][i+l-1], best_splitting[i][i+l-1] = solve_subproblem(i,i+l-1,s,best_splitting,memorized)
+            solve_subproblem(i,i+l-1)
 
     print "S_ij so far:"
     for ii in range(args.nSteps):
