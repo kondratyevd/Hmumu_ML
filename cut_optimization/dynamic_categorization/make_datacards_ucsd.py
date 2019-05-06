@@ -35,13 +35,11 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     dummy.Close()    
 
     sig_entries = signal_hist.GetEntries()
+    signal_rate = signal_hist.Integral()
     print cut
-    print "sig_entries = ", sig_entries
+    print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
     if (sig_entries<1000):
         return 0, sig_entries
-
-    signal_rate = signal_hist.Integral()
-    # print signal_rate
 
     w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
     w.factory("%s_mix2 [0.5, 0.0, 1.0]"%cat_name)
@@ -94,13 +92,13 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     dummy.Close()    
 
     bkg_entries = bkg_hist.GetEntries()
+    bkg_rate = bkg_hist.Integral()
     print cut
-    print "bkg_entries = ", bkg_entries
+    print "bkg_entries = %f, bkg_rate = %f"%(bkg_entries, bkg_rate)
+
     if (bkg_entries<1000):
         return 0, bkg_entries
 
-    bkg_rate = bkg_hist.Integral()
-    # print signal_rate
 
     w.factory("%s_a1 [1.66, 0.7, 2.1]"%cat_name)
     w.factory("%s_a2 [0.39, 0.30, 0.62]"%cat_name)
