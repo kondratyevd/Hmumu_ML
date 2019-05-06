@@ -111,12 +111,12 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
     bkg_binned = ROOT.RooDataHist("%s_bkg"%cat_name,"%s_bkg"%cat_name, ROOT.RooArgList(var), bkg_hist)
     Import(w, bkg_binned)
-
+    bkg_binned.Print()
     cmdlist = ROOT.RooLinkedList()
     # cmdlist.Add(ROOT.RooFit.Range("left,right"))
-    cmdlist.Add(ROOT.RooFit.Save())
-    cmdlist.Add(ROOT.RooFit.Verbose(False))
-    cmdlist.Add(ROOT.RooFit.PrintLevel(-1000))
+    # cmdlist.Add(ROOT.RooFit.Save())
+    # cmdlist.Add(ROOT.RooFit.Verbose(False))
+    # cmdlist.Add(ROOT.RooFit.PrintLevel(-1000))
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
     r.Print()
     var.setBins(5000)
