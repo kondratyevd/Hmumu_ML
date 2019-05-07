@@ -61,10 +61,12 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     Import(w, sig_binned)
     # sig_binned.Print()
     cmdlist = ROOT.RooLinkedList()
+    cmd0 = ROOT.RooFit.Range(115, 135)
     cmd1 = ROOT.RooFit.Save()
     cmd2 = ROOT.RooFit.Verbose(False)
     cmd3 = ROOT.RooFit.PrintLevel(-1000)
 
+    cmdlist.Add(cmd0)
     cmdlist.Add(cmd1)
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
