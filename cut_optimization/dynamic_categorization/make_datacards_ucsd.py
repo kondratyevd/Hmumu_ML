@@ -214,7 +214,7 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
         sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, cut) 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
 
-        if (sig_rate<1):
+        if (sig_rate<1) or (bkg_rate<1):
             valid = False
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
