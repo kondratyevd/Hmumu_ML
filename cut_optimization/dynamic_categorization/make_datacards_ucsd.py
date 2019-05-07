@@ -79,6 +79,12 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
     print "Signal chi2/d.o.f: ", chi2
 
+    canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
+    canv.cd()
+    frame.Draw()
+    canv.Print("signal_fit.png")
+
+
     if chi2>5:
         sys.exit()
 
