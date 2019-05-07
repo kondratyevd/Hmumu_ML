@@ -74,8 +74,11 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    res = smodel.chi2FitTo(sig_binned, cmdlist)
-    # res.Print()
+    try:
+        res = smodel.chi2FitTo(sig_binned, cmdlist)
+        # res.Print()
+    except:
+        return 0, 0
 
     frame = var.frame()
     sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
@@ -91,7 +94,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
         canv.Print("signal_fit.png")
         print cut
         print "Signal chi2/d.o.f: ", chi2
-        sys.exit()
+        return 0, 0
 
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
@@ -158,8 +161,10 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-
+    try:
+        r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+    except:
+        return 0, 0
 
     frame = var.frame()
     bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
@@ -175,7 +180,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
         canv.Print("bkg_fit.png")
         print cut 
         print "Background chi2/d.o.f: ", chi2
-        sys.exit()
+        return 0, 0
 
 
     data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, njets))
