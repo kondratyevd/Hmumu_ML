@@ -36,8 +36,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
 
     sig_entries = signal_hist.GetEntries()
     signal_rate = signal_hist.Integral()
-    print cut
-    print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
+    # print cut
+    # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
     if (sig_entries<1000):
         return 0, sig_entries
 
@@ -94,8 +94,8 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
     bkg_entries = bkg_hist.GetEntries()
     bkg_rate = bkg_hist.Integral()
-    print cut
-    print "bkg_entries = %f, bkg_rate = %f"%(bkg_entries, bkg_rate)
+    # print cut
+    # print "bkg_entries = %f, bkg_rate = %f"%(bkg_entries, bkg_rate)
 
     if (bkg_entries<1000):
         return 0, bkg_entries
@@ -111,7 +111,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
     bkg_binned = ROOT.RooDataHist("%s_bkg_hist"%cat_name,"%s_bkg_hist"%cat_name, ROOT.RooArgList(var), bkg_hist)
     Import(w, bkg_binned)
-    bkg_binned.Print()
+    # bkg_binned.Print()
     cmdlist = ROOT.RooLinkedList()
     cmd1 = ROOT.RooFit.Save()
     cmd2 = ROOT.RooFit.Verbose(False)
@@ -122,7 +122,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     cmdlist.Add(cmd3)
 
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-    r.Print()
+    # r.Print()
 
     bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
     Import(w, bkg_ds)
