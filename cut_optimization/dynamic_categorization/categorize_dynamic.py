@@ -91,6 +91,29 @@ if args.option is "0": # ucsd categories
         "cat5": "(bdtuf>0.91)&(bdtuf<1)"
     }
 
+    eta_cut_0 = "(abs(m1eta)<0.9)&(abs(m2eta)<0.9)"
+    eta_cut_1 = "((abs(m1eta)<1.9)&(abs(m2eta)<1.9))&((abs(m1eta)>0.9)||(abs(m2eta)>0.9))"
+    eta_cut_2 = "(abs(m1eta)>1.9)||(abs(m2eta)>1.9)"
+
+    cat_uf_eta = {
+        "cat00": "(bdtuf>-1)&(bdtuf<-0.15)&(%s)"%(eta_cut_0),
+        "cat01": "(bdtuf>-1)&(bdtuf<-0.15)&(%s)"%(eta_cut_1),
+        "cat02": "(bdtuf>-1)&(bdtuf<-0.15)&(%s)"%(eta_cut_2),
+        "cat10": "(bdtuf>-0.15)&(bdtuf<0.15)&(%s)"%(eta_cut_0),
+        "cat11": "(bdtuf>-0.15)&(bdtuf<0.15)&(%s)"%(eta_cut_1),
+        "cat12": "(bdtuf>-0.15)&(bdtuf<0.15)&(%s)"%(eta_cut_2),
+        "cat20": "(bdtuf>0.15)&(bdtuf<0.4)&(%s)"%(eta_cut_0),
+        "cat21": "(bdtuf>0.15)&(bdtuf<0.4)&(%s)"%(eta_cut_1),
+        "cat22": "(bdtuf>0.15)&(bdtuf<0.4)&(%s)"%(eta_cut_2),
+        "cat30": "(bdtuf>0.4)&(bdtuf<0.75)&(%s)"%(eta_cut_0),
+        "cat31": "(bdtuf>0.4)&(bdtuf<0.75)&(%s)"%(eta_cut_1),
+        "cat32": "(bdtuf>0.4)&(bdtuf<0.75)&(%s)"%(eta_cut_2),
+        "cat40": "(bdtuf>0.75)&(bdtuf<0.91)&(%s)"%(eta_cut_0),
+        "cat41": "(bdtuf>0.75)&(bdtuf<0.91)&(%s)"%(eta_cut_1),
+        "cat42": "(bdtuf>0.75)&(bdtuf<0.91)&(%s)"%(eta_cut_2),
+        "cat5": "(bdtuf>0.91)&(bdtuf<1)"
+    }
+
     cat_ucsd_incl = {
         "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.4)",
         "cat1": "(bdtucsd_inclusive>-0.4)&(bdtucsd_inclusive<0.2)",
@@ -135,7 +158,7 @@ if args.option is "0": # ucsd categories
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
 
-    create_datacard_ucsd(cat_uf, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(cat_uf_eta, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
