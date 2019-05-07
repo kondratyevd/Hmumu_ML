@@ -126,7 +126,11 @@ def get_significance(label, bins):
         dy_path = file_path+"tree_DY.root"
         tt_path = file_path+"tree_top.root"
         vv_path = file_path+"tree_VV.root"
-        success = create_datacard_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_path, args.output_path,  "datacard_"+label, "workspace_"+label)
+        try:
+            success = create_datacard_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_path, args.output_path,  "datacard_"+label, "workspace_"+label)
+        except:
+            "There was an error. Setting significance to 0."
+            return 0
 
     else:
         success = create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
