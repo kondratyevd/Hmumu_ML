@@ -102,7 +102,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
 
     w.factory("%s_a1 [1.66, 0.01, 2.1]"%cat_name)
-    w.factory("%s_a2 [0.39, 0.30, 5]"%cat_name)
+    w.factory("%s_a2 [0.39, 0.30, 1]"%cat_name)
     w.factory("%s_a3 [-0.26, -2, -0.01]"%cat_name)
     w.factory("expr::%s_bwz_redux_f('(@1*(@0/100)+@2*(@0/100)^2)',{hmass, %s_a2, %s_a3})"%(cat_name,cat_name,cat_name))
     w.factory("EXPR::%s_bkg('exp(@2)*(2.5)/(pow(@0-91.2,@1)+pow(2.5/2,@1))',{hmass, %s_a1, %s_bwz_redux_f})"%(cat_name,cat_name,cat_name))
