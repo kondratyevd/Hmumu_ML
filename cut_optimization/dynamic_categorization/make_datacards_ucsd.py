@@ -160,7 +160,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
     frame = var.frame()
     bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
-    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
+    fit_func.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
 
     chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
     print "Background chi2/d.o.f: ", chi2
