@@ -80,9 +80,26 @@ eta_categories = {
     "eta2": "(max_abs_eta_mu>1.9)&(max_abs_eta_mu<2.4)"
 }
 
-if args.option is "0": # inclusive
-    create_datacard({"cat0": "1"}, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_inclusive", "workspace_inclusive", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
-    create_datacard(eta_categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_inclusive_eta", "workspace_inclusive_eta", nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
+if args.option is "0": # ucsd categories
+    cat_ucsd_incl = {
+        "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.4)",
+        "cat1": "(bdtucsd_inclusive>-0.4)&(bdtucsd_inclusive<0.2)",
+        "cat2": "(bdtucsd_inclusive>0.2)&(bdtucsd_inclusive<0.4)",
+        "cat3": "(bdtucsd_inclusive>0.4)&(bdtucsd_inclusive<0.6)",
+        "cat4": "(bdtucsd_inclusive>0.6)&(bdtucsd_inclusive<0.8)",
+        "cat5": "(bdtucsd_inclusive>0.8)&(bdtucsd_inclusive<0.86)",
+        "cat6": "(bdtucsd_inclusive>0.86)&(bdtucsd_inclusive<1)"
+    }
+    file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
+    ggh_path = file_path+"tree_ggH.root"
+    vbf_path = file_path+"tree_VBF.root"
+    dy_path = file_path+"tree_DY.root"
+    tt_path = file_path+"tree_top.root"
+    vv_path = file_path+"tree_VV.root"
+    create_datacard_ucsd(cat_ucsd_incl, ggh_path, vbf_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
+    os.system('rm datacard.txt')
+    os.system('rm workspace.root') 
     sys.exit() 
 
 step = (args.max_var - args.min_var)/float(args.nSteps)
