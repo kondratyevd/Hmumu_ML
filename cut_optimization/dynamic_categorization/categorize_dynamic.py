@@ -81,15 +81,26 @@ eta_categories = {
 }
 
 if args.option is "0": # ucsd categories
+    # cat_ucsd_incl = {
+    #     "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.4)",
+    #     "cat1": "(bdtucsd_inclusive>-0.4)&(bdtucsd_inclusive<0.2)",
+    #     "cat2": "(bdtucsd_inclusive>0.2)&(bdtucsd_inclusive<0.4)",
+    #     "cat3": "(bdtucsd_inclusive>0.4)&(bdtucsd_inclusive<0.6)",
+    #     "cat4": "(bdtucsd_inclusive>0.6)&(bdtucsd_inclusive<0.8)",
+    #     "cat5": "(bdtucsd_inclusive>0.8)&(bdtucsd_inclusive<0.86)",
+    #     "cat6": "(bdtucsd_inclusive>0.86)&(bdtucsd_inclusive<1)"
+    # }
+
     cat_ucsd_incl = {
-        "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.4)",
-        "cat1": "(bdtucsd_inclusive>-0.4)&(bdtucsd_inclusive<0.2)",
-        "cat2": "(bdtucsd_inclusive>0.2)&(bdtucsd_inclusive<0.4)",
-        "cat3": "(bdtucsd_inclusive>0.4)&(bdtucsd_inclusive<0.6)",
-        "cat4": "(bdtucsd_inclusive>0.6)&(bdtucsd_inclusive<0.8)",
-        "cat5": "(bdtucsd_inclusive>0.8)&(bdtucsd_inclusive<0.86)",
-        "cat6": "(bdtucsd_inclusive>0.86)&(bdtucsd_inclusive<1)"
+        "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<0.1)",
+        "cat1": "(bdtucsd_inclusive>0.1)&(bdtucsd_inclusive<0.38)",
+        "cat2": "(bdtucsd_inclusive>0.38)&(bdtucsd_inclusive<0.56)",
+        "cat3": "(bdtucsd_inclusive>0.56)&(bdtucsd_inclusive<0.7)",
+        "cat4": "(bdtucsd_inclusive>0.7)&(bdtucsd_inclusive<0.78)",
+        "cat5": "(bdtucsd_inclusive>0.78)&(bdtucsd_inclusive<0.84)",
+        "cat6": "(bdtucsd_inclusive>0.84)&(bdtucsd_inclusive<1)"
     }
+
     file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
     ggh_path = file_path+"tree_ggH.root"
     vbf_path = file_path+"tree_VBF.root"
