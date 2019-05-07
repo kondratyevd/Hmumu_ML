@@ -80,12 +80,11 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
 
     chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
 
-    # canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
-    # canv.cd()
-    # frame.Draw()
-    # canv.Print("signal_fit.png")
-
     if chi2>5:
+        canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
+        canv.cd()
+        frame.Draw()
+        canv.Print("signal_fit.png")
         print cut
         print "Signal chi2/d.o.f: ", chi2
         sys.exit()
@@ -164,13 +163,11 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
     chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
-    # canv = ROOT.TCanvas("canv", "canv", 800, 800)
-    # canv.cd()
-    # frame.Draw()
-    # canv.Print("bkg_fit.png")
-
-
     if chi2>5:
+        canv = ROOT.TCanvas("canv", "canv", 800, 800)
+        canv.cd()
+        frame.Draw()
+        canv.Print("bkg_fit.png")
         print cut 
         print "Background chi2/d.o.f: ", chi2
         sys.exit()
