@@ -46,8 +46,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     mix1 = w.var("%s_mix1"%cat_name)
     mix2 = w.var("%s_mix2"%cat_name)
     w.factory("Gaussian::%s_gaus1(hmass, %s_mean1[125., 120., 130.], %s_width1[1.0, 0.5, 5.0])"%(cat_name, cat_name, cat_name))
-    w.factory("Gaussian::%s_gaus2(hmass, %s_mean2[125., 120., 130.], %s_width2[5.0, 2.0, 10.])"%(cat_name, cat_name, cat_name))
-    w.factory("Gaussian::%s_gaus3(hmass, %s_mean3[125., 120., 130.], %s_width3[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
+    w.factory("Gaussian::%s_gaus2(hmass, %s_mean2[125., 115., 130.], %s_width2[5.0, 2.0, 10.])"%(cat_name, cat_name, cat_name))
+    w.factory("Gaussian::%s_gaus3(hmass, %s_mean3[125., 115., 130.], %s_width3[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
     gaus1 = w.pdf('%s_gaus1'%(cat_name))
     gaus2 = w.pdf('%s_gaus2'%(cat_name))
     gaus3 = w.pdf('%s_gaus3'%(cat_name))
@@ -80,7 +80,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
 
     chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
 
-    if chi2>5:
+    if chi2>10:
         res.Print()
         canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
         canv.cd()
@@ -163,7 +163,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
     chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
-    if chi2>5:
+    if chi2>10:
         r.Print()
         canv = ROOT.TCanvas("canv", "canv", 800, 800)
         canv.cd()
