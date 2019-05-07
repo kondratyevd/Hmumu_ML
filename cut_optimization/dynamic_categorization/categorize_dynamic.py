@@ -35,7 +35,7 @@ parser.add_argument('--penalty', action='store', dest='penalty', help='penalty',
 args = parser.parse_args()
 
 log_mode = 0
-parallel = True
+parallel = False
 
 def log(s):
     if log_mode is 0:
