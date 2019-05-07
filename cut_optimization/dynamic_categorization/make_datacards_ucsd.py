@@ -72,6 +72,16 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     res = smodel.chi2FitTo(sig_binned, cmdlist)
     res.Print()
 
+    frame = var.frame()
+    sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
+    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
+
+    chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
+    print "Signal chi2/d.o.f: ", chi2
+
+    if chi2>5:
+        sys.exit()
+
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
         par_var = w.var("%s_%s"%(cat_name,par))
