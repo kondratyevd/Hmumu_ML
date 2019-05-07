@@ -81,6 +81,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
 
     if chi2>5:
+        res.Print()
         canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
         canv.cd()
         frame.Draw()
@@ -154,7 +155,6 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     cmdlist.Add(cmd3)
 
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-    r.Print()
 
 
     frame = var.frame()
@@ -164,6 +164,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
     if chi2>5:
+        r.Print()
         canv = ROOT.TCanvas("canv", "canv", 800, 800)
         canv.cd()
         frame.Draw()
