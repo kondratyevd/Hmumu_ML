@@ -54,6 +54,8 @@ def bins_to_illustration(min, max, bins):
     result = result+"| "
     return result
 
+additional_cut = "(1)"
+
 if "binary" in args.method:
     score = "sig_prediction"
 elif "DNNmulti" in args.method:
@@ -68,9 +70,10 @@ elif "UCSD_bdtucsd_inclusive" in args.method:
     score = "bdtucsd_inclusive"
 elif "UCSD_bdtucsd_01jet" in args.method:
     score = "bdtucsd_01jet"
+    additional_cut = "(njets<2)"
 elif "UCSD_bdtucsd_2jet" in args.method:
     score = "bdtucsd_2jet"
-
+    additional_cut = "(njets>=2)"
 
 
 
@@ -178,6 +181,7 @@ for i in range(args.nSteps):
 
 def get_significance(label, bins):
     global memorized
+    global additional_cut
 
     new_bins = []
     for i in range(len(bins)):
@@ -189,7 +193,7 @@ def get_significance(label, bins):
     categories = {}
     for i in range(len(new_bins)-1):
         cat_name = "cat%i"%i
-        cut = "(%s>%f)&(%s<%f)"%(score, new_bins[i], score, new_bins[i+1])
+        cut = "(%s>%f)&(%s<%f)&(%s)"%(score, new_bins[i], score, new_bins[i+1], additional_cut)
         categories[cat_name] = cut
         log("   %s:  %s"%(cat_name, cut))
     log("   Creating datacards... Please wait...")

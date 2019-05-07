@@ -185,16 +185,53 @@ case $1 in
 
 
 	6.1)
-		echo 'Running option 6.1: UCSD samples, bdtucsd_inclusive'
+		echo 'Running option 6.1: UCSD samples, bdtuf'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtuf"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=1
+		;;	
+
+	6.2)
+		echo 'Running option 6.2: UCSD samples, bdtucsd_inclusive'
 		SIG_INPUT_PATH=""
 		DATA_INPUT_PATH=""
 		DATA_TREE=""
 		method="UCSD_bdtucsd_inclusive"
 		min_var=-1
 		max_var=1
-		nSteps=100
+		nSteps=200
 		penalty=1
 		;;	
+
+	6.3)
+		echo 'Running option 6.3: UCSD samples, bdtucsd_01jet'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_01jet"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=1
+		;;	
+
+	6.4)
+		echo 'Running option 6.4: UCSD samples, bdtucsd_2jet'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_2jet"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=1
+		;;	
+
 
 	0)
 		echo 'Running option 0: test run'

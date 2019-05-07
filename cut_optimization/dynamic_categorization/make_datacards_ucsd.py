@@ -21,6 +21,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     bdtucsd_inclusive   = ROOT.RooRealVar("bdtucsd_inclusive", "bdtucsd_inclusive", -1, 1)
     bdtucsd_01jet       = ROOT.RooRealVar("bdtucsd_01jet", "bdtucsd_01jet", -1, 1)
     bdtucsd_2jet        = ROOT.RooRealVar("bdtucsd_2jet", "bdtucsd_2jet", -1, 1)
+    njets               = ROOT.RooRealVar("njets", "njets", 0, 10)
 
     signal_tree = ROOT.TChain("tree")
     signal_tree.Add(ggh_path)
@@ -40,15 +41,15 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     signal_rate = signal_hist.Integral()
     print cut
     print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
-    # if (signal_rate<1):
-    #     return signal_rate, sig_entries
+    if (signal_rate<1):
+        return signal_rate, sig_entries
 
     w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
     w.factory("%s_mix2 [0.01, 0.0, 0.9]"%cat_name)
     mix1 = w.var("%s_mix1"%cat_name)
     mix2 = w.var("%s_mix2"%cat_name)
     w.factory("Gaussian::%s_gaus1(hmass, %s_mean1[125., 120., 130.], %s_width1[1.0, 0.5, 5.0])"%(cat_name, cat_name, cat_name))
-    w.factory("Gaussian::%s_gaus2(hmass, %s_mean2[125., 115., 130.], %s_width2[5.0, 2.0, 10.])"%(cat_name, cat_name, cat_name))
+    w.factory("Gaussian::%s_gaus2(hmass, %s_mean2[125., 115., 130.], %s_width2[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
     w.factory("Gaussian::%s_gaus3(hmass, %s_mean3[125., 115., 130.], %s_width3[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
     gaus1 = w.pdf('%s_gaus1'%(cat_name))
     gaus2 = w.pdf('%s_gaus2'%(cat_name))
@@ -112,6 +113,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bdtucsd_inclusive   = ROOT.RooRealVar("bdtucsd_inclusive", "bdtucsd_inclusive", -1, 1)
     bdtucsd_01jet       = ROOT.RooRealVar("bdtucsd_01jet", "bdtucsd_01jet", -1, 1)
     bdtucsd_2jet        = ROOT.RooRealVar("bdtucsd_2jet", "bdtucsd_2jet", -1, 1)
+    njets               = ROOT.RooRealVar("njets", "njets", 0, 10)
     # weight              = ROOT.RooRealVar("weight", "weight", -1, 1)
 
     bkg_tree = ROOT.TChain("tree")
@@ -176,7 +178,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
         sys.exit()
 
 
-    data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet))
+    data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, njets))
     # data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
     Import(w, data_obs)
 
@@ -216,8 +218,8 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_p
         sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut) 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
 
-        # if (sig_rate<1) or (bkg_rate<1):
-        #     valid = False
+        if (sig_rate<1) or (bkg_rate<1):
+            valid = False
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
         combine_import = combine_import+"shapes %s_sig  %s %s.root w:%s_sig\n"%(cat_name, cat_name, filename, cat_name)
