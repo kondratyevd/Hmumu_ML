@@ -38,8 +38,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     signal_rate = signal_hist.Integral()
     # print cut
     # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
-    if (sig_entries<1000):
-        return 0, sig_entries
+    if (sig_rate<1):
+        return signal_rate, sig_entries
 
     w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
     w.factory("%s_mix2 [0.5, 0.0, 1.0]"%cat_name)
@@ -82,7 +82,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bkg_tree = ROOT.TChain("tree")
     bkg_tree.Add(dy_path)
     bkg_tree.Add(tt_path)
-    bkg_tree.Add(vv_path)
+    # bkg_tree.Add(vv_path)
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
@@ -97,8 +97,8 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     # print cut
     # print "bkg_entries = %f, bkg_rate = %f"%(bkg_entries, bkg_rate)
 
-    if (bkg_entries<1000):
-        return 0, bkg_entries
+    # if (bkg_entries<1000):
+    #     return 0, bkg_entries
 
 
     w.factory("%s_a1 [1.66, 0.7, 2.1]"%cat_name)
@@ -124,8 +124,9 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
     # r.Print()
 
-    bkg_ds = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
-    Import(w, bkg_ds)
+    data_obs = ROOT.RooDataSet()
+    # data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
+    Import(w, data_obs)
 
     # bkg_ds.Print()
     # wFunc = ROOT.RooFormulaVar("weight","event weight","@0",ROOT.RooArgList(weight))
@@ -163,7 +164,7 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
         sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, cut) 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
 
-        if (sig_entries<1000) or (bkg_entries<1000):
+        if (sig_rate<1):
             valid = False
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
