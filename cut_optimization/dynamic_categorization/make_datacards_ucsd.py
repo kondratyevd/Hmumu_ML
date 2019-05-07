@@ -75,8 +75,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     res.Print()
 
     frame = var.frame()
-    sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
-    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
+    sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name), ROOT.RooFit.Range(115, 135))
+    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name), ROOT.RooFit.Range(115, 135))
 
     chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
     print "Signal chi2/d.o.f: ", chi2
