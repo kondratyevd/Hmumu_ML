@@ -77,7 +77,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bdtucsd_inclusive   = ROOT.RooRealVar("bdtucsd_inclusive", "bdtucsd_inclusive", -1, 1)
     bdtucsd_01jet       = ROOT.RooRealVar("bdtucsd_01jet", "bdtucsd_01jet", -1, 1)
     bdtucsd_2jet        = ROOT.RooRealVar("bdtucsd_2jet", "bdtucsd_2jet", -1, 1)
-    weight              = ROOT.RooRealVar("weight", "weight", -1, 1)
+    # weight              = ROOT.RooRealVar("weight", "weight", -1, 1)
 
     bkg_tree = ROOT.TChain("tree")
     bkg_tree.Add(dy_path)
@@ -124,7 +124,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
     # r.Print()
 
-    data_obs = ROOT.RooDataSet()
+    data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet))
     # data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
     Import(w, data_obs)
 
