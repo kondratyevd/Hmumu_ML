@@ -13,7 +13,7 @@ def create_workspace():
 
     return w
 
-def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
+def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     var = w.var("hmass")
     var.setBins(5000)
 
@@ -25,6 +25,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     signal_tree = ROOT.TChain("tree")
     signal_tree.Add(ggh_path)
     signal_tree.Add(vbf_path)
+    signal_tree.Add(vh_path)
+    signal_tree.Add(tth_path)
     signal_tree.SetName("signal_tree")
 
     signal_hist_name = "signal_%s"%cat_name
@@ -211,7 +213,7 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
     for cat_name, cut in categories.iteritems():
 
         # print "Applying cut: ", cut
-        sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, cut) 
+        sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut) 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
 
         if (sig_rate<1) or (bkg_rate<1):
@@ -243,14 +245,14 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_pa
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n", valid
 
 
-def create_datacard_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_path, out_path, datacard_name, workspace_filename): 
+def create_datacard_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, out_path, datacard_name, workspace_filename): 
 
     try:
         os.makedirs(out_path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str, valid = make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_path, out_path, workspace_filename)
+    import_str, bins_obs, cat_strings, unc_str, valid = make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, out_path, workspace_filename)
     
     if not valid:
         return False
