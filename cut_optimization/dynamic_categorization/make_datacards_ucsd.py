@@ -28,7 +28,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     signal_tree.SetName("signal_tree")
 
     signal_hist_name = "signal_%s"%cat_name
-    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 20, 120, 130)
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 130)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("hmass>>%s"%(signal_hist_name), "(%s)*weight"%(cut))
@@ -75,8 +75,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     # res.Print()
 
     frame = var.frame()
-    sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name), ROOT.RooFit.Range(120,130))
-    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name), ROOT.RooFit.Range(120,130))
+    sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
+    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
 
     chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
 
