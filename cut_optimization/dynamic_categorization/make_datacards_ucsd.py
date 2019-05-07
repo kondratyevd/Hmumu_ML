@@ -70,7 +70,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     cmdlist.Add(cmd3)
 
     res = smodel.chi2FitTo(sig_binned, cmdlist)
-
+    res.Print()
 
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
@@ -137,7 +137,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     cmdlist.Add(cmd3)
 
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-    # r.Print()
+    r.Print()
 
     data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet))
     # data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
