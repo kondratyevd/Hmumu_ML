@@ -87,11 +87,10 @@ if args.option is "0": # ucsd categories
         "cat2": "(bdtucsd_inclusive>0.2)&(bdtucsd_inclusive<0.4)",
         "cat3": "(bdtucsd_inclusive>0.4)&(bdtucsd_inclusive<0.6)",
         "cat4": "(bdtucsd_inclusive>0.6)&(bdtucsd_inclusive<0.8)",
-        "cat5": "(bdtucsd_inclusive>0.8)&(bdtucsd_inclusive<0.85)",
-        "cat6": "(bdtucsd_inclusive>0.85)&(bdtucsd_inclusive<1)"
+        "cat5": "(bdtucsd_inclusive>0.8)&(bdtucsd_inclusive<0.86)",
+        "cat6": "(bdtucsd_inclusive>0.86)&(bdtucsd_inclusive<1)" # this category only has 0.84 signal events!
     }
-
-    # cat_ucsd_incl = {
+    # my_best_incl = {
     #     "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<0.1)",
     #     "cat1": "(bdtucsd_inclusive>0.1)&(bdtucsd_inclusive<0.38)",
     #     "cat2": "(bdtucsd_inclusive>0.38)&(bdtucsd_inclusive<0.56)",
@@ -101,6 +100,14 @@ if args.option is "0": # ucsd categories
     #     "cat6": "(bdtucsd_inclusive>0.84)&(bdtucsd_inclusive<1)"
     # }
 
+
+    cat_ucsd_01jet = {
+        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<0)&(njets<2)",
+        "cat1": "(bdtucsd_01jet>0)&(bdtucsd_01jet<0.4)&(njets<2)",
+        "cat2": "(bdtucsd_01jet>0.4)&(bdtucsd_01jet<0.65)&(njets<2)",
+        "cat3": "(bdtucsd_01jet>0.65)&(bdtucsd_01jet<1)&(njets<2)",
+    }
+    
     file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
     ggh_path = file_path+"tree_ggH.root"
     vbf_path = file_path+"tree_VBF.root"
@@ -109,7 +116,8 @@ if args.option is "0": # ucsd categories
     dy_path = file_path+"tree_DY.root"
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
-    create_datacard_ucsd(cat_ucsd_incl, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+
+    create_datacard_ucsd(cat_ucsd_01jet, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
