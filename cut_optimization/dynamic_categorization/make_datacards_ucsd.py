@@ -72,23 +72,23 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     cmdlist.Add(cmd3)
 
     res = smodel.chi2FitTo(sig_binned, cmdlist)
-    res.Print()
+    # res.Print()
 
-    frame = var.frame()
-    sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name), ROOT.RooFit.Range(115, 135))
-    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name), ROOT.RooFit.Range(115, 135))
+    # frame = var.frame()
+    # sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name), ROOT.RooFit.Range(115, 135))
+    # smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name), ROOT.RooFit.Range(115, 135))
 
-    chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
-    print "Signal chi2/d.o.f: ", chi2
+    # chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
+    # print "Signal chi2/d.o.f: ", chi2
 
-    canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
-    canv.cd()
-    frame.Draw()
-    canv.Print("signal_fit.png")
+    # canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
+    # canv.cd()
+    # frame.Draw()
+    # canv.Print("signal_fit.png")
 
 
-    if chi2>5:
-        sys.exit()
+    # if chi2>5:
+    #     sys.exit()
 
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
@@ -156,6 +156,24 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
     r.Print()
+
+
+    frame = var.frame()
+    bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
+    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
+
+    chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
+    print "Background chi2/d.o.f: ", chi2
+
+    canv = ROOT.TCanvas("canv", "canv", 800, 800)
+    canv.cd()
+    frame.Draw()
+    canv.Print("bkg_fit.png")
+
+
+    if chi2>5:
+        sys.exit()
+
 
     data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet))
     # data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
