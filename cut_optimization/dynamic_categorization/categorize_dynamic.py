@@ -96,15 +96,9 @@ if args.option is "0": # ucsd categories
     eta_cut_2 = "(abs(m1eta)>1.9)||(abs(m2eta)>1.9)"
 
     cat_uf_eta = {
-        "cat00": "(bdtuf>-1)&(bdtuf<-0.15)&(%s)"%(eta_cut_0),
-        "cat01": "(bdtuf>-1)&(bdtuf<-0.15)&(%s)"%(eta_cut_1),
-        "cat02": "(bdtuf>-1)&(bdtuf<-0.15)&(%s)"%(eta_cut_2),
-        "cat10": "(bdtuf>-0.15)&(bdtuf<0.15)&(%s)"%(eta_cut_0),
-        "cat11": "(bdtuf>-0.15)&(bdtuf<0.15)&(%s)"%(eta_cut_1),
-        "cat12": "(bdtuf>-0.15)&(bdtuf<0.15)&(%s)"%(eta_cut_2),
-        "cat20": "(bdtuf>0.15)&(bdtuf<0.4)&(%s)"%(eta_cut_0),
-        "cat21": "(bdtuf>0.15)&(bdtuf<0.4)&(%s)"%(eta_cut_1),
-        "cat22": "(bdtuf>0.15)&(bdtuf<0.4)&(%s)"%(eta_cut_2),
+        "cat00": "(bdtuf>-1)&(bdtuf<-0.15)",
+        "cat10": "(bdtuf>-0.15)&(bdtuf<0.15)",
+        "cat20": "(bdtuf>0.15)&(bdtuf<0.4)",
         "cat30": "(bdtuf>0.4)&(bdtuf<0.75)&(%s)"%(eta_cut_0),
         "cat31": "(bdtuf>0.4)&(bdtuf<0.75)&(%s)"%(eta_cut_1),
         "cat32": "(bdtuf>0.4)&(bdtuf<0.75)&(%s)"%(eta_cut_2),
