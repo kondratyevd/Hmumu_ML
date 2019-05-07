@@ -53,9 +53,24 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     gaus3 = w.pdf('%s_gaus3'%(cat_name))
     smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
-    signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
+    # signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
 
-    res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
+    # res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
+
+    sig_binned = ROOT.RooDataHist("%s_sig_hist"%cat_name,"%s_sig_hist"%cat_name, ROOT.RooArgList(var), sig_hist)
+    Import(w, sig_binned)
+    # sig_binned.Print()
+    cmdlist = ROOT.RooLinkedList()
+    cmd1 = ROOT.RooFit.Save()
+    cmd2 = ROOT.RooFit.Verbose(False)
+    cmd3 = ROOT.RooFit.PrintLevel(-1000)
+
+    cmdlist.Add(cmd1)
+    cmdlist.Add(cmd2)
+    cmdlist.Add(cmd3)
+
+    res = smodel.chi2FitTo(sig_binned, cmdlist)
+
 
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
@@ -82,7 +97,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bkg_tree = ROOT.TChain("tree")
     bkg_tree.Add(dy_path)
     bkg_tree.Add(tt_path)
-    # bkg_tree.Add(vv_path)
+    bkg_tree.Add(vv_path)
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
