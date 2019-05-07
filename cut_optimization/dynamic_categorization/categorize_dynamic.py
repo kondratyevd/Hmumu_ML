@@ -202,6 +202,8 @@ def get_significance(label, bins):
         file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
         ggh_path = file_path+"tree_ggH.root"
         vbf_path = file_path+"tree_VBF.root"
+        vh_path = file_path+"tree_VH.root"
+        tth_path = file_path+"tree_ttH.root"
         dy_path = file_path+"tree_DY.root"
         tt_path = file_path+"tree_top.root"
         vv_path = file_path+"tree_VV.root"
