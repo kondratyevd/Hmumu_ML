@@ -81,6 +81,16 @@ eta_categories = {
 }
 
 if args.option is "0": # ucsd categories
+
+    cat_uf = {
+        "cat0": "(bdtuf>-1)&(bdtuf<-0.15)",
+        "cat1": "(bdtuf>-0.15)&(bdtuf<0.15)",
+        "cat2": "(bdtuf>0.15)&(bdtuf<0.4)",
+        "cat3": "(bdtuf>0.4)&(bdtuf<0.75)",
+        "cat4": "(bdtuf>0.75)&(bdtuf<0.91)",
+        "cat5": "(bdtuf>0.91)&(bdtuf<1)"
+    }
+
     cat_ucsd_incl = {
         "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.4)",
         "cat1": "(bdtucsd_inclusive>-0.4)&(bdtucsd_inclusive<0.2)",
@@ -125,7 +135,7 @@ if args.option is "0": # ucsd categories
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
 
-    create_datacard_ucsd(cat_ucsd_2jet, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(cat_uf, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
