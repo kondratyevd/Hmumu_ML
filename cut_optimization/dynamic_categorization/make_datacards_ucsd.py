@@ -197,7 +197,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     return bkg_rate, bkg_entries
 
 
-def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, vv_path, output_path, filename):
+def make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, output_path, filename):
     # nCat = len(bins)-1
     valid = True
     combine_import = ""
