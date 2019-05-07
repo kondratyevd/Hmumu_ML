@@ -57,7 +57,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
 
     # res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
-    sig_binned = ROOT.RooDataHist("%s_sig_hist"%cat_name,"%s_sig_hist"%cat_name, ROOT.RooArgList(var), sig_hist)
+    sig_binned = ROOT.RooDataHist("%s_sig_hist"%cat_name,"%s_sig_hist"%cat_name, ROOT.RooArgList(var), signal_hist)
     Import(w, sig_binned)
     # sig_binned.Print()
     cmdlist = ROOT.RooLinkedList()
