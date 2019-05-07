@@ -28,7 +28,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     signal_tree.SetName("signal_tree")
 
     signal_hist_name = "signal_%s"%cat_name
-    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 150)
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 80, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("hmass>>%s"%(signal_hist_name), "(%s)*weight"%(cut))
@@ -101,7 +101,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
-    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 400, 110, 150)
+    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 80, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     bkg_tree.Draw("hmass>>%s"%(bkg_hist_name), "(%s)*weight"%(cut))
