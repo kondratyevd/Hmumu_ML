@@ -110,9 +110,9 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_uf = {
-        "cat0": "(bdtuf>-1)&(bdtuf<-0.62)",
+        "cat0": "(bdtuf>-1)&(bdtuf<-0.61)",
         # "cat1": "(bdtuf>-0.62)&(bdtuf<-0.61)",
-        "cat2": "(bdtuf>-0.62)&(bdtuf<-0.08)",
+        "cat2": "(bdtuf>-0.61)&(bdtuf<-0.08)",
         "cat3": "(bdtuf>-0.08)&(bdtuf<0.19)",
         "cat4": "(bdtuf>0.19)&(bdtuf<0.38)",
         "cat5": "(bdtuf>0.38)&(bdtuf<0.67)",
