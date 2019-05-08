@@ -111,13 +111,12 @@ if args.option is "0": # ucsd categories
 
     my_best_uf = {
         "cat0": "(bdtuf>-1)&(bdtuf<-0.61)",
-        "cat2": "(bdtuf>-0.61)&(bdtuf<-0.08)",
-        "cat3": "(bdtuf>-0.08)&(bdtuf<0.19)",
-        "cat4": "(bdtuf>0.19)&(bdtuf<0.38)",
-        "cat5": "(bdtuf>0.38)&(bdtuf<0.68)",
-        # "cat6": "(bdtuf>0.67)&(bdtuf<0.68)",
-        "cat7": "(bdtuf>0.68)&(bdtuf<0.89)",
-        "cat8": "(bdtuf>0.89)&(bdtuf<1)",
+        "cat1": "(bdtuf>-0.61)&(bdtuf<-0.08)",
+        "cat2": "(bdtuf>-0.08)&(bdtuf<0.19)",
+        "cat3": "(bdtuf>0.19)&(bdtuf<0.38)",
+        "cat4": "(bdtuf>0.38)&(bdtuf<0.67)",
+        "cat5": "(bdtuf>0.67)&(bdtuf<0.89)",
+        "cat6": "(bdtuf>0.89)&(bdtuf<1)",
     }
 
     cat_ucsd_incl = {
@@ -129,15 +128,19 @@ if args.option is "0": # ucsd categories
         "cat5": "(bdtucsd_inclusive>0.8)&(bdtucsd_inclusive<0.86)",
         "cat6": "(bdtucsd_inclusive>0.86)&(bdtucsd_inclusive<1)" # this category only has 0.84 signal events!
     }
-    # my_best_incl = {
-    #     "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<0.1)",
-    #     "cat1": "(bdtucsd_inclusive>0.1)&(bdtucsd_inclusive<0.38)",
-    #     "cat2": "(bdtucsd_inclusive>0.38)&(bdtucsd_inclusive<0.56)",
-    #     "cat3": "(bdtucsd_inclusive>0.56)&(bdtucsd_inclusive<0.7)",
-    #     "cat4": "(bdtucsd_inclusive>0.7)&(bdtucsd_inclusive<0.78)",
-    #     "cat5": "(bdtucsd_inclusive>0.78)&(bdtucsd_inclusive<0.84)",
-    #     "cat6": "(bdtucsd_inclusive>0.84)&(bdtucsd_inclusive<1)"
-    # }
+
+    my_best_incl = {
+        "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.75)",
+        "cat1": "(bdtucsd_inclusive>-0.75)&(bdtucsd_inclusive<-0.68)",
+        "cat2": "(bdtucsd_inclusive>-0.68)&(bdtucsd_inclusive<-0.09)",
+        "cat3": "(bdtucsd_inclusive>-0.09)&(bdtucsd_inclusive<0.21)",
+        "cat4": "(bdtucsd_inclusive>0.21)&(bdtucsd_inclusive<0.41)",
+        "cat5": "(bdtucsd_inclusive>0.41)&(bdtucsd_inclusive<0.56)",
+        "cat6": "(bdtucsd_inclusive>0.56)&(bdtucsd_inclusive<0.7)",
+        "cat7": "(bdtucsd_inclusive>0.7)&(bdtucsd_inclusive<0.81)",  
+        "cat8": "(bdtucsd_inclusive>0.81)&(bdtucsd_inclusive<0.85)",                        
+        "cat9": "(bdtucsd_inclusive>0.85)&(bdtucsd_inclusive<1)"
+    }
 
 
     cat_ucsd_01jet = {
@@ -164,7 +167,7 @@ if args.option is "0": # ucsd categories
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
 
-    create_datacard_ucsd(my_best_uf, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(my_best_incl, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
