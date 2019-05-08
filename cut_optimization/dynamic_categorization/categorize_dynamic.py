@@ -180,17 +180,17 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_2jet = {
-        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.77)&(njets>=2)",
-        "cat1": "(bdtucsd_01jet>-0.77)&(bdtucsd_01jet<-0.5)&(njets>=2)",
-        "cat2": "(bdtucsd_01jet>-0.5)&(bdtucsd_01jet<-0.37)&(njets>=2)",        
-        "cat3": "(bdtucsd_01jet>-0.37)&(bdtucsd_01jet<-0.06)&(njets>=2)",
-        "cat4": "(bdtucsd_01jet>-0.06)&(bdtucsd_01jet<0.19)&(njets>=2)",
-        "cat5": "(bdtucsd_01jet>0.19)&(bdtucsd_01jet<0.4)&(njets>=2)",
-        "cat6": "(bdtucsd_01jet>0.4)&(bdtucsd_01jet<0.57)&(njets>=2)",
-        "cat7": "(bdtucsd_01jet>0.57)&(bdtucsd_01jet<0.68)&(njets>=2)",
-        "cat8": "(bdtucsd_01jet>0.68)&(bdtucsd_01jet<0.83)&(njets>=2)",
-        "cat9": "(bdtucsd_01jet>0.83)&(bdtucsd_01jet<0.91)&(njets>=2)",
-        "cat10": "(bdtucsd_01jet>0.91)&(bdtucsd_01jet<1)&(njets>=2)",
+        "cat0": "(bdtucsd_2jet>-1)&(bdtucsd_2jet<-0.77)&(njets>=2)",
+        "cat1": "(bdtucsd_2jet>-0.77)&(bdtucsd_2jet<-0.5)&(njets>=2)",
+        "cat2": "(bdtucsd_2jet>-0.5)&(bdtucsd_2jet<-0.37)&(njets>=2)",        
+        "cat3": "(bdtucsd_2jet>-0.37)&(bdtucsd_2jet<-0.06)&(njets>=2)",
+        "cat4": "(bdtucsd_2jet>-0.06)&(bdtucsd_2jet<0.19)&(njets>=2)",
+        "cat5": "(bdtucsd_2jet>0.19)&(bdtucsd_2jet<0.4)&(njets>=2)",
+        "cat6": "(bdtucsd_2jet>0.4)&(bdtucsd_2jet<0.57)&(njets>=2)",
+        "cat7": "(bdtucsd_2jet>0.57)&(bdtucsd_2jet<0.68)&(njets>=2)",
+        "cat8": "(bdtucsd_2jet>0.68)&(bdtucsd_2jet<0.83)&(njets>=2)",
+        "cat9": "(bdtucsd_2jet>0.83)&(bdtucsd_2jet<0.91)&(njets>=2)",
+        "cat10": "(bdtucsd_2jet>0.91)&(bdtucsd_2jet<1)&(njets>=2)",
     }
 
     file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
