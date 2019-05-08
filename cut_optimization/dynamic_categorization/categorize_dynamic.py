@@ -179,6 +179,20 @@ if args.option is "0": # ucsd categories
         "cat4": "(bdtucsd_2jet>0.91)&(bdtucsd_2jet<1)&(njets>=2)",    
     }
 
+    my_best_2jet = {
+        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.77)&(njets>=2)",
+        "cat1": "(bdtucsd_01jet>-0.77)&(bdtucsd_01jet<-0.5)&(njets>=2)",
+        "cat2": "(bdtucsd_01jet>-0.5)&(bdtucsd_01jet<-0.37)&(njets>=2)",        
+        "cat3": "(bdtucsd_01jet>-0.37)&(bdtucsd_01jet<-0.06)&(njets>=2)",
+        "cat4": "(bdtucsd_01jet>-0.06)&(bdtucsd_01jet<0.19)&(njets>=2)",
+        "cat5": "(bdtucsd_01jet>0.19)&(bdtucsd_01jet<0.4)&(njets>=2)",
+        "cat6": "(bdtucsd_01jet>0.4)&(bdtucsd_01jet<0.57)&(njets>=2)",
+        "cat7": "(bdtucsd_01jet>0.57)&(bdtucsd_01jet<0.68)&(njets>=2)",
+        "cat8": "(bdtucsd_01jet>0.68)&(bdtucsd_01jet<0.83)&(njets>=2)",
+        "cat9": "(bdtucsd_01jet>0.83)&(bdtucsd_01jet<0.91)&(njets>=2)",
+        "cat10": "(bdtucsd_01jet>0.91)&(bdtucsd_01jet<1)&(njets>=2)",
+    }
+
     file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
     ggh_path = file_path+"tree_ggH.root"
     vbf_path = file_path+"tree_VBF.root"
@@ -188,7 +202,7 @@ if args.option is "0": # ucsd categories
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
 
-    create_datacard_ucsd(my_best_01jet, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(my_best_2jet, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
