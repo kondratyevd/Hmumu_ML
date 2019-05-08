@@ -119,6 +119,30 @@ if args.option is "0": # ucsd categories
         "cat6": "(bdtuf>0.89)&(bdtuf<1)",
     }
 
+    my_best_uf_eta = {
+        "cat00": "(bdtuf>-1)&(bdtuf<-0.61)%(%s)"%(eta_cut_0),
+        "cat01": "(bdtuf>-1)&(bdtuf<-0.61)%(%s)"%(eta_cut_1),
+        "cat02": "(bdtuf>-1)&(bdtuf<-0.61)%(%s)"%(eta_cut_2),
+        "cat10": "(bdtuf>-0.61)&(bdtuf<-0.08)%(%s)"%(eta_cut_0),
+        "cat11": "(bdtuf>-0.61)&(bdtuf<-0.08)%(%s)"%(eta_cut_1),
+        "cat12": "(bdtuf>-0.61)&(bdtuf<-0.08)%(%s)"%(eta_cut_2),
+        "cat20": "(bdtuf>-0.08)&(bdtuf<0.19)%(%s)"%(eta_cut_0),
+        "cat21": "(bdtuf>-0.08)&(bdtuf<0.19)%(%s)"%(eta_cut_1),
+        "cat22": "(bdtuf>-0.08)&(bdtuf<0.19)%(%s)"%(eta_cut_2),
+        "cat30": "(bdtuf>0.19)&(bdtuf<0.38)%(%s)"%(eta_cut_0),
+        "cat31": "(bdtuf>0.19)&(bdtuf<0.38)%(%s)"%(eta_cut_1),
+        "cat32": "(bdtuf>0.19)&(bdtuf<0.38)%(%s)"%(eta_cut_2),
+        "cat40": "(bdtuf>0.38)&(bdtuf<0.67)%(%s)"%(eta_cut_0),
+        "cat41": "(bdtuf>0.38)&(bdtuf<0.67)%(%s)"%(eta_cut_1),
+        "cat42": "(bdtuf>0.38)&(bdtuf<0.67)%(%s)"%(eta_cut_2),
+        "cat50": "(bdtuf>0.67)&(bdtuf<0.89)%(%s)"%(eta_cut_0),
+        "cat51": "(bdtuf>0.67)&(bdtuf<0.89)%(%s)"%(eta_cut_1),
+        "cat52": "(bdtuf>0.67)&(bdtuf<0.89)%(%s)"%(eta_cut_2),
+        "cat60": "(bdtuf>0.89)&(bdtuf<1)%(%s)"%(eta_cut_0),
+        "cat61": "(bdtuf>0.89)&(bdtuf<1)%(%s)"%(eta_cut_1),
+        "cat62": "(bdtuf>0.89)&(bdtuf<1)%(%s)"%(eta_cut_2),
+    }
+
     cat_ucsd_incl = {
         "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.4)",
         "cat1": "(bdtucsd_inclusive>-0.4)&(bdtucsd_inclusive<0.2)",
@@ -167,7 +191,7 @@ if args.option is "0": # ucsd categories
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
 
-    create_datacard_ucsd(my_best_incl, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(my_best_uf_eta, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
