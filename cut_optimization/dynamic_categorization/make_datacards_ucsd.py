@@ -40,7 +40,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     sig_entries = signal_hist.GetEntries()
     signal_rate = signal_hist.Integral()
     # print cut
-    print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
+    # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
     # if (signal_rate<1):
     #     return signal_rate, sig_entries
 
@@ -74,12 +74,11 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    res = smodel.chi2FitTo(sig_binned, cmdlist)
-    # try:
-    #     res = smodel.chi2FitTo(sig_binned, cmdlist)
-    #     # res.Print()
-    # except:
-    #     return 0, 0
+    try:
+        res = smodel.chi2FitTo(sig_binned, cmdlist)
+        # res.Print()
+    except:
+        return 0, 0
 
     frame = var.frame()
     sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
@@ -162,11 +161,10 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-    # try:
-    #     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-    # except:
-    #     return 0, 0
+    try:
+        r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+    except:
+        return 0, 0
 
     frame = var.frame()
     bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
@@ -225,8 +223,8 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_p
         sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut) 
         bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
 
-        if (sig_rate<1) or (bkg_rate<1):
-            valid = False
+        # if (sig_rate<1) or (bkg_rate<1):
+        #     valid = False
 
         combine_import = combine_import+"shapes %s_bkg  %s %s.root w:%s_bkg\n"%(cat_name, cat_name, filename, cat_name)
         combine_import = combine_import+"shapes %s_sig  %s %s.root w:%s_sig\n"%(cat_name, cat_name, filename, cat_name)
