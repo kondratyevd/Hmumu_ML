@@ -45,7 +45,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     #     return signal_rate, sig_entries
 
     w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
-    w.factory("%s_mix2 [0.01, 0.0, 0.9]"%cat_name)
+    w.factory("%s_mix2 [0.0, 0.0, 1.0]"%cat_name)
     mix1 = w.var("%s_mix1"%cat_name)
     mix2 = w.var("%s_mix2"%cat_name)
     w.factory("Gaussian::%s_gaus1(hmass, %s_mean1[125., 120., 130.], %s_width1[1.0, 0.5, 5.0])"%(cat_name, cat_name, cat_name))
