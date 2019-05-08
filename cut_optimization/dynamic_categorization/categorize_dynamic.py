@@ -112,8 +112,8 @@ if args.option is "0": # ucsd categories
     my_best_uf = {
         "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.62)",
         "cat1": "(bdtucsd_inclusive>-0.62)&(bdtucsd_inclusive<-0.61)",
-        "cat2": "(bdtucsd_inclusive>-0.61)&(bdtucsd_inclusive<-0.07)",
-        "cat3": "(bdtucsd_inclusive>-0.07)&(bdtucsd_inclusive<0.19)",
+        "cat2": "(bdtucsd_inclusive>-0.61)&(bdtucsd_inclusive<-0.08)",
+        "cat3": "(bdtucsd_inclusive>-0.08)&(bdtucsd_inclusive<0.19)",
         "cat4": "(bdtucsd_inclusive>0.19)&(bdtucsd_inclusive<0.38)",
         "cat5": "(bdtucsd_inclusive>0.38)&(bdtucsd_inclusive<0.67)",
         "cat6": "(bdtucsd_inclusive>0.67)&(bdtucsd_inclusive<0.68)",
