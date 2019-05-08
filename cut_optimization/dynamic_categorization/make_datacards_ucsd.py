@@ -41,8 +41,8 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     signal_rate = signal_hist.Integral()
     # print cut
     # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
-    if (signal_rate<1):
-        return signal_rate, sig_entries
+    # if (signal_rate<1):
+    #     return signal_rate, sig_entries
 
     w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
     w.factory("%s_mix2 [0.01, 0.0, 0.9]"%cat_name)
