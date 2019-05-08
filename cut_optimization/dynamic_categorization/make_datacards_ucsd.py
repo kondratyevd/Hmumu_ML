@@ -40,7 +40,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     sig_entries = signal_hist.GetEntries()
     signal_rate = signal_hist.Integral()
     # print cut
-    # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
+    print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
     # if (signal_rate<1):
     #     return signal_rate, sig_entries
 
@@ -74,11 +74,12 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    try:
-        res = smodel.chi2FitTo(sig_binned, cmdlist)
-        # res.Print()
-    except:
-        return 0, 0
+    res = smodel.chi2FitTo(sig_binned, cmdlist)
+    # try:
+    #     res = smodel.chi2FitTo(sig_binned, cmdlist)
+    #     # res.Print()
+    # except:
+    #     return 0, 0
 
     frame = var.frame()
     sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
@@ -161,10 +162,11 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    try:
-        r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-    except:
-        return 0, 0
+    r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+    # try:
+    #     r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+    # except:
+    #     return 0, 0
 
     frame = var.frame()
     bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
