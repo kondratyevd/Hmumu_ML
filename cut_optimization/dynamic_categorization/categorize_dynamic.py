@@ -110,15 +110,15 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_uf = {
-        "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.62)",
-        # "cat1": "(bdtucsd_inclusive>-0.62)&(bdtucsd_inclusive<-0.61)",
-        "cat2": "(bdtucsd_inclusive>-0.62)&(bdtucsd_inclusive<-0.08)",
-        "cat3": "(bdtucsd_inclusive>-0.08)&(bdtucsd_inclusive<0.19)",
-        "cat4": "(bdtucsd_inclusive>0.19)&(bdtucsd_inclusive<0.38)",
-        "cat5": "(bdtucsd_inclusive>0.38)&(bdtucsd_inclusive<0.67)",
-        "cat6": "(bdtucsd_inclusive>0.67)&(bdtucsd_inclusive<0.68)",
-        "cat7": "(bdtucsd_inclusive>0.68)&(bdtucsd_inclusive<0.89)",
-        "cat8": "(bdtucsd_inclusive>0.89)&(bdtucsd_inclusive<1)",
+        "cat0": "(bdtuf>-1)&(bdtuf<-0.62)",
+        "cat1": "(bdtuf>-0.62)&(bdtuf<-0.61)",
+        "cat2": "(bdtuf>-0.61)&(bdtuf<-0.08)",
+        "cat3": "(bdtuf>-0.08)&(bdtuf<0.19)",
+        "cat4": "(bdtuf>0.19)&(bdtuf<0.38)",
+        "cat5": "(bdtuf>0.38)&(bdtuf<0.67)",
+        "cat6": "(bdtuf>0.67)&(bdtuf<0.68)",
+        "cat7": "(bdtuf>0.68)&(bdtuf<0.89)",
+        "cat8": "(bdtuf>0.89)&(bdtuf<1)",
     }
 
     cat_ucsd_incl = {
