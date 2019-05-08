@@ -164,7 +164,7 @@ if args.option is "0": # ucsd categories
         "cat2": "(bdtucsd_01jet>-0.37)&(bdtucsd_01jet<0.12)&(njets<2)",
         "cat3": "(bdtucsd_01jet>0.12)&(bdtucsd_01jet<0.51)&(njets<2)",
         "cat4": "(bdtucsd_01jet>0.51)&(bdtucsd_01jet<0.74)&(njets<2)",
-        "cat5": "(bdtucsd_01jet>0.74)&(bdtucsd_01jet<0.1)&(njets<2)",
+        "cat5": "(bdtucsd_01jet>0.74)&(bdtucsd_01jet<1)&(njets<2)",
     }
 
 
