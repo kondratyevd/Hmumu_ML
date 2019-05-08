@@ -158,6 +158,16 @@ if args.option is "0": # ucsd categories
         "cat3": "(bdtucsd_01jet>0.65)&(bdtucsd_01jet<1)&(njets<2)",
     }
 
+    my_best_01jet = {
+        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.57)&(njets<2)",
+        "cat1": "(bdtucsd_01jet>-0.57)&(bdtucsd_01jet<-0.37)&(njets<2)",
+        "cat2": "(bdtucsd_01jet>-0.37)&(bdtucsd_01jet<0.12)&(njets<2)",
+        "cat3": "(bdtucsd_01jet>0.12)&(bdtucsd_01jet<0.51)&(njets<2)",
+        "cat4": "(bdtucsd_01jet>0.51)&(bdtucsd_01jet<0.74)&(njets<2)",
+        "cat5": "(bdtucsd_01jet>0.74)&(bdtucsd_01jet<0.1)&(njets<2)",
+    }
+
+
     cat_ucsd_2jet = {
         "cat0": "(bdtucsd_2jet>-1)&(bdtucsd_2jet<0)&(njets>=2)",
         "cat1": "(bdtucsd_2jet>0)&(bdtucsd_2jet<0.55)&(njets>=2)",
@@ -175,7 +185,7 @@ if args.option is "0": # ucsd categories
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
 
-    create_datacard_ucsd(my_best_incl, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(my_best_01jet, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
