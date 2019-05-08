@@ -142,16 +142,12 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_incl = {
-        "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.75)",
-        "cat1": "(bdtucsd_inclusive>-0.75)&(bdtucsd_inclusive<-0.68)",
-        "cat2": "(bdtucsd_inclusive>-0.68)&(bdtucsd_inclusive<-0.09)",
-        "cat3": "(bdtucsd_inclusive>-0.09)&(bdtucsd_inclusive<0.32)",
-        "cat4": "(bdtucsd_inclusive>0.32)&(bdtucsd_inclusive<0.56)",
-        # "cat5": "(bdtucsd_inclusive>0.41)&(bdtucsd_inclusive<0.56)",
-        "cat6": "(bdtucsd_inclusive>0.56)&(bdtucsd_inclusive<0.7)",
-        "cat7": "(bdtucsd_inclusive>0.7)&(bdtucsd_inclusive<0.81)",  
-        "cat8": "(bdtucsd_inclusive>0.81)&(bdtucsd_inclusive<0.85)",                        
-        "cat9": "(bdtucsd_inclusive>0.85)&(bdtucsd_inclusive<1)"
+        "cat0": "(bdtucsd_inclusive>-1)&(bdtucsd_inclusive<-0.71)",
+        "cat1": "(bdtucsd_inclusive>-0.71)&(bdtucsd_inclusive<-0.37)",
+        "cat2": "(bdtucsd_inclusive>-0.37)&(bdtucsd_inclusive<0.16)",
+        "cat3": "(bdtucsd_inclusive>0.16)&(bdtucsd_inclusive<0.58)",
+        "cat4": "(bdtucsd_inclusive>0.58)&(bdtucsd_inclusive<0.82)",         
+        "cat5": "(bdtucsd_inclusive>0.82)&(bdtucsd_inclusive<1)"
     }
 
 
