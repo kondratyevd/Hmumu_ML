@@ -114,9 +114,9 @@ if args.option is "0": # ucsd categories
         "cat2": "(bdtuf>-0.61)&(bdtuf<-0.08)",
         "cat3": "(bdtuf>-0.08)&(bdtuf<0.19)",
         "cat4": "(bdtuf>0.19)&(bdtuf<0.38)",
-        "cat5": "(bdtuf>0.38)&(bdtuf<0.67)",
+        "cat5": "(bdtuf>0.38)&(bdtuf<0.68)",
         # "cat6": "(bdtuf>0.67)&(bdtuf<0.68)",
-        "cat7": "(bdtuf>0.67)&(bdtuf<0.89)",
+        "cat7": "(bdtuf>0.68)&(bdtuf<0.89)",
         "cat8": "(bdtuf>0.89)&(bdtuf<1)",
     }
 
