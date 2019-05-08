@@ -159,13 +159,15 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_01jet = {
-        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.61)&(njets<2)",
-        "cat1": "(bdtucsd_01jet>-0.61)&(bdtucsd_01jet<-0.52)&(njets<2)",
-        "cat2": "(bdtucsd_01jet>-0.52)&(bdtucsd_01jet<-0.19)&(njets<2)",
-        "cat3": "(bdtucsd_01jet>-0.19)&(bdtucsd_01jet<0.22)&(njets<2)",
-        "cat4": "(bdtucsd_01jet>0.22)&(bdtucsd_01jet<0.51)&(njets<2)",
-        "cat5": "(bdtucsd_01jet>0.51)&(bdtucsd_01jet<0.74)&(njets<2)",
-        "cat6": "(bdtucsd_01jet>0.74)&(bdtucsd_01jet<1)&(njets<2)",
+        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.68)&(njets<2)",
+        "cat1": "(bdtucsd_01jet>-0.68)&(bdtucsd_01jet<-0.57)&(njets<2)",
+        "cat2": "(bdtucsd_01jet>-0.57)&(bdtucsd_01jet<-0.52)&(njets<2)",        
+        "cat3": "(bdtucsd_01jet>-0.52)&(bdtucsd_01jet<-0.19)&(njets<2)",
+        "cat4": "(bdtucsd_01jet>-0.19)&(bdtucsd_01jet<0.11)&(njets<2)",
+        "cat5": "(bdtucsd_01jet>0.11)&(bdtucsd_01jet<0.33)&(njets<2)",
+        "cat6": "(bdtucsd_01jet>0.33)&(bdtucsd_01jet<0.51)&(njets<2)",
+        "cat7": "(bdtucsd_01jet>0.51)&(bdtucsd_01jet<0.74)&(njets<2)",
+        "cat8": "(bdtucsd_01jet>0.74)&(bdtucsd_01jet<1)&(njets<2)",
     }
 
 
