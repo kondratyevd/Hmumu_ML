@@ -78,7 +78,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
         res = smodel.chi2FitTo(sig_binned, cmdlist)
         # res.Print()
     except:
-        return 1,1
+        return 0.00001,0.00001
 
     frame = var.frame()
     sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
@@ -94,7 +94,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
         canv.Print("signal_fit.png")
         print cut
         print "Signal chi2/d.o.f: ", chi2
-        return 1,1
+        return 0.00001,0.00001
 
     sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     for par in sigParamList:
