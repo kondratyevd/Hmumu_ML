@@ -176,12 +176,10 @@ if args.option is "0": # ucsd categories
 
     my_best_2jet = {
         "cat0": "(bdtucsd_2jet>-1)&(bdtucsd_2jet<-0.6)&(njets>=2)",
-        "cat2": "(bdtucsd_2jet>-0.6)&(bdtucsd_2jet<0.04)&(njets>=2)",        
-        "cat3": "(bdtucsd_2jet>0.04)&(bdtucsd_2jet<0.46)&(njets>=2)",
-        "cat5": "(bdtucsd_2jet>0.46)&(bdtucsd_2jet<0.68)&(njets>=2)",
-        "cat6": "(bdtucsd_2jet>0.68)&(bdtucsd_2jet<0.83)&(njets>=2)",
-        "cat7": "(bdtucsd_2jet>0.83)&(bdtucsd_2jet<0.91)&(njets>=2)",
-        "cat8": "(bdtucsd_2jet>0.91)&(bdtucsd_2jet<1)&(njets>=2)",
+        "cat2": "(bdtucsd_2jet>-0.6)&(bdtucsd_2jet<0.22)&(njets>=2)",        
+        "cat3": "(bdtucsd_2jet>0.22)&(bdtucsd_2jet<0.73)&(njets>=2)",
+        "cat7": "(bdtucsd_2jet>0.73)&(bdtucsd_2jet<0.9)&(njets>=2)",
+        "cat8": "(bdtucsd_2jet>0.9)&(bdtucsd_2jet<1)&(njets>=2)",
     }
 
     file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
