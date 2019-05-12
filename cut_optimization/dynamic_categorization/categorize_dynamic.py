@@ -182,16 +182,27 @@ if args.option is "0": # ucsd categories
         "cat8": "(bdtucsd_2jet>0.9)&(bdtucsd_2jet<1)&(njets>=2)",
     }
 
-    file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
-    ggh_path = file_path+"tree_ggH.root"
-    vbf_path = file_path+"tree_VBF.root"
-    vh_path = file_path+"tree_VH.root"
-    tth_path = file_path+"tree_ttH.root"
-    dy_path = file_path+"tree_DY.root"
-    tt_path = file_path+"tree_top.root"
-    vv_path = file_path+"tree_VV.root"
+    file_path_2016 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2016/"
+    file_path_2017 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2017/"
+    file_path_2018 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2018/"
+    ggh_name = "tree_ggH.root"
+    vbf_name = "tree_VBF.root"
+    vh_name = "tree_VH.root"
+    tth_name = "tree_ttH.root"
+    sig_names = [ggh_name, vbf_name, vh_name, tth_name]
+    sig_2016 = [file_path_2016+file for file in sig_names]
+    sig_2017 = [file_path_2017+file for file in sig_names]
+    sig_2018 = [file_path_2018+file for file in sig_names]
+    dy_name = "tree_DY.root"
+    tt_name = "tree_top.root"
+    vv_name = "tree_VV.root"
+    bkg_names = [dy_name, tt_name, vv_name]
+    bkg_2016 = [file_path_2016+file for file in bkg_names]
+    bkg_2017 = [file_path_2017+file for file in bkg_names]
+    bkg_2018 = [file_path_2018+file for file in bkg_names]
 
-    create_datacard_ucsd(my_best_2jet, [ggh_path, vbf_path, vh_path, tth_path], [dy_path, tt_path, vv_path], args.output_path,  "datacard", "workspace")
+
+    create_datacard_ucsd(my_best_2jet, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
