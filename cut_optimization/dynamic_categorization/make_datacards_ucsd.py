@@ -26,8 +26,6 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     signal_tree = ROOT.TChain("tree")
     for path in sig_path_list:
         signal_tree.Add(path)
-        print "Adding path "+path
-        print "Now there are %i entries"%signal_tree.GetEntries()
     signal_tree.SetName("signal_tree")
 
     signal_hist_name = "signal_%s"%cat_name
@@ -117,6 +115,8 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     bkg_tree = ROOT.TChain("tree")
     for path in bkg_path_list:
         bkg_tree.Add(path)
+        print "Adding path "+path
+        print "Now there are %i entries"%signal_tree.GetEntries
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
