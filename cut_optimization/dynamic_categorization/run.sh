@@ -217,7 +217,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=1
+		penalty=0
 		;;	
 
 	6.4)
@@ -229,7 +229,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=1
+		penalty=0
 		;;	
 
 	6.5)
@@ -241,7 +241,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=1
+		penalty=0
 		;;
 
 	0)
