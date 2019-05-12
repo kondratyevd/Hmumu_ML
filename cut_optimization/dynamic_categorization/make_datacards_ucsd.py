@@ -13,7 +13,7 @@ def create_workspace():
 
     return w
 
-def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
+def add_sig_model(w, cat_name, sig_path_list, cut):
     var = w.var("hmass")
     var.setBins(5000)
 
@@ -24,14 +24,13 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     njets               = ROOT.RooRealVar("njets", "njets", 0, 10)
 
     signal_tree = ROOT.TChain("tree")
-    signal_tree.Add(ggh_path)
-    signal_tree.Add(vbf_path)
-    signal_tree.Add(vh_path)
-    signal_tree.Add(tth_path)
+    for path in sig_path_list:
+        signal_tree.Add(path)
     signal_tree.SetName("signal_tree")
 
     signal_hist_name = "signal_%s"%cat_name
-    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 40, 110, 130)
+    # signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 80, 115, 135)
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 24, 122, 128)    
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("hmass>>%s"%(signal_hist_name), "(%s)*weight"%(cut))
@@ -56,9 +55,6 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
     gaus3 = w.pdf('%s_gaus3'%(cat_name))
     smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
-    # signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet), cut)
-
-    # res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
 
     sig_binned = ROOT.RooDataHist("%s_sig_hist"%cat_name,"%s_sig_hist"%cat_name, ROOT.RooArgList(var), signal_hist)
     Import(w, sig_binned)
@@ -105,11 +101,9 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut):
 
 
 
-def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
+def add_bkg_model(w, cat_name, bkg_path_list, cut):
     var = w.var("hmass")
     var.setBins(5000)
-    var.setRange("left",110,120+0.1)
-    var.setRange("right",130-0.1,150)
 
 
     bdtuf               = ROOT.RooRealVar("bdtuf", "bdtuf", -1, 1)
@@ -117,12 +111,10 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
     bdtucsd_01jet       = ROOT.RooRealVar("bdtucsd_01jet", "bdtucsd_01jet", -1, 1)
     bdtucsd_2jet        = ROOT.RooRealVar("bdtucsd_2jet", "bdtucsd_2jet", -1, 1)
     njets               = ROOT.RooRealVar("njets", "njets", 0, 10)
-    # weight              = ROOT.RooRealVar("weight", "weight", -1, 1)
 
     bkg_tree = ROOT.TChain("tree")
-    bkg_tree.Add(dy_path)
-    bkg_tree.Add(tt_path)
-    bkg_tree.Add(vv_path)
+    for path in bkg_path_list:
+        bkg_tree.Add(path)
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
@@ -184,27 +176,12 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut):
 
 
     data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, njets))
-    # data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, bkg_tree, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight), cut)
     Import(w, data_obs)
 
-    # bkg_ds.Print()
-    # wFunc = ROOT.RooFormulaVar("weight","event weight","@0",ROOT.RooArgList(weight))
-    # w = bkg_ds.addColumn(wFunc)
-    # wdata = ROOT.RooDataSet(bkg_ds.GetName(),bkg_ds.GetTitle(),bkg_ds,ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, weight),cut,w.GetName()) 
-    # wdata.Print()
-    # r = fit_func.fitTo(wdata, ROOT.RooFit.Range("left,right"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False), ROOT.RooFit.PrintLevel(-1000))
-    # r.Print()
-    # integral_sb = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("left,right"))
-    # integral_full = fit_func.createIntegral(ROOT.RooArgSet(var), ROOT.RooFit.Range("full"))
-    # func_int_sb = integral_sb.getVal()
-    # func_int_full = integral_full.getVal()
-    # bkg_int_sb = bkg_ds.sumEntries("1","left,right")
-    # bkg_int_full = bkg_ds.sumEntries("1","full")
-    # bkg_rate = bkg_int_sb * (func_int_full/func_int_sb)
     return bkg_rate, bkg_entries
 
 
-def make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, output_path, filename):
+def make_categories_ucsd(categories, sig_path_list, bkg_path_list, output_path, filename):
     # nCat = len(bins)-1
     valid = True
     combine_import = ""
@@ -220,8 +197,8 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_p
     for cat_name, cut in categories.iteritems():
 
         # print "Applying cut: ", cut
-        sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, vh_path, tth_path, cut) 
-        bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, vv_path, cut)
+        sig_rate, sig_entries = add_sig_model(w, cat_name, sig_path_list, cut) 
+        bkg_rate, bkg_entries = add_bkg_model(w, cat_name, bkg_path_list, cut)
 
         # if (sig_rate<1) or (bkg_rate<1):
         #     valid = False
@@ -252,14 +229,14 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_p
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n", valid
 
 
-def create_datacard_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, out_path, datacard_name, workspace_filename): 
+def create_datacard_ucsd(categories, sig_path_list, bkg_path_list, out_path, datacard_name, workspace_filename): 
 
     try:
         os.makedirs(out_path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str, valid = make_categories_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, out_path, workspace_filename)
+    import_str, bins_obs, cat_strings, unc_str, valid = make_categories_ucsd(categories, sig_path_list, bkg_path_list, out_path, workspace_filename)
     
     if not valid:
         return False
