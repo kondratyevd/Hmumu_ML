@@ -115,8 +115,6 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     bkg_tree = ROOT.TChain("tree")
     for path in bkg_path_list:
         bkg_tree.Add(path)
-        print "Adding path "+path
-        print "Now there are %i entries"%bkg_tree.GetEntries()
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
