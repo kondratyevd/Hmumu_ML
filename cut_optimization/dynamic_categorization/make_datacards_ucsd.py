@@ -16,7 +16,7 @@ def create_workspace():
 def add_sig_model(w, cat_name, sig_path_list, cut):
     var = w.var("hmass")
     var.setBins(5000)
-    var.setRange("fit", 122, 128)
+    var.setRange("fit", 118, 128)
 
     bdtuf               = ROOT.RooRealVar("bdtuf", "bdtuf", -1, 1)
     bdtucsd_inclusive   = ROOT.RooRealVar("bdtucsd_inclusive", "bdtucsd_inclusive", -1, 1)
