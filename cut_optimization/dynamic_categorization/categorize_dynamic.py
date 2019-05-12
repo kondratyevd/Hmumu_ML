@@ -191,7 +191,7 @@ if args.option is "0": # ucsd categories
     tt_path = file_path+"tree_top.root"
     vv_path = file_path+"tree_VV.root"
 
-    create_datacard_ucsd(my_best_2jet, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(my_best_2jet, [ggh_path, vbf_path, vh_path, tth_path], [dy_path, tt_path, vv_path], args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
@@ -244,7 +244,7 @@ def get_significance(label, bins):
         tt_path = file_path+"tree_top.root"
         vv_path = file_path+"tree_VV.root"
         # try:
-        success = create_datacard_ucsd(categories, ggh_path, vbf_path, vh_path, tth_path, dy_path, tt_path, vv_path, args.output_path,  "datacard_"+label, "workspace_"+label)
+        success = create_datacard_ucsd(categories, [ggh_path, vbf_path, vh_path, tth_path], [dy_path, tt_path, vv_path], args.output_path,  "datacard_"+label, "workspace_"+label)
         # except:
         #     "There was an error. Setting significance to 0."
         #     return 0
