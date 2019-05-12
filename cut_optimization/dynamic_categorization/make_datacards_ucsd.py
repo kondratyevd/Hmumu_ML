@@ -83,7 +83,7 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
 
     chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
 
-    if chi2>10:
+    if chi2>100:
         res.Print()
         canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
         canv.cd()
@@ -165,7 +165,7 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
 
     chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
-    if chi2>10:
+    if chi2>100:
         r.Print()
         canv = ROOT.TCanvas("canv", "canv", 800, 800)
         canv.cd()
