@@ -217,7 +217,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=7
+		penalty=0
 		;;	
 
 	6.4)
@@ -229,9 +229,20 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=7
+		penalty=0
 		;;	
 
+	6.5)
+		echo 'Running option 6.4: UCSD samples, bdtucsd_2jet_bveto'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_bveto"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=0
+		;;
 
 	0)
 		echo 'Running option 0: test run'

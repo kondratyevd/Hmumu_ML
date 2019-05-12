@@ -74,8 +74,33 @@ elif "UCSD_bdtucsd_01jet" in args.method:
 elif "UCSD_bdtucsd_2jet" in args.method:
     score = "bdtucsd_2jet"
     additional_cut = "(njets>=2)"
+elif "UCSD_bdtucsd_bveto" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)"
 
 
+file_path_old = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
+sig_old = [file_path_old+filename for filename in ["tree_ggH.root","tree_VBF.root","tree_VH.root","tree_ttH.root"]]
+bkg_old = [file_path_old+filename for filename in ["tree_DY.root","tree_top.root","tree_VV.root"]]
+
+file_path_2016 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2016/"
+file_path_2017 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2017/"
+file_path_2018 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2018/"
+ggh_name = "tree_ggH.root"
+vbf_name = "tree_VBF.root"
+vh_name = "tree_VH.root"
+tth_name = "tree_ttH.root"
+sig_names = [ggh_name, vbf_name, vh_name, tth_name]
+sig_2016 = [file_path_2016+file for file in sig_names]
+sig_2017 = [file_path_2017+file for file in sig_names]
+sig_2018 = [file_path_2018+file for file in sig_names]
+dy_name = "tree_DY.root"
+tt_name = "tree_top.root"
+vv_name = "tree_VV.root"
+bkg_names = [dy_name, tt_name, vv_name]
+bkg_2016 = [file_path_2016+file for file in bkg_names]
+bkg_2017 = [file_path_2017+file for file in bkg_names]
+bkg_2018 = [file_path_2018+file for file in bkg_names]
 
 eta_categories = {
     "eta0": "(max_abs_eta_mu>0)&(max_abs_eta_mu<0.9)", 
@@ -181,28 +206,6 @@ if args.option is "0": # ucsd categories
         "cat7": "(bdtucsd_2jet>0.73)&(bdtucsd_2jet<0.9)&(njets>=2)",
         "cat8": "(bdtucsd_2jet>0.9)&(bdtucsd_2jet<1)&(njets>=2)",
     }
-    file_path_old = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
-    sig_old = [file_path_old+filename for filename in ["tree_ggH.root","tree_VBF.root","tree_VH.root","tree_ttH.root"]]
-    bkg_old = [file_path_old+filename for filename in ["tree_DY.root","tree_top.root","tree_VV.root"]]
-
-    file_path_2016 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2016/"
-    file_path_2017 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2017/"
-    file_path_2018 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2018/"
-    ggh_name = "tree_ggH.root"
-    vbf_name = "tree_VBF.root"
-    vh_name = "tree_VH.root"
-    tth_name = "tree_ttH.root"
-    sig_names = [ggh_name, vbf_name, vh_name, tth_name]
-    sig_2016 = [file_path_2016+file for file in sig_names]
-    sig_2017 = [file_path_2017+file for file in sig_names]
-    sig_2018 = [file_path_2018+file for file in sig_names]
-    dy_name = "tree_DY.root"
-    tt_name = "tree_top.root"
-    vv_name = "tree_VV.root"
-    bkg_names = [dy_name, tt_name, vv_name]
-    bkg_2016 = [file_path_2016+file for file in bkg_names]
-    bkg_2017 = [file_path_2017+file for file in bkg_names]
-    bkg_2018 = [file_path_2018+file for file in bkg_names]
 
 
     create_datacard_ucsd(my_best_2jet, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
@@ -249,19 +252,11 @@ def get_significance(label, bins):
     log("   Creating datacards... Please wait...")
 
     if "UCSD" in args.method:
-        file_path = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
-        ggh_path = file_path+"tree_ggH.root"
-        vbf_path = file_path+"tree_VBF.root"
-        vh_path = file_path+"tree_VH.root"
-        tth_path = file_path+"tree_ttH.root"
-        dy_path = file_path+"tree_DY.root"
-        tt_path = file_path+"tree_top.root"
-        vv_path = file_path+"tree_VV.root"
-        # try:
-        success = create_datacard_ucsd(categories, [ggh_path, vbf_path, vh_path, tth_path], [dy_path, tt_path, vv_path], args.output_path,  "datacard_"+label, "workspace_"+label)
-        # except:
-        #     "There was an error. Setting significance to 0."
-        #     return 0
+        try:
+            success = create_datacard_ucsd(categories, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard_"+label, "workspace_"+label)
+        except:
+            "There was an error. Setting significance to 0."
+            return 0
 
     else:
         success = create_datacard(categories, args.sig_input_path, args.data_input_path, args.data_tree, args.output_path,  "datacard_"+label, "workspace_"+label, nuis=args.nuis, res_unc_val=args.res_unc_val, scale_unc_val=args.scale_unc_val, smodel=args.smodel, method=args.method, lumi=args.lumi)
