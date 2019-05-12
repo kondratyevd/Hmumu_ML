@@ -13,7 +13,7 @@ def create_workspace():
 
     return w
 
-def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
+def add_sig_model(w, cat_name, sig_path_list, cut):
     var = w.var("hmass")
     var.setBins(5000)
 
@@ -24,15 +24,13 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     njets               = ROOT.RooRealVar("njets", "njets", 0, 10)
 
     signal_tree = ROOT.TChain("tree")
-    signal_tree.Add(ggh_path)
-    signal_tree.Add(vbf_path)
-    # for path in sig_path_list:
-        # signal_tree.Add(path)
+    for path in sig_path_list:
+        signal_tree.Add(path)
     signal_tree.SetName("signal_tree")
 
     signal_hist_name = "signal_%s"%cat_name
-    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 80, 110, 130)
-    # signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 24, 122, 128)    
+    # signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 80, 115, 135)
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 160, 110, 150)    
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("hmass>>%s"%(signal_hist_name), "(%s)*weight"%(cut))
@@ -62,7 +60,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
     Import(w, sig_binned)
     # sig_binned.Print()
     cmdlist = ROOT.RooLinkedList()
-    cmd0 = ROOT.RooFit.Range(120,130)
+    cmd0 = ROOT.RooFit.Range(122,128)
     cmd1 = ROOT.RooFit.Save()
     cmd2 = ROOT.RooFit.Verbose(False)
     cmd3 = ROOT.RooFit.PrintLevel(-1000)
@@ -103,7 +101,7 @@ def add_sig_model(w, cat_name, ggh_path, vbf_path, cut):
 
 
 
-def add_bkg_model(w, cat_name, dy_path, tt_path, cut):
+def add_bkg_model(w, cat_name, bkg_path_list, cut):
     var = w.var("hmass")
     var.setBins(5000)
 
@@ -115,14 +113,12 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, cut):
     njets               = ROOT.RooRealVar("njets", "njets", 0, 10)
 
     bkg_tree = ROOT.TChain("tree")
-    bkg_tree.Add(dy_path)
-    bkg_tree.Add(tt_path)
-    # for path in bkg_path_list:
-    #     bkg_tree.Add(path)
+    for path in bkg_path_list:
+        bkg_tree.Add(path)
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
-    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 80, 110, 150)
+    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 160, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     bkg_tree.Draw("hmass>>%s"%(bkg_hist_name), "(%s)*weight"%(cut))
@@ -185,7 +181,7 @@ def add_bkg_model(w, cat_name, dy_path, tt_path, cut):
     return bkg_rate, bkg_entries
 
 
-def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, output_path, filename):
+def make_categories_ucsd(categories, sig_path_list, bkg_path_list, output_path, filename):
     # nCat = len(bins)-1
     valid = True
     combine_import = ""
@@ -201,8 +197,8 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, outpu
     for cat_name, cut in categories.iteritems():
 
         # print "Applying cut: ", cut
-        sig_rate, sig_entries = add_sig_model(w, cat_name, ggh_path, vbf_path, cut) 
-        bkg_rate, bkg_entries = add_bkg_model(w, cat_name, dy_path, tt_path, cut)
+        sig_rate, sig_entries = add_sig_model(w, cat_name, sig_path_list, cut) 
+        bkg_rate, bkg_entries = add_bkg_model(w, cat_name, bkg_path_list, cut)
 
         # if (sig_rate<1) or (bkg_rate<1):
         #     valid = False
@@ -233,14 +229,14 @@ def make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, outpu
     return combine_import, combine_bins+"\n"+combine_obs+"\n", combine_bins_str+combine_proc_str+combine_ipro_str+combine_rate_str, combine_unc+"\n", valid
 
 
-def create_datacard_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, out_path, datacard_name, workspace_filename): 
+def create_datacard_ucsd(categories, sig_path_list, bkg_path_list, out_path, datacard_name, workspace_filename): 
 
     try:
         os.makedirs(out_path)
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    import_str, bins_obs, cat_strings, unc_str, valid = make_categories_ucsd(categories, ggh_path, vbf_path, dy_path, tt_path, out_path, workspace_filename)
+    import_str, bins_obs, cat_strings, unc_str, valid = make_categories_ucsd(categories, sig_path_list, bkg_path_list, out_path, workspace_filename)
     
     if not valid:
         return False
