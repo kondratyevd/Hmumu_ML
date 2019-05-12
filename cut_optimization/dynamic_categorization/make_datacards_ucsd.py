@@ -29,7 +29,8 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     signal_tree.SetName("signal_tree")
 
     signal_hist_name = "signal_%s"%cat_name
-    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 80, 115, 135)
+    # signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 80, 115, 135)
+    signal_hist = ROOT.TH1D(signal_hist_name, signal_hist_name, 24, 122, 128)    
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     signal_tree.Draw("hmass>>%s"%(signal_hist_name), "(%s)*weight"%(cut))
