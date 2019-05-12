@@ -16,6 +16,7 @@ def create_workspace():
 def add_sig_model(w, cat_name, sig_path_list, cut):
     var = w.var("hmass")
     var.setBins(5000)
+    var.setRange("fit", 122, 128)
 
     bdtuf               = ROOT.RooRealVar("bdtuf", "bdtuf", -1, 1)
     bdtucsd_inclusive   = ROOT.RooRealVar("bdtucsd_inclusive", "bdtucsd_inclusive", -1, 1)
@@ -60,7 +61,7 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     Import(w, sig_binned)
     # sig_binned.Print()
     cmdlist = ROOT.RooLinkedList()
-    cmd0 = ROOT.RooFit.Range(122,128)
+    cmd0 = ROOT.RooFit.Range("fit")
     cmd1 = ROOT.RooFit.Save()
     cmd2 = ROOT.RooFit.Verbose(False)
     cmd3 = ROOT.RooFit.PrintLevel(-1000)
