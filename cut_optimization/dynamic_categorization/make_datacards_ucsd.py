@@ -155,11 +155,8 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     cmdlist.Add(cmd3)
 
     frame = var.frame()
-    bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
-    fit_func.plotOn(frame, ROOT.RooFit.Name('%s_bkg'%cat_name))
-
-    chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
-
+    bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name)) 
+   
     try:
         r = fit_func.chi2FitTo(bkg_binned, cmdlist)
     except:
@@ -169,6 +166,8 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
         canv.Print("bkg_fit.png")
         return 0, 0
 
+    fit_func.plotOn(frame, ROOT.RooFit.Name('%s_bkg'%cat_name))
+    chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
 
     if chi2>100:
