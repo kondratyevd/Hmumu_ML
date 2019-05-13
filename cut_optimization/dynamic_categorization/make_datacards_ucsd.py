@@ -39,8 +39,8 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
 
     sig_entries = signal_hist.GetEntries()
     signal_rate = signal_hist.Integral()
-    # print cut
-    # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
+    print cut
+    print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
     if (signal_rate<1):
         return signal_rate, sig_entries
 
