@@ -159,6 +159,10 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
    
     try:
         r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+        canv = ROOT.TCanvas("canv", "canv", 800, 800)
+        canv.cd()
+        frame.Draw()
+        canv.Print("bkg_fit.png")
     except:
         canv = ROOT.TCanvas("canv", "canv", 800, 800)
         canv.cd()
