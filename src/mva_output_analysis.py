@@ -870,7 +870,7 @@ bdt_raffaele_all.add_sample("vbf2016", "VBF", "/2016/tree_VBF.root", "tree", Fal
 # bdt_raffaele_all.add_sample("vbf2017", "VBF", "/2017/tree_VBF.root", "tree", False, False, ROOT.kViolet-1, False)
 # bdt_raffaele_all.add_sample("vbf2018", "VBF", "/2018/tree_VBF.root", "tree", False, False, ROOT.kViolet-1, False)
 bdt_raffaele_all.set_lumi(4723.411)
-bdt_raffaele_all_roc_graph = bdt_raffaele_all.plot_roc("bdtucsd_2jet", 200, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_raffaele_all_roc_graph = bdt_raffaele_all.plot_roc("bdtucsd_2jet_bveto", 200, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_raffaele_all_roc = a.RocCurve(bdt_raffaele_all_roc_graph, "bdt_raffaele_all_2jet", "BDT Raffaele 2jet", ROOT.kBlue, 2)
 roc_to_compare.append(bdt_raffaele_all_roc)
 
