@@ -39,8 +39,8 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
 
     sig_entries = signal_hist.GetEntries()
     signal_rate = signal_hist.Integral()
-    print cut
-    print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
+    # print cut
+    # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
     if (signal_rate<1):
         return signal_rate, sig_entries
 
@@ -119,7 +119,7 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
-    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 160, 110, 150)
+    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 80, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     bkg_tree.Draw("hmass>>%s"%(bkg_hist_name), "(%s)*weight"%(cut))
