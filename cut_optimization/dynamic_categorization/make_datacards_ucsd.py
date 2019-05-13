@@ -154,16 +154,22 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    try:
-        r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-    except:
-        return 0, 0
-
     frame = var.frame()
     bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
     fit_func.plotOn(frame, ROOT.RooFit.Name('%s_bkg'%cat_name))
 
     chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
+
+    try:
+        r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+    except:
+        canv = ROOT.TCanvas("canv", "canv", 800, 800)
+        canv.cd()
+        frame.Draw()
+        canv.Print("bkg_fit.png")
+        return 0, 0
+
+
 
     if chi2>100:
         r.Print()
