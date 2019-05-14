@@ -62,11 +62,12 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     # sig_binned.Print()
     cmdlist = ROOT.RooLinkedList()
     # cmd0 = ROOT.RooFit.Range("fit")
+    cmd0 = ROOT.RooFit.SumW2Error(ROOT.kTRUE)
     cmd1 = ROOT.RooFit.Save()
     cmd2 = ROOT.RooFit.Verbose(False)
     cmd3 = ROOT.RooFit.PrintLevel(-1000)
 
-    # cmdlist.Add(cmd0)
+    cmdlist.Add(cmd0)
     cmdlist.Add(cmd1)
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
@@ -147,10 +148,13 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     Import(w, bkg_binned)
     # bkg_binned.Print()
     cmdlist = ROOT.RooLinkedList()
+
+    cmd0 = ROOT.RooFit.SumW2Error(ROOT.kTRUE)    
     cmd1 = ROOT.RooFit.Save()
     cmd2 = ROOT.RooFit.Verbose(False)
     cmd3 = ROOT.RooFit.PrintLevel(-1000)
 
+    cmdlist.Add(cmd0)
     cmdlist.Add(cmd1)
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
