@@ -216,8 +216,8 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_2jet_bveto = {
-        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.73)&(njets>=2)",
-        "cat1": "(bdtucsd_2jet_bveto>-0.73)&(bdtucsd_2jet_bveto<-0.54)&(njets>=2)",        
+        # "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.73)&(njets>=2)",
+        "cat1": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.54)&(njets>=2)",        
         "cat2": "(bdtucsd_2jet_bveto>-0.54)&(bdtucsd_2jet_bveto<0.28)&(njets>=2)",
         "cat3": "(bdtucsd_2jet_bveto>0.28)&(bdtucsd_2jet_bveto<0.7)&(njets>=2)",
         "cat4": "(bdtucsd_2jet_bveto>0.7)&(bdtucsd_2jet_bveto<0.94)&(njets>=2)",
