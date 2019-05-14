@@ -119,7 +119,7 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
-    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 160, 110, 150)
+    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 80, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     bkg_tree.Draw("hmass>>%s"%(bkg_hist_name), "(%s)*weight"%(cut))
@@ -154,25 +154,16 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
 
-    frame = var.frame()
-    bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name)) 
-   
     try:
         r = fit_func.chi2FitTo(bkg_binned, cmdlist)
-        canv = ROOT.TCanvas("canv", "canv", 800, 800)
-        canv.cd()
-        frame.Draw()
-        canv.Print("bkg_fit.png")
     except:
-        canv = ROOT.TCanvas("canv", "canv", 800, 800)
-        canv.cd()
-        frame.Draw()
-        canv.Print("bkg_fit.png")
         return 0, 0
 
+    frame = var.frame()
+    bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
     fit_func.plotOn(frame, ROOT.RooFit.Name('%s_bkg'%cat_name))
-    chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
+    chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
     if chi2>100:
         r.Print()
