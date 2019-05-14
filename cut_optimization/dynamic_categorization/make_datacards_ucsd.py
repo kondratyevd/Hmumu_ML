@@ -66,7 +66,7 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     cmd2 = ROOT.RooFit.Verbose(False)
     cmd3 = ROOT.RooFit.PrintLevel(-1000)
 
-    cmdlist.Add(cmd0)
+    # cmdlist.Add(cmd0)
     cmdlist.Add(cmd1)
     cmdlist.Add(cmd2)
     cmdlist.Add(cmd3)
