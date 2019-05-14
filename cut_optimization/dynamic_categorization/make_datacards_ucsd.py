@@ -155,7 +155,8 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     cmdlist.Add(cmd3)
 
     try:
-        r = fit_func.chi2FitTo(bkg_binned, cmdlist)
+        r = fit_func.fitTo(bkg_binned, cmdlist)
+        # r = fit_func.chi2FitTo(bkg_binned, cmdlist)
     except:
         return 0, 0
 
