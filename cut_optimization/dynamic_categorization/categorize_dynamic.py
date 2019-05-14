@@ -177,10 +177,10 @@ if args.option is "0": # ucsd categories
 
 
     cat_ucsd_01jet = {
-        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<0)&(njets<2)",
-        "cat1": "(bdtucsd_01jet>0)&(bdtucsd_01jet<0.4)&(njets<2)",
-        "cat2": "(bdtucsd_01jet>0.4)&(bdtucsd_01jet<0.65)&(njets<2)",
-        "cat3": "(bdtucsd_01jet>0.65)&(bdtucsd_01jet<1)&(njets<2)",
+        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.2)&(njets<2)",
+        "cat1": "(bdtucsd_01jet>-0.2)&(bdtucsd_01jet<0.2)&(njets<2)",
+        "cat2": "(bdtucsd_01jet>0.2)&(bdtucsd_01jet<0.55)&(njets<2)",
+        "cat3": "(bdtucsd_01jet>0.55)&(bdtucsd_01jet<1)&(njets<2)",
     }
 
     my_best_01jet = {
@@ -197,6 +197,14 @@ if args.option is "0": # ucsd categories
         "cat2": "(bdtucsd_2jet>0.55)&(bdtucsd_2jet<0.85)&(njets>=2)",
         "cat3": "(bdtucsd_2jet>0.85)&(bdtucsd_2jet<0.91)&(njets>=2)",
         "cat4": "(bdtucsd_2jet>0.91)&(bdtucsd_2jet<1)&(njets>=2)",    
+    }
+
+    cat_ucsd_2jet_bveto = {
+        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<0.2)&(njets>=2)",
+        "cat1": "(bdtucsd_2jet_bveto>0.2)&(bdtucsd_2jet_bveto<0.55)&(njets>=2)",
+        "cat2": "(bdtucsd_2jet_bveto>0.55)&(bdtucsd_2jet_bveto<0.81)&(njets>=2)",
+        "cat3": "(bdtucsd_2jet_bveto>0.81)&(bdtucsd_2jet_bveto<0.93)&(njets>=2)",
+        "cat4": "(bdtucsd_2jet_bveto>0.93)&(bdtucsd_2jet_bveto<1)&(njets>=2)",    
     }
 
     my_best_2jet = {
@@ -216,7 +224,7 @@ if args.option is "0": # ucsd categories
         "cat5": "(bdtucsd_2jet_bveto>0.94)&(bdtucsd_2jet_bveto<1)&(njets>=2)",        
     }
 
-    create_datacard_ucsd(my_best_2jet_bveto, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(cat_ucsd_01jet, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt')
