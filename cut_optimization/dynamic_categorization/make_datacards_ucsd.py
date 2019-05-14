@@ -61,7 +61,7 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     Import(w, sig_binned)
     # sig_binned.Print()
     cmdlist = ROOT.RooLinkedList()
-    cmd0 = ROOT.RooFit.Range("fit")
+    # cmd0 = ROOT.RooFit.Range("fit")
     cmd1 = ROOT.RooFit.Save()
     cmd2 = ROOT.RooFit.Verbose(False)
     cmd3 = ROOT.RooFit.PrintLevel(-1000)
@@ -72,7 +72,8 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     cmdlist.Add(cmd3)
 
     try:
-        res = smodel.chi2FitTo(sig_binned, cmdlist)
+        res = smodel.fitTo(sig_binned, cmdlist)
+        # res = smodel.chi2FitTo(sig_binned, cmdlist)
         # res.Print()
     except:
         return 0, 0
@@ -119,7 +120,7 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     bkg_tree.SetName("bkg_tree")
 
     bkg_hist_name = "bkg_%s"%cat_name
-    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 80, 110, 150)
+    bkg_hist = ROOT.TH1D(bkg_hist_name, bkg_hist_name, 160, 110, 150)
     dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
     dummy.cd()
     bkg_tree.Draw("hmass>>%s"%(bkg_hist_name), "(%s)*weight"%(cut))
