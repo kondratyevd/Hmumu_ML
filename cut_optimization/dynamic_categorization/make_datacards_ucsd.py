@@ -57,7 +57,7 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     # smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
 
     ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/dynamic_categorization/lib/RooDCBShape_cxx.so")
-    w.factory("RooDCBShape::%s_sig(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
+    w.factory("RooDCBShape::%s_sig(hmass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
 
 
     sig_binned = ROOT.RooDataHist("%s_sig_hist"%cat_name,"%s_sig_hist"%cat_name, ROOT.RooArgList(var), signal_hist)
