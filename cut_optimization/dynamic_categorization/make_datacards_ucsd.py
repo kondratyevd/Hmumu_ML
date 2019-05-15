@@ -82,21 +82,21 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     except:
         return 0, 0
 
-    frame = var.frame()
-    sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
-    smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
+    # frame = var.frame()
+    # sig_binned.plotOn(frame, ROOT.RooFit.Name("%s_sig_hist"%cat_name))
+    # smodel.plotOn(frame, ROOT.RooFit.Name('%s_sig'%cat_name))
 
-    chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
+    # chi2 = frame.chiSquare('%s_sig'%cat_name, "%s_sig_hist"%cat_name, 8)
 
-    if chi2>100:
-        res.Print()
-        canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
-        canv.cd()
-        frame.Draw()
-        canv.Print("signal_fit.png")
-        print cut
-        print "Signal chi2/d.o.f: ", chi2
-        return 0, 0
+    # if chi2>100:
+    #     res.Print()
+    #     canv = ROOT.TCanvas("canv5", "canv5", 800, 800)
+    #     canv.cd()
+    #     frame.Draw()
+    #     canv.Print("signal_fit.png")
+    #     print cut
+    #     print "Signal chi2/d.o.f: ", chi2
+    #     return 0, 0
 
     # sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
     sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]    
@@ -169,21 +169,21 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
     except:
         return 0, 0
 
-    frame = var.frame()
-    bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
-    fit_func.plotOn(frame, ROOT.RooFit.Name('%s_bkg'%cat_name))
+    # frame = var.frame()
+    # bkg_binned.plotOn(frame, ROOT.RooFit.Name("%s_bkg_hist"%cat_name))
+    # fit_func.plotOn(frame, ROOT.RooFit.Name('%s_bkg'%cat_name))
 
-    chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
+    # chi2 = frame.chiSquare('%s_bkg'%cat_name, "%s_bkg_hist"%cat_name, 3)
 
-    if chi2>100:
-        r.Print()
-        canv = ROOT.TCanvas("canv", "canv", 800, 800)
-        canv.cd()
-        frame.Draw()
-        canv.Print("bkg_fit.png")
-        print cut 
-        print "Background chi2/d.o.f: ", chi2
-        return 0, 0
+    # if chi2>100:
+    #     r.Print()
+    #     canv = ROOT.TCanvas("canv", "canv", 800, 800)
+    #     canv.cd()
+    #     frame.Draw()
+    #     canv.Print("bkg_fit.png")
+    #     print cut 
+    #     print "Background chi2/d.o.f: ", chi2
+    #     return 0, 0
 
 
     data_obs = ROOT.RooDataSet("%s_data"%cat_name,"%s_data"%cat_name, ROOT.RooArgSet(var, bdtuf, bdtucsd_inclusive, bdtucsd_01jet, bdtucsd_2jet, njets))
