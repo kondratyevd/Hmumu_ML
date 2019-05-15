@@ -79,6 +79,42 @@ variables.append(Variable("IsoMu_SF_4"		,	"IsoMu_SF_4"			,"IsoMu_SF_4",  	"",   
 variables.append(Variable("MuID_SF_4"		,	"MuID_SF_4"				,"MuID_SF_4",  		"",   		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("MuIso_SF_4"		,	"MuIso_SF_4"			,"MuIso_SF_4",  	"",   		'F', False, 	"nMuons"	,	0	, False	))
 variables.append(Variable("muons.isHltMatched",	"isHltMatched"	,		"muons.isHltMatched", "",   	'I', True, 		"nMuons"	,	0	, False	))
+
+#### Variables in UCSD ntuples ####
+
+variables.append(Variable("hmmpt"	,	"hmmpt"			,"Dimuon p_{T}", 	"GeV", 		'F', False, 		"hmmpt"	,	0	, False	))
+variables.append(Variable("hmmrap"	,	"hmmrap"		,"Dimuon #eta", 	"", 		'F', False, 		"hmmpt"	,	0	, False	))
+variables.append(Variable("hmass"	,	"hmass"			,"Dimuon mass", 	"GeV", 		'F', False,  		"hmmpt"	,	0	, False	))
+variables.append(Variable("hmerr"	,	"hmerr"			,"hmerr", 			"", 		'F', False, 		"hmmpt"	,	0	, False	))
+variables.append(Variable("hmmthetacs",	"hmmthetacs"	,"hmmthetacs",		"", 		'F', False, 		"hmmpt"	,	0	, False	))
+variables.append(Variable("hmmphics",	"hmmphics"		,"hmmphics",		"", 		'F', False, 		"hmmpt"	,	0	, False	))
+
+variables.append(Variable("m1ptOverMass",	"m1ptOverMass"	,"m1ptOverMass", 	"",		'F', False, 		"hmmpt"	,	0	, False	))
+variables.append(Variable("m2ptOverMass",	"m2ptOverMass"	,"m2ptOverMass", 	"",		'F', False, 		"hmmpt",	0	, False	))
+variables.append(Variable("m1eta",			"m1eta"			,"m1eta", 			"",		'F', False, 		"hmmpt"	,	0	, False	))
+variables.append(Variable("m2eta",			"m2eta"			,"m2eta", 			"",		'F', False, 		"hmmpt",	0	, False	))
+
+
+variables.append(Variable("j1pt",			"j1pt"			,"j1pt", 			"",		'F', False, 		"njets"	,	0	, False	))
+variables.append(Variable("j2pt",			"j2pt"			,"j2pt", 			"",		'F', False, 		"njets"	,	0	, False	))
+variables.append(Variable("j3pt",			"j3pt"			,"j3pt", 			"",		'F', False, 		"njets"	,	0	, False	))
+
+variables.append(Variable("j1eta",			"j1eta"			,"j1eta", 			"",		'F', False, 		"njets"	,	0	, False	))
+variables.append(Variable("j2eta",			"j2eta"			,"j2eta", 			"",		'F', False, 		"njets"	,	0	, False	))
+variables.append(Variable("j3eta",			"j3eta"			,"j3eta", 			"",		'F', False, 		"njets"	,	0	, False	))
+
+variables.append(Variable("detajj",			"detajj"		,"detajj", 			"",		'F', False, 		"mjj"	,	0	, False	))
+variables.append(Variable("mjj",			"mjj"			,"mjj", 			"",		'F', False, 		"mjj"	,	0	, False	))
+variables.append(Variable("dphijj",			"dphijj"		,"dphijj", 			"",		'F', False, 		"mjj"	,	0	, False	))
+
+variables.append(Variable("nbjets",			"nbjets"		,"nbjets", 			"",		'F', False, 		"njets"	,	0	, False	))
+variables.append(Variable("njets",			"njets"			,"njets", 			"",		'F', False, 		"njets"	,	0	, False	))
+variables.append(Variable("zepen",			"zepen"			,"zepen", 			"",		'F', False, 		"mjj"	,	0	, False	))
+variables.append(Variable("drmj",			"drmj"			,"drmj", 			"",		'F', False, 		"njets"	,	0	, False	))
+variables.append(Variable("met",			"met"			,"met", 			"",		'F', False, 		"met"	,	0	, False	))
+
+variables.append(Variable("weight",			"weight"			,"weight", 			"",		'F', False, 		"hmmpt"	,	0	, False	))
+
 ################################ Packages ################################
 
 

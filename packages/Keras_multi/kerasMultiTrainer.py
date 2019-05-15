@@ -101,15 +101,19 @@ class KerasMultiTrainer(object):
                             # print "This is not a data file"
                             if "2016" in self.framework.year:
                                 SF = (0.5*(single_file_df['IsoMu_SF_3'] + single_file_df['IsoMu_SF_4'])*0.5*(single_file_df['MuID_SF_3'] + single_file_df['MuID_SF_4'])*0.5*(single_file_df['MuIso_SF_3'] + single_file_df['MuIso_SF_4']))
+                                weight = SF * single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
                             elif "2017" in self.framework.year:
                                 SF = single_file_df['IsoMu_SF_3'] * single_file_df['MuID_SF_3'] * single_file_df['MuIso_SF_3']
+                                weight = SF * single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
+                            elif "inclusive_ucsd" in self.framework.year:
+                                weight = single_file_df['weight']
                             else:
-                                SF = 1
+                                weight = single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
         
-                            weight = SF * single_file_df['GEN_wgt'] * single_file_df['PU_wgt']
+
 
                             single_file_df[file.category] = 1
-                            single_file_df['weight'] = file.weight * weight
+                            # single_file_df['weight'] = file.weight * weight
                             single_file_df['weight_over_lumi'] = file.weight_over_lumi * weight
                             # self.category_wgts_dict[file.category] = file.weight
                             print "Added %s with %i events"%(file.name, single_file_df.shape[0])
@@ -274,10 +278,18 @@ class KerasMultiTrainer(object):
             bkg_prediction[category]= array('f', [0])
             nJets[category]=array('i', [0])
             trees[category] = ROOT.TTree("tree_%s"%category,"tree_%s"%category)
-            trees[category].Branch("mass",               mass[category]            , "mass/F")
-            trees[category].Branch("max_abs_eta_mu",     max_abs_eta_mu[category]  , "max_abs_eta_mu/F")
-            trees[category].Branch("min_abs_eta_mu",     min_abs_eta_mu[category]  , "min_abs_eta_mu/F")
-            trees[category].Branch("weight",             weight[category]          , "weight/F")
+            if "ucsd" in self.framework.year:
+                trees[category].Branch("mass",               mass[category]            , "mass/F")
+                trees[category].Branch("weight",             weight[category]          , "weight/F")
+            else:                
+                trees[category].Branch("mass",               mass[category]            , "mass/F")
+                trees[category].Branch("max_abs_eta_mu",     max_abs_eta_mu[category]  , "max_abs_eta_mu/F")
+                trees[category].Branch("min_abs_eta_mu",     min_abs_eta_mu[category]  , "min_abs_eta_mu/F")
+                trees[category].Branch("weight",             weight[category]          , "weight/F")
+                trees[category].Branch("nJets",     nJets[category]  , "nJets/F")
+                trees[category].Branch("mu1_eta",     mu1_eta[category]  , "mu1_eta/F")
+                trees[category].Branch("mu2_eta",     mu2_eta[category]  , "mu2_eta/F")
+                trees[category].Branch("dimu_eta",     dimu_eta[category]  , "dimu_eta/F")
             if self.framework.multiclass:
                 trees[category].Branch("DY_prediction",      DY_prediction[category]   , "DY_prediction/F")
                 trees[category].Branch("ttbar_prediction",   ttbar_prediction[category], "ttbar_prediction/F")
@@ -286,10 +298,7 @@ class KerasMultiTrainer(object):
             else:
                 trees[category].Branch("sig_prediction",      sig_prediction[category]   , "sig_prediction/F")
                 trees[category].Branch("bkg_prediction",      bkg_prediction[category],    "bkg_prediction/F")
-            trees[category].Branch("nJets",     nJets[category]  , "nJets/F")
-            trees[category].Branch("mu1_eta",     mu1_eta[category]  , "mu1_eta/F")
-            trees[category].Branch("mu2_eta",     mu2_eta[category]  , "mu2_eta/F")
-            trees[category].Branch("dimu_eta",     dimu_eta[category]  , "dimu_eta/F")
+
             trees[category].Branch("weight_over_lumi",             weight_over_lumi[category]          , "weight_over_lumi/F")
 
         new_file = ROOT.TFile(self.package.mainDir+'/'+method_name+"/root/output_"+output_name+".root","recreate")
@@ -318,11 +327,21 @@ class KerasMultiTrainer(object):
             else:
                 for category in category_list:
                     if row[category]==1:
-                        mass[category][0]             = row["muPairs.mass_Roch[0]"]
-                        max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
-                        min_abs_eta_mu[category][0]   = row["min_abs_eta_mu"]
-                        weight[category][0]           = row["weight"]
-                        weight_over_lumi[category][0] = row["weight_over_lumi"]
+                        if "ucsd" in self.framework.year:
+                            mass[category][0]             = row["hmass"]
+                            weight[category][0]           = row["weight"]
+                            weight_over_lumi[category][0] = row["weight_over_lumi"]
+                        else:
+                            mass[category][0]             = row["muPairs.mass_Roch[0]"]
+                            max_abs_eta_mu[category][0]   = row["max_abs_eta_mu"]
+                            min_abs_eta_mu[category][0]   = row["min_abs_eta_mu"]
+                            weight[category][0]           = row["weight"]
+                            weight_over_lumi[category][0] = row["weight_over_lumi"]
+                            nJets[category][0]            = row["nJets"]
+                            mu1_eta[category][0]          = row["muons.eta[0]"]
+                            mu2_eta[category][0]          = row["muons.eta[1]"]
+                            dimu_eta[category][0]         = row["muPairs.eta[0]"]
+
                         if self.framework.multiclass:
                             DY_prediction[category][0]    = row["pred_%s_%s"%(self.framework.dy_label, method_name)]
                             ttbar_prediction[category][0] = row["pred_%s_%s"%(self.framework.tt_label, method_name)]
@@ -331,10 +350,6 @@ class KerasMultiTrainer(object):
                         else:
                             sig_prediction[category][0]   = row["pred_%s_%s"%(self.framework.sig_label, method_name)]
                             bkg_prediction[category][0]   = row["pred_%s_%s"%(self.framework.bkg_label, method_name)]  
-                        nJets[category][0]            = row["nJets"]
-                        mu1_eta[category][0]          = row["muons.eta[0]"]
-                        mu2_eta[category][0]          = row["muons.eta[1]"]
-                        dimu_eta[category][0]         = row["muPairs.eta[0]"]
                         trees[category].Fill() 
 
         for category in category_list:
@@ -364,13 +379,20 @@ class KerasMultiTrainer(object):
 
         
     def add_columns(self, df):
-        df["abs_eta_1"] = df["muons.eta[0]"].abs()
-        df["abs_eta_2"] = df["muons.eta[1]"].abs()
-        df["max_abs_eta_mu"] = df[["abs_eta_1", "abs_eta_2"]].max(axis=1)
-        df["min_abs_eta_mu"] = df[["abs_eta_1", "abs_eta_2"]].min(axis=1)
+        if "ucsd" not in self.framework.year:
+            df["abs_eta_1"] = df["muons.eta[0]"].abs()
+            df["abs_eta_2"] = df["muons.eta[1]"].abs()
+            df["max_abs_eta_mu"] = df[["abs_eta_1", "abs_eta_2"]].max(axis=1)
+            df["min_abs_eta_mu"] = df[["abs_eta_1", "abs_eta_2"]].min(axis=1)
         return df
 
     def apply_cuts(self, df, year):
+
+        if "ucsd" in year:
+            mass = df["hmass"]
+            flag = (mass>110)&(mass<150)
+            return df.loc[flag]
+
         muon1_pt    = df['muons.pt[0]']
         muon2_pt    = df['muons.pt[1]']
         muon1_ID    = df['muons.isMediumID[0]']
@@ -420,10 +442,14 @@ class KerasMultiTrainer(object):
                 (muon2_ID>0)&
                 (muon1_pt>30)&
                 (muon2_pt>20))
+
         return df.loc[flag]
 
     def apply_training_cuts(self, df):
-        muPair_mass = df['muPairs.mass_Roch[0]']
+        if "ucsd" in self.framework.year:
+            muPair_mass = df['hmass']
+        else:  
+            muPair_mass = df['muPairs.mass_Roch[0]']
         flag =  ((muPair_mass>self.framework.massWindow[0])&
                 (muPair_mass<self.framework.massWindow[1]))
         return df.loc[flag]

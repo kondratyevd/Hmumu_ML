@@ -27,7 +27,27 @@ SingleMu2017D = DataSample("SingleMu_2017D", "/mnt/hadoop/store/user/dkondrat/Si
 SingleMu2017E = DataSample("SingleMu_2017E", "/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017E/190419_161602/0000/", 9028.733)
 SingleMu2017F = DataSample("SingleMu_2017F", "/mnt/hadoop/store/user/dkondrat/SingleMuon/SingleMu_2017F/190419_161626/0000/", 13443.249) # recalculate lumi!
 
+# UCSD files
 
+file_path_2016 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2016/"
+file_path_2017 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2017/"
+file_path_2018 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2018/"
+
+ggH_ucsd_2016 = MCSample("H2Mu_gg_2016", file_path_2016+"tree_ggH*", 0.009618 )
+ggH_ucsd_2017 = MCSample("H2Mu_gg_2017", file_path_2017+"tree_ggH*", 0.009618 )
+ggH_ucsd_2018 = MCSample("H2Mu_gg_2018", file_path_2018+"tree_ggH*", 0.009618 )
+
+VBF_ucsd_2016 = MCSample("H2Mu_VBF_2016", file_path_2016+"tree_VBF*", 0.0008208 )
+VBF_ucsd_2017 = MCSample("H2Mu_VBF_2017", file_path_2017+"tree_VBF*", 0.0008208 )
+VBF_ucsd_2018 = MCSample("H2Mu_VBF_2018", file_path_2018+"tree_VBF*", 0.0008208 )
+
+DY_ucsd_2016 = MCSample("DY_2016", file_path_2016+"tree_DY*", 47.17)
+DY_ucsd_2017 = MCSample("DY_2017", file_path_2017+"tree_DY*", 47.17)
+DY_ucsd_2018 = MCSample("DY_2018", file_path_2018+"tree_DY*", 47.17)
+
+tt_ucsd_2016 = MCSample("tt_2016", file_path_2016+"tree_top*", 85.656)
+tt_ucsd_2017 = MCSample("tt_2017", file_path_2017+"tree_top*", 85.656)
+tt_ucsd_2018 = MCSample("tt_2018", file_path_2018+"tree_top*", 85.656)
 
 #local
 # input_path = "/Users/dmitrykondratyev/Documents/HiggsToMuMu/test_files/"
