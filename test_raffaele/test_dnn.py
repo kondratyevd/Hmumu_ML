@@ -12,8 +12,8 @@ c.add_comment(comment)
 print comment
 
 c.outDir = '/tmp/dkondrat/ML_output/'
-treePath = 'dimuons/tree'
-metadataPath = 'dimuons/metadata'
+treePath = 'tree'
+# metadataPath = 'dimuons/metadata'
 
 c.set_tree_path(treePath)
 c.set_metadata_path(metadataPath)
