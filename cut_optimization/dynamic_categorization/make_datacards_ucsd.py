@@ -39,8 +39,8 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
 
     sig_entries = signal_hist.GetEntries()
     signal_rate = signal_hist.Integral()
-    print cut
-    print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
+    # print cut
+    # print "sig_entries = %f, sig_rate = %f"%(sig_entries, signal_rate)
     if (signal_rate<1):
         return signal_rate, sig_entries
 
@@ -133,8 +133,8 @@ def add_bkg_model(w, cat_name, bkg_path_list, cut):
 
     bkg_entries = bkg_hist.GetEntries()
     bkg_rate = bkg_hist.Integral()
-    print cut
-    print "bkg_entries = %f, bkg_rate = %f"%(bkg_entries, bkg_rate)
+    # print cut
+    # print "bkg_entries = %f, bkg_rate = %f"%(bkg_entries, bkg_rate)
 
     # if (bkg_entries<1000):
     #     return 0, bkg_entries
