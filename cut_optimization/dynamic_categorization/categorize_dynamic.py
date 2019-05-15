@@ -280,7 +280,7 @@ def get_significance(label, bins):
     if not success:
         return 0
 
-    os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt'%(label, label))
+    os.system('combine -M Significance --expectSignal=1 -t -1 -n %s -d datacard_%s.txt  --LoadLibrary /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/dynamic_categorization/lib/RooDCBShape_cxx.so'%(label, label))
     os.system('rm datacard_%s.txt'%label)
     os.system('rm workspace_%s.root'%label)  
       
