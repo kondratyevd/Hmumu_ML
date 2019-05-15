@@ -44,17 +44,20 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
     if (signal_rate<1):
         return signal_rate, sig_entries
 
-    w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
-    w.factory("%s_mix2 [0.01, 0.0, 0.9]"%cat_name)
-    mix1 = w.var("%s_mix1"%cat_name)
-    mix2 = w.var("%s_mix2"%cat_name)
-    w.factory("Gaussian::%s_gaus1(hmass, %s_mean1[125., 120., 130.], %s_width1[1.0, 0.5, 5.0])"%(cat_name, cat_name, cat_name))
-    w.factory("Gaussian::%s_gaus2(hmass, %s_mean2[125., 115., 130.], %s_width2[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
-    w.factory("Gaussian::%s_gaus3(hmass, %s_mean3[125., 115., 130.], %s_width3[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
-    gaus1 = w.pdf('%s_gaus1'%(cat_name))
-    gaus2 = w.pdf('%s_gaus2'%(cat_name))
-    gaus3 = w.pdf('%s_gaus3'%(cat_name))
-    smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
+    # w.factory("%s_mix1 [0.5, 0.0, 1.0]"%cat_name)
+    # w.factory("%s_mix2 [0.01, 0.0, 0.9]"%cat_name)
+    # mix1 = w.var("%s_mix1"%cat_name)
+    # mix2 = w.var("%s_mix2"%cat_name)
+    # w.factory("Gaussian::%s_gaus1(hmass, %s_mean1[125., 120., 130.], %s_width1[1.0, 0.5, 5.0])"%(cat_name, cat_name, cat_name))
+    # w.factory("Gaussian::%s_gaus2(hmass, %s_mean2[125., 115., 130.], %s_width2[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
+    # w.factory("Gaussian::%s_gaus3(hmass, %s_mean3[125., 115., 130.], %s_width3[5.0, 1.0, 10.])"%(cat_name, cat_name, cat_name))
+    # gaus1 = w.pdf('%s_gaus1'%(cat_name))
+    # gaus2 = w.pdf('%s_gaus2'%(cat_name))
+    # gaus3 = w.pdf('%s_gaus3'%(cat_name))
+    # smodel = ROOT.RooAddPdf('%s_sig'%cat_name, '%s_sig'%cat_name, ROOT.RooArgList(gaus1, gaus2, gaus3) , ROOT.RooArgList(mix1, mix2), ROOT.kTRUE)
+
+    ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/dynamic_categorization/lib/RooDCBShape_cxx.so")
+    w.factory("RooDCBShape::%s_sig(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(cat_name,cat_name,cat_name,cat_name,cat_name,cat_name,cat_name))
 
 
     sig_binned = ROOT.RooDataHist("%s_sig_hist"%cat_name,"%s_sig_hist"%cat_name, ROOT.RooArgList(var), signal_hist)
@@ -95,7 +98,8 @@ def add_sig_model(w, cat_name, sig_path_list, cut):
         print "Signal chi2/d.o.f: ", chi2
         return 0, 0
 
-    sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
+    # sigParamList = ["mean1", "mean2", "mean3", "width1", "width2", "width3", "mix1", "mix2"]
+    sigParamList = ["mean", "sigma", "alphaL", "alphaR", "nL", "nR"]    
     for par in sigParamList:
         par_var = w.var("%s_%s"%(cat_name,par))
         par_var.setConstant(True)
