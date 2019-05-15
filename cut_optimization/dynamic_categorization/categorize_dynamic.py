@@ -227,7 +227,7 @@ if args.option is "0": # ucsd categories
     create_datacard_ucsd(cat_ucsd_2jet_bveto, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
-    os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt --LoadLibrary lib/RooDCBShape_cxx.so')
+    os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt --LoadLibrary /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/dynamic_categorization/lib/RooDCBShape_cxx.so')
     os.system('rm datacard.txt')
     os.system('rm workspace.root') 
     sys.exit() 
