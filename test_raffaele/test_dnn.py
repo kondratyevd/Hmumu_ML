@@ -13,7 +13,7 @@ print comment
 
 c.outDir = '/tmp/dkondrat/ML_output/'
 treePath = 'tree'
-# metadataPath = 'dimuons/metadata'
+metadataPath = 'dimuons/metadata'
 
 c.set_tree_path(treePath)
 c.set_metadata_path(metadataPath)
