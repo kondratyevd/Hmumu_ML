@@ -82,7 +82,8 @@ class Framework(object):
 			self.weight_over_lumi = 1
 			self.isData = isData
 			if not isData:
-				self.get_original_nEvts()
+				if "ucsd" not in self.source.year:
+					self.get_original_nEvts()
 			self.category = ''	
 			self.repeat=repeat					
 		
