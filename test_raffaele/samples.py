@@ -33,21 +33,21 @@ file_path_2016 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2016/"
 file_path_2017 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2017/"
 file_path_2018 = "/mnt/hadoop/store/user/dkondrat/UCSD_files/2018/"
 
-ggH_ucsd_2016 = MCSample("H2Mu_gg_2016", file_path_2016+"tree_ggH*", 0.009618 )
-ggH_ucsd_2017 = MCSample("H2Mu_gg_2017", file_path_2017+"tree_ggH*", 0.009618 )
-ggH_ucsd_2018 = MCSample("H2Mu_gg_2018", file_path_2018+"tree_ggH*", 0.009618 )
+ggH_ucsd_2016 = MCSample("H2Mu_gg_2016", file_path_2016+"tree_ggH.root", 0.009618 )
+ggH_ucsd_2017 = MCSample("H2Mu_gg_2017", file_path_2017+"tree_ggH.root", 0.009618 )
+ggH_ucsd_2018 = MCSample("H2Mu_gg_2018", file_path_2018+"tree_ggH.root", 0.009618 )
 
-VBF_ucsd_2016 = MCSample("H2Mu_VBF_2016", file_path_2016+"tree_VBF*", 0.0008208 )
-VBF_ucsd_2017 = MCSample("H2Mu_VBF_2017", file_path_2017+"tree_VBF*", 0.0008208 )
-VBF_ucsd_2018 = MCSample("H2Mu_VBF_2018", file_path_2018+"tree_VBF*", 0.0008208 )
+VBF_ucsd_2016 = MCSample("H2Mu_VBF_2016", file_path_2016+"tree_VBF.root", 0.0008208 )
+VBF_ucsd_2017 = MCSample("H2Mu_VBF_2017", file_path_2017+"tree_VBF.root", 0.0008208 )
+VBF_ucsd_2018 = MCSample("H2Mu_VBF_2018", file_path_2018+"tree_VBF.root", 0.0008208 )
 
-DY_ucsd_2016 = MCSample("DY_2016", file_path_2016+"tree_DY*", 47.17)
-DY_ucsd_2017 = MCSample("DY_2017", file_path_2017+"tree_DY*", 47.17)
-DY_ucsd_2018 = MCSample("DY_2018", file_path_2018+"tree_DY*", 47.17)
+DY_ucsd_2016 = MCSample("DY_2016", file_path_2016+"tree_DY.root", 47.17)
+DY_ucsd_2017 = MCSample("DY_2017", file_path_2017+"tree_DY.root", 47.17)
+DY_ucsd_2018 = MCSample("DY_2018", file_path_2018+"tree_DY.root", 47.17)
 
-tt_ucsd_2016 = MCSample("tt_2016", file_path_2016+"tree_top*", 85.656)
-tt_ucsd_2017 = MCSample("tt_2017", file_path_2017+"tree_top*", 85.656)
-tt_ucsd_2018 = MCSample("tt_2018", file_path_2018+"tree_top*", 85.656)
+tt_ucsd_2016 = MCSample("tt_2016", file_path_2016+"tree_top.root", 85.656)
+tt_ucsd_2017 = MCSample("tt_2017", file_path_2017+"tree_top.root", 85.656)
+tt_ucsd_2018 = MCSample("tt_2018", file_path_2018+"tree_top.root", 85.656)
 
 #local
 # input_path = "/Users/dmitrykondratyev/Documents/HiggsToMuMu/test_files/"
