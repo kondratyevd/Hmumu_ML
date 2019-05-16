@@ -894,7 +894,7 @@ dnn_ucsd_files.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", 
 dnn_ucsd_files.add_sample("ggh", "ggH", "output_t*root", "tree_H2Mu_gg", False, False, ROOT.kRed, True)
 dnn_ucsd_files.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True)
 dnn_ucsd_files.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
-dnn_ucsd_files.set_lumi(41394.221)
+dnn_ucsd_files.set_lumi(1)
 dnn_ucsd_files_roc_graph = dnn_ucsd_files.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files", "DNN w/ ucsd files", ROOT.kRed)
 roc_to_compare.append(dnn_ucsd_files_roc)
