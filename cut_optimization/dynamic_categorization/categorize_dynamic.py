@@ -77,6 +77,10 @@ elif "UCSD_bdtucsd_2jet" in args.method:
 elif "UCSD_bdtucsd_bveto" in args.method:
     score = "bdtucsd_2jet_bveto"
     additional_cut = "(njets>=2)"
+elif "UCSD_bdtucsd_mjjcut" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)&(mjj<400)"    
+    
 
 
 file_path_old = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"

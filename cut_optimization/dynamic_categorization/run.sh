@@ -244,6 +244,52 @@ case $1 in
 		penalty=5
 		;;
 
+	7.1)
+		echo 'Running option 7.1: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_mjjcut"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=4
+		;;
+	7.2)
+		echo 'Running option 7.2: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_mjjcut"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=5
+		;;
+	7.3)
+		echo 'Running option 7.3: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_mjjcut"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=6
+		;;
+
+	7.4)
+		echo 'Running option 7.4: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_mjjcut"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=7
+		;;				
+
 	0)
 		echo 'Running option 0: test run'
 		SIG_INPUT_PATH=""
