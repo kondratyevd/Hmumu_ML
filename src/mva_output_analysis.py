@@ -849,22 +849,22 @@ a.set_out_path("plots/mva_output_analyzis")
 # roc_to_compare.append(bdt_raffaele_all_roc)
 
 
-# bdt_raffaele_all = a.add_mva_source("BDT_raffaele_all_2jet", "BDT Raffaele 2jet", "/mnt/hadoop/store/user/dkondrat/UCSD_files/")
-# bdt_raffaele_all.add_sample("vv2016", "VV", "/2016/tree_VV.root", "tree", False, True, ROOT.kGreen-1, False)
-# bdt_raffaele_all.add_sample("vv2017", "VV", "/2017/tree_VV.root", "tree", False, True, ROOT.kGreen-1, False)
-# bdt_raffaele_all.add_sample("vv2018", "VV", "/2018/tree_VV.root", "tree", False, True, ROOT.kGreen-1, False)
-# bdt_raffaele_all.add_sample("tt2016", "ttbar", "/2016/tree_top.root", "tree", False, True, ROOT.kYellow, False)
-# bdt_raffaele_all.add_sample("tt2017", "ttbar", "/2017/tree_top.root", "tree", False, True, ROOT.kYellow, False)
-# bdt_raffaele_all.add_sample("tt2018", "ttbar", "/2018/tree_top.root", "tree", False, True, ROOT.kYellow, False)
-# bdt_raffaele_all.add_sample("dy2016", "Drell-Yan", "/2016/tree_DY.root", "tree", False, True, ROOT.kOrange-3, False)
-# bdt_raffaele_all.add_sample("dy2017", "Drell-Yan", "/2017/tree_DY.root", "tree", False, True, ROOT.kOrange-3, False)
-# bdt_raffaele_all.add_sample("dy2018", "Drell-Yan", "/2018/tree_DY.root", "tree", False, True, ROOT.kOrange-3, False)
-# bdt_raffaele_all.add_sample("ggh2016", "ggH", "/2016/tree_ggH.root", "tree", False, False, ROOT.kRed, False, "3")
-# bdt_raffaele_all.add_sample("vbf2016", "VBF", "/2016/tree_VBF.root", "tree", False, False, ROOT.kViolet-1, False, "3")
+bdt_raffaele_all = a.add_mva_source("BDT_raffaele_all_2jet_mjjcut", "BDT Raffaele 2jet_mjjcut", "/mnt/hadoop/store/user/dkondrat/UCSD_files/")
+bdt_raffaele_all.add_sample("vv2016", "VV", "/2016/tree_VV.root", "tree", False, True, ROOT.kGreen-1, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("vv2017", "VV", "/2017/tree_VV.root", "tree", False, True, ROOT.kGreen-1, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("vv2018", "VV", "/2018/tree_VV.root", "tree", False, True, ROOT.kGreen-1, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("tt2016", "ttbar", "/2016/tree_top.root", "tree", False, True, ROOT.kYellow, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("tt2017", "ttbar", "/2017/tree_top.root", "tree", False, True, ROOT.kYellow, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("tt2018", "ttbar", "/2018/tree_top.root", "tree", False, True, ROOT.kYellow, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("dy2016", "Drell-Yan", "/2016/tree_DY.root", "tree", False, True, ROOT.kOrange-3, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("dy2017", "Drell-Yan", "/2017/tree_DY.root", "tree", False, True, ROOT.kOrange-3, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("dy2018", "Drell-Yan", "/2018/tree_DY.root", "tree", False, True, ROOT.kOrange-3, False, "(mjj<400)")
+bdt_raffaele_all.add_sample("ggh2016", "ggH", "/2016/tree_ggH.root", "tree", False, False, ROOT.kRed, False, "3*(mjj<400)")
+bdt_raffaele_all.add_sample("vbf2016", "VBF", "/2016/tree_VBF.root", "tree", False, False, ROOT.kViolet-1, False, "3*(mjj<400)")
 
-# bdt_raffaele_all.set_lumi(4723.411)
-# bdt_raffaele_all_roc_graph = bdt_raffaele_all.plot_roc("bdtucsd_2jet_bveto", 200, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-# bdt_raffaele_all_roc = a.RocCurve(bdt_raffaele_all_roc_graph, "bdt_raffaele_all_2jet", "BDT Raffaele 2jet", ROOT.kBlue, 2)
+bdt_raffaele_all.set_lumi(4723.411)
+bdt_raffaele_all_roc_graph = bdt_raffaele_all.plot_roc("bdtucsd_2jet_mjjcut_bveto", 200, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_raffaele_all_roc = a.RocCurve(bdt_raffaele_all_roc_graph, "bdt_raffaele_all_2jet_mjjcut", "BDT Raffaele 2jet_mjjcut", ROOT.kBlue, 2)
 # roc_to_compare.append(bdt_raffaele_all_roc)
 
 
@@ -887,7 +887,7 @@ bdt_raffaele_all_roc = a.RocCurve(bdt_raffaele_all_roc_graph, "BDT_ucsd_incl", "
 roc_to_compare.append(bdt_raffaele_all_roc)
 
 
-# ONN on UCSD files
+# DNN on UCSD files
 dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files", "DNN w/ ucsd files", "~/tmp/Run_2019-05-15_16-55-47//Keras_multi/model_50_D2_25_D2_25_D2/root/")
 dnn_ucsd_files.add_sample("tt", "ttbar", "output_t*root", "tree_tt_ll_POW", False, True, ROOT.kYellow, True)
 dnn_ucsd_files.add_sample("dy", "Drell-Yan", "output_t*root", "tree_ZJets_aMC", False, True, ROOT.kOrange-3, True)
