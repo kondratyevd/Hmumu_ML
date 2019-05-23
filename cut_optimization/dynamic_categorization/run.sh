@@ -245,50 +245,74 @@ case $1 in
 		;;
 
 	7.1)
-		echo 'Running option 7.1: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		echo 'Running option 7.1: UCSD samples, bdtucsd_2jet_bveto, mjj<250'
 		SIG_INPUT_PATH=""
 		DATA_INPUT_PATH=""
 		DATA_TREE=""
-		method="UCSD_bdtucsd_mjjcut"
+		method="UCSD_bdtucsd_mjjcut250"
 		min_var=-1
 		max_var=1
 		nSteps=200
 		penalty=4
 		;;
 	7.2)
-		echo 'Running option 7.2: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		echo 'Running option 7.2: UCSD samples, bdtucsd_2jet_bveto, mjj<300'
 		SIG_INPUT_PATH=""
 		DATA_INPUT_PATH=""
 		DATA_TREE=""
-		method="UCSD_bdtucsd_mjjcut"
+		method="UCSD_bdtucsd_mjjcut300"
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=5
+		penalty=4
 		;;
 	7.3)
-		echo 'Running option 7.3: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		echo 'Running option 7.3: UCSD samples, bdtucsd_2jet_bveto, mjj<350'
 		SIG_INPUT_PATH=""
 		DATA_INPUT_PATH=""
 		DATA_TREE=""
-		method="UCSD_bdtucsd_mjjcut"
+		method="UCSD_bdtucsd_mjjcut350"
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=6
+		penalty=4
 		;;
 
 	7.4)
-		echo 'Running option 7.4: UCSD samples, bdtucsd_2jet_bveto, mjj cut'
+		echo 'Running option 7.4: UCSD samples, bdtucsd_2jet_bveto, mjj<400'
 		SIG_INPUT_PATH=""
 		DATA_INPUT_PATH=""
 		DATA_TREE=""
-		method="UCSD_bdtucsd_mjjcut"
+		method="UCSD_bdtucsd_mjjcut400"
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=7
+		penalty=4
 		;;				
+
+	7.5)
+		echo 'Running option 7.5: UCSD samples, bdtucsd_2jet_bveto, mjj<450'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_mjjcut450"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=4
+		;;
+
+	7.6)
+		echo 'Running option 7.6: UCSD samples, bdtucsd_2jet_bveto, mjj<500'
+		SIG_INPUT_PATH=""
+		DATA_INPUT_PATH=""
+		DATA_TREE=""
+		method="UCSD_bdtucsd_mjjcut500"
+		min_var=-1
+		max_var=1
+		nSteps=200
+		penalty=4
+		;;		
 
 	0)
 		echo 'Running option 0: test run'

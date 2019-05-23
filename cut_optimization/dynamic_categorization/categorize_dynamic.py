@@ -77,10 +77,25 @@ elif "UCSD_bdtucsd_2jet" in args.method:
 elif "UCSD_bdtucsd_bveto" in args.method:
     score = "bdtucsd_2jet_bveto"
     additional_cut = "(njets>=2)"
-elif "UCSD_bdtucsd_mjjcut" in args.method:
-    score = "bdtucsd_2jet_bveto"
-    additional_cut = "(njets>=2)&(mjj<400)"    
     
+elif "UCSD_bdtucsd_mjjcut250" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)&(mjj<250)"    
+elif "UCSD_bdtucsd_mjjcut300" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)&(mjj<300)"     
+elif "UCSD_bdtucsd_mjjcut350" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)&(mjj<350)" 
+elif "UCSD_bdtucsd_mjjcut400" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)&(mjj<400)" 
+elif "UCSD_bdtucsd_mjjcut450" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)&(mjj<450)" 
+elif "UCSD_bdtucsd_mjjcut500" in args.method:
+    score = "bdtucsd_2jet_bveto"
+    additional_cut = "(njets>=2)&(mjj<500)"     
 
 
 file_path_old = "/mnt/hadoop/store/user/dkondrat/UCSD_files/"
