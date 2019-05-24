@@ -246,7 +246,7 @@ if args.option is "0": # ucsd categories
         "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.7)&(njets>=2)&(mjj<250)",
         "cat1": "(bdtucsd_2jet_bveto>-0.7)&(bdtucsd_2jet_bveto<-0.39)&(njets>=2)&(mjj<250)",
         "cat3": "(bdtucsd_2jet_bveto>-0.39)&(bdtucsd_2jet_bveto<0.53)&(njets>=2)&(mjj<250)",
-        "cat4": "(bdtucsd_2jet_bveto>0.53)&(bdtucsd_2jet_bveto<0.1)&(njets>=2)&(mjj<250)",
+        "cat4": "(bdtucsd_2jet_bveto>0.53)&(bdtucsd_2jet_bveto<1)&(njets>=2)&(mjj<250)",
         # "cat5": "(bdtucsd_2jet_bveto>0.55)&(bdtucsd_2jet_bveto<1)&(njets>=2)&(mjj<250)",        
     }
 
