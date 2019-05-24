@@ -243,11 +243,11 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_2jet_bveto_mjjcut = {
-        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.72)&(njets>=2)&(mjj<350)",
-        "cat1": "(bdtucsd_2jet_bveto>-0.72)&(bdtucsd_2jet_bveto<-0.35)&(njets>=2)&(mjj<350)",
-        "cat3": "(bdtucsd_2jet_bveto>-0.35)&(bdtucsd_2jet_bveto<-0.16)&(njets>=2)&(mjj<350)",
-        "cat4": "(bdtucsd_2jet_bveto>-0.16)&(bdtucsd_2jet_bveto<0.56)&(njets>=2)&(mjj<350)",
-        "cat5": "(bdtucsd_2jet_bveto>0.56)&(bdtucsd_2jet_bveto<1)&(njets>=2)&(mjj<350)",        
+        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.73)&(njets>=2)&(mjj<300)",
+        "cat1": "(bdtucsd_2jet_bveto>-0.73)&(bdtucsd_2jet_bveto<-0.33)&(njets>=2)&(mjj<300)",
+        "cat3": "(bdtucsd_2jet_bveto>-0.33)&(bdtucsd_2jet_bveto<0.01)&(njets>=2)&(mjj<300)",
+        "cat4": "(bdtucsd_2jet_bveto>0.01)&(bdtucsd_2jet_bveto<0.63)&(njets>=2)&(mjj<300)",
+        "cat5": "(bdtucsd_2jet_bveto>0.63)&(bdtucsd_2jet_bveto<1)&(njets>=2)&(mjj<300)",        
     }
 
     create_datacard_ucsd(my_best_2jet_bveto_mjjcut, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
