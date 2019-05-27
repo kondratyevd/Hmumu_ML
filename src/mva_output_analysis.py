@@ -667,7 +667,7 @@ bdt_ucsd_all_roc_graph = bdt_ucsd_all.plot_roc("bdtucsd_2jet_bveto", 200, -1, 1,
 bdt_ucsd_all_roc = a.RocCurve(bdt_ucsd_all_roc_graph, "bdt_ucsd_all_2jet", "BDT UCSD 2jet bveto", ROOT.kRed, 2)
 roc_to_compare.append(bdt_ucsd_all_roc)
 
-dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_inclusive", "DNN ucsd files - inclusive", "/home/dkondra/tmp/Run_2019-05-26_19-22-23//Keras/model_50_D2_25_D2_25_D2/root/")
+dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_inclusive", "DNN inclusive", "/home/dkondra/tmp/Run_2019-05-26_19-22-23//Keras/model_50_D2_25_D2_25_D2/root/")
 dnn_ucsd_files.add_sample("tt", "ttbar", "output_t*root", "tree_ttbar", False, True, ROOT.kYellow, False)
 dnn_ucsd_files.add_sample("dy", "Drell-Yan", "output_t*root", "tree_DY", False, True, ROOT.kOrange-3, False)
 dnn_ucsd_files.add_sample("ggh", "ggH", "output_t*root", "tree_ggH", False, False, ROOT.kRed, False)
@@ -675,10 +675,10 @@ dnn_ucsd_files.add_sample("vbf", "VBF", "output_t*root", "tree_VBF", False, Fals
 # dnn_ucsd_files.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_ucsd_files.set_lumi(4723.411)
 dnn_ucsd_files_roc_graph = dnn_ucsd_files.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_inclusive", "DNN ucsd files - inclusive", ROOT.kBlack, 1)
+dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_inclusive", "DNN inclusive", ROOT.kBlack, 1)
 roc_to_compare.append(dnn_ucsd_files_roc)
 
-dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_01jet", "DNN ucsd files - 01jet", "/home/dkondra/tmp/Run_2019-05-26_19-32-20//Keras/model_50_D2_25_D2_25_D2/root/")
+dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_01jet", "DNN 01jet", "/home/dkondra/tmp/Run_2019-05-26_19-32-20//Keras/model_50_D2_25_D2_25_D2/root/")
 dnn_ucsd_files.add_sample("tt", "ttbar", "output_t*root", "tree_ttbar", False, True, ROOT.kYellow, False)
 dnn_ucsd_files.add_sample("dy", "Drell-Yan", "output_t*root", "tree_DY", False, True, ROOT.kOrange-3, False)
 dnn_ucsd_files.add_sample("ggh", "ggH", "output_t*root", "tree_ggH", False, False, ROOT.kRed, False)
@@ -686,10 +686,10 @@ dnn_ucsd_files.add_sample("vbf", "VBF", "output_t*root", "tree_VBF", False, Fals
 # dnn_ucsd_files.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_ucsd_files.set_lumi(4723.411)
 dnn_ucsd_files_roc_graph = dnn_ucsd_files.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_01jet", "DNN ucsd files - 01jet", ROOT.kBlue, 1)
+dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_01jet", "DNN 01jet", ROOT.kBlue, 1)
 roc_to_compare.append(dnn_ucsd_files_roc)
 
-dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_2jet", "DNN ucsd files - 2jet", "/home/dkondra/tmp/Run_2019-05-26_19-32-26//Keras/model_50_D2_25_D2_25_D2/root/")
+dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_2jet", "DNN 2jet bveto", "/home/dkondra/tmp/Run_2019-05-26_19-32-26//Keras/model_50_D2_25_D2_25_D2/root/")
 dnn_ucsd_files.add_sample("tt", "ttbar", "output_t*root", "tree_ttbar", False, True, ROOT.kYellow, False)
 dnn_ucsd_files.add_sample("dy", "Drell-Yan", "output_t*root", "tree_DY", False, True, ROOT.kOrange-3, False)
 dnn_ucsd_files.add_sample("ggh", "ggH", "output_t*root", "tree_ggH", False, False, ROOT.kRed, False)
@@ -697,7 +697,7 @@ dnn_ucsd_files.add_sample("vbf", "VBF", "output_t*root", "tree_VBF", False, Fals
 # dnn_ucsd_files.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_ucsd_files.set_lumi(4723.411)
 dnn_ucsd_files_roc_graph = dnn_ucsd_files.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_2jet", "DNN ucsd files - 2jet", ROOT.kRed, 1)
+dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_2jet", "DNN 2jet bveto", ROOT.kRed, 1)
 roc_to_compare.append(dnn_ucsd_files_roc)
 
 
