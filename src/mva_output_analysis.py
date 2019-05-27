@@ -705,7 +705,7 @@ bdt_ucsd_all.add_sample("ggh2016", "ggH", "/2016/tree_ggH.root", "tree", False, 
 bdt_ucsd_all.add_sample("vbf2016", "VBF", "/2016/tree_VBF.root", "tree", False, False, ROOT.kViolet-1, False, "3.8*(mjj<250)")
 
 bdt_ucsd_all.set_lumi(4723.411)
-bdt_ucsd_all_roc_graph = bdt_ucsd_all.plot_roc("bdtucsd_2jet_mjjcut_bveto", 200, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
+bdt_ucsd_all_roc_graph = bdt_ucsd_all.plot_roc("bdtucsd_2jet_bveto", 200, -1, 1, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
 bdt_ucsd_all_roc = a.RocCurve(bdt_ucsd_all_roc_graph, "bdt_ucsd_all_2jet_mjjcut", "BDT UCSD 2jet mjj<250", ROOT.kRed, 2)
 roc_to_compare.append(bdt_ucsd_all_roc)
 
