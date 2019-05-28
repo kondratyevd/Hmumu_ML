@@ -203,10 +203,10 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_01jet = {
-        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.41)&(njets<2)",
-        "cat1": "(bdtucsd_01jet>-0.41)&(bdtucsd_01jet<0.17)&(njets<2)",
-        "cat2": "(bdtucsd_01jet>0.17)&(bdtucsd_01jet<0.54)&(njets<2)", 
-        "cat4": "(bdtucsd_01jet>0.54)&(bdtucsd_01jet<1)&(njets<2)",
+        "cat0": "(bdtucsd_01jet>-1)&(bdtucsd_01jet<-0.58)&(njets<2)",
+        "cat1": "(bdtucsd_01jet>-0.58)&(bdtucsd_01jet<-0.02)&(njets<2)",
+        "cat2": "(bdtucsd_01jet>-0.02)&(bdtucsd_01jet<0.43)&(njets<2)", 
+        "cat4": "(bdtucsd_01jet>0.43)&(bdtucsd_01jet<1)&(njets<2)",
     }
 
 
@@ -251,7 +251,7 @@ if args.option is "0": # ucsd categories
         "cat6": "(bdtucsd_2jet_bveto>0.71)&(bdtucsd_2jet_bveto<1)&(njets>=2)&(mjj<450)",           
     }
 
-    create_datacard_ucsd(my_best_2jet_bveto_mjjcut, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(my_best_01jet, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt --LoadLibrary /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/dynamic_categorization/lib/RooDCBShape_cxx.so')
