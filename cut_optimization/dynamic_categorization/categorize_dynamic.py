@@ -235,11 +235,12 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_2jet_bveto = {
-        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.02)&(njets>=2)",
-        "cat1": "(bdtucsd_2jet_bveto>-0.02)&(bdtucsd_2jet_bveto<0.51)&(njets>=2)",
-        "cat3": "(bdtucsd_2jet_bveto>0.51)&(bdtucsd_2jet_bveto<0.81)&(njets>=2)",
-        "cat4": "(bdtucsd_2jet_bveto>0.81)&(bdtucsd_2jet_bveto<0.93)&(njets>=2)",
-        "cat5": "(bdtucsd_2jet_bveto>0.93)&(bdtucsd_2jet_bveto<1)&(njets>=2)",        
+        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.74)&(njets>=2)",
+        "cat1": "(bdtucsd_2jet_bveto>-0.74)&(bdtucsd_2jet_bveto<-0.24)&(njets>=2)",
+        "cat2": "(bdtucsd_2jet_bveto>-0.24)&(bdtucsd_2jet_bveto<0.27)&(njets>=2)",
+        "cat3": "(bdtucsd_2jet_bveto>0.27)&(bdtucsd_2jet_bveto<0.87)&(njets>=2)",
+        "cat4": "(bdtucsd_2jet_bveto>0.87)&(bdtucsd_2jet_bveto<0.94)&(njets>=2)", 
+        "cat5": "(bdtucsd_2jet_bveto>0.94)&(bdtucsd_2jet_bveto<1)&(njets>=2)",                
     }
 
     my_best_2jet_bveto_mjjcut = {
@@ -251,7 +252,7 @@ if args.option is "0": # ucsd categories
         "cat6": "(bdtucsd_2jet_bveto>0.71)&(bdtucsd_2jet_bveto<1)&(njets>=2)&(mjj<450)",           
     }
 
-    create_datacard_ucsd(my_best_01jet, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
+    create_datacard_ucsd(my_best_2jet_bveto, sig_2016+sig_2017+sig_2018, bkg_2016+bkg_2017+bkg_2018, args.output_path,  "datacard", "workspace")
     os.system('pwd')
     os.system('ls')
     os.system('combine -M Significance --expectSignal=1 -t -1 -d datacard.txt --LoadLibrary /home/dkondra/Hmumu_analysis/Hmumu_ML/cut_optimization/dynamic_categorization/lib/RooDCBShape_cxx.so')
