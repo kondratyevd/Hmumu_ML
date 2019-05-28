@@ -241,7 +241,7 @@ case $1 in
 		min_var=-1
 		max_var=1
 		nSteps=200
-		penalty=5
+		penalty=6
 		;;
 
 	7.1)
