@@ -235,12 +235,11 @@ if args.option is "0": # ucsd categories
     }
 
     my_best_2jet_bveto = {
-        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.74)&(njets>=2)",
-        "cat1": "(bdtucsd_2jet_bveto>-0.74)&(bdtucsd_2jet_bveto<-0.24)&(njets>=2)",
-        "cat2": "(bdtucsd_2jet_bveto>-0.24)&(bdtucsd_2jet_bveto<0.27)&(njets>=2)",
-        "cat3": "(bdtucsd_2jet_bveto>0.27)&(bdtucsd_2jet_bveto<0.87)&(njets>=2)",
-        "cat4": "(bdtucsd_2jet_bveto>0.87)&(bdtucsd_2jet_bveto<0.94)&(njets>=2)", 
-        "cat5": "(bdtucsd_2jet_bveto>0.94)&(bdtucsd_2jet_bveto<1)&(njets>=2)",                
+        "cat0": "(bdtucsd_2jet_bveto>-1)&(bdtucsd_2jet_bveto<-0.04)&(njets>=2)",
+        "cat1": "(bdtucsd_2jet_bveto>-0.04)&(bdtucsd_2jet_bveto<0.26)&(njets>=2)",
+        "cat2": "(bdtucsd_2jet_bveto>0.26)&(bdtucsd_2jet_bveto<0.77)&(njets>=2)",
+        "cat3": "(bdtucsd_2jet_bveto>0.77)&(bdtucsd_2jet_bveto<0.91)&(njets>=2)",
+        "cat4": "(bdtucsd_2jet_bveto>0.91)&(bdtucsd_2jet_bveto<1)&(njets>=2)", 
     }
 
     my_best_2jet_bveto_mjjcut = {
