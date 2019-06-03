@@ -73,7 +73,7 @@ class Analyzer(object):
                 # res.Print()
 
                 sig_binned = ROOT.RooDataHist("%s_sig_hist"%label,"%s_sig_hist"%label, ROOT.RooArgList(var), signal_hist)
-                
+                Import(w, sig_binned)    
                 cmdlist = ROOT.RooLinkedList()
                 cmd0 = ROOT.RooFit.SumW2Error(ROOT.kTRUE)
                 cmd1 = ROOT.RooFit.Save()
