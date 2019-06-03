@@ -66,11 +66,26 @@ class Analyzer(object):
                 ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/lib/RooDCBShape_9g_cxx.so")
                 # ROOT.gSystem.Load("/Users/dmitrykondratyev/Documents/HiggsToMuMu/Hmumu_ML/cut_optimization/RooDCBShape_cxx.so")
                 w.factory("RooDCBShape_9g::%s_ggh(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(label,label,label,label,label,label,label))
-                smodel = w.pdf("%s_ggh"%label)
+                smodel = w.pdf("%s_sig"%label)
                 w.Print()
-                signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var, bdt_var), self.additional_cut)
-                res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
-                res.Print()
+                # signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var, bdt_var), self.additional_cut)
+                # res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
+                # res.Print()
+
+                sig_binned = ROOT.RooDataHist("%s_sig_hist"%label,"%s_sig_hist"%label, ROOT.RooArgList(var), signal_hist)
+                
+                cmdlist = ROOT.RooLinkedList()
+                cmd0 = ROOT.RooFit.SumW2Error(ROOT.kTRUE)
+                cmd1 = ROOT.RooFit.Save()
+                cmd2 = ROOT.RooFit.Verbose(False)
+                cmd3 = ROOT.RooFit.PrintLevel(-1000)
+
+                cmdlist.Add(cmd0)
+                cmdlist.Add(cmd1)
+                cmdlist.Add(cmd2)
+                cmdlist.Add(cmd3)
+
+                res = smodel.fitTo(sig_binned, cmdlist)
 
                 Import(w, smodel)
 
