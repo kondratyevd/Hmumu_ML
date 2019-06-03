@@ -700,7 +700,7 @@ dnn_ucsd_files_roc_graph = dnn_ucsd_files.plot_roc("ggH_prediction+VBF_predictio
 dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_2jet", "DNN 2jet bveto", ROOT.kRed, 1)
 roc_to_compare.append(dnn_ucsd_files_roc)
 
-dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_inclusive_resweights", "DNN inclusive_resweights", "/home/dkondra/tmp/Run_2019-06-01_17-11-44//Keras/model_resweights/root/")
+dnn_ucsd_files = a.add_mva_source("DNN_ucsd_files_inclusive_resweights", "DNN inclusive_resweights", "/home/dkondra/tmp/Run_2019-06-03_10-21-20//Keras/model_resweights/root/")
 dnn_ucsd_files.add_sample("tt", "ttbar", "output_t*root", "tree_ttbar", False, True, ROOT.kYellow, False)
 dnn_ucsd_files.add_sample("dy", "Drell-Yan", "output_t*root", "tree_DY", False, True, ROOT.kOrange-3, False)
 dnn_ucsd_files.add_sample("ggh", "ggH", "output_t*root", "tree_ggH", False, False, ROOT.kRed, False)
