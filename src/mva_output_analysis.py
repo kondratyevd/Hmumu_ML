@@ -306,16 +306,14 @@ class Analyzer(object):
         canvas.SaveAs("%s/roc_curves.png"%(self.out_path))
 
 
-    def plot_width_vs_score(self, score, source, name, title, nBins, xmin, xmax, color, markerStyle, process = "ggH"):
+    def plot_width_vs_score(self, score, source, filepath, treename, name, title, nBins, xmin, xmax, color, markerStyle, process = "ggH"):
         graph = ROOT.TH1D("wvss"+name, title, nBins, 1, 3)
         binWidth = (xmax-xmin)/float(nBins)
         for i in range(nBins):
             cut_lo = xmin+i*binWidth
             cut_hi = xmin+(i+1)*binWidth
-            if "ggH" in process:
-                sample_bin = source.add_sample("ggh", "ggH", "output_t*root", "tree_ggH", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
-            elif "VBF" in process:
-                sample_bin = source.add_sample("vbf", "VBF", "output_t*root", "tree_VBF", False, False, ROOT.kViolet-1, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
+            sample_bin = source.add_sample(process, process, filepath, treename, False, False, color, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
+            if "VBF" in process:
                 graph.SetLineStyle(2)
             width_bin, error_bin = sample_bin.fit_with_dcb("%s_bin_%i"%(name,i+1))
             graph.SetBinContent(i+1, width_bin)
@@ -754,13 +752,13 @@ a.compare_roc_curves(roc_to_compare)
 
 score = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
 nBins = 50
-gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "dnn_ucsd_files", "ggH - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "ggH")
-gr2 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "dnn_ucsd_files", "ggH - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "ggH")
-gr3 = a.plot_width_vs_score(score, bdt_ucsd_all, "bdt_ucsd_all", "ggH - BDT inclusive resweights", nBins, 0, 1, ROOT.kBlack, 20, process = "ggH")
+gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "ggH")
+gr2 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "ggH")
+gr3 = a.plot_width_vs_score(score, bdt_ucsd_all, "/2016/tree_ggH.root", "tree", "bdt_ucsd_all", "ggH - BDT inclusive resweights", nBins, 0, 1, ROOT.kBlack, 20, process = "ggH")
 
-gr4 = a.plot_width_vs_score(score, dnn_ucsd_files, "dnn_ucsd_files", "VBF - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "VBF")
-gr5 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "dnn_ucsd_files", "VBF - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "VBF")
-gr6 = a.plot_width_vs_score(score, bdt_ucsd_all, "bdt_ucsd_all", "VBF - BDT inclusive resweights", nBins, 0, 1, ROOT.kBlack, 20, process = "VBF")
+gr4 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "VBF")
+gr5 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "VBF")
+gr6 = a.plot_width_vs_score(score, bdt_ucsd_all, "/2016/tree_VBF.root", "tree", "bdt_ucsd_all", "VBF - BDT inclusive resweights", nBins, 0, 1, ROOT.kBlack, 20, process = "VBF")
 
 canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
 canvas.cd()
