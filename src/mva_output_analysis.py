@@ -750,25 +750,25 @@ roc_to_compare.append(dnn_ucsd_files_roc)
 
 a.compare_roc_curves(roc_to_compare)
 
-# score = "ggH_prediction+VBF_prediction"
-# nBins = 50
-# gr1 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res. ggH", nBins, ROOT.kRed, 20, process = "ggH")
+score = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
+nBins = 50
+gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "dnn_ucsd_files", "DNN inclusive resweights", nBins, ROOT.kRed, 20, process = "ggH")
 # gr2 = a.plot_width_vs_score(score, dnn_multi_hiStat_ebe, "dnn_multi_hiStat_ebe", "DNN hiStat w/ ebe res. VBF", nBins, ROOT.kBlue, 20, process = "VBF")
 
 # gr3 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res. ggH", nBins, ROOT.kBlack, 20, process = "ggH")
 # gr4 = a.plot_width_vs_score(score, dnn_multi, "dnn_multi", "DNN loStat w/o ebe res. VBF", nBins, ROOT.kGreen, 20, process = "VBF")
 
-# canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
-# canvas.cd()
-# legend = ROOT.TLegend(0.6, 0.7, 0.895, 0.895)
-# gr1.Draw("ple1")
+canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
+canvas.cd()
+legend = ROOT.TLegend(0.6, 0.7, 0.895, 0.895)
+gr1.Draw("ple1")
 # gr2.Draw("ple1same")
 # gr3.Draw("ple1same")
 # gr4.Draw("ple1same")
-# legend.AddEntry(gr1, gr1.GetTitle(), "pe1")
+legend.AddEntry(gr1, gr1.GetTitle(), "pe1")
 # legend.AddEntry(gr2, gr2.GetTitle(), "pe1")
 # legend.AddEntry(gr3, gr3.GetTitle(), "pe1")
 # legend.AddEntry(gr4, gr4.GetTitle(), "pe1")
-# legend.Draw()
-# canvas.SaveAs("%s/width_vs_score.png"%(a.out_path))
-# canvas.SaveAs("%s/width_vs_score.root"%(a.out_path))
+legend.Draw()
+canvas.SaveAs("%s/width_vs_score.png"%(a.out_path))
+canvas.SaveAs("%s/width_vs_score.root"%(a.out_path))
