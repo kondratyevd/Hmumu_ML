@@ -753,8 +753,8 @@ a.compare_roc_curves(roc_to_compare)
 
 score = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
 nBins = 50
-# gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "ggH")
-# gr2 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "ggH")
+gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "ggH")
+gr2 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "ggH")
 gr3 = a.plot_width_vs_score("bdtucsd_inclusive", bdt_ucsd_all, "/2016/tree_ggH.root", "tree", "bdt_ucsd_all", "ggH - BDT inclusive resweights", nBins, -1, 1, ROOT.kBlack, 20, process = "ggH")
 
 gr4 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "VBF")
