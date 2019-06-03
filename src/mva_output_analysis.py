@@ -37,7 +37,7 @@ class Analyzer(object):
                 self.isWeightOverLumi = isWeightOverLumi
                 self.additional_cut = additional_cut
 
-            def fit_with_dcb(self, label):
+            def fit_with_dcb(self, label, isBDT):
                 width = 0
                 Import = getattr(ROOT.RooWorkspace, 'import')
                 var = ROOT.RooRealVar("mass","Dilepton mass",110,150)     
@@ -60,7 +60,10 @@ class Analyzer(object):
 
                 dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
                 dummy.cd()
-                signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(self.additional_cut, self.source.lumi))
+                if isBDT:
+                    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight"%(self.additional_cut))
+                else:
+                    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(self.additional_cut, self.source.lumi))
                 dummy.Close()
                 signal_rate = signal_hist.Integral()
                 ROOT.gSystem.Load("/home/dkondra/Hmumu_analysis/Hmumu_ML/lib/RooDCBShape_9g_cxx.so")
@@ -322,7 +325,7 @@ class Analyzer(object):
         canvas.SaveAs("%s/roc_curves.png"%(self.out_path))
 
 
-    def plot_width_vs_score(self, score, source, filepath, treename, name, title, nBins, xmin, xmax, color, markerStyle, process = "ggH"):
+    def plot_width_vs_score(self, score, source, filepath, treename, name, title, nBins, xmin, xmax, color, markerStyle, process = "ggH", isBDT):
         graph = ROOT.TH1D("wvss"+name, title, nBins, 1, 3)
         binWidth = (xmax-xmin)/float(nBins)
         for i in range(nBins):
@@ -331,7 +334,7 @@ class Analyzer(object):
             sample_bin = source.add_sample(process, process, filepath, treename, False, False, color, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
             if "VBF" in process:
                 graph.SetLineStyle(2)
-            width_bin, error_bin = sample_bin.fit_with_dcb("%s_bin_%i"%(name,i+1))
+            width_bin, error_bin = sample_bin.fit_with_dcb("%s_bin_%i"%(name,i+1), isBDT)
             graph.SetBinContent(i+1, width_bin)
             graph.SetBinError(i+1, error_bin)
         graph.SetMarkerColor(color)
@@ -768,13 +771,13 @@ a.compare_roc_curves(roc_to_compare)
 
 score = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
 nBins = 50
-gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "ggH")
-gr2 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "ggH")
-gr3 = a.plot_width_vs_score("bdtucsd_inclusive", bdt_ucsd_all, "/2016/tree_ggH.root", "tree", "bdt_ucsd_all", "ggH - BDT inclusive resweights", nBins, -1, 1, ROOT.kBlack, 20, process = "ggH")
+gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, "ggH", False)
+gr2 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, "ggH", False)
+gr3 = a.plot_width_vs_score("bdtucsd_inclusive", bdt_ucsd_all, "/2016/tree_ggH.root", "tree", "bdt_ucsd_all", "ggH - BDT inclusive resweights", nBins, -1, 1, ROOT.kBlack, 20, "ggH", True)
 
-gr4 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "VBF")
-gr5 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "VBF")
-gr6 = a.plot_width_vs_score("bdtucsd_inclusive", bdt_ucsd_all, "/2016/tree_VBF.root", "tree", "bdt_ucsd_all", "VBF - BDT inclusive resweights", nBins, -1, 1, ROOT.kBlack, 20, process = "VBF")
+gr4 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive", nBins, 1, 3, ROOT.kViolet, 20, "VBF", False)
+gr5 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive resweights", nBins, 1, 3, ROOT.kGreen, 20, "VBF", False)
+gr6 = a.plot_width_vs_score("bdtucsd_inclusive", bdt_ucsd_all, "/2016/tree_VBF.root", "tree", "bdt_ucsd_all", "VBF - BDT inclusive resweights", nBins, -1, 1, ROOT.kOrange, 20, "VBF", True)
 
 canvas = ROOT.TCanvas("c_wvss", "c_wvss", 800, 800)
 canvas.cd()
