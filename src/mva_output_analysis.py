@@ -708,7 +708,7 @@ dnn_ucsd_files.add_sample("vbf", "VBF", "output_t*root", "tree_VBF", False, Fals
 # dnn_ucsd_files.add_sample("data", "Data 2017 (40.5/fb)", "output_Data.root", "tree_Data", True, False, ROOT.kBlack)
 dnn_ucsd_files.set_lumi(4723.411)
 dnn_ucsd_files_roc_graph = dnn_ucsd_files.plot_roc("ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)", 500, 1, 3, [0.08, 0.39, 0.61, 0.76, 0.91, 0.95])
-dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_inclusive_resweights", "DNN inclusive_resweights", ROOT.kBlack, 1)
+dnn_ucsd_files_roc = a.RocCurve(dnn_ucsd_files_roc_graph, "dnn_ucsd_files_inclusive_resweights", "DNN inclusive_resweights", ROOT.kBlack, 2)
 roc_to_compare.append(dnn_ucsd_files_roc)
 
 # bdt_ucsd_all = a.add_mva_source("BDT_ucsd_all_01jet", "BDT UCSD 01jet ", "/mnt/hadoop/store/user/dkondrat/UCSD_files/")
