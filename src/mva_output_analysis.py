@@ -61,7 +61,7 @@ class Analyzer(object):
                 dummy = ROOT.TCanvas("dummy", "dummy", 800, 800)
                 dummy.cd()
                 if isBDT:
-                    signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight"%(self.additional_cut))
+                    signal_tree.Draw("hmass>>%s"%(signal_hist_name), "(%s)*weight"%(self.additional_cut))
                 else:
                     signal_tree.Draw("mass>>%s"%(signal_hist_name), "(%s)*weight_over_lumi*%s"%(self.additional_cut, self.source.lumi))
                 dummy.Close()
