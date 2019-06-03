@@ -51,6 +51,7 @@ class Analyzer(object):
                 vbf_pred_var = ROOT.RooRealVar("VBF_prediction", "VBF_prediction", 0, 1)
                 dy_pred_var = ROOT.RooRealVar("DY_prediction", "DY_prediction", 0, 1)
                 tt_pred_var = ROOT.RooRealVar("ttbar_prediction", "ttbar_prediction", 0, 1) 
+                bdt_var = ROOT.RooRealVar("bdtucsd_inclusive", "bdtucsd_inclusive", -1, 1) 
                 signal_tree = ROOT.TChain(self.treename)
                 signal_tree.Add("%s/%s"%(self.source.path, self.filename))  
                 print "Loaded tree from "+self.source.path+" with %i entries."%signal_tree.GetEntries()    
@@ -67,7 +68,7 @@ class Analyzer(object):
                 w.factory("RooDCBShape_9g::%s_ggh(mass, %s_mean[125,120,130], %s_sigma[2,0,5], %s_alphaL[2,0,25] , %s_alphaR[2,0,25], %s_nL[1.5,0,25], %s_nR[1.5,0,25])"%(label,label,label,label,label,label,label))
                 smodel = w.pdf("%s_ggh"%label)
                 w.Print()
-                signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var), self.additional_cut)
+                signal_ds = ROOT.RooDataSet("signal_ds","signal_ds", signal_tree, ROOT.RooArgSet(var, max_abs_eta_var, ggh_pred_var, vbf_pred_var, dy_pred_var, tt_pred_var, bdtucsd_inclusive), self.additional_cut)
                 res = smodel.fitTo(signal_ds, ROOT.RooFit.Range("full"),ROOT.RooFit.Save(), ROOT.RooFit.Verbose(False))
                 res.Print()
 
@@ -754,7 +755,7 @@ score = "ggH_prediction+VBF_prediction+(1-DY_prediction)+(1-ttbar_prediction)"
 nBins = 50
 # gr1 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "ggH")
 # gr2 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_ggH", "dnn_ucsd_files", "ggH - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "ggH")
-gr3 = a.plot_width_vs_score("bdtucsd_01jet", bdt_ucsd_all, "/2016/tree_ggH.root", "tree", "bdt_ucsd_all", "ggH - BDT inclusive resweights", nBins, -1, 1, ROOT.kBlack, 20, process = "ggH")
+gr3 = a.plot_width_vs_score("bdtucsd_inclusive", bdt_ucsd_all, "/2016/tree_ggH.root", "tree", "bdt_ucsd_all", "ggH - BDT inclusive resweights", nBins, -1, 1, ROOT.kBlack, 20, process = "ggH")
 
 gr4 = a.plot_width_vs_score(score, dnn_ucsd_files, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive", nBins, 1, 3, ROOT.kRed, 20, process = "VBF")
 gr5 = a.plot_width_vs_score(score, dnn_ucsd_files_resweights, "output_t*", "tree_VBF", "dnn_ucsd_files", "VBF - DNN inclusive resweights", nBins, 1, 3, ROOT.kBlue, 20, process = "VBF")
