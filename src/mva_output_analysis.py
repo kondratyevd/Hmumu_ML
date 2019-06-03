@@ -307,10 +307,10 @@ class Analyzer(object):
 
 
     def plot_width_vs_score(self, score, source, name, title, nBins, color, markerStyle, process = "ggH"):
-        graph = ROOT.TH1D("wvss"+name, title, nBins, 0, 1)
+        graph = ROOT.TH1D("wvss"+name, title, nBins, 1, 3)
         for i in range(nBins):
-            cut_lo = i/float(nBins)
-            cut_hi = (i+1)/float(nBins)
+            cut_lo = 1+i/float(nBins)
+            cut_hi = 1+(i+1)/float(nBins)
             if "ggH" in process:
                 sample_bin = source.add_sample("ggh", "ggH", "output_t*root", "tree_ggH", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
             elif "VBF" in process:
