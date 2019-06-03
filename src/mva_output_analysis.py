@@ -325,7 +325,7 @@ class Analyzer(object):
         canvas.SaveAs("%s/roc_curves.png"%(self.out_path))
 
 
-    def plot_width_vs_score(self, score, source, filepath, treename, name, title, nBins, xmin, xmax, color, markerStyle, process = "ggH", isBDT):
+    def plot_width_vs_score(self, score, source, filepath, treename, name, title, nBins, xmin, xmax, color, markerStyle, process, isBDT):
         graph = ROOT.TH1D("wvss"+name, title, nBins, 1, 3)
         binWidth = (xmax-xmin)/float(nBins)
         for i in range(nBins):
