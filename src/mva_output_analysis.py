@@ -314,7 +314,7 @@ class Analyzer(object):
             if "ggH" in process:
                 sample_bin = source.add_sample("ggh", "ggH", "output_t*root", "tree_ggH", False, False, ROOT.kRed, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
             elif "VBF" in process:
-                # sample_bin = source.add_sample("vbf", "VBF", "output_t*root", "tree_H2Mu_VBF", False, False, ROOT.kViolet-1, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
+                sample_bin = source.add_sample("vbf", "VBF", "output_t*root", "tree_VBF", False, False, ROOT.kViolet-1, True, "(%s>%f)&(%s<%f)"%(score, cut_lo, score, cut_hi))
             width_bin, error_bin = sample_bin.fit_with_dcb("%s_bin_%i"%(name,i+1))
             graph.SetBinContent(i+1, width_bin)
             graph.SetBinError(i+1, error_bin)
