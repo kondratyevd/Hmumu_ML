@@ -783,7 +783,7 @@ dnn_sigloss_1layer = a.add_mva_source("DNN_sigloss_1layer", "DNN sigloss 1 layer
 dnn_sigloss_1layer.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
 dnn_sigloss_1layer.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer.set_lumi(4723.411)
-dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("sig_prediction", 100, -0.001, 1.001, [0.5])
+dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("sig_prediction", 10000, -0.001, 1.001, [0.5])
 dnn_sigloss_1layer_roc = a.RocCurve(dnn_sigloss_1layer_roc_graph, "dnn_sigloss_1layer", "DNN sigloss 1 layer", ROOT.kGreen, 1)
 roc_to_compare.append(dnn_sigloss_1layer_roc)
 
@@ -791,7 +791,7 @@ dnn_sigloss_3layers = a.add_mva_source("DNN_sigloss_3layers", "DNN sigloss 3 lay
 dnn_sigloss_3layers.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
 dnn_sigloss_3layers.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_3layers.set_lumi(4723.411)
-dnn_sigloss_3layers_roc_graph = dnn_sigloss_3layers.plot_roc("sig_prediction", 100, -0.001, 1.001, [0.5])
+dnn_sigloss_3layers_roc_graph = dnn_sigloss_3layers.plot_roc("sig_prediction", 10000, -0.001, 1.001, [0.5])
 dnn_sigloss_3layers_roc = a.RocCurve(dnn_sigloss_3layers_roc_graph, "dnn_sigloss_3layers", "DNN sigloss 3 layers", ROOT.kOrange, 1)
 roc_to_compare.append(dnn_sigloss_3layers_roc)
 
