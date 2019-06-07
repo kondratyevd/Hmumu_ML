@@ -212,6 +212,8 @@ class Analyzer(object):
                 if bkg_total:
                     bkg_rej = bkg_below/bkg_total
 
+                print "s_eff = %f, b_rej = %f"%(sig_eff, bkg_rej)
+
                 if working_points:
                     if i in idx:
                         wp_graph.SetPoint(count, sig_eff, bkg_rej)
