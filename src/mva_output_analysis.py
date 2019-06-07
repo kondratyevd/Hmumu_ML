@@ -783,7 +783,7 @@ dnn_sigloss_1layer = a.add_mva_source("DNN_sigloss_1layer", "DNN sigloss 1 layer
 dnn_sigloss_1layer.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
 dnn_sigloss_1layer.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer.set_lumi(4723.411)
-dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("pow(0.5, -10)*pow(sig_prediction-0.5, 11)+0.5", 500, 0, 1, [0.5])
+dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("pow(0.5, -100)*pow(sig_prediction-0.5, 101)+0.5", 500, 0, 1, [0.5])
 dnn_sigloss_1layer_roc = a.RocCurve(dnn_sigloss_1layer_roc_graph, "dnn_sigloss_1layer", "DNN sigloss 1 layer", ROOT.kGreen, 1)
 roc_to_compare.append(dnn_sigloss_1layer_roc)
 
