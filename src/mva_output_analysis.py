@@ -202,11 +202,11 @@ class Analyzer(object):
                 for h in self.mc_stack.GetHists():
                     bkg_below = bkg_below + h.Integral(1, i)
                     bkg_total = bkg_total + h.Integral()
-                    print "bkg bin center = %f"%h.GetBinCenter(i)
+                    # print "bkg bin center = %f"%h.GetBinCenter(i)
                 for h in self.signal_hists:
                     sig_above = sig_above + h.Integral(i,nBins+1)
                     sig_total = sig_total + h.Integral()
-                    print "sig bin center = %f"%h.GetBinCenter(i)
+                    # print "sig bin center = %f"%h.GetBinCenter(i)
 
                 if sig_total:
                     sig_eff = sig_above/sig_total
@@ -214,9 +214,8 @@ class Analyzer(object):
                 if bkg_total:
                     bkg_rej = bkg_below/bkg_total
 
-
-                print "sig_above = %f, sig_total = %f, sig_eff = %f"%(sig_above, sig_total, sig_eff)
-                print "bkg_below = %f, bkg_total = %f, bkg_rej = %f"%(bkg_below, bkg_total, bkg_rej)
+                # print "sig_above = %f, sig_total = %f, sig_eff = %f"%(sig_above, sig_total, sig_eff)
+                # print "bkg_below = %f, bkg_total = %f, bkg_rej = %f"%(bkg_below, bkg_total, bkg_rej)
 
                 if working_points:
                     if i in idx:
@@ -797,7 +796,7 @@ dnn_sigloss_1layer_reg.add_sample("bkg", "Background", "output_t*root", "tree_ba
 dnn_sigloss_1layer_reg.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("sig_prediction", 500, 0, 1, [0.5])
+dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("sig_prediction", 500, 0.998, 1, [0.5])
 dnn_sigloss_1layer_reg_roc = a.RocCurve(dnn_sigloss_1layer_reg_roc_graph, "dnn_sigloss_1layer_reg", "DNN sigloss 1 layer_reg", ROOT.kViolet, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg_roc)
 
