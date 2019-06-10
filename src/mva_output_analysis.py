@@ -190,7 +190,7 @@ class Analyzer(object):
                 wp_graph.SetMarkerColor(ROOT.kRed)
                 count = 0
 
-            for i in range(1, nBins+100):
+            for i in range(1, nBins+1):
                 # print "i = ", i
                 sig_above = 0
                 sig_total = 0
@@ -206,7 +206,7 @@ class Analyzer(object):
                 for h in self.signal_hists:
                     sig_above = sig_above + h.Integral(i,nBins+1)
                     sig_total = sig_total + h.Integral()
-                    # print "signal above = %f, below = %f, sum = %f, total = %f"%(h.Integral(i, nBins+1), h.Integral(1, i-1), h.Integral(i, nBins+1)+h.Integral(1, i-1), h.Integral())
+                    # print "signal above = %f, below = %f, total = %f"%(h.Integral(i, nBins+1), h.Integral(1, i-1), h.Integral())
                     # print "sig bin center = %f"%h.GetBinCenter(i)
 
                 if sig_total:
@@ -797,7 +797,7 @@ dnn_sigloss_1layer_reg.add_sample("bkg", "Background", "output_t*root", "tree_ba
 dnn_sigloss_1layer_reg.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("sig_prediction", 500, 0, 1, [0.5])
+dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("sig_prediction", 100, 0, 1, [0.5])
 dnn_sigloss_1layer_reg_roc = a.RocCurve(dnn_sigloss_1layer_reg_roc_graph, "dnn_sigloss_1layer_reg", "DNN sigloss 1 layer_reg", ROOT.kViolet, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg_roc)
 
