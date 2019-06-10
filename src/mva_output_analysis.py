@@ -212,8 +212,8 @@ class Analyzer(object):
                 if bkg_total:
                     bkg_rej = bkg_below/bkg_total
 
-                print "sig_above = %f, sig_total = %f, sig_eff ="%(sig_above, sig_total, sig_eff)
-                print "bkg_below = %f, bkg_total = %f, bkg_rej ="%(bkg_below, bkg_total, bkg_rej)
+                print "sig_above = %f, sig_total = %f, sig_eff = %f"%(sig_above, sig_total, sig_eff)
+                print "bkg_below = %f, bkg_total = %f, bkg_rej = %f"%(bkg_below, bkg_total, bkg_rej)
 
                 if working_points:
                     if i in idx:
