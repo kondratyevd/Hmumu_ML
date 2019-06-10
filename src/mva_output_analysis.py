@@ -202,15 +202,18 @@ class Analyzer(object):
                 for h in self.mc_stack.GetHists():
                     bkg_below = bkg_below + h.Integral(1, i)
                     bkg_total = bkg_total + h.Integral()
+                    print "bkg bin center = %f"%h.GetBinCenter(i)
                 for h in self.signal_hists:
                     sig_above = sig_above + h.Integral(i,nBins+1)
                     sig_total = sig_total + h.Integral()
+                    print "sig bin center = %f"%h.GetBinCenter(i)
 
                 if sig_total:
                     sig_eff = sig_above/sig_total
 
                 if bkg_total:
                     bkg_rej = bkg_below/bkg_total
+
 
                 print "sig_above = %f, sig_total = %f, sig_eff = %f"%(sig_above, sig_total, sig_eff)
                 print "bkg_below = %f, bkg_total = %f, bkg_rej = %f"%(bkg_below, bkg_total, bkg_rej)
