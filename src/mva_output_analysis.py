@@ -206,6 +206,7 @@ class Analyzer(object):
                 for h in self.signal_hists:
                     sig_above = sig_above + h.Integral(i,nBins+1)
                     sig_total = sig_total + h.Integral()
+                    print h.GetBinContent(i), h.GetBinContent(nBins+1)
                     # print "sig bin center = %f"%h.GetBinCenter(i)
 
                 if sig_total:
