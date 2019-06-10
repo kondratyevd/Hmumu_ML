@@ -191,7 +191,7 @@ class Analyzer(object):
                 count = 0
 
             for i in range(1, nBins+1):
-                # print "i = ", i
+                print "i = ", i
                 sig_above = 0
                 sig_total = 0
                 bkg_below = 0
@@ -212,7 +212,8 @@ class Analyzer(object):
                 if bkg_total:
                     bkg_rej = bkg_below/bkg_total
 
-                # print "s_eff = %f, b_rej = %f"%(sig_eff, bkg_rej)
+                print "sig_above = %f, sig_total = %f, sig_eff ="%(sig_above, sig_total, sig_eff)
+                print "bkg_below = %f, bkg_total = %f, bkg_rej ="%(bkg_below, bkg_total, bkg_rej)
 
                 if working_points:
                     if i in idx:
@@ -789,21 +790,21 @@ dnn_sigloss_1layer_roc = a.RocCurve(dnn_sigloss_1layer_roc_graph, "dnn_sigloss_1
 roc_to_compare.append(dnn_sigloss_1layer_roc)
 
 dnn_sigloss_1layer_reg = a.add_mva_source("DNN_sigloss_1layer_reg", "DNN sigloss 1 layer_reg", "/home/dkondra/tmp/Run_2019-06-07_18-04-30//Keras/model_sigloss/root/")
-dnn_sigloss_1layer_reg.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False, "sig_prediction<0.999")
-dnn_sigloss_1layer_reg.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False, "sig_prediction<0.999")
+dnn_sigloss_1layer_reg.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
+dnn_sigloss_1layer_reg.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
 dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("sig_prediction", 500, 0, 1, [0.5])
 dnn_sigloss_1layer_reg_roc = a.RocCurve(dnn_sigloss_1layer_reg_roc_graph, "dnn_sigloss_1layer_reg", "DNN sigloss 1 layer_reg", ROOT.kViolet, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg_roc)
 
-dnn_sigloss_3layers = a.add_mva_source("DNN_sigloss_3layers", "DNN sigloss 3 layers", "/home/dkondra/tmp/Run_2019-06-06_15-53-36//Keras/model_sigloss/root/")
-dnn_sigloss_3layers.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
-dnn_sigloss_3layers.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
-dnn_sigloss_3layers.set_lumi(4723.411)
-dnn_sigloss_3layers_roc_graph = dnn_sigloss_3layers.plot_roc("sig_prediction", 500, 0, 1, [0.5])
-dnn_sigloss_3layers_roc = a.RocCurve(dnn_sigloss_3layers_roc_graph, "dnn_sigloss_3layers", "DNN sigloss 3 layers", ROOT.kOrange, 1)
-roc_to_compare.append(dnn_sigloss_3layers_roc)
+# dnn_sigloss_3layers = a.add_mva_source("DNN_sigloss_3layers", "DNN sigloss 3 layers", "/home/dkondra/tmp/Run_2019-06-06_15-53-36//Keras/model_sigloss/root/")
+# dnn_sigloss_3layers.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
+# dnn_sigloss_3layers.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
+# dnn_sigloss_3layers.set_lumi(4723.411)
+# dnn_sigloss_3layers_roc_graph = dnn_sigloss_3layers.plot_roc("sig_prediction", 500, 0, 1, [0.5])
+# dnn_sigloss_3layers_roc = a.RocCurve(dnn_sigloss_3layers_roc_graph, "dnn_sigloss_3layers", "DNN sigloss 3 layers", ROOT.kOrange, 1)
+# roc_to_compare.append(dnn_sigloss_3layers_roc)
 
 a.compare_roc_curves(roc_to_compare)
 
