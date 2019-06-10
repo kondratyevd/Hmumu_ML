@@ -789,8 +789,8 @@ dnn_sigloss_1layer_roc = a.RocCurve(dnn_sigloss_1layer_roc_graph, "dnn_sigloss_1
 roc_to_compare.append(dnn_sigloss_1layer_roc)
 
 dnn_sigloss_1layer_reg = a.add_mva_source("DNN_sigloss_1layer_reg", "DNN sigloss 1 layer_reg", "/home/dkondra/tmp/Run_2019-06-07_18-04-30//Keras/model_sigloss/root/")
-dnn_sigloss_1layer_reg.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False, "sig_prediction<1")
-dnn_sigloss_1layer_reg.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False, "sig_prediction<1")
+dnn_sigloss_1layer_reg.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False, "sig_prediction>0")
+dnn_sigloss_1layer_reg.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False, "sig_prediction>0")
 dnn_sigloss_1layer_reg.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
 dnn_sigloss_1layer_reg_roc_graph = dnn_sigloss_1layer_reg.plot_roc("sig_prediction", 500, 0, 1, [0.5])
