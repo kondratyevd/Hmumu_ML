@@ -229,7 +229,7 @@ class Analyzer(object):
 
                 roc.SetPoint(i, sig_eff, bkg_rej)
 
-            roc.SetPoint(nBins+1, 0, 1)
+            roc.SetPoint(nBins, 0, 1)
     
             canvas = ROOT.TCanvas("%s_roc"%self.name, "%s_roc"%self.name, 800, 800)
             canvas.cd()
