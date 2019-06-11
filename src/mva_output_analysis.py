@@ -191,7 +191,7 @@ class Analyzer(object):
                 count = 0
 
             roc.SetPoint(0, 1, 0)
-            for i in range(1, nBins+1):
+            for i in range(1, nBins):
                 # print "i = ", i
                 sig_above = 0
                 sig_total = 0
