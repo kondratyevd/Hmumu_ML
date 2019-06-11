@@ -224,7 +224,7 @@ class Analyzer(object):
                         wp_graph.SetPoint(count, sig_eff, bkg_rej)
                         count = count+1
 
-                roc.SetPoint(i-1, sig_eff, bkg_rej)
+                roc.SetPoint(i, sig_eff, bkg_rej)
 
             canvas = ROOT.TCanvas("%s_roc"%self.name, "%s_roc"%self.name, 800, 800)
             canvas.cd()
