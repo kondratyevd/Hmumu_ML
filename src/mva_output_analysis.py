@@ -206,8 +206,8 @@ class Analyzer(object):
                 for h in self.signal_hists:
                     sig_above = sig_above + h.Integral(i,nBins+1)
                     sig_total = sig_total + h.Integral()
-                    print "signal above = %f, below = %f, total = %f"%(h.Integral(i, nBins+1), h.Integral(1, i-1), h.Integral())
-                    print "sig bin center = %f"%h.GetBinCenter(i)
+                    # print "signal above = %f, below = %f, total = %f"%(h.Integral(i, nBins+1), h.Integral(1, i-1), h.Integral())
+                    # print "sig bin center = %f"%h.GetBinCenter(i)
 
                 if sig_total:
                     sig_eff = sig_above/sig_total
@@ -215,8 +215,8 @@ class Analyzer(object):
                 if bkg_total:
                     bkg_rej = bkg_below/bkg_total
 
-                # print "sig_above = %f, sig_total = %f, sig_eff = %f"%(sig_above, sig_total, sig_eff)
-                # print "bkg_below = %f, bkg_total = %f, bkg_rej = %f"%(bkg_below, bkg_total, bkg_rej)
+                print "sig_above = %f, sig_total = %f, sig_eff = %f"%(sig_above, sig_total, sig_eff)
+                print "bkg_below = %f, bkg_total = %f, bkg_rej = %f"%(bkg_below, bkg_total, bkg_rej)
 
                 if working_points:
                     if i in idx:
