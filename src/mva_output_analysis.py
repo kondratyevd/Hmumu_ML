@@ -206,8 +206,8 @@ class Analyzer(object):
                 for h in self.signal_hists:
                     sig_above = sig_above + h.Integral(i,nBins+1)
                     sig_total = sig_total + h.Integral()
-                    # print "signal above = %f, below = %f, total = %f"%(h.Integral(i, nBins+1), h.Integral(1, i-1), h.Integral())
-                    # print "sig bin center = %f"%h.GetBinCenter(i)
+                    print "signal above = %f, below = %f, total = %f"%(h.Integral(i, nBins+1), h.Integral(1, i-1), h.Integral())
+                    print "sig bin center = %f"%h.GetBinCenter(i)
 
                 if sig_total:
                     sig_eff = sig_above/sig_total
