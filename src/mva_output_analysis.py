@@ -793,8 +793,8 @@ dnn_sigloss_1layer = a.add_mva_source("DNN_sigloss_1layer", "DNN sigloss 1 layer
 dnn_sigloss_1layer.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
 dnn_sigloss_1layer.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer.set_lumi(4723.411)
-# dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("log(((1-2*pow(10,-8))*sig_prediction+pow(10,-8))/(1-((1-2*pow(10,-8))*sig_prediction+pow(10,-8))))", 100000, -100, 100, [0.5])
-dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("sig_prediction", 100000, 0, 1, [0.5])
+# dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("log(((1-2*pow(10,-8))*sig_prediction+pow(10,-8))/(1-((1-2*pow(10,-8))*sig_prediction+pow(10,-8))))", 10000, -100, 100, [0.5])
+dnn_sigloss_1layer_roc_graph = dnn_sigloss_1layer.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
 dnn_sigloss_1layer_roc = a.RocCurve(dnn_sigloss_1layer_roc_graph, "dnn_sigloss_1layer", "DNN sigloss 1 layer", ROOT.kBlack, 3)
 roc_to_compare.append(dnn_sigloss_1layer_roc)
 
@@ -804,7 +804,7 @@ dnn_sigloss_1layer_reg001.add_sample("bkg", "Background", "output_t*root", "tree
 dnn_sigloss_1layer_reg001.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg001.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg001_roc_graph = dnn_sigloss_1layer_reg001.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg001_roc_graph = dnn_sigloss_1layer_reg001.plot_roc("sig_prediction", 100000, 0, 1, [0.5])
+dnn_sigloss_1layer_reg001_roc_graph = dnn_sigloss_1layer_reg001.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
 dnn_sigloss_1layer_reg001_roc = a.RocCurve(dnn_sigloss_1layer_reg001_roc_graph, "dnn_sigloss_1layer_reg001", "DNN sigloss 1 layer reg l=0.001", ROOT.kRed, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg001_roc)
 
@@ -813,7 +813,7 @@ dnn_sigloss_1layer_reg002.add_sample("bkg", "Background", "output_t*root", "tree
 dnn_sigloss_1layer_reg002.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg002.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg002_roc_graph = dnn_sigloss_1layer_reg002.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg002_roc_graph = dnn_sigloss_1layer_reg002.plot_roc("sig_prediction", 100000, 0, 1, [0.5])
+dnn_sigloss_1layer_reg002_roc_graph = dnn_sigloss_1layer_reg002.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
 dnn_sigloss_1layer_reg002_roc = a.RocCurve(dnn_sigloss_1layer_reg002_roc_graph, "dnn_sigloss_1layer_reg002", "DNN sigloss 1 layer reg l=0.002", ROOT.kOrange, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg002_roc)
 
@@ -822,7 +822,7 @@ dnn_sigloss_1layer_reg003.add_sample("bkg", "Background", "output_t*root", "tree
 dnn_sigloss_1layer_reg003.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg003.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg003_roc_graph = dnn_sigloss_1layer_reg003.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg003_roc_graph = dnn_sigloss_1layer_reg003.plot_roc("sig_prediction", 100000, 0, 1, [0.5])
+dnn_sigloss_1layer_reg003_roc_graph = dnn_sigloss_1layer_reg003.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
 dnn_sigloss_1layer_reg003_roc = a.RocCurve(dnn_sigloss_1layer_reg003_roc_graph, "dnn_sigloss_1layer_reg003", "DNN sigloss 1 layer reg l=0.003", ROOT.kYellow, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg003_roc)
 
@@ -831,7 +831,7 @@ dnn_sigloss_1layer_reg004.add_sample("bkg", "Background", "output_t*root", "tree
 dnn_sigloss_1layer_reg004.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg004.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg004_roc_graph = dnn_sigloss_1layer_reg004.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg004_roc_graph = dnn_sigloss_1layer_reg004.plot_roc("sig_prediction", 100000, 0, 1, [0.5])
+dnn_sigloss_1layer_reg004_roc_graph = dnn_sigloss_1layer_reg004.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
 dnn_sigloss_1layer_reg004_roc = a.RocCurve(dnn_sigloss_1layer_reg004_roc_graph, "dnn_sigloss_1layer_reg004", "DNN sigloss 1 layer reg l=0.004", ROOT.kGreen, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg004_roc)
 
@@ -840,7 +840,7 @@ dnn_sigloss_1layer_reg005.add_sample("bkg", "Background", "output_t*root", "tree
 dnn_sigloss_1layer_reg005.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg005.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg005_roc_graph = dnn_sigloss_1layer_reg005.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg005_roc_graph = dnn_sigloss_1layer_reg005.plot_roc("sig_prediction", 100000, 0, 1, [0.5])
+dnn_sigloss_1layer_reg005_roc_graph = dnn_sigloss_1layer_reg005.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
 dnn_sigloss_1layer_reg005_roc = a.RocCurve(dnn_sigloss_1layer_reg005_roc_graph, "dnn_sigloss_1layer_reg005", "DNN sigloss 1 layer reg l=0.005", ROOT.kBlue, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg005_roc)
 
@@ -849,7 +849,7 @@ dnn_sigloss_1layer_reg01.add_sample("bkg", "Background", "output_t*root", "tree_
 dnn_sigloss_1layer_reg01.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg01.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg01_roc_graph = dnn_sigloss_1layer_reg01.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
-dnn_sigloss_1layer_reg01_roc_graph = dnn_sigloss_1layer_reg01.plot_roc("sig_prediction", 100000, 0, 1, [0.5])
+dnn_sigloss_1layer_reg01_roc_graph = dnn_sigloss_1layer_reg01.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
 dnn_sigloss_1layer_reg01_roc = a.RocCurve(dnn_sigloss_1layer_reg01_roc_graph, "dnn_sigloss_1layer_reg01", "DNN sigloss 1 layer reg l=0.01", ROOT.kViolet, 1)
 roc_to_compare.append(dnn_sigloss_1layer_reg01_roc)
 
