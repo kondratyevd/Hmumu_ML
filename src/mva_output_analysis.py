@@ -897,7 +897,7 @@ roc_to_compare.append(dnn_sigloss_1layer_reg01_roc)
 # dnn_sigloss_3layers_roc = a.RocCurve(dnn_sigloss_3layers_roc_graph, "dnn_sigloss_3layers", "DNN sigloss 3 layers", ROOT.kOrange, 1)
 # roc_to_compare.append(dnn_sigloss_3layers_roc)
 
-dnn_sigloss_1layer_asimov = a.add_mva_source("DNN_sigloss_1layer_asimov", "DNN sigloss 1 layer asimov", "/home/dkondra/tmp/Run_2019-06-12_12-04-40//Keras/model_sigloss/root/")
+dnn_sigloss_1layer_asimov = a.add_mva_source("DNN_sigloss_1layer_asimov", "DNN sigloss 1 layer asimov", "/scratch/gilbreth/dkondra/ML_output/Run_2019-06-12_12-04-40//Keras/model_sigloss/root/")
 dnn_sigloss_1layer_asimov.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
 dnn_sigloss_1layer_asimov.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_asimov.set_lumi(4723.411)
