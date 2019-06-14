@@ -915,14 +915,14 @@ dnn_sigloss_1layer_asimov_roc_graph = dnn_sigloss_1layer_asimov.plot_roc("sig_pr
 dnn_sigloss_1layer_asimov_roc = a.RocCurve(dnn_sigloss_1layer_asimov_roc_graph, "dnn_sigloss_1layer_asimov", "DNN sigloss 1 layer asimov", ROOT.kViolet, 2)
 roc_to_compare.append(dnn_sigloss_1layer_asimov_roc)
 
-dnn_sigloss_1layer_asimov_reg001 = a.add_mva_source("DNN_sigloss_1layer_asimov_reg001", "DNN sigloss 1 layer asimov reg l=0.001", "/scratch/gilbreth/dkondra/ML_output/Run_2019-06-13_14-16-48//Keras/model_sigloss_asimov/root/")
-dnn_sigloss_1layer_asimov_reg001.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
-dnn_sigloss_1layer_asimov_reg001.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
-dnn_sigloss_1layer_asimov_reg001.set_lumi(4723.411)
-# dnn_sigloss_1layer_asimov_reg001_roc_graph = dnn_sigloss_1layer_asimov_reg001.plot_roc("log(((1-2*pow(10,-8))*sig_prediction+pow(10,-8))/(1-((1-2*pow(10,-8))*sig_prediction+pow(10,-8))))", 10000, -100, 100, [0.5])
-dnn_sigloss_1layer_asimov_reg001_roc_graph = dnn_sigloss_1layer_asimov_reg001.plot_roc("sig_prediction", 500, 0, 1, [0.5])
-dnn_sigloss_1layer_asimov_reg001_roc = a.RocCurve(dnn_sigloss_1layer_asimov_reg001_roc_graph, "dnn_sigloss_1layer_asimov_reg001", "DNN sigloss 1 layer asimov reg l=0.001", ROOT.kRed, 2)
-roc_to_compare.append(dnn_sigloss_1layer_asimov_reg001_roc)
+dnn_sigloss_1layer_asimov_reg0001 = a.add_mva_source("DNN_sigloss_1layer_asimov_reg0001", "DNN sigloss 1 layer asimov reg l=0.0001", "/scratch/gilbreth/dkondra/ML_output/Run_2019-06-14_10-18-09//Keras/model_sigloss_asimov/root/")
+dnn_sigloss_1layer_asimov_reg0001.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
+dnn_sigloss_1layer_asimov_reg0001.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
+dnn_sigloss_1layer_asimov_reg0001.set_lumi(4723.411)
+# dnn_sigloss_1layer_asimov_reg0001_roc_graph = dnn_sigloss_1layer_asimov_reg0001.plot_roc("log(((1-2*pow(10,-8))*sig_prediction+pow(10,-8))/(1-((1-2*pow(10,-8))*sig_prediction+pow(10,-8))))", 10000, -100, 100, [0.5])
+dnn_sigloss_1layer_asimov_reg0001_roc_graph = dnn_sigloss_1layer_asimov_reg0001.plot_roc("sig_prediction", 500, 0, 1, [0.5])
+dnn_sigloss_1layer_asimov_reg0001_roc = a.RocCurve(dnn_sigloss_1layer_asimov_reg0001_roc_graph, "dnn_sigloss_1layer_asimov_reg0001", "DNN sigloss 1 layer asimov reg l=0.0001", ROOT.kRed, 2)
+roc_to_compare.append(dnn_sigloss_1layer_asimov_reg0001_roc)
 
 a.compare_roc_curves(roc_to_compare)
 
