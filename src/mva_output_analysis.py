@@ -872,13 +872,13 @@ dnn_sigloss_1layer_new_roc_graph = dnn_sigloss_1layer_new.plot_roc("sig_predicti
 dnn_sigloss_1layer_new_roc = a.RocCurve(dnn_sigloss_1layer_new_roc_graph, "dnn_sigloss_1layer_new", "DNN sigloss 1 layer", ROOT.kBlack, 4)
 roc_to_compare.append(dnn_sigloss_1layer_new_roc)
 
-dnn_sigloss_1layer_reg003_new = a.add_mva_source("DNN_sigloss_1layer_reg003_new", "DNN sigloss 1 layer reg l=0.003", "/scratch/gilbreth/dkondra/ML_output/Run_2019-06-18_16-19-14//Keras/model_sigloss/root/")
+dnn_sigloss_1layer_reg003_new = a.add_mva_source("DNN_sigloss_1layer_reg003_new", "DNN sigloss 1 layer reg l=0.003", "/scratch/gilbreth/dkondra/ML_output/Run_2019-06-19_16-54-01//Keras/model_sigloss/root/")
 dnn_sigloss_1layer_reg003_new.add_sample("bkg", "Background", "output_t*root", "tree_background", False, True, ROOT.kOrange-3, False)
 dnn_sigloss_1layer_reg003_new.add_sample("sig", "Signal", "output_t*root", "tree_signal", False, False, ROOT.kRed, False)
 dnn_sigloss_1layer_reg003_new.set_lumi(4723.411)
 # dnn_sigloss_1layer_reg003_new_roc_graph = dnn_sigloss_1layer_reg003_new.plot_roc("log(((1-2*pow(10,-10))*sig_prediction+pow(10,-10))/(1-((1-2*pow(10,-10))*sig_prediction+pow(10,-10))))", 500, -100, 100, [0.5])
 dnn_sigloss_1layer_reg003_new_roc_graph = dnn_sigloss_1layer_reg003_new.plot_roc("sig_prediction", 10000, 0, 1, [0.5])
-dnn_sigloss_1layer_reg003_new_roc = a.RocCurve(dnn_sigloss_1layer_reg003_new_roc_graph, "dnn_sigloss_1layer_reg003_new", "DNN sigloss 1 layer reg l=0.003", ROOT.kRed, 1)
+dnn_sigloss_1layer_reg003_new_roc = a.RocCurve(dnn_sigloss_1layer_reg003_new_roc_graph, "dnn_sigloss_1layer_reg003_new", "DNN sigloss 1 layer reg l=0.003", ROOT.kRed, 4)
 roc_to_compare.append(dnn_sigloss_1layer_reg003_new_roc)
 
 # dnn_sigloss_1layer_reg0035 = a.add_mva_source("DNN_sigloss_1layer_reg0035", "DNN sigloss 1 layer reg l=0.0035", "/scratch/gilbreth/dkondra/ML_output/Run_2019-06-11_17-28-11//Keras/model_sigloss/root/")
